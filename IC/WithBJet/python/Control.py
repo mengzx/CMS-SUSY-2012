@@ -1,0 +1,165 @@
+#!/usr/bin/env python
+import setupSUSY
+from libFrameworkSUSY import *
+from libzmeng import *
+from libHadronic import *
+from libOneLepton import *
+from icf.core import PSet,Analysis
+from time import strftime
+import icf.utils as Utils
+from batchGolden import *
+from ra1objectid.vbtfElectronId_cff import *
+from ra1objectid.vbtfMuonId_cff import *
+from ra1objectid.ra3PhotonId_cff import *
+
+#--------------------------------------------control parameters--------
+def TransFromStringToOther(sTreeThr, ssample, sMuonForm, sSplitForm):
+  TreeThr=100.
+  sample=WJet_Sample_LowHTBins
+  MuonForm=None
+  SplitForm=None
+  
+  if sTreeThr is "100":
+    TreeThr=100.
+  elif sTreeThr is "86":
+    TreeThr=100.*(325./375.)
+  if sTreeThr is "73":
+    TreeThr=100.*(275./375.)
+
+  if ssample is "WJ":
+    if sTreeThr is "86" or sTreeThr is "73":
+      sample=WJet_Sample_LowHTBins
+    elif sTreeThr is "100":
+      sample=WJet_Sample_HighHTBins
+  elif ssample is "ALL":
+    if sTreeThr is "86" or sTreeThr is "73":
+      sample=Summer11_MC_LowHTBins
+    elif sTreeThr is "100":
+      sample=Summer11_MC_HighHTBins
+  elif ssample is "TT":
+    sample=TTbar_Sample
+  elif ssample is "SingleT":
+    sample=SingleT_Sample
+  elif ssample is "Zinv":
+    sample=Zinv_Sample
+  elif ssample is "DY":
+    sample=DiMuon_Sample
+  elif ssample is "DiBoson":
+    sample=DiBoson_Sample
+  elif ssample is "TanB10_1800_280":
+    sample=Tanb10_1800_280_Sample
+  elif ssample is "TanB10_320_520":
+    sample=Tanb10_320_520_Sample
+  elif ssample is "T2":
+    sample=T2_Sample
+  elif ssample is "T2tt":
+    sample=T2tt_Sample
+  elif ssample is "Data":
+    sample=Data_Sample_2011AB
+  elif ssample is "Data_2011A":
+    sample=Data_Sample_2011A
+  elif ssample is "Data_2011B":
+    sample=Data_Sample_2011B
+  else:
+    sample=[]
+    
+  if sMuonForm is "None":
+    MuonForm=None
+  else:
+    MuonForm=sMuonForm
+
+  if sSplitForm is "None":
+    SplitForm=None
+  else:
+    SplitForm=sSplitForm
+
+  return (TreeThr, sample, MuonForm, SplitForm)
+
+def ParaControl( sTreeThr, ssample, sMuonForm, sSplitForm, DataSet):
+  TreeThr,sample,MuonForm,SplitForm=TransFromStringToOther(sTreeThr, ssample, sMuonForm, sSplitForm)
+  print "in ParaControl"
+  print TreeThr,sample,MuonForm,SplitForm
+  for i in range(len(sample)):
+    print sample[i].Name
+
+  PUS="PUS4"
+  ExtraInstruction=""
+  RunScriptName="NoSmear"
+  SampleIndicated=""
+
+  if int(TreeThr) is 100:
+    ExtraInstruction="HigHTBins"
+  elif int(TreeThr) is 73:
+    ExtraInstruction="LowHTBins"
+  elif int(TreeThr) is 86:
+    ExtraInstruction="LowHTBins"
+
+
+  if sample == WJet_Sample_HighHTBins or sample == WJet_Sample_LowHTBins:
+    SampleIndicated="WJ"
+  elif sample == TTbar_Sample:
+    SampleIndicated="TT"
+  elif sample == SingleT_Sample:
+    SampleIndicated="SingleT"
+  elif sample == Zinv_Sample:
+    SampleIndicated="Zinv"
+  elif sample == DiMuon_Sample:
+    SampleIndicated="DY"
+  elif sample == Summer11_MC_HighHTBins:
+    SampleIndicated="ALL"
+  elif sample == Summer11_MC_LowHTBins:
+    SampleIndicated="ALL"
+  elif sample == DiBoson_Sample:
+    PUS = "PUS6"
+    SampleIndicated="DiBoson"
+  elif sample == Tanb10_1800_280_Sample:
+    SampleIndicated="TanB10_1800_280"
+  elif sample == Tanb10_320_520_Sample:
+    SampleIndicated="TanB10_320_520"
+  elif sample == T2_Sample:
+    SampleIndicated="T2"
+    PUS = "PUS0"
+  elif sample == T2tt_Sample:
+    SampleIndicated="T2tt"
+    PUS = "PUS0"
+  elif sample == Data_Sample_2011AB:
+    PUS = "PUS0"
+    SampleIndicated="2011AB"
+  elif sample == Data_Sample_2011A:
+    PUS = "PUS0"
+    SampleIndicated="2011A"
+  elif sample == Data_Sample_2011B:
+    PUS = "PUS0"
+    SampleIndicated="2011B"
+  else:
+    SampleIndicated=""
+
+
+  judgeData=False
+  if DataSet == "Data":
+    RunScriptName="Data"
+    judgeData=True
+
+#----- hadronic or muon
+
+  if MuonForm == None:
+    ExtraInstruction=ExtraInstruction+"HadSele"
+  elif MuonForm != None and SplitForm == None:
+    ExtraInstruction=ExtraInstruction+"MuonHTATTrig"
+  elif MuonForm != None and SplitForm != None:
+    ExtraInstruction=ExtraInstruction+"MuonMuHTTrig"
+
+#----- jet pT cut
+  JetPtThr = 50.0
+  if int(TreeThr) is 100:
+    JetPtThr = 50.0
+  elif int(TreeThr) is 73:
+    JetPtThr = 50.*(275./375.)
+    ExtraInstruction=ExtraInstruction+"275"
+  elif int(TreeThr) is 86:
+    JetPtThr = 50.*(325./375.)
+    ExtraInstruction=ExtraInstruction+"325"
+
+  return ( TreeThr, sample, MuonForm, SplitForm, DataSet, JetPtThr, PUS, SampleIndicated, ExtraInstruction, RunScriptName, judgeData )
+
+
