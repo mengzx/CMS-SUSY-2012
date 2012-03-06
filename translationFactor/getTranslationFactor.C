@@ -11,7 +11,8 @@
 
 #include "TStyle.h"
 
-#include "AtlasStyle.C"
+//#include "AtlasStyle.C"
+#include "tdrstyle.C"
 
 double scale=46.5;
 
@@ -216,6 +217,31 @@ vector<TFile*> MCvf_pushback( TString dir, TString sele, TString sTreeThr){
   return vf;
 }
 
+vector<TFile*> Datavf_pushback( TString dir, TString sele, TString sTreeThr){
+
+  vector<TFile*> vf;
+
+  if( sTreeThr == "100"){
+    TFile *f1=new TFile(dir+"/"+"Data2011AB_PUS0HigHTBins"+sele+".root");
+    vf.push_back(f1);
+  } else if( sTreeThr == "86"){
+    TFile *f1=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"325.root");
+    vf.push_back(f1);
+  } else if( sTreeThr == "73"){
+    TFile *f1=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"275.root");
+    vf.push_back(f1);
+  } else if( sTreeThr == "all"){
+    TFile *f1=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"275.root");
+    TFile *f2=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"325.root");
+    TFile *f3=new TFile(dir+"/"+"Data2011AB_PUS0HigHTBins"+sele+".root");
+    vf.push_back(f1);
+    vf.push_back(f2);
+    vf.push_back(f3);
+  }
+
+  return vf;
+}
+
 
 vector<TString> dirName_pushback(TString label, TString sTreeThr){
   vector<TString> dirname;
@@ -258,6 +284,19 @@ vector<TString> vhname_pusback_numer( bool MuAddOrNot, bool fullesti){
   return reh;
 }
 
+vector<TString> vhname_pusback_data( bool MuAddOrNot, bool fullesti){
+  vector<TString> reh;
+  if( MuAddOrNot == true && ( fullesti == true || fullesti == false) ){
+    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
+  } else if ( MuAddOrNot == false && fullesti == true ){
+    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
+    reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_all");
+  } else if ( MuAddOrNot == false && fullesti == false ){
+    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
+  }
+  return reh;
+}
+
 vector<TString> vhname_pusback_domin( bool MuAddOrNot, bool fullesti){
   vector<TString> reh;
   if( MuAddOrNot == true ){
@@ -271,8 +310,9 @@ vector<TString> vhname_pusback_domin( bool MuAddOrNot, bool fullesti){
 }
 
 
+
 TH2D* formatHist(TH2D* inh, double inscale){
-  SetAtlasStyle();
+  setTDRStyle();
   TH2D* h=(TH2D*)(inh->Clone("h"));
   h->GetYaxis()->SetRangeUser(0.5,0.56);
   h->GetXaxis()->SetRangeUser(275,975);
@@ -281,7 +321,7 @@ TH2D* formatHist(TH2D* inh, double inscale){
   return h;
 }
 
-vector<TH2D*> getTranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins){
+vector<TH2D*> getTranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData){
   TString dirhad="/Users/zmeng/Work_CMS/SUSY/myppt/BGEstimation_16022012/rootfiles/hadronicSele";
 
   TString dir1mu="";
@@ -290,32 +330,47 @@ vector<TH2D*> getTranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBi
   } else{
     dir1mu="/Users/zmeng/Work_CMS/SUSY/myppt/BGEstimation_16022012/rootfiles/oneMuonSele/muonpT10GeVATHTTrigger";
   }
-  vector<TFile*> MCvf_had=MCvf_pushback(dirhad, "HadSele", HTBins);
 
-  vector<TFile*> MCvf_1mu;
+  vector<TFile*> vf_had;
+  if( isData == true ){
+    vf_had=Datavf_pushback(dirhad, "HadSele", HTBins);
+  } else {
+    vf_had=MCvf_pushback(dirhad, "HadSele", HTBins);
+  }
+
+  vector<TFile*> vf_1mu;
+  vector<TFile*> Datavf_1mu;
   if( MuAddOrNot == true){
-    MCvf_1mu=MCvf_pushback(dir1mu, "MuonAddedMuHTTrig", HTBins);
+    if( isData == true ){
+      vf_1mu=Datavf_pushback(dir1mu, "MuonAddedMuHTTrig", HTBins);
+    } else vf_1mu=MCvf_pushback(dir1mu, "MuonAddedMuHTTrig", HTBins);
   } else{
-    MCvf_1mu=MCvf_pushback(dir1mu, "MuonHTATTrig", HTBins);
+    if( isData == true ){
+      vf_1mu=Datavf_pushback(dir1mu, "MuonHTATTrig", HTBins);
+    } else vf_1mu=MCvf_pushback(dir1mu, "MuonHTATTrig", HTBins);
   }
 
 
   vector<TString> dirNamehad=dirName_pushback("", HTBins);
   vector<TString> dirName1mu=dirName_pushback("OneMuon_", HTBins);
 
-  vector<TString> hNamehad=vhname_pusback_numer(MuAddOrNot, fullesti);
+  vector<TString> hNamehad;
   vector<TString> hName1mu=vhname_pusback_domin(MuAddOrNot, fullesti);
 
+  if( isData == true ){
+    hNamehad=vhname_pusback_data(MuAddOrNot, fullesti);
+  } else{
+    hNamehad=vhname_pusback_numer(MuAddOrNot, fullesti);
+  }
 
-
-  //  TH2D* AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_had=addHistForDiffFoldersAndFiles2D(MCvf_had, dirNamehad, "AlphaT_vs_HT_"+numerHist+"_h_all");
-  //  TH2D* AlphaT_vs_HT_JetMugeq2_1mu=addHistForDiffFoldersAndFiles2D(MCvf_1mu, dirName1mu, "AlphaT_vs_HT_"+domiHist+"_h_all");
+  //  TH2D* AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_had=addHistForDiffFoldersAndFiles2D(vf_had, dirNamehad, "AlphaT_vs_HT_"+numerHist+"_h_all");
+  //  TH2D* AlphaT_vs_HT_JetMugeq2_1mu=addHistForDiffFoldersAndFiles2D(vf_1mu, dirName1mu, "AlphaT_vs_HT_"+domiHist+"_h_all");
 
   if( MuAddOrNot == true ){
     vector<TH2D*> reh2d;
 
-    TH2D* AlphaT_vs_HT_numer=addHistForDiffFoldersFilesHists2D( MCvf_had, dirNamehad, hNamehad );
-    TH2D* AlphaT_vs_HT_domin=addHistForDiffFoldersFilesHists2D( MCvf_1mu, dirName1mu, hName1mu );
+    TH2D* AlphaT_vs_HT_numer=addHistForDiffFoldersFilesHists2D( vf_had, dirNamehad, hNamehad );
+    TH2D* AlphaT_vs_HT_domin=addHistForDiffFoldersFilesHists2D( vf_1mu, dirName1mu, hName1mu );
     
     TH2D* factor_h=(TH2D*)( AlphaT_vs_HT_numer->Clone( "factor_h" ) );
     factor_h->Divide( AlphaT_vs_HT_numer, AlphaT_vs_HT_domin );
@@ -334,8 +389,8 @@ vector<TH2D*> getTranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBi
     vhname_first.push_back(hNamehad[0]);
     vhname_second.push_back(hNamehad[1]);
 
-    TH2D* AlphaT_vs_HT_numer=addHistForDiffFoldersAndFiles_SubtrackHists2D(MCvf_had, dirNamehad, vhname_first, vhname_second );
-    TH2D* AlphaT_vs_HT_domin=addHistForDiffFoldersFilesHists2D(MCvf_1mu, dirName1mu, hName1mu );
+    TH2D* AlphaT_vs_HT_numer=addHistForDiffFoldersAndFiles_SubtrackHists2D(vf_had, dirNamehad, vhname_first, vhname_second );
+    TH2D* AlphaT_vs_HT_domin=addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
     
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
@@ -349,8 +404,8 @@ vector<TH2D*> getTranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBi
   if( MuAddOrNot == false and fullesti == false ){
     vector<TH2D*> reh2d;
 
-    TH2D* AlphaT_vs_HT_numer=addHistForDiffFoldersFilesHists2D(MCvf_had, dirNamehad, hNamehad );
-    TH2D* AlphaT_vs_HT_domin=addHistForDiffFoldersFilesHists2D(MCvf_1mu, dirName1mu, hName1mu );
+    TH2D* AlphaT_vs_HT_numer=addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad );
+    TH2D* AlphaT_vs_HT_domin=addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
     
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
@@ -386,12 +441,12 @@ vector<TLine*> Lines(){
   return lines;
 }
 
-TH2D* getFactor( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotname){
+TH2D* getFactor( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotname, bool isData){
 
   TCanvas *c1=new TCanvas();
   vector<TLine*> lines=Lines();
 
-  vector<TH2D*> factorHist_hasTauHadToMuAdded=getTranslationFactor( MuAddOrNot, fullesti, HTBins );
+  vector<TH2D*> factorHist_hasTauHadToMuAdded=getTranslationFactor( MuAddOrNot, fullesti, HTBins, isData );
   factorHist_hasTauHadToMuAdded[2]->Draw("colz");
   factorHist_hasTauHadToMuAdded[2]->Draw("textsame");
 
@@ -406,12 +461,19 @@ TH2D* getFactor( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotnam
   return factorHist_hasTauHadToMuAdded[2];
 }
 
-void baseCheck( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotname){
+TH2D* getData1mu( bool MuAddOrNot, bool fullesti, TString HTBins ){
+
+  vector<TH2D*> Data1mu=getTranslationFactor( MuAddOrNot, fullesti, HTBins, true );
+
+  return Data1mu[1];
+}
+
+void baseCheck( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotname, bool isData){
 
   TCanvas *c1=new TCanvas();
   vector<TLine*> lines=Lines();
 
-  vector<TH2D*> factorHist=getTranslationFactor( MuAddOrNot, fullesti, HTBins );
+  vector<TH2D*> factorHist=getTranslationFactor( MuAddOrNot, fullesti, HTBins, isData );
   factorHist[0]->Draw("colz");
   factorHist[0]->Draw("textsame");
 
@@ -437,11 +499,47 @@ void baseCheck( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotname
 
 void getResults(){
 
-  TH2D* factorh_AddMu=getFactor( true, false, "all", "tauHadEsti_AddMuToAT" );
-  TH2D* factorh_Lep=getFactor( false, false, "all", "LepEsti_NotAddMuToAT" );
-  TH2D* factorh_NonTauHad=getFactor( false, true, "all", "NonTauHadEsti_NotAddMuToAT" );
+  baseCheck( true, false, "all", "tauHadEsti_AddMuToAT", false );
+  baseCheck( false, false, "all", "LepEsti_NotAddMuToAT", false );
+  baseCheck( false, true, "all", "NotTauHadEsti_NotAddMuToAT", false );
+  baseCheck( true, false, "all", "tauHadEsti_AddMuToAT", true );
+  baseCheck( false, false, "all", "LepEsti_NotAddMuToAT", true );
 
-  baseCheck( true, false, "all", "tauHadEsti_AddMuToAT" );
-  baseCheck( false, false, "all", "LepEsti_NotAddMuToAT" );
-  baseCheck( false, true, "all", "NonTauHadEsti_NotAddMuToAT" );
+  TH2D* factorh_AddMu=getFactor( true, false, "all", "tauHadEsti_AddMuToAT", false );
+  TH2D* factorh_Lep=getFactor( false, false, "all", "LepEsti_NotAddMuToAT", false );
+  TH2D* factorh_NotTauHad=getFactor( false, true, "all", "NotTauHadEsti_NotAddMuToAT", false );
+
+  TH2D* Data1mu_AddMu=getData1mu(true, false, "all");
+  TH2D* Data1mu_NotAddMu=getData1mu(false, false, "all");
+
+  TH2D* pred_AddMu=(TH2D*)(Data1mu_AddMu->Clone("pred_AddMu"));
+  TH2D* pred_Lep=(TH2D*)(Data1mu_NotAddMu->Clone("pred_Lep"));
+  TH2D* pred_NotTauHad=(TH2D*)(Data1mu_NotAddMu->Clone("pred_NotTauHad"));
+
+  pred_AddMu->Multiply(pred_AddMu, factorh_AddMu);
+  pred_Lep->Multiply(pred_Lep, factorh_Lep);
+  pred_NotTauHad->Multiply(pred_NotTauHad, factorh_NotTauHad);
+
+  TH2D* pred_AddMu_c1=formatHist(pred_AddMu, 1.);
+  TH2D* pred_Lep_c1=formatHist(pred_Lep, 1.);
+  TH2D* pred_NotTauHad_c1=formatHist(pred_NotTauHad, 1.);
+
+  TCanvas *c1=new TCanvas();
+  pred_AddMu_c1->Draw("colz");
+  pred_AddMu_c1->Draw("sametext");
+  c1->SaveAs("pred_AddMu.png");
+  c1->Update();
+  c1->Clear();
+  pred_Lep_c1->Draw("colz");
+  pred_Lep_c1->Draw("sametext");
+  c1->SaveAs("pred_Lep.png");
+  c1->Update();
+  c1->Clear();
+  pred_NotTauHad_c1->Draw("colz");
+  pred_NotTauHad_c1->Draw("sametext");
+  c1->SaveAs("pred_NotTauHad.png");
+  c1->Update();
+  c1->Clear();
+
+
 }
