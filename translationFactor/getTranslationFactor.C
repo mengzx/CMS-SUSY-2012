@@ -316,6 +316,8 @@ TH2D* formatHist(TH2D* inh, double inscale){
   TH2D* h=(TH2D*)(inh->Clone("h"));
   h->GetYaxis()->SetRangeUser(0.5,0.56);
   h->GetXaxis()->SetRangeUser(275,975);
+  h->GetYaxis()->SetTitle("#alpha_{T}");
+  h->GetXaxis()->SetTitle("HT (GeV)");
   h->Scale(inscale);
 
   return h;
@@ -350,6 +352,12 @@ vector<TH2D*> getTranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBi
     } else vf_1mu=MCvf_pushback(dir1mu, "MuonHTATTrig", HTBins);
   }
 
+  double scalein=1.;
+  if( isData == true ){
+    scalein=1.;
+  } else {
+    scalein = scale;
+  }
 
   vector<TString> dirNamehad=dirName_pushback("", HTBins);
   vector<TString> dirName1mu=dirName_pushback("OneMuon_", HTBins);
@@ -375,8 +383,8 @@ vector<TH2D*> getTranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBi
     TH2D* factor_h=(TH2D*)( AlphaT_vs_HT_numer->Clone( "factor_h" ) );
     factor_h->Divide( AlphaT_vs_HT_numer, AlphaT_vs_HT_domin );
 
-    reh2d.push_back( formatHist( AlphaT_vs_HT_numer, scale ) );
-    reh2d.push_back( formatHist( AlphaT_vs_HT_domin, scale ) );
+    reh2d.push_back( formatHist( AlphaT_vs_HT_numer, scalein ) );
+    reh2d.push_back( formatHist( AlphaT_vs_HT_domin, scalein ) );
     reh2d.push_back( formatHist( factor_h, 1. ) );
     return reh2d;
   }
@@ -395,8 +403,8 @@ vector<TH2D*> getTranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBi
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
-    reh2d.push_back( formatHist( AlphaT_vs_HT_numer, scale ) );
-    reh2d.push_back( formatHist( AlphaT_vs_HT_domin, scale ) );
+    reh2d.push_back( formatHist( AlphaT_vs_HT_numer, scalein ) );
+    reh2d.push_back( formatHist( AlphaT_vs_HT_domin, scalein ) );
     reh2d.push_back( formatHist( factor_h, 1. ) );
     return reh2d;
   }
@@ -410,8 +418,8 @@ vector<TH2D*> getTranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBi
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
-    reh2d.push_back( formatHist( AlphaT_vs_HT_numer, scale ) );
-    reh2d.push_back( formatHist( AlphaT_vs_HT_domin, scale ) );
+    reh2d.push_back( formatHist( AlphaT_vs_HT_numer, scalein ) );
+    reh2d.push_back( formatHist( AlphaT_vs_HT_domin, scalein ) );
     reh2d.push_back( formatHist( factor_h, 1. ) );
     return reh2d;
   }
@@ -448,13 +456,13 @@ TH2D* getFactor( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotnam
 
   vector<TH2D*> factorHist_hasTauHadToMuAdded=getTranslationFactor( MuAddOrNot, fullesti, HTBins, isData );
   factorHist_hasTauHadToMuAdded[2]->Draw("colz");
-  factorHist_hasTauHadToMuAdded[2]->Draw("textsame");
+  factorHist_hasTauHadToMuAdded[2]->Draw("text45same");
 
   for( unsigned int il=0; il<lines.size(); il++){
     (lines[il])->Draw("same");
   }
   c1->SaveAs("factor_"+plotname+".png");
-  //  c1->SaveAs("factor_"+plotname+".eps");
+  c1->SaveAs("factor_"+plotname+".eps");
   c1->Update();
   c1->Clear();
 
@@ -475,24 +483,24 @@ void baseCheck( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotname
 
   vector<TH2D*> factorHist=getTranslationFactor( MuAddOrNot, fullesti, HTBins, isData );
   factorHist[0]->Draw("colz");
-  factorHist[0]->Draw("textsame");
+  factorHist[0]->Draw("text45same");
 
   for( unsigned int il=0; il<lines.size(); il++){
     (lines[il])->Draw("same");
   }
   c1->SaveAs("numer_"+plotname+".png");
-  //  c1->SaveAs("numer_"+plotname+".eps");
+  c1->SaveAs("numer_"+plotname+".eps");
   c1->Update();
   c1->Clear();
 
   factorHist[1]->Draw("colz");
-  factorHist[1]->Draw("textsame");
+  factorHist[1]->Draw("text45same");
 
   for( unsigned int il=0; il<lines.size(); il++){
     (lines[il])->Draw("same");
   }
   c1->SaveAs("domin_"+plotname+".png");
-  //  c1->SaveAs("domin_"+plotname+".eps");
+  c1->SaveAs("domin_"+plotname+".eps");
   c1->Update();
   c1->Clear();
 }
@@ -502,8 +510,8 @@ void getResults(){
   baseCheck( true, false, "all", "tauHadEsti_AddMuToAT", false );
   baseCheck( false, false, "all", "LepEsti_NotAddMuToAT", false );
   baseCheck( false, true, "all", "NotTauHadEsti_NotAddMuToAT", false );
-  baseCheck( true, false, "all", "tauHadEsti_AddMuToAT", true );
-  baseCheck( false, false, "all", "LepEsti_NotAddMuToAT", true );
+  baseCheck( true, false, "all", "tauHadEsti_AddMuToAT_Data", true );
+  baseCheck( false, false, "all", "LepEsti_NotAddMuToAT_Data", true );
 
   TH2D* factorh_AddMu=getFactor( true, false, "all", "tauHadEsti_AddMuToAT", false );
   TH2D* factorh_Lep=getFactor( false, false, "all", "LepEsti_NotAddMuToAT", false );
@@ -524,20 +532,46 @@ void getResults(){
   TH2D* pred_Lep_c1=formatHist(pred_Lep, 1.);
   TH2D* pred_NotTauHad_c1=formatHist(pred_NotTauHad, 1.);
 
+  vector<TLine*> lines=Lines();
+
   TCanvas *c1=new TCanvas();
   pred_AddMu_c1->Draw("colz");
-  pred_AddMu_c1->Draw("sametext");
+  pred_AddMu_c1->Draw("sametext45");
+  for( unsigned int il=0; il<lines.size(); il++){
+    (lines[il])->Draw("same");
+  }
   c1->SaveAs("pred_AddMu.png");
+  c1->SaveAs("pred_AddMu.eps");
   c1->Update();
   c1->Clear();
   pred_Lep_c1->Draw("colz");
-  pred_Lep_c1->Draw("sametext");
+  pred_Lep_c1->Draw("sametext45");
+  for( unsigned int il=0; il<lines.size(); il++){
+    (lines[il])->Draw("same");
+  }
   c1->SaveAs("pred_Lep.png");
+  c1->SaveAs("pred_Lep.eps");
   c1->Update();
   c1->Clear();
   pred_NotTauHad_c1->Draw("colz");
-  pred_NotTauHad_c1->Draw("sametext");
+  pred_NotTauHad_c1->Draw("sametext45");
+  for( unsigned int il=0; il<lines.size(); il++){
+    (lines[il])->Draw("same");
+  }
   c1->SaveAs("pred_NotTauHad.png");
+  c1->SaveAs("pred_NotTauHad.eps");
+  c1->Update();
+  c1->Clear();
+
+  TH2D* totalpre=(TH2D*)(pred_AddMu_c1->Clone("totalpre"));
+  totalpre->Add(totalpre, pred_NotTauHad_c1);
+  totalpre->Draw("colz");
+  totalpre->Draw("sametext45");
+  for( unsigned int il=0; il<lines.size(); il++){
+    (lines[il])->Draw("same");
+  }
+  c1->SaveAs("pred_Total.png");
+  c1->SaveAs("pred_Total.eps");
   c1->Update();
   c1->Clear();
 
