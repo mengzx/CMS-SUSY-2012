@@ -1,0 +1,25 @@
+#include "playHist2D.h"
+#include "playHist1D.h"
+#include "TrueWPt.h"
+#include "printTables.h"
+#include <TH2.h>
+#include <TStyle.h>
+#include <TCanvas.h>
+#include <iostream>
+#include <cstdlib>
+#include <fstream>
+#include <string>
+#include <TChain.h>
+
+using namespace std;
+
+int main()
+{
+
+  TrueWPt *WPt=new TrueWPt();
+  WPt->getResults();
+  //  printTables *table=new printTables();
+  //  table->Tables();
+  return 0;
+}
+
