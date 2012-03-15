@@ -22,7 +22,7 @@ getTranslationFactor::getTranslationFactor():
   digit1_(".1f"),
   digit2_(".2f"),
   inidir_("/Users/zmeng/Work_CMS/SUSY/myppt/BGEstimation_16022012/"),
-  subdir_("/eq2jets")
+  subdir_("/geq2jets")
 {}
 
 
@@ -139,7 +139,7 @@ vector<TString> getTranslationFactor::vhname_pusback_data( bool MuAddOrNot, bool
     reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
   } else if ( MuAddOrNot == false && fullesti == true ){
     reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_all");
+    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_15");
   } else if ( MuAddOrNot == false && fullesti == false ){
     reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
   }
@@ -163,13 +163,13 @@ vector<TString> getTranslationFactor::vhname_pusback_domin( bool MuAddOrNot, boo
 vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData){
   playHist2D factor=playHist2D();
   //  TString dirhad="/Users/zmeng/Work_CMS/SUSY/myppt/BGEstimation_16022012/rootfiles/hadronicSele"+subdir_;
-  TString dirhad=inidir_ + "rootfiles/hadronicSele" + subdir_;
+  TString dirhad = inidir_ + "rootfiles/hadronicSele" + subdir_;
 
   TString dir1mu="";
   if( MuAddOrNot == true){
-    dir1mu==inidir_ + "rootfiles/oneMuonSele/muonpT50GeV" + subdir_;
+    dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT50GeV" + subdir_;
   } else{
-    dir1mu==inidir_ + "rootfiles/oneMuonSele/muonpT10GeV" + subdir_;
+    dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT10GeV" + subdir_;
   }
 
   vector<TFile*> vf_had;
