@@ -5,13 +5,9 @@
 #include <iostream>
 #include <fstream>
 #include "TH1D.h"
-#include "TLine.h"
 #include "TFile.h"
 #include "TString.h"
 #include <stdio.h>
-#include "TCanvas.h"
-
-#include "TStyle.h"
 
 using namespace std;
 

@@ -1,7 +1,6 @@
 #include "playHist2D.h"
 #include "playHist1D.h"
-#include "getTranslationFactor.h"
-#include "project2DHists.h"
+#include "h.h"
 #include "TrueWPt.h"
 #include "printTables.h"
 #include <TH2.h>

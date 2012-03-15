@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 #include "TStyle.h"
-#include "playHist2D.h"
+#include "getTranslationFactor.h"
 
 using namespace std;
 
@@ -126,7 +126,7 @@ vector<vector<TString> > printTables::readHist_WithErr( TH2D* factorh){
 
 
 vector<vector<double> > printTables::readFactorHist( bool MuAddOrNot, bool fullesti, TString HTBin, bool isData ){
-  playHist2D factor=playHist2D();
+  getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getFactor( MuAddOrNot, fullesti, HTBin, isData );
   vector<vector<double> > factorre;
   factorre=readHist( factorh );
@@ -135,7 +135,7 @@ vector<vector<double> > printTables::readFactorHist( bool MuAddOrNot, bool fulle
 }
 
 vector<vector<double> > printTables::readControlDataHist( bool MuAddOrNot, bool fullesti, TString HTBin){
-  playHist2D factor=playHist2D();
+  getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getControlData( MuAddOrNot, fullesti, HTBin );
   vector<vector<double> > factorre;
   factorre=readHist( factorh );
@@ -143,7 +143,7 @@ vector<vector<double> > printTables::readControlDataHist( bool MuAddOrNot, bool 
 }
 
 vector<vector<double> > printTables::readYieldDataHist( bool MuAddOrNot, bool fullesti, TString HTBin){
-  playHist2D factor=playHist2D();
+  getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getYieldData( MuAddOrNot, fullesti, HTBin );
   vector<vector<double> > factorre;
   factorre=readHist( factorh );
@@ -151,7 +151,7 @@ vector<vector<double> > printTables::readYieldDataHist( bool MuAddOrNot, bool fu
 }
 
 vector<vector<double> > printTables::readPredBGHist( bool MuAddOrNot, bool fullesti, TString HTBin){
-  playHist2D factor=playHist2D();
+  getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getPredBG( MuAddOrNot, fullesti, HTBin );
   vector<vector<double> > factorre;
   factorre=readHist( factorh );
@@ -161,7 +161,7 @@ vector<vector<double> > printTables::readPredBGHist( bool MuAddOrNot, bool fulle
 
 
 vector<vector<TString> > printTables::readFactorHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, bool isData ){
-  playHist2D factor=playHist2D();
+  getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getFactor( MuAddOrNot, fullesti, HTBin, isData );
   vector<vector<TString> > factorre;
   factorre=readHist_WithErr( factorh );
@@ -170,7 +170,7 @@ vector<vector<TString> > printTables::readFactorHist_WithErr( bool MuAddOrNot, b
 }
 
 vector<vector<TString> > printTables::readControlDataHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin){
-  playHist2D factor=playHist2D();
+  getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getControlData( MuAddOrNot, fullesti, HTBin );
   vector<vector<TString> > factorre;
   factorre=readHist_WithErr( factorh );
@@ -178,7 +178,7 @@ vector<vector<TString> > printTables::readControlDataHist_WithErr( bool MuAddOrN
 }
 
 vector<vector<TString> > printTables::readYieldDataHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin){
-  playHist2D factor=playHist2D();
+  getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getYieldData( MuAddOrNot, fullesti, HTBin );
   vector<vector<TString> > factorre;
   factorre=readHist_WithErr( factorh );
@@ -186,7 +186,7 @@ vector<vector<TString> > printTables::readYieldDataHist_WithErr( bool MuAddOrNot
 }
 
 vector<vector<TString> > printTables::readPredBGHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin){
-  playHist2D factor=playHist2D();
+  getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getPredBG( MuAddOrNot, fullesti, HTBin );
   vector<vector<TString> > factorre;
   factorre=readHist_WithErr( factorh );
@@ -296,7 +296,7 @@ void printTables::printout_final( FILE *infile, vector<vector<double> > invector
 
 void printTables::Tables(){
 
-  playHist2D factor=playHist2D();
+  getTranslationFactor factor=getTranslationFactor();
   TH2D *predBG_HadTauh=factor.getPredBG( true, false, "all" );
   TH2D *predBG_NotHadTauh=factor.getPredBG( false, true, "all" );
 

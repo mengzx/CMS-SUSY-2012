@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.5.4)  9 MAR 2012 14:46
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.5.4)  14 MAR 2012 18:28
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -54,33 +54,29 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 6.
 
-./test.tex:10: Missing $ inserted.
-<inserted text> 
-                $
-l.10  Translation factor ($\tau_h$) & 9.34 \pm
-                                               1.52  & 8.35 \pm 0.94  & 5.96...
+Overfull \hbox (61.90996pt too wide) in paragraph at lines 6--62
+[]  
+ []
 
-? 
-./test.tex:10: Emergency stop.
-<inserted text> 
-                $
-l.10  Translation factor ($\tau_h$) & 9.34 \pm
-                                               1.52  & 8.35 \pm 0.94  & 5.96...
-End of file on the terminal!
 
- 
+LaTeX Warning: Float too large for page by 57.03264pt on input line 64.
+
+[1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+(./test.aux) ) 
 Here is how much of TeX's memory you used:
- 218 strings out of 493763
- 2332 string characters out of 3144955
- 50091 words of memory out of 3000000
- 3599 multiletter control sequences out of 15000+200000
+ 223 strings out of 493763
+ 2374 string characters out of 3144955
+ 61091 words of memory out of 3000000
+ 3600 multiletter control sequences out of 15000+200000
  6376 words of font info for 23 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 22i,8n,19p,175b,212s stack positions out of 5000i,500n,10000p,200000b,50000s
-./test.tex:10:  ==> Fatal error occurred, no output PDF file produced!
-0/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+ 22i,8n,19p,180b,253s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi8.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cms
 y10.pfb>
-Output written on test.pdf (1 page, 41978 bytes).
+Output written on test.pdf (1 page, 41585 bytes).
 PDF statistics:
  24 PDF objects out of 1000 (max. 8388607)
  16 compressed objects within 1 object stream
