@@ -28,6 +28,10 @@ void basicPlots::AlphaT(){
   getTranslationFactor tf=getTranslationFactor();
   project2DHists pf=project2DHists();
   playHist1D hf1d=playHist1D();
+
+  vector<TFile*> MCvf=tf.MCvf_pushback(dir1mu, "MuonAddedHTATTrig", HTBins);
+
+
   TH2D *controlData=tf.getControlData(true, false, "all" );
   TH2D *controlMC=tf.TranslationFactor(true, false, "all", false)[1];
 
