@@ -18,7 +18,7 @@ using namespace std;
 
 
 getTranslationFactor::getTranslationFactor():
-  scale_(46.5),
+  scale_(1.),
   digit1_(".1f"),
   digit2_(".2f"),
   inidir_("/Users/zmeng/Work_CMS/SUSY/myppt/BGEstimation_16022012/"),
@@ -201,8 +201,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     digit1in=digit1_;
   }
 
-  vector<TString> dirNamehad=dirName_pushback("DiJet_", HTBins);
-  vector<TString> dirName1mu=dirName_pushback("DiJet_OneMuon_", HTBins);
+  vector<TString> dirNamehad=dirName_pushback("", HTBins);
+  vector<TString> dirName1mu=dirName_pushback("OneMuon_", HTBins);
 
   vector<TString> hNamehad;
   vector<TString> hName1mu=vhname_pusback_domin(MuAddOrNot, fullesti);
