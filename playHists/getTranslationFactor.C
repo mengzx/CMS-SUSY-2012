@@ -21,8 +21,9 @@ getTranslationFactor::getTranslationFactor():
   scale_(1.),
   digit1_(".1f"),
   digit2_(".2f"),
-  inidir_("/Users/zmeng/Work_CMS/SUSY/myppt/BGEstimation_16022012/"),
-  subdir_("/geq2jets")
+  inidir_("/Users/phxzm/Work_CMS/SUSY/myppt/BGEstimation_16022012/"),
+  subdir_("/FullyTreatMuonAsJet/alljets"),
+  folderlabel_("")
 {}
 
 
@@ -61,6 +62,15 @@ vector<TFile*> getTranslationFactor::MCvf_pushback( TString dir, TString sele, T
     vf.push_back(f4);
     vf.push_back(f5);
     vf.push_back(f6);
+  } else if( sTreeThr == "low"){
+    TFile *f1=new TFile(dir+"/"+"NoSmearALL_PUS4LowHTBins"+sele+"275.root");
+    TFile *f2=new TFile(dir+"/"+"NoSmearDiBoson_PUS6LowHTBins"+sele+"275.root");
+    TFile *f3=new TFile(dir+"/"+"NoSmearALL_PUS4LowHTBins"+sele+"325.root");
+    TFile *f4=new TFile(dir+"/"+"NoSmearDiBoson_PUS6LowHTBins"+sele+"325.root");
+    vf.push_back(f1);
+    vf.push_back(f2);
+    vf.push_back(f3);
+    vf.push_back(f4);
   }
 
   return vf;
@@ -86,6 +96,11 @@ vector<TFile*> getTranslationFactor::Datavf_pushback( TString dir, TString sele,
     vf.push_back(f1);
     vf.push_back(f2);
     vf.push_back(f3);
+  } else if( sTreeThr == "low"){
+    TFile *f1=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"275.root");
+    TFile *f2=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"325.root");
+    vf.push_back(f1);
+    vf.push_back(f2);
   }
 
   return vf;
@@ -115,7 +130,11 @@ vector<TString> getTranslationFactor::dirName_pushback(TString label, TString sT
     dirname.push_back(label+"675_775");
     dirname.push_back(label+"775_875");
     dirname.push_back(label+"875");
+  } else if ( sTreeThr == "low"){
+    dirname.push_back(label+"275_325");
+    dirname.push_back(label+"325_375");
   }
+
   return dirname;
 }
 
@@ -201,8 +220,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     digit1in=digit1_;
   }
 
-  vector<TString> dirNamehad=dirName_pushback("", HTBins);
-  vector<TString> dirName1mu=dirName_pushback("OneMuon_", HTBins);
+  vector<TString> dirNamehad=dirName_pushback(folderlabel_ + "", HTBins);
+  vector<TString> dirName1mu=dirName_pushback(folderlabel_ + "OneMuon_", HTBins);
 
   vector<TString> hNamehad;
   vector<TString> hName1mu=vhname_pusback_domin(MuAddOrNot, fullesti);

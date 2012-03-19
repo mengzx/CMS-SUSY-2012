@@ -126,9 +126,10 @@ TH1D* playHist1D::addHistForDiffFoldersFilesHists1D(vector<TFile*> vf, vector<TS
 
 // -----------------------------------------------------------------------------
 //
-TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString titley, double xlow, double xhigh, int rebin){
+TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString titley, double xlow, double xhigh, int rebin ){
   tdrstyle tdr=tdrstyle();
-  tdr.setTDRStyle();
+  tdr.setTDRStyle("g");
+
   TH1D* h=(TH1D*)(inh->Clone("h"));
 
   if(rebin > 1){

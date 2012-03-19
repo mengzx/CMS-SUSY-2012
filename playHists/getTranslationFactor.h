@@ -36,6 +36,7 @@ class getTranslationFactor{
   TString digit2_;
   TString inidir_;
   TString subdir_;
+  TString folderlabel_;
 
 }; //class getTranslationFactor
 

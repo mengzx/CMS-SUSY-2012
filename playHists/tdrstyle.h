@@ -1,12 +1,14 @@
 #ifndef tdrstyle_h
 #define tdrstyle_h
 
+#include "TString.h"
+
 class tdrstyle{
  public:
   tdrstyle(){}
   ~tdrstyle(){}
 
-  void setTDRStyle();
+  void setTDRStyle( TString digit );
 
 };
 

@@ -145,8 +145,8 @@ TH2D* playHist2D::addHistForDiffFoldersAndFiles_SubtrackHists2D(vector<TFile*> v
 //
 TH2D* playHist2D::formatHist(TH2D* inh, double inscale, TString digit){
   tdrstyle tdr=tdrstyle();
-  tdr.setTDRStyle();
-  gStyle->SetPaintTextFormat(digit);
+  tdr.setTDRStyle( digit );
+
   TH2D* h=(TH2D*)(inh->Clone("h"));
   h->GetYaxis()->SetRangeUser(0.5,0.56);
   h->GetXaxis()->SetRangeUser(275,975);

@@ -1,11 +1,12 @@
 #include "tdrstyle.h"
-
+#include "TString.h"
 #include "TStyle.h"
 
-void tdrstyle::setTDRStyle() {
+void tdrstyle::setTDRStyle( TString digit ) {
 
   TStyle *tdrStyle = new TStyle("tdrStyle","Style for P-TDR");
   tdrStyle->SetPalette(1,0);
+  gStyle->SetPaintTextFormat(digit);
 // For the canvas:
   tdrStyle->SetCanvasBorderMode(0);
   tdrStyle->SetCanvasColor(kWhite);
