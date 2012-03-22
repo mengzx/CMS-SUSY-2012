@@ -18,12 +18,13 @@ using namespace std;
 
 
 getTranslationFactor::getTranslationFactor():
-  scale_(1.),
+  scale_(46.5),
   digit1_(".1f"),
   digit2_(".2f"),
-  inidir_("/Users/phxzm/Work_CMS/SUSY/myppt/BGEstimation_16022012/"),
-  subdir_("/FullyTreatMuonAsJet/alljets"),
-  folderlabel_("")
+  inidir_("/Users/phxzm/Work_CMS/SUSY/myppt/BGEstimation_fullHTdataset_20032012/"),
+  subdir_("/FullyTreatMuonAsJet/allAndgeq2jets"),
+  folderlabel_(""),
+  dataset_("HT2011AB")
 {}
 
 
@@ -76,29 +77,29 @@ vector<TFile*> getTranslationFactor::MCvf_pushback( TString dir, TString sele, T
   return vf;
 }
 
-vector<TFile*> getTranslationFactor::Datavf_pushback( TString dir, TString sele, TString sTreeThr){
+vector<TFile*> getTranslationFactor::Datavf_pushback( TString dir, TString sele, TString sTreeThr ){
 
   vector<TFile*> vf;
 
   if( sTreeThr == "100"){
-    TFile *f1=new TFile(dir+"/"+"Data2011AB_PUS0HigHTBins"+sele+".root");
+    TFile *f1=new TFile(dir+"/"+"Data"+dataset_+"_PUS0HigHTBins"+sele+".root");
     vf.push_back(f1);
   } else if( sTreeThr == "86"){
-    TFile *f1=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"325.root");
+    TFile *f1=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"325.root");
     vf.push_back(f1);
   } else if( sTreeThr == "73"){
-    TFile *f1=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"275.root");
+    TFile *f1=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"275.root");
     vf.push_back(f1);
   } else if( sTreeThr == "all"){
-    TFile *f1=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"275.root");
-    TFile *f2=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"325.root");
-    TFile *f3=new TFile(dir+"/"+"Data2011AB_PUS0HigHTBins"+sele+".root");
+    TFile *f1=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"275.root");
+    TFile *f2=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"325.root");
+    TFile *f3=new TFile(dir+"/"+"Data"+dataset_+"_PUS0HigHTBins"+sele+".root");
     vf.push_back(f1);
     vf.push_back(f2);
     vf.push_back(f3);
   } else if( sTreeThr == "low"){
-    TFile *f1=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"275.root");
-    TFile *f2=new TFile(dir+"/"+"Data2011AB_PUS0LowHTBins"+sele+"325.root");
+    TFile *f1=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"275.root");
+    TFile *f2=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"325.root");
     vf.push_back(f1);
     vf.push_back(f2);
   }

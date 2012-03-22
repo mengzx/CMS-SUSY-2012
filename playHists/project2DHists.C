@@ -21,12 +21,29 @@ project2DHists::project2DHists()
 
 TH1D* project2DHists::projectX( TH2D* inh, double reqlowe, double requpe ){
 
-  TH1D* re1dh=(TH1D*)( ( inh->ProjectionY() ) -> Clone("re1dh") );
   int nbiny=inh->GetNbinsY();
-  for( int iy=1; iy<= nbiny; iy++ ){
-    re1dh->SetBinContent( iy, 0. );
+  int lowbin=-1;
+  int upbin=-1;
+  for( int iy=1; iy<=nbiny; iy++){
+    int low=(int)( ( inh->GetYaxis()->GetBinLowEdge( iy ) ) * 100000. );
+    int up=(int)( ( inh->GetYaxis()->GetBinUpEdge( iy ) ) * 100000. );
+    if( low == (int)( reqlowe * 100000. ) ){
+      lowbin = iy;
+    }
+    if( up == (int)( requpe * 100000. ) ){
+      upbin = iy;
+    }
   }
-  re1dh->SetEntries(0);
+
+  cout<<"lowbin="<<lowbin<<" upbin="<<upbin<<endl;
+
+  TH1D* re1dh=(TH1D*)( ( inh->ProjectionX( "", lowbin, upbin ) ) -> Clone("re1dh") );
+
+  return re1dh;
+}
+
+
+TH1D* project2DHists::projectY( TH2D* inh, double reqlowe, double requpe ){
 
   int nbinx=inh->GetNbinsX();
   int lowbin=-1;
@@ -42,48 +59,13 @@ TH1D* project2DHists::projectX( TH2D* inh, double reqlowe, double requpe ){
     }
   }
 
-  for( int i=lowbin; i<=upbin; i++){
-    for( int j=1; j<=nbiny; j++ ){
-      double con=inh->GetBinContent(i,j);
-      re1dh->Fill(con);
-    }
-  }
+  cout<<"lowbin="<<lowbin<<" upbin="<<upbin<<endl;
+
+  TH1D* re1dh=(TH1D*)( ( inh->ProjectionY( "", lowbin, upbin ) ) -> Clone("re1dh") );
 
   return re1dh;
 }
 
 
-TH1D* project2DHists::projectY( TH2D* inh, double reqlowe, double requpe ){
-
-  TH1D* re1dh=(TH1D*)( ( inh->ProjectionX() ) -> Clone("re1dh") );
-  int nbinx=inh->GetNbinsX();
-  for( int ix=1; ix<= nbinx; ix++ ){
-    re1dh->SetBinContent( ix, 0. );
-  }
-  re1dh->SetEntries(0);
-
-  int nbiny=inh->GetNbinsY();
-  int lowbin=-1;
-  int upbin=-1;
-  for( int iy=1; iy<=nbiny; iy++){
-    int low=(int)( ( inh->GetYaxis()->GetBinLowEdge( iy ) ) * 100000. );
-    int up=(int)( ( inh->GetYaxis()->GetBinUpEdge( iy ) ) * 100000. );
-    if( low == (int)( reqlowe * 100000. ) ){
-      lowbin = iy;
-    }
-    if( up == (int)( requpe * 100000. ) ){
-      upbin = iy;
-    }
-  }
-
-  for( int i=lowbin; i<=upbin; i++){
-    for( int j=1; j<=nbinx; j++ ){
-      double con=inh->GetBinContent(j,i);
-      re1dh->Fill(con);
-    }
-  }
-
-  return re1dh;
-}
 
 

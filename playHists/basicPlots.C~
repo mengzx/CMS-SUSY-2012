@@ -130,12 +130,12 @@ void basicPlots::DrawHists( bool MuAddOrNot, TString HTBins, int whichpart, TStr
       c1->SetLogy(0);
       c1->SaveAs( Form( "HT_HadSele_AT%dTo%d.eps", (int)(lowalphaT*100), (int)(highalphaT*100) ) );
       c1->SetLogy();
-      c1->SaveAs( Form( "HT_HadSele_AT%dTo%d_log.eps", (int)(lowalphaT*100), (int)(highalphaT*100) ) );
+      c1->SaveAs( Form( "HT_HadSele_AT%dfTo%d_log.eps", (int)(lowalphaT*100), (int)(highalphaT*100) ) );
     } else if ( whichpart != 1 && MuAddOrNot == true ){
       c1->SetLogy(0);
       c1->SaveAs( Form( "HT_MuonAdded_AT%dTo%d.eps", (int)(lowalphaT*100), (int)(highalphaT*100) ) );
       c1->SetLogy();
-      c1->SaveAs( Form( "HT_MuonAdded_AT%dTo%d_log.eps", (int)(lowalphaT*100), (int)(highalphaT*100) ) );
+      c1->SaveAs( Form( "HT_MuonAdded_AT%dfTo%d_log.eps", (int)(lowalphaT*100), (int)(highalphaT*100) ) );
     } else if ( whichpart !=1 && MuAddOrNot == false ){
       c1->SetLogy(0);
       c1->SaveAs( Form( "HT_MuonNotAdded_AT%dTo%d.eps", (int)(lowalphaT*100), (int)(highalphaT*100) ) );

@@ -19,9 +19,6 @@ using namespace std;
 playHist1D::playHist1D():
   linewidth(2),
   markersize(2)
-  //  scale_(46.5),
-  //  digit1_(".1f"),
-  //  digit2_(".2f")
 {}
 
 // -----------------------------------------------------------------------------
@@ -131,7 +128,6 @@ TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString
   tdr.setTDRStyle("g");
 
   TH1D* h=(TH1D*)(inh->Clone("h"));
-
   if(rebin > 1){
     h->Rebin(rebin);
   }
