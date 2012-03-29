@@ -160,6 +160,28 @@ CommonMeff::CommonMeff(const Event::Data & ev) :
   }
  
 
+  CommonMHTTakeMu::CommonMHTTakeMu(const Event::Data & ev) :
+    Compute::Variable<LorentzV, CommonMHTTakeMu>(ev) {}
+
+  void CommonMHTTakeMu::_Update() const {
+    mData.SetPxPyPzE(0.,0.,0.,0.);
+
+    // Loop
+    for ( std::vector<Event::Jet const *>::const_iterator j = mEv.JD_CommonJets().accepted.begin();
+      j != mEv.JD_CommonJets().accepted.end();
+      ++j ) {
+      mData -= (**j);
+    }
+
+    for ( std::vector<Event::Lepton const *>::const_iterator j = mEv.LD_CommonMuons().accepted.begin();
+      j != mEv.LD_CommonMuons().accepted.end();
+      ++j ) {
+      mData -= (**j);
+    }
+
+  }
+ 
+
 
 
   CommonHT::CommonHT(const Event::Data & ev) :
@@ -312,7 +334,7 @@ AlphaTwithEt(Utils::GetConfig<bool>("Common.AlphaT.CalcWithEt")) {}
 
   void HadronicAlphaTTakeMu::_Update() const {
       std::vector<bool> pseudo;
-      double alpha_t = AlphaT()( mEv.CommonJetsAndMuons( ), pseudo, AlphaTwithEt );
+      double alpha_t = AlphaT()( mEv.CommonJetsAndMuons(), pseudo, AlphaTwithEt );
       if ( pseudo.size() != mEv.CommonJetsAndMuons().size() ) { throw std::runtime_error("Pseudo jet calculations did not use all common objects");}
 
 
@@ -622,6 +644,8 @@ AlphaTwithEt(Utils::GetConfig<bool>("Common.AlphaT.CalcWithEt")) {}
 	  i++ ) {
       mData.push_back(**i);
     }
+    //    sort(mData.begin(),     mData.end(),     KinSuite::Compare);
+    sort(mData.begin(),     mData.end(),     KinSuite::PCompare);
   }
 
 

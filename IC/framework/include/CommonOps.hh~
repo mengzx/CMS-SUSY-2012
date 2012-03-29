@@ -1190,6 +1190,73 @@ namespace Operation {
   }; // ~alpha_tCut_Less class
 
 
+ class  alpha_tTakeMuCut : public Operation::_Base {
+
+  public:
+
+    /*! \brief Constructor.
+     *
+     * @param [in] comparison Comparison string, i.e. "==", ">=", etc.
+     * @param [in] mMHTvalue
+     */
+     alpha_tTakeMuCut(float mMHTvalue );
+
+    ~ alpha_tTakeMuCut(); //!< Destructor.
+
+    /*! \brief
+     *
+     * \param Reference to the event data container.
+     * \return True if the
+     */
+   bool Process(Event::Data & ev);
+
+    /*! \brief Describes the operation, for analysis output to terminal/log file.
+     * @param [in] ostrm Reference to output stream (for output).
+     * @return Reference to output stream.
+     */
+    std::ostream& Description(std::ostream& ostrm);
+
+  private:
+    // Operation private data members
+    //--------------------------------
+    float mCut;           //!<
+
+  }; // ~alpha_tTakeMuCut class
+
+ class  alpha_tTakeMuCut_Less : public Operation::_Base {
+
+  public:
+
+    /*! \brief Constructor.
+     *
+     * @param [in] comparison Comparison string, i.e. "==", ">=", etc.
+     * @param [in] mMHTvalue
+     */
+     alpha_tTakeMuCut_Less(float mMHTvalue );
+
+    ~ alpha_tTakeMuCut_Less(); //!< Destructor.
+
+    /*! \brief
+     *
+     * \param Reference to the event data container.
+     * \return True if the
+     */
+   bool Process(Event::Data & ev);
+
+    /*! \brief Describes the operation, for analysis output to terminal/log file.
+     * @param [in] ostrm Reference to output stream (for output).
+     * @return Reference to output stream.
+     */
+    std::ostream& Description(std::ostream& ostrm);
+
+  private:
+    // Operation private data members
+    //--------------------------------
+    float mCut;           //!<
+
+  }; // ~alpha_tTakeMuCut_Less class
+
+
  ////////////////////////////////////////////////////////
 
   /*! \brief "Number of good jets" cut.

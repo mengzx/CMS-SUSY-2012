@@ -334,7 +334,7 @@ AlphaTwithEt(Utils::GetConfig<bool>("Common.AlphaT.CalcWithEt")) {}
 
   void HadronicAlphaTTakeMu::_Update() const {
       std::vector<bool> pseudo;
-      double alpha_t = AlphaT()( mEv.CommonJetsAndMuons( ), pseudo, AlphaTwithEt );
+      double alpha_t = AlphaT()( mEv.CommonJetsAndMuons(), pseudo, AlphaTwithEt );
       if ( pseudo.size() != mEv.CommonJetsAndMuons().size() ) { throw std::runtime_error("Pseudo jet calculations did not use all common objects");}
 
 
@@ -644,6 +644,8 @@ AlphaTwithEt(Utils::GetConfig<bool>("Common.AlphaT.CalcWithEt")) {}
 	  i++ ) {
       mData.push_back(**i);
     }
+    //    sort(mData.begin(),     mData.end(),     KinSuite::Compare);
+    sort(mData.begin(),     mData.end(),     KinSuite::Compare);
   }
 
 

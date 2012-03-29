@@ -237,6 +237,10 @@ class_<Operation::UnPrescaled, bases<Operation::_Base> >("OP_UnPrescaled",
                      init<float>());
   class_<Operation::alpha_tCut_Less, bases<Operation::_Base> >("OP_HadAlphaTCutLess",
                      init<float>());
+  class_<Operation::alpha_tTakeMuCut, bases<Operation::_Base> >("OP_HadAlphaTTakeMuCut",
+                     init<float>());
+  class_<Operation::alpha_tTakeMuCut_Less, bases<Operation::_Base> >("OP_HadAlphaTTakeMuCutLess",
+                     init<float>());
   class_<Operation::missedHTcut, bases<Operation::_Base> >("OP_MissedHTCut",
                  init<float>());
 

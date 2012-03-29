@@ -670,6 +670,66 @@ namespace Operation {
 
 
  //===========
+  // First Jet eta Cut Take mu as jet
+  //===========
+  firstJetOrMuetaCut::firstJetOrMuetaCut(float value) :
+  mCut(value) {}
+
+  firstJetOrMuetaCut::~firstJetOrMuetaCut() {;}
+
+  bool firstJetOrMuetaCut::Process(Event::Data & ev) {
+    if(ev.CommonJetsAndMuons().size()<1) return false;
+    return ( fabs((ev.CommonJetsAndMuons()[0]).Eta()) < mCut);
+  }
+
+  std::ostream& firstJetOrMuetaCut::Description(std::ostream &ostrm) {
+    ostrm << " first Jet Or Mu Eta < " << mCut << " rad): ";
+    return ostrm;
+  }
+
+
+
+  //===========
+  // First Jet Pt Cut Take mu as jet
+  //===========
+  firstJetOrMuPtCut::firstJetOrMuPtCut(float value) :
+  mCut(value) {}
+
+  firstJetOrMuPtCut::~firstJetOrMuPtCut() {;}
+
+  bool firstJetOrMuPtCut::Process(Event::Data & ev) {
+    if(ev.CommonJetsAndMuons().size()<1) return false;
+    return ( (ev.CommonJetsAndMuons()[0]).Pt() > mCut);
+  }
+
+  std::ostream& firstJetOrMuPtCut::Description(std::ostream &ostrm) {
+    ostrm << "First jet or Mu Pt > " << mCut << " GeV: ";
+    return ostrm;
+  }
+
+
+
+  //===========
+  // First Jet Et Cut Take mu as jet
+  //===========
+  firstJetOrMuEtCut::firstJetOrMuEtCut(float value) :
+  mCut(value) {}
+
+  firstJetOrMuEtCut::~firstJetOrMuEtCut() {;}
+
+  bool firstJetOrMuEtCut::Process(Event::Data & ev) {
+    if(ev.CommonJetsAndMuons().size()<1) return false;
+    return ( (ev.CommonJetsAndMuons()[0]).Pt() > mCut);
+  }
+
+  std::ostream& firstJetOrMuEtCut::Description(std::ostream &ostrm) {
+
+
+    ostrm << " first Jet or Mu Pt > " << mCut << " GeV): ";
+    return ostrm;
+  }
+
+ //===========
   // First Jet eta Cut
   //===========
   firstJetetaCut::firstJetetaCut(float value) :
@@ -745,6 +805,25 @@ namespace Operation {
     ostrm << "(missed MHT vev - MHT vec).Pt()/MHT.Pt() " << mCut << " " ;
     return ostrm;
   }
+
+  //===========
+  // Second Jet Et Cut Or Mu
+  //===========
+  secondJetOrMuEtCut::secondJetOrMuEtCut(float value) :
+  mCut(value) {}
+
+  secondJetOrMuEtCut::~secondJetOrMuEtCut() {;}
+
+  bool secondJetOrMuEtCut::Process(Event::Data & ev) {
+    if(ev.CommonJetsAndMuons().size()<2) return false;
+    return ( (ev.CommonJetsAndMuons()[1]).Pt() > mCut);
+  }
+
+  std::ostream& secondJetOrMuEtCut::Description(std::ostream &ostrm) {
+    ostrm << "Second jet Pt Or Mu> " << mCut << " GeV: ";
+    return ostrm;
+  }
+
 
   //===========
   // Second Jet Et Cut
