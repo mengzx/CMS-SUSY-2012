@@ -8,36 +8,27 @@
 #include "TFile.h"
 #include "TString.h"
 #include <stdio.h>
+#include "menus.h"
+#include "vectors.h"
 
 using namespace std;
 
 
-class getTranslationFactor{
+class getTranslationFactor : public menus, public vectors{
  public:
   getTranslationFactor();
   ~getTranslationFactor(){;}
 
-  vector<TFile*> MCvf_pushback( TString dir, TString sele, TString sTreeThr);
-  vector<TFile*> Datavf_pushback( TString dir, TString sele, TString sTreeThr);
-  vector<TString> dirName_pushback(TString label, TString sTreeThr);
-  vector<TString> vhname_pusback_numer( bool MuAddOrNot, bool fullesti);
-  vector<TString> vhname_pusback_data( bool MuAddOrNot, bool fullesti);
-  vector<TString> vhname_pusback_domin( bool MuAddOrNot, bool fullesti);
   vector<TH2D*> TranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData);
   TH2D* getFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData);
+  TH2D* getNumerMC( bool MuAddOrNot, bool fullesti, TString HTBins );
+  TH2D* getDominMC( bool MuAddOrNot, bool fullesti, TString HTBins );
   TH2D* getControlData( bool MuAddOrNot, bool fullesti, TString HTBins );
   TH2D* getYieldData( bool MuAddOrNot, bool fullesti, TString HTBins );
   TH2D* getPredBG( bool MuAddOrNot, bool fullesti, TString HTBins );
   void baseCheck( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotname, bool isData);
   void getResults();
- private:
-  double scale_;
-  TString digit1_;
-  TString digit2_;
-  TString inidir_;
-  TString subdir_;
-  TString folderlabel_;
-  TString dataset_;
+  // private:
 
 }; //class getTranslationFactor
 

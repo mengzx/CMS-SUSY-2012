@@ -9,7 +9,8 @@
 #include "TString.h"
 #include <stdio.h>
 #include "TCanvas.h"
-
+#include "math.h"
+#include "TMath.h"
 #include "TStyle.h"
 
 //#include "AtlasStyle.C"
@@ -139,6 +140,27 @@ TH2D* playHist2D::addHistForDiffFoldersAndFiles_SubtrackHists2D(vector<TFile*> v
   h->Add(h,h1);
   return h;
 }
+
+// -----------------------------------------------------------------------------
+//
+TH2D* playHist2D::ReFillHist_AlphaTVSHT(TH2D* inh ){
+  int nxbins=12;
+  int nybins=8;
+
+  TH2D* h=(TH2D*)(inh->Clone("h"));
+  for( int ih=1; ih<nxbins+1; ih++){
+    double iaih=inh->Integral(ih, ih, 1, 8);
+    h->SetBinContent(ih, 8, iaih);
+    double err2=0;
+    for(int j=1; j<nybins+1; j++){
+      err2=err2+( h->GetBinError( ih, j ) )*(h->GetBinError( ih, j ));
+    }
+    h->SetBinError(ih, 8, sqrt(err2) );
+  }
+
+  return h;
+}
+
 
 
 // -----------------------------------------------------------------------------

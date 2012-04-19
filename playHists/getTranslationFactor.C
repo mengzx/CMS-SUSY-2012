@@ -17,207 +17,58 @@
 using namespace std;
 
 
-getTranslationFactor::getTranslationFactor():
-  scale_(46.5),
-  digit1_(".1f"),
-  digit2_(".2f"),
-  inidir_("/Users/phxzm/Work_CMS/SUSY/myppt/BGEstimation_fullHTdataset_20032012/"),
-  subdir_("/FullyTreatMuonAsJet/allAndgeq2jets"),
-  folderlabel_(""),
-  dataset_("HT2011AB")
+
+getTranslationFactor::getTranslationFactor()
 {}
-
-
-
-// -----------------------------------------------------------------------------
-//
-vector<TFile*> getTranslationFactor::MCvf_pushback( TString dir, TString sele, TString sTreeThr){
-
-  vector<TFile*> vf;
-
-  if( sTreeThr == "100"){
-    TFile *f1=new TFile(dir+"/"+"NoSmearALL_PUS4HigHTBins"+sele+".root");
-    TFile *f2=new TFile(dir+"/"+"NoSmearDiBoson_PUS6HigHTBins"+sele+".root");
-    vf.push_back(f1);
-    vf.push_back(f2);
-  } else if( sTreeThr == "86"){
-    TFile *f1=new TFile(dir+"/"+"NoSmearALL_PUS4LowHTBins"+sele+"325.root");
-    TFile *f2=new TFile(dir+"/"+"NoSmearDiBoson_PUS6LowHTBins"+sele+"325.root");
-    vf.push_back(f1);
-    vf.push_back(f2);
-  } else if( sTreeThr == "73"){
-    TFile *f1=new TFile(dir+"/"+"NoSmearALL_PUS4LowHTBins"+sele+"275.root");
-    TFile *f2=new TFile(dir+"/"+"NoSmearDiBoson_PUS6LowHTBins"+sele+"275.root");
-    vf.push_back(f1);
-    vf.push_back(f2);
-  } else if( sTreeThr == "all"){
-    TFile *f1=new TFile(dir+"/"+"NoSmearALL_PUS4LowHTBins"+sele+"275.root");
-    TFile *f2=new TFile(dir+"/"+"NoSmearDiBoson_PUS6LowHTBins"+sele+"275.root");
-    TFile *f3=new TFile(dir+"/"+"NoSmearALL_PUS4LowHTBins"+sele+"325.root");
-    TFile *f4=new TFile(dir+"/"+"NoSmearDiBoson_PUS6LowHTBins"+sele+"325.root");
-    TFile *f5=new TFile(dir+"/"+"NoSmearALL_PUS4HigHTBins"+sele+".root");
-    TFile *f6=new TFile(dir+"/"+"NoSmearDiBoson_PUS6HigHTBins"+sele+".root");
-    vf.push_back(f1);
-    vf.push_back(f2);
-    vf.push_back(f3);
-    vf.push_back(f4);
-    vf.push_back(f5);
-    vf.push_back(f6);
-  } else if( sTreeThr == "low"){
-    TFile *f1=new TFile(dir+"/"+"NoSmearALL_PUS4LowHTBins"+sele+"275.root");
-    TFile *f2=new TFile(dir+"/"+"NoSmearDiBoson_PUS6LowHTBins"+sele+"275.root");
-    TFile *f3=new TFile(dir+"/"+"NoSmearALL_PUS4LowHTBins"+sele+"325.root");
-    TFile *f4=new TFile(dir+"/"+"NoSmearDiBoson_PUS6LowHTBins"+sele+"325.root");
-    vf.push_back(f1);
-    vf.push_back(f2);
-    vf.push_back(f3);
-    vf.push_back(f4);
-  }
-
-  return vf;
-}
-
-vector<TFile*> getTranslationFactor::Datavf_pushback( TString dir, TString sele, TString sTreeThr ){
-
-  vector<TFile*> vf;
-
-  if( sTreeThr == "100"){
-    TFile *f1=new TFile(dir+"/"+"Data"+dataset_+"_PUS0HigHTBins"+sele+".root");
-    vf.push_back(f1);
-  } else if( sTreeThr == "86"){
-    TFile *f1=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"325.root");
-    vf.push_back(f1);
-  } else if( sTreeThr == "73"){
-    TFile *f1=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"275.root");
-    vf.push_back(f1);
-  } else if( sTreeThr == "all"){
-    TFile *f1=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"275.root");
-    TFile *f2=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"325.root");
-    TFile *f3=new TFile(dir+"/"+"Data"+dataset_+"_PUS0HigHTBins"+sele+".root");
-    vf.push_back(f1);
-    vf.push_back(f2);
-    vf.push_back(f3);
-  } else if( sTreeThr == "low"){
-    TFile *f1=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"275.root");
-    TFile *f2=new TFile(dir+"/"+"Data"+dataset_+"_PUS0LowHTBins"+sele+"325.root");
-    vf.push_back(f1);
-    vf.push_back(f2);
-  }
-
-  return vf;
-}
-
-
-vector<TString> getTranslationFactor::dirName_pushback(TString label, TString sTreeThr){
-  vector<TString> dirname;
-
-  if( sTreeThr == "100" ){
-    dirname.push_back(label+"375_475");
-    dirname.push_back(label+"475_575");
-    dirname.push_back(label+"575_675");
-    dirname.push_back(label+"675_775");
-    dirname.push_back(label+"775_875");
-    dirname.push_back(label+"875");
-  } else if ( sTreeThr == "86" ){
-    dirname.push_back(label+"325_375");
-  } else if ( sTreeThr == "73" ){
-    dirname.push_back(label+"275_325");
-  } else if ( sTreeThr == "all"){
-    dirname.push_back(label+"275_325");
-    dirname.push_back(label+"325_375");
-    dirname.push_back(label+"375_475");
-    dirname.push_back(label+"475_575");
-    dirname.push_back(label+"575_675");
-    dirname.push_back(label+"675_775");
-    dirname.push_back(label+"775_875");
-    dirname.push_back(label+"875");
-  } else if ( sTreeThr == "low"){
-    dirname.push_back(label+"275_325");
-    dirname.push_back(label+"325_375");
-  }
-
-  return dirname;
-}
-
-vector<TString> getTranslationFactor::vhname_pusback_numer( bool MuAddOrNot, bool fullesti){
-  vector<TString> reh;
-  if( MuAddOrNot == true && ( fullesti == true || fullesti == false) ){
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_all");
-  } else if ( MuAddOrNot == false && fullesti == true ){
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_all");
-  } else if ( MuAddOrNot == false && fullesti == false ){
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauLep_h_all");
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueVlep_h_all");
-  }
-  return reh;
-}
-
-vector<TString> getTranslationFactor::vhname_pusback_data( bool MuAddOrNot, bool fullesti){
-  vector<TString> reh;
-  if( MuAddOrNot == true && ( fullesti == true || fullesti == false) ){
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
-  } else if ( MuAddOrNot == false && fullesti == true ){
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_15");
-  } else if ( MuAddOrNot == false && fullesti == false ){
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
-  }
-  return reh;
-}
-
-vector<TString> getTranslationFactor::vhname_pusback_domin( bool MuAddOrNot, bool fullesti){
-  vector<TString> reh;
-  if( MuAddOrNot == true ){
-    reh.push_back("AlphaT_vs_HTTakeMu_JetMugeq2_h_all");
-  } else if ( MuAddOrNot == false && fullesti == true ){
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
-  } else if ( MuAddOrNot == false && fullesti == false ){
-    reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
-  }
-  return reh;
-}
 
 // -----------------------------------------------------------------------------
 //
 vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData){
   playHist2D factor=playHist2D();
-  //  TString dirhad="/Users/zmeng/Work_CMS/SUSY/myppt/BGEstimation_16022012/rootfiles/hadronicSele"+subdir_;
+
   TString dirhad = inidir_ + "rootfiles/hadronicSele" + subdir_;
 
   TString dir1mu="";
-  if( MuAddOrNot == true){
-    dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT50GeV" + subdir_;
+  if( normalEstimation_ == true){
+    dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT45GeV" + subdir_;
   } else{
-    dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT10GeV" + subdir_;
+    if( MuAddOrNot == true ){
+      dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT50GeV" + subdir_;
+    } else{
+      dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT10GeV" + subdir_;
+    }
   }
 
   vector<TFile*> vf_had;
   if( isData == true ){
-    vf_had=Datavf_pushback(dirhad, "HadSele", HTBins);
+    vf_had=Datavf_pushback(dirhad, signalDataset_, "HadSele"+signalTrig_, HTBins);
   } else {
-    vf_had=MCvf_pushback(dirhad, "HadSele", HTBins);
+    vf_had=MCvf_pushback(dirhad, MCsample_, "HadSele"+signalTrig_, HTBins, false, "");
   }
 
   vector<TFile*> vf_1mu;
-  vector<TFile*> Datavf_1mu;
-  if( MuAddOrNot == true){
+  if( normalEstimation_ == true ){
     if( isData == true ){
-      vf_1mu=Datavf_pushback(dir1mu, "MuonAddedHTATTrig", HTBins);
-    } else vf_1mu=MCvf_pushback(dir1mu, "MuonAddedHTATTrig", HTBins);
-  } else{
-    if( isData == true ){
-      vf_1mu=Datavf_pushback(dir1mu, "MuonHTATTrig", HTBins);
-    } else vf_1mu=MCvf_pushback(dir1mu, "MuonHTATTrig", HTBins);
+      vf_1mu=Datavf_pushback(dir1mu, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
+    } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
+  } else {
+    if( MuAddOrNot == true){
+      if( isData == true ){
+	vf_1mu=Datavf_pushback(dir1mu, HadTaudataset_, "MuonAdded"+HadTaucontrolTrig_, HTBins);
+      } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "MuonAdded"+HadTaucontrolTrig_, HTBins, false, "");
+    } else{
+      if( isData == true ){
+	vf_1mu=Datavf_pushback(dir1mu, NotHadTaudataset_, "Muon"+NotHadTaucontrolTrig_, HTBins);
+      } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NotHadTaucontrolTrig_, HTBins, false, "" );
+    }
   }
-
   double scalein=1.;
   TString digit1in="";
   if( isData == true ){
-    scalein=1.;
+    scalein=datascale_;
     digit1in="g";
   } else {
-    scalein = scale_;
+    scalein = mcscale_;
     digit1in=digit1_;
   }
 
@@ -225,22 +76,24 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
   vector<TString> dirName1mu=dirName_pushback(folderlabel_ + "OneMuon_", HTBins);
 
   vector<TString> hNamehad;
-  vector<TString> hName1mu=vhname_pusback_domin(MuAddOrNot, fullesti);
+  vector<TString> hName1mu=vhname_pusback_domin(MuAddOrNot, fullesti, startNJet_, nJets_);
 
   if( isData == true ){
-    hNamehad=vhname_pusback_data(MuAddOrNot, fullesti);
+    hNamehad=vhname_pusback_data(MuAddOrNot, fullesti, startNJet_, nJets_);
   } else{
-    hNamehad=vhname_pusback_numer(MuAddOrNot, fullesti);
+    hNamehad=vhname_pusback_numer(MuAddOrNot, fullesti, startNJet_, nJets_);
   }
 
-  //  TH2D* AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_had=addHistForDiffFoldersAndFiles2D(vf_had, dirNamehad, "AlphaT_vs_HT_"+numerHist+"_h_all");
-  //  TH2D* AlphaT_vs_HT_JetMugeq2_1mu=addHistForDiffFoldersAndFiles2D(vf_1mu, dirName1mu, "AlphaT_vs_HT_"+domiHist+"_h_all");
-
-  if( MuAddOrNot == true ){
+  if( MuAddOrNot == true  && normalEstimation_ == false ){
     vector<TH2D*> reh2d;
 
     TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D( vf_had, dirNamehad, hNamehad );
     TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D( vf_1mu, dirName1mu, hName1mu );
+
+    if( notCutAlphaT_ ){
+      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
+      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
+    }
     
     TH2D* factor_h=(TH2D*)( AlphaT_vs_HT_numer->Clone( "factor_h" ) );
     factor_h->Divide( AlphaT_vs_HT_numer, AlphaT_vs_HT_domin );
@@ -251,16 +104,26 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     return reh2d;
   }
 
-  if( MuAddOrNot == false and fullesti == true ){
+  if( MuAddOrNot == false && fullesti == true  && normalEstimation_ == false ){
     vector<TH2D*> reh2d;
 
     vector<TString> vhname_first;
     vector<TString> vhname_second;
-    vhname_first.push_back(hNamehad[0]);
-    vhname_second.push_back(hNamehad[1]);
+    for( int i=0; i<hNamehad.size(); i++){
+      if(i<(hNamehad.size())/2){
+	vhname_first.push_back(hNamehad[i]);
+      } else {
+	vhname_second.push_back(hNamehad[i]);
+      }
+    }
 
     TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersAndFiles_SubtrackHists2D(vf_had, dirNamehad, vhname_first, vhname_second );
     TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
+
+    if( notCutAlphaT_ ){
+      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
+      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
+    }
     
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
@@ -268,15 +131,21 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein, digit1in ) );
     reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein, digit1in ) );
     reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
+    
     return reh2d;
   }
 
-  if( MuAddOrNot == false and fullesti == false ){
+  if( MuAddOrNot == false && fullesti == false && normalEstimation_ == false ){
     vector<TH2D*> reh2d;
 
     TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad );
     TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
     
+    if( notCutAlphaT_ ){
+      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
+      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
+    }
+    
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
@@ -285,15 +154,51 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     return reh2d;
   }
+
+  if( normalEstimation_ == true ){
+    vector<TH2D*> reh2d;
+    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad );
+    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
+    
+    if( notCutAlphaT_ ){
+      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
+      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
+    }
+
+    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
+    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
+
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein, digit1in ) );
+    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
+    return reh2d;
+  }
+
 }
 
 // -----------------------------------------------------------------------------
 //
 TH2D* getTranslationFactor::getFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData){
-
   vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor( MuAddOrNot, fullesti, HTBins, isData );
-
   return factorHist_hasTauHadToMuAdded[2];
+}
+
+// -----------------------------------------------------------------------------
+//
+TH2D* getTranslationFactor::getNumerMC( bool MuAddOrNot, bool fullesti, TString HTBins ){
+
+  vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor( MuAddOrNot, fullesti, HTBins, false );
+
+  return factorHist_hasTauHadToMuAdded[0];
+}
+
+// -----------------------------------------------------------------------------
+//
+TH2D* getTranslationFactor::getDominMC( bool MuAddOrNot, bool fullesti, TString HTBins ){
+
+  vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor( MuAddOrNot, fullesti, HTBins, false );
+
+  return factorHist_hasTauHadToMuAdded[1];
 }
 
 // -----------------------------------------------------------------------------
@@ -370,11 +275,15 @@ void getTranslationFactor::baseCheck( bool MuAddOrNot, bool fullesti, TString HT
 void getTranslationFactor::getResults(){
   playHist2D factor=playHist2D();
 
-  baseCheck( true, false, "all", "tauHadEsti_AddMuToAT", false );
-  baseCheck( false, false, "all", "LepEsti_NotAddMuToAT", false );
-  baseCheck( false, true, "all", "NotTauHadEsti_NotAddMuToAT", false );
-  baseCheck( true, false, "all", "tauHadEsti_AddMuToAT_Data", true );
-  baseCheck( false, false, "all", "LepEsti_NotAddMuToAT_Data", true );
+  if(normalEstimation_ == true ){
+    baseCheck( false, true, "all", "NotTauHadEsti_NotAddMuToAT", false );
+    baseCheck( true, false, "all", "tauHadEsti_AddMuToAT_Data", true );
+  } else {
+    baseCheck( true, false, "all", "tauHadEsti_AddMuToAT", false );
+    baseCheck( true, false, "all", "tauHadEsti_AddMuToAT", false );
+    baseCheck( false, false, "all", "LepEsti_NotAddMuToAT", false );
+    baseCheck( false, false, "all", "LepEsti_NotAddMuToAT_Data", true );
+  }
 
   TH2D* pred_AddMu=getPredBG( true, false, "all" );
   TH2D* pred_NotTauHad=getPredBG( false, true, "all" );

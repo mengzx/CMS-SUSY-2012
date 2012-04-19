@@ -21,17 +21,18 @@ int main()
 
   //  TrueWPt *WPt=new TrueWPt();
   //  WPt->getResults();
+
   //  printTables *table=new printTables();
+  //  table->Tables_ForNormal();
+  //  table->CompareYouAndMe();
+
   //  table->Tables();
-  //  getTranslationFactor *fa=new getTranslationFactor();
-  //  fa->getResults();
-  //  basicPlots *bp=new basicPlots();
-  //  bp->AlphaT();
+  //  table->Hists();
+  //   getTranslationFactor *fa=new getTranslationFactor();
+  //   fa->getResults();
 
-
-  basicPlots *bp=new basicPlots();
-  bp->getResults();
-
+    basicPlots *bp=new basicPlots();
+    bp->getResults();
   return 0;
 }
 
