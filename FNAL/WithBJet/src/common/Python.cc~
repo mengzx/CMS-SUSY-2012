@@ -1,0 +1,15 @@
+#include <boost/python.hpp>
+#include "TauFakeB.hh"
+#include "Trigger.hh"
+#include "TriggerTurnOns.hh"
+#include "EventDump.hh"
+#include "EventSelector.hh"
+#include "Ops.hh"
+using namespace boost::python;
+
+BOOST_PYTHON_MODULE(libzmeng) {
+
+  class_<Operation::TauFakeB, bases<Operation::_Base> >( "TauFakeB",
+                    init<const Utils::ParameterSet&>());
+
+}

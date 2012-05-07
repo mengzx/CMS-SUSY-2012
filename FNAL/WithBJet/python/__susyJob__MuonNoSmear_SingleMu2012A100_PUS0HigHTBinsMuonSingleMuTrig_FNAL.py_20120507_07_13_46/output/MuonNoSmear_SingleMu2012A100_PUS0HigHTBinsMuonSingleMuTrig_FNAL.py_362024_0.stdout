@@ -1,0 +1,761 @@
+
+================================
+ Setting up your environment...
+================================
+-------------------------------------
+ROOTSYS is  /uscmst1/prod/sw/cms/slc5_amd64_gcc434/lcg/root/5.30.02-cms/
+=====================================
+LD_LIBRARY_PATH is: /uscmst1/prod/sw/cms/slc5_amd64_gcc434/lcg/root/5.30.02-cms//lib:/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/libjpg/8b/lib:/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/python/2.6.4-cms14/lib:/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/boost/1.44.0-cms3/lib:/opt/gLite/d-cache/dcap/lib64:/opt/gLite/d-cache/dcap/lib:/opt/gLite/globus/lib:/opt/gLite/globus/lib:/opt/gLite/lcg/lib:/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/gcc/4.3.4/lib64:/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/xrootd/5.28.00d/lib:/uscms_data/d3/zmeng/SUSYv2/lib
+PYTHONPATH is: /uscmst1/prod/sw/cms/slc5_amd64_gcc434/lcg/root/5.30.02-cms//lib:/uscms_data/d3/zmeng/SUSYv2/lib
+=====================================
+Set-up complete.
+=====================================
+
+in ParaControl
+100.0 [<icf.core.PSet object at 0x154b1490>] True Muon_SingleMuTrig
+SingleMu_Run2012A_PromptReco_v1_V17_pre3_taus_0_jetCorrections_L1FastJet_L2Relative_L3Absolute_L2L3Residual_jetCollections_ak5calo_ak5pf_zmengJob83
+in MuonNoSmear
+100.0 [<icf.core.PSet object at 0x154b1490>] True Muon_SingleMuTrig Data 50.0 PUS0 SingleMu2012A HigHTBinsMuonSingleMuTrig Data True FNAL
+SingleMu_Run2012A_PromptReco_v1_V17_pre3_taus_0_jetCorrections_L1FastJet_L2Relative_L3Absolute_L2L3Residual_jetCollections_ak5calo_ak5pf_zmengJob83
+in MakeMCTree
+100.0
+test1
+OneMuon_375_475
+OneMuon_475_575
+OneMuon_575_675
+OneMuon_675_775
+OneMuon_775_875
+OneMuon_875
+DiMuon_375_475
+DiMuon_475_575
+DiMuon_575_675
+DiMuon_675_775
+DiMuon_775_875
+DiMuon_875
+mode=Muon_SingleMuTrig
+in MakeDataTree
+100.0
+OneMuon_375_475
+OneMuon_475_575
+OneMuon_575_675
+OneMuon_675_775
+OneMuon_775_875
+OneMuon_875
+DiMuon_375_475
+DiMuon_475_575
+DiMuon_575_675
+DiMuon_675_775
+DiMuon_775_875
+DiMuon_875
+100.0 [<icf.core.PSet object at 0x154b1490>] True Muon_SingleMuTrig Data 50.0 PUS0 SingleMu2012A HigHTBinsMuonSingleMuTrig Data True FNAL
+in MuonNoSmear
+100.0 [<icf.core.PSet object at 0x154b1490>] True Muon_SingleMuTrig Data 50.0 PUS0 SingleMu2012A HigHTBinsMuonSingleMuTrig Data True FNAL
+SingleMu_Run2012A_PromptReco_v1_V17_pre3_taus_0_jetCorrections_L1FastJet_L2Relative_L3Absolute_L2L3Residual_jetCollections_ak5calo_ak5pf_zmengJob83
+Photons.UseID = True
+Taus.MuonClean = False
+Photons.EtaEEMaxCut = 2.5
+Photons.HcalIsoCut = 2.0
+Photons.HcalIsoRel = 0.0
+Taus.JetClean = False
+Muons.PtCut = 10.0
+Photons.HadOverEmCut = 0.05
+Taus.ApplyID = True
+Taus.EtaCut = 2.5
+Photons.SigIhIhEBCut = 0.015
+Electrons.ApplyID = True
+Electrons.PtCut = 10.0
+Jets.PtCut = 50.0
+Electrons.CombIsoCut = 0.15
+Muons.CombIsoCut = 0.15
+Photons.TrackIsoRel = 0.0
+Muons.TrkIsoCut = -1.0
+Jets.TightID = False
+Photons.RequireLooseForOdd = True
+Photons.IDReq = 3
+Photons.EcalIsoRel = 0.0
+ApplyXCleaning = True
+Electrons.TrkIsoCut = -1.0
+Photons.SigIhIhEECut = 0.035
+Taus.ElecClean = False
+Electrons.RequireLooseForOdd = True
+Jets.ApplyID = True
+Jets.EtaCut = 3.0
+Muons.TightID = True
+Muons.EtaCut = 2.5
+AlphaT.CalcWithEt = True
+Taus.PtCut = 20.0
+Electrons.TightID = False
+Electrons.EtaCut = 2.5
+Photons.EtaEBMaxCut = 1.479
+Photons.EtCut = 25.0
+Muons.ApplyID = True
+Photons.EcalIsoCut = 4.0
+Photons.R9Cut = 0.0
+Photons.TrackIsoCut = 2.0
+Photons.EtaEEMinCut = 1.525
+Taus.TightID = False
+Muons.RequireLooseForOdd = True
+Building ROOT dictionaries. Please wait...
+Initialising Analysis: AK5Calo
+PUS0
+It's Data
+Batch running mode
+['dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_388_0_1wj.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_389_0_Mlb.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_390_0_h6i.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_391_0_qP6.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_392_0_dgJ.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_393_0_oXI.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_394_0_eQh.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_395_0_y1A.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_396_0_P06.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_397_0_sWG.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_398_0_nZR.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_399_0_dBJ.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_3_1_is0.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_400_0_Dsu.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_401_0_7ga.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_402_0_ARr.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_41_1_Y0y.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_42_1_uv5.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_43_1_cM3.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_44_1_wBX.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_45_1_rZW.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_47_1_cze.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_4_1_fLZ.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_51_1_nSE.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_54_1_t91.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_55_1_muN.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_56_0_hul.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_57_0_Sgq.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_58_0_iRz.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_59_0_38c.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_5_1_eb6.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_60_1_cgn.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_61_0_yBt.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_62_1_9PB.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_63_1_ttb.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_64_1_Vds.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_66_1_aBm.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_69_1_bKq.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_6_1_Omi.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_70_1_mlN.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_72_1_XZL.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_73_1_IGl.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_74_1_6eT.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_75_1_kzo.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_76_1_TUA.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_77_1_B7h.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_78_1_uin.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_79_1_AsL.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_7_1_n50.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_81_0_WJD.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_82_0_bLr.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_83_0_gJI.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_84_0_MiW.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_85_0_AAl.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_86_0_ql1.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_87_0_Onf.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_88_0_rWp.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_89_0_nEc.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_8_1_A8r.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_90_0_pXR.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_91_0_59K.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_92_1_HAq.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_94_1_YFL.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_95_0_zS0.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_96_1_bq1.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_97_1_Ghs.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_98_1_lNL.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_99_0_cNB.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_11_03_08//SusyCAF_Tree_9_1_cbC.root']
+==================================================
+Running Analysis: AK5Calo
+==================================================
+On 1 sample(s):
+	SingleMu_Run2012A_PromptReco_v1_V17_pre3_taus_0_jetCorrections_L1FastJet_L2Relative_L3Absolute_L2L3Residual_jetCollections_ak5calo_ak5pf_zmengJob83		1.00pb 
+==================================================
+Total number of events in the ntuple = 2392121
+Setting mLastEntry to match input tree
+[CHAIN] At Entry: 0
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_388_0_1wj.root
+Secondary jet collection: ak5JetPF2PAT    Pat
+Tertiary jet collection: ak5JetJPT   Pat
+Event weights will be set to constant value: 1.
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+[CHAIN] At Entry: 22358
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_389_0_Mlb.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 56590
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_390_0_h6i.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 95144
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_391_0_qP6.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 133205
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_392_0_dgJ.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 176067
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_393_0_oXI.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 213967
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_394_0_eQh.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 250190
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_395_0_y1A.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 287565
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_396_0_P06.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 334545
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_397_0_sWG.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 374256
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_398_0_nZR.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 414902
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_399_0_dBJ.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 444112
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_3_1_is0.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 474785
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_400_0_Dsu.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 516515
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_401_0_7ga.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 557292
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_402_0_ARr.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 577271
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_41_1_Y0y.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 612638
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_42_1_uv5.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 648556
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_43_1_cM3.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 685406
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_44_1_wBX.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 723773
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_45_1_rZW.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 744767
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_47_1_cze.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 781339
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_4_1_fLZ.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 812381
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_51_1_nSE.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 829211
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_54_1_t91.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 861725
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_55_1_muN.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 897178
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_56_0_hul.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 934563
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_57_0_Sgq.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 964168
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_58_0_iRz.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1003475
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_59_0_38c.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1024626
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_5_1_eb6.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1054587
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_60_1_cgn.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1081116
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_61_0_yBt.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1122402
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_62_1_9PB.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1158236
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_63_1_ttb.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1193422
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_64_1_Vds.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1225740
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_66_1_aBm.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1264402
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_69_1_bKq.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1306486
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_6_1_Omi.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1337564
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_70_1_mlN.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1382687
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_72_1_XZL.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1427202
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_73_1_IGl.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1472195
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_74_1_6eT.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1517027
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_75_1_kzo.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1553722
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_76_1_TUA.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1590420
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_77_1_B7h.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1627232
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_78_1_uin.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1665867
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_79_1_AsL.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1704829
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_7_1_n50.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1736127
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_81_0_WJD.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1764130
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_82_0_bLr.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1806373
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_83_0_gJI.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1847303
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_84_0_MiW.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1876190
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_85_0_AAl.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1904804
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_86_0_ql1.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1934722
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_87_0_Onf.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1963297
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_88_0_rWp.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 1992790
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_89_0_nEc.root
+[CHAIN] At Entry: 2022715
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_8_1_A8r.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 2055192
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_90_0_pXR.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 2086345
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_91_0_59K.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 2117307
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_92_1_HAq.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 2155255
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_94_1_YFL.root
+[CHAIN] At Entry: 2188013
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_95_0_zS0.root
+[CHAIN] At Entry: 2227051
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_96_1_bq1.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 2260819
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_97_1_Ghs.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 2295418
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_98_1_lNL.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 2326609
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_99_0_cNB.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 2360189
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_11_03_08/SusyCAF_Tree_9_1_cbC.root
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=Muon_SingleMuTrig mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+---------------------------------------------------------------
+Dataset info recorded in: ../results_07_May//DataSingleMu2012A_PUS0HigHTBinsMuonSingleMuTrig_524p1//AK5Calo_SingleMu_Run2012A_PromptReco_v1_V17_pre3_taus_0_jetCorrections_L1FastJet_L2Relative_L3Absolute_L2L3Residual_jetCollections_ak5calo_ak5pf_zmengJob83_0.log
+Total events processed by all operations: 2.39212e+06
+---------------------------------------------------------------
+[Manager::~Manager] Analysis has taken 371 seconds to process 2392121 events at an average rate of 6447 events/second

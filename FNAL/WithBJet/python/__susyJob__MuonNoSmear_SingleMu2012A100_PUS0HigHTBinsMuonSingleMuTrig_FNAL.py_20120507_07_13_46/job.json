@@ -1,0 +1,35 @@
+{
+  "analyses": [
+    {
+      "name": "AK5Calo", 
+      "results_dir": "../results_07_May//DataSingleMu2012A_PUS0HigHTBinsMuonSingleMuTrig_524p1/"
+    }
+  ], 
+  "jobs": [
+    [
+      "AK5Calo", 
+      0, 
+      0, 
+      99
+    ], 
+    [
+      "AK5Calo", 
+      0, 
+      100, 
+      199
+    ], 
+    [
+      "AK5Calo", 
+      0, 
+      200, 
+      299
+    ], 
+    [
+      "AK5Calo", 
+      0, 
+      300, 
+      368
+    ]
+  ], 
+  "script": "./MuonNoSmear_SingleMu2012A100_PUS0HigHTBinsMuonSingleMuTrig_FNAL.py"
+}

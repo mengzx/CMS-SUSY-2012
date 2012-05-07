@@ -1,0 +1,1045 @@
+
+================================
+ Setting up your environment...
+================================
+-------------------------------------
+ROOTSYS is  /uscmst1/prod/sw/cms/slc5_amd64_gcc434/lcg/root/5.30.02-cms/
+=====================================
+LD_LIBRARY_PATH is: /uscmst1/prod/sw/cms/slc5_amd64_gcc434/lcg/root/5.30.02-cms//lib:/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/libjpg/8b/lib:/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/python/2.6.4-cms14/lib:/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/boost/1.44.0-cms3/lib:/opt/gLite/d-cache/dcap/lib64:/opt/gLite/d-cache/dcap/lib:/opt/gLite/globus/lib:/opt/gLite/globus/lib:/opt/gLite/lcg/lib:/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/gcc/4.3.4/lib64:/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/xrootd/5.28.00d/lib:/uscms_data/d3/zmeng/SUSYv2/lib
+PYTHONPATH is: /uscmst1/prod/sw/cms/slc5_amd64_gcc434/lcg/root/5.30.02-cms//lib:/uscms_data/d3/zmeng/SUSYv2/lib
+=====================================
+Set-up complete.
+=====================================
+
+in ParaControl
+100.0 [<icf.core.PSet object at 0x2abbeaf0d350>] None None
+HT_Run2012A_PromptReco_v1_V17_pre3_taus_0_jetCorrections_L1FastJet_L2Relative_L3Absolute_L2L3Residual_jetCollections_ak5calo_ak5pf_zmengJob82
+in MuonNoSmear
+100.0 [<icf.core.PSet object at 0x2abbeaf0d350>] None None Data 50.0 PUS0 HT2012A HigHTBinsHadSele Data True FNAL
+HT_Run2012A_PromptReco_v1_V17_pre3_taus_0_jetCorrections_L1FastJet_L2Relative_L3Absolute_L2L3Residual_jetCollections_ak5calo_ak5pf_zmengJob82
+in MakeMCTree
+100.0
+375_475
+475_575
+575_675
+675_775
+775_875
+875
+test
+mode1=None
+in MakeDataTree
+100.0
+375_475
+475_575
+575_675
+675_775
+775_875
+875
+100.0 [<icf.core.PSet object at 0x2abbeaf0d350>] None None Data 50.0 PUS0 HT2012A HigHTBinsHadSele Data True FNAL
+in MuonNoSmear
+100.0 [<icf.core.PSet object at 0x2abbeaf0d350>] None None Data 50.0 PUS0 HT2012A HigHTBinsHadSele Data True FNAL
+HT_Run2012A_PromptReco_v1_V17_pre3_taus_0_jetCorrections_L1FastJet_L2Relative_L3Absolute_L2L3Residual_jetCollections_ak5calo_ak5pf_zmengJob82
+Photons.UseID = True
+Taus.MuonClean = False
+Photons.EtaEEMaxCut = 2.5
+Photons.HcalIsoCut = 2.0
+Photons.HcalIsoRel = 0.0
+Taus.JetClean = False
+Muons.PtCut = 10.0
+Photons.HadOverEmCut = 0.05
+Taus.ApplyID = True
+Taus.EtaCut = 2.5
+Photons.SigIhIhEBCut = 0.015
+Electrons.ApplyID = True
+Electrons.PtCut = 10.0
+Jets.PtCut = 50.0
+Electrons.CombIsoCut = 0.15
+Muons.CombIsoCut = 0.15
+Photons.TrackIsoRel = 0.0
+Muons.TrkIsoCut = -1.0
+Jets.TightID = False
+Photons.RequireLooseForOdd = True
+Photons.IDReq = 3
+Photons.EcalIsoRel = 0.0
+ApplyXCleaning = True
+Electrons.TrkIsoCut = -1.0
+Photons.SigIhIhEECut = 0.035
+Taus.ElecClean = False
+Electrons.RequireLooseForOdd = True
+Jets.ApplyID = True
+Jets.EtaCut = 3.0
+Muons.TightID = True
+Muons.EtaCut = 2.5
+AlphaT.CalcWithEt = True
+Taus.PtCut = 20.0
+Electrons.TightID = False
+Electrons.EtaCut = 2.5
+Photons.EtaEBMaxCut = 1.479
+Photons.EtCut = 25.0
+Muons.ApplyID = True
+Photons.EcalIsoCut = 4.0
+Photons.R9Cut = 0.0
+Photons.TrackIsoCut = 2.0
+Photons.EtaEEMinCut = 1.525
+Taus.TightID = False
+Muons.RequireLooseForOdd = True
+Building ROOT dictionaries. Please wait...
+Initialising Analysis: AK5Calo
+PUS0
+It's Data
+Batch running mode
+['dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_10_55_04//SusyCAF_Tree_96_0_xNr.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_10_55_04//SusyCAF_Tree_97_0_P6t.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_10_55_04//SusyCAF_Tree_98_0_VGN.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_10_55_04//SusyCAF_Tree_99_0_sFp.root', 'dcap://cmsdca.fnal.gov:24137/pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng//ICF/automated/2012_05_06_10_55_04//SusyCAF_Tree_9_0_VzU.root']
+==================================================
+Running Analysis: AK5Calo
+==================================================
+On 1 sample(s):
+	HT_Run2012A_PromptReco_v1_V17_pre3_taus_0_jetCorrections_L1FastJet_L2Relative_L3Absolute_L2L3Residual_jetCollections_ak5calo_ak5pf_zmengJob82		1.00pb 
+==================================================
+Total number of events in the ntuple = 57492
+Setting mLastEntry to match input tree
+[CHAIN] At Entry: 0
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_10_55_04/SusyCAF_Tree_96_0_xNr.root
+Secondary jet collection: ak5JetPF2PAT    Pat
+Tertiary jet collection: ak5JetJPT   Pat
+Event weights will be set to constant value: 1.
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+ found found found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 17446
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_10_55_04/SusyCAF_Tree_97_0_P6t.root
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 27201
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_10_55_04/SusyCAF_Tree_98_0_VGN.root
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 38099
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_10_55_04/SusyCAF_Tree_99_0_sFp.root
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+[CHAIN] At Entry: 49105
+[CHAIN] File: pnfs/fnal.gov/usr/cms/WAX/11/store/user/lpcsusyra1/zmeng/ICF/automated/2012_05_06_10_55_04/SusyCAF_Tree_9_0_VzU.root
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+mode=None mode_.find=18446744073709551615 int find=-1
+found=18446744073709551615int found -1
+---------------------------------------------------------------
+Dataset info recorded in: ../results_07_May//DataHT2012A_PUS0HigHTBinsHadSele_524p1//AK5Calo_HT_Run2012A_PromptReco_v1_V17_pre3_taus_0_jetCorrections_L1FastJet_L2Relative_L3Absolute_L2L3Residual_jetCollections_ak5calo_ak5pf_zmengJob82_0.log
+Total events processed by all operations: 57492
+---------------------------------------------------------------
+[Manager::~Manager] Analysis has taken 35 seconds to process 57492 events at an average rate of 1642 events/second

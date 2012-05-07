@@ -1,0 +1,23 @@
+{
+  "analyses": [
+    {
+      "name": "AK5Calo", 
+      "results_dir": "../results_07_May//DataMuHad2012A_PUS0HigHTBinsHadSele_524p1/"
+    }
+  ], 
+  "jobs": [
+    [
+      "AK5Calo", 
+      0, 
+      0, 
+      99
+    ], 
+    [
+      "AK5Calo", 
+      0, 
+      100, 
+      151
+    ]
+  ], 
+  "script": "./MuonNoSmear_MuHad2012A100_PUS0HigHTBinsHadSele_FNAL.py"
+}

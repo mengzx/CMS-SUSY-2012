@@ -1,0 +1,10 @@
+universe = vanilla
+Executable = __susyJob__MuonNoSmear_HT2012A100_PUS0HigHTBinsHadSele_FNAL.py_20120507_07_13_34/job.sh
+Arguments = $(Process)
+Requirements = target.OpSys == "LINUX"
+Should_Transfer_Files = YES
+WhenToTransferOutput = ON_EXIT
+Output = /uscms_data/d3/zmeng/SUSYv2/WithBJet/python/__susyJob__MuonNoSmear_HT2012A100_PUS0HigHTBinsHadSele_FNAL.py_20120507_07_13_34/output/./MuonNoSmear_HT2012A100_PUS0HigHTBinsHadSele_FNAL.py_$(Cluster)_$(Process).stdout
+Error = /uscms_data/d3/zmeng/SUSYv2/WithBJet/python/__susyJob__MuonNoSmear_HT2012A100_PUS0HigHTBinsHadSele_FNAL.py_20120507_07_13_34/output/./MuonNoSmear_HT2012A100_PUS0HigHTBinsHadSele_FNAL.py_$(Cluster)_$(Process).stderr
+Log = __susyJob__MuonNoSmear_HT2012A100_PUS0HigHTBinsHadSele_FNAL.py_20120507_07_13_34/./MuonNoSmear_HT2012A100_PUS0HigHTBinsHadSele_FNAL.py_$(Cluster)_$(Process).log
+queue 5
