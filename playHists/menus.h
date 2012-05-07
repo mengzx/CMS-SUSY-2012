@@ -2,6 +2,7 @@
 #define menus_h
 
 #include "TString.h"
+#include "TLegend.h"
 
 class menus{
 
@@ -15,6 +16,7 @@ class menus{
   bool normalEstimation_;
   bool notCutAlphaT_;
 
+  TLegend *len_;
   int startNJet_;
   int nJets_;
   TString inidir_;
@@ -30,6 +32,7 @@ class menus{
   TString controlDataset_;
   TString MCsample_;
   bool plotTrueTauHad_;
+  TString MuonNumber_;
 
   double datascale_;
   double mcscale_;

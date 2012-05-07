@@ -203,7 +203,7 @@ TH2D* vectors::SingleMuTrigEff(){
 //
 vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr, bool separateSample, TString separateSampleName){
   vector<TFile*> vf;
-  if( sTreeThr == "100" || sTreeThr == "highHTBins"){
+  if( sTreeThr == "100" || sTreeThr == "highHTBins" || sTreeThr == "375" || sTreeThr == "475" || sTreeThr == "575" || sTreeThr == "675" || sTreeThr == "775" || sTreeThr == "875"){
     if( separateSample ){
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7HigHTBins"+sele+".root");
       vf.push_back(f1);
@@ -341,7 +341,7 @@ vector<TFile*> vectors::Datavf_pushback( TString dir, TString dataset, TString s
 
   vector<TFile*> vf;
 
-if( sTreeThr == "100" || sTreeThr == "highHTBins"){
+  if( sTreeThr == "100" || sTreeThr == "highHTBins" || sTreeThr == "375" || sTreeThr == "475" || sTreeThr == "575" || sTreeThr == "675" || sTreeThr == "775" || sTreeThr == "875"){
     TFile *f1=new TFile(dir+"/"+"Data"+dataset+"_PUS0HigHTBins"+sele+".root");
     vf.push_back(f1);
   } else if( sTreeThr == "86"){
@@ -380,6 +380,18 @@ vector<TString> vectors::dirName_pushback(TString label, TString sTreeThr){
     dirname.push_back(label+"575_675");
     dirname.push_back(label+"675_775");
     dirname.push_back(label+"775_875");
+    dirname.push_back(label+"875");
+  } else if ( sTreeThr == "375" ){
+    dirname.push_back(label+"375_475");
+  }  else if ( sTreeThr == "475" ){
+    dirname.push_back(label+"475_575");
+  }  else if ( sTreeThr == "575" ){
+    dirname.push_back(label+"575_675");
+  }  else if ( sTreeThr == "675" ){
+    dirname.push_back(label+"675_775");
+  }  else if ( sTreeThr == "775" ){
+    dirname.push_back(label+"775_875");
+  }  else if ( sTreeThr == "875" ){
     dirname.push_back(label+"875");
   } else if ( sTreeThr == "86" ){
     dirname.push_back(label+"325_375");

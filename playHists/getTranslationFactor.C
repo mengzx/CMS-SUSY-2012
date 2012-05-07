@@ -73,7 +73,7 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
   }
 
   vector<TString> dirNamehad=dirName_pushback(folderlabel_ + "", HTBins);
-  vector<TString> dirName1mu=dirName_pushback(folderlabel_ + "OneMuon_", HTBins);
+  vector<TString> dirName1mu=dirName_pushback(folderlabel_ + MuonNumber_, HTBins);
 
   vector<TString> hNamehad;
   vector<TString> hName1mu=vhname_pusback_domin(MuAddOrNot, fullesti, startNJet_, nJets_);

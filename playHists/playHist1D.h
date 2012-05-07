@@ -27,6 +27,8 @@ class playHist1D{
 
   TH1D* formatHist( TH1D* inh, double inscale, TString titlex, TString titley, double xlow, double xhigh, int rebin);
   TH1D* MaxHist( vector<TH1D*> vinh);
+  vector<TH1D*> SortHists( vector<TH1D*> vinh);
+  vector<unsigned int> SortHists_index( vector<TH1D*> vinh);
   int MaxHist_index( vector<TH1D*> vinh);
 
  private:
