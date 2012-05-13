@@ -13,6 +13,7 @@
 #include <fstream>
 #include <string>
 #include <TChain.h>
+#include <TString.h>
 
 using namespace std;
 
@@ -28,10 +29,13 @@ int main()
 
   //  table->Tables();
   //  table->Hists();
-  //   getTranslationFactor *fa=new getTranslationFactor();
-  //   fa->getResults();
-   basicPlots *bp=new basicPlots();
-   bp->getResults();
+  getTranslationFactor *fa=new getTranslationFactor();
+  //  fa->getResults( "", 0, 0, 0, 0 );
+  //  fa->getResults( "1To2Mu", 0, 0, 0, 0 );
+  fa->getResults( "iTojJet", 1, 1, 2, 15 );
+
+  //   basicPlots *bp=new basicPlots();
+  //   bp->getResults();
   return 0;
 }
 

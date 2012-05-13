@@ -26,7 +26,7 @@ menus::menus(){
   controlDataset_ = "SingleMu2012A";
   MCsample_="";
   plotTrueTauHad_=false;
-  MuonNumber_ = "DiMuon_";
+  MuonNumber_ = "OneMuon_";
 
   datascale_=1.;
   mcscale_=5.18692;
