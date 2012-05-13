@@ -18,7 +18,7 @@
 
 using namespace std;
 
-class printTables: public vectors{
+class printTables: public vectors, public menus{
  public:
   printTables();
   ~printTables(){}

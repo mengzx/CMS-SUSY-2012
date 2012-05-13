@@ -260,20 +260,25 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   svh0clone->SetMarkerColor(0);
   svh0clone->Draw();
 
-  /*  for( unsigned int i=0; i<svh.size(); i++ ){
+  for( unsigned int i=0; i<svh.size(); i++ ){
     cout<< "i="<<i<<"  svh_index[i]="<<svh_index[i]<<endl;
     if( svh_index[i] != 0 && svh_index[i] != 1){
       if( i != 5 ){
-	if( i == 1 ){
+	if( svh_index[i] == 2 ){
         svh[i]->Draw("same HIST 9");
-	svh[i]->SetLineColor(i+1);
-        svh[i]->SetFillColor(i+1);
-	svh[i]->SetMarkerColor(i+1);
-	} else {
+	svh[i]->SetLineColor(2);
+        svh[i]->SetFillColor(2);
+	svh[i]->SetMarkerColor(2);
+	} else if( svh_index[i] == 3 ){
         svh[i]->Draw("same HIST 9");
-	svh[i]->SetLineColor(i);
-        svh[i]->SetFillColor(i);
-	svh[i]->SetMarkerColor(i);
+	svh[i]->SetLineColor(3);
+        svh[i]->SetFillColor(3);
+	svh[i]->SetMarkerColor(3);
+	} else if( svh_index[i] == 4 ){
+        svh[i]->Draw("same HIST 9");
+	svh[i]->SetLineColor(4);
+        svh[i]->SetFillColor(4);
+	svh[i]->SetMarkerColor(4);
 	}
       } else {
         svh[i]->Draw("same HIST 9");
@@ -289,7 +294,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       svh[i]->Draw("same E2 HIST");
     }
   }
-  */
+
   for( unsigned int i=0; i<svh.size(); i++ ){
    if( svh_index[i] == 0 ){
       svh[i]->Draw("same P 9");
@@ -303,13 +308,13 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
   len->AddEntry(vh[0], "Data");
 
-  /*  for( unsigned int i=0; i<svh.size(); i++ ){
+  for( unsigned int i=0; i<svh.size(); i++ ){
     if( svh_index[i] != 0 && svh_index[i] != 1){
       len->AddEntry(vh[ svh_index[i] ], vlenname[ svh_index[i] ]);
     }
-    }*/
+  }
 
-  //  len->AddEntry(vh[1], "Total MC");
+  len->AddEntry(vh[1], "Total MC");
 
   len->Draw();
 
@@ -399,76 +404,32 @@ void basicPlots::getResults(){
   len->SetLineColor(0);
   int whichpart=1;
   bool MuAddOrNot=true;
-  int rebin=30;
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt", len, 0.55, 10., 2 );
-  drawHists( MuAddOrNot, "all", whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0.55, 10., 2 );
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0.55, 10, 2);
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0.55, 10, 2);
+  int rebin=20;
+  /*  drawHists( MuAddOrNot, "all", whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0.55, 10., 2 );
+  drawHists( MuAddOrNot, "all", whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0.55, 10, 2);
+  drawHists( MuAddOrNot, "all", whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0.55, 10, 2);
   rebin=1;
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0.55, 10, 2);
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0.55, 10, 2);
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0.55, 10, 2);
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "#alpha_{T}", "", 0.45, 0.7, "AlphaT", len, 0, 0, 1);
-
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0, 10, 2);
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0, 10, 2);
-
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "HT (GeV)", "", 0., 1000, "AlphaT_vs_HT", len, 0.55, 10., 2 );
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "HT (GeV)", "", 0., 1000, "AlphaT_vs_HT", len, 0.55, 10., 2 );
-
-
-  //  DrawHists(MuAddOrNot, "low", whichpart, "AlphaT", rebin, 0., 0. );
-  //  DrawHists(MuAddOrNot, "100", whichpart, "AlphaT", rebin, 0., 0. );
-  //  DrawHists(MuAddOrNot, "73", whichpart, "AlphaT", rebin, 0., 0. );
-  //  DrawHists(MuAddOrNot, "86", whichpart, "AlphaT", rebin, 0., 0. );
-  //  DrawHists(MuAddOrNot, "all", whichpart, "AlphaT", rebin, 0., 0. );
-
-  whichpart=2;
-  MuAddOrNot=false;
-  rebin=20;
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt", len, 0, 10., 2 );
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "HT (GeV)", "", 0., 1000, "HT", len, 0, 10., 2 );
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0, 10, 2);
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0, 10, 2);
-
-  rebin=1;
-  //  drawHists( MuAddOrNot, "73", whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0, 10, 2);
-  //  drawHists( MuAddOrNot, "86", whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0, 10, 2);
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0, 10, 2);
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0, 10, 2);
-  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "#alpha_{T}", "", 0., 2, "AlphaT", len, 0, 0, 1);
-
-
-  //  DrawHists(MuAddOrNot, "low", whichpart, "AlphaT", rebin, 0., 0. );
-  //  DrawHists(MuAddOrNot, "100", whichpart, "AlphaT", rebin, 0., 0. );
-  //  DrawHists(MuAddOrNot, "73", whichpart, "AlphaT", rebin, 0., 0. );
-  //  DrawHists(MuAddOrNot, "86", whichpart, "AlphaT", rebin, 0., 0. );
-  //  DrawHists(MuAddOrNot, "all", whichpart, "AlphaT", rebin, 0., 0. );
-
-  /*  whichpart=1;
-  MuAddOrNot=true;
-  DrawHists(MuAddOrNot, "low", whichpart, "AlphaT", rebin, 0., 0. );
-  DrawHists(MuAddOrNot, "100", whichpart, "AlphaT", rebin, 0., 0. );
-  DrawHists(MuAddOrNot, "73", whichpart, "AlphaT", rebin, 0., 0. );
-  DrawHists(MuAddOrNot, "86", whichpart, "AlphaT", rebin, 0., 0. );
-  DrawHists(MuAddOrNot, "all", whichpart, "AlphaT", rebin, 0., 0. );
-   */
-
-  //HT
-  whichpart=1;
-  MuAddOrNot=true;
-  rebin=20;
-  //  DrawHists(MuAddOrNot, "100", whichpart, "HT", rebin, 0.52, 0.55 );
-  //  DrawHists(MuAddOrNot, "all", whichpart, "HT", rebin, 0.55, 10. );
-
-  whichpart=2;
-  MuAddOrNot=false;
-  //  DrawHists(MuAddOrNot, "100", whichpart, "HT", rebin, 0.52, 0.55 );
-  //  DrawHists(MuAddOrNot, "all", whichpart, "HT", rebin, 0.55, 10. );
-
-  /*  whichpart=1;
-  MuAddOrNot=false;
-  DrawHists(MuAddOrNot, "100", whichpart, "HT", rebin, 0.52, 0.55 );
-  DrawHists(MuAddOrNot, "all", whichpart, "HT", rebin, 0.55, 10. );
+  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0.55, 10, 2);
+  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0.55, 10, 2);
+  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0.55, 10, 2);
+  drawHists( MuAddOrNot, "all", whichpart, rebin, "#alpha_{T}", "", 0.5, 1.2, "AlphaT", len, 0, 0, 1);
   */
+
+  whichpart=2;
+  MuAddOrNot=false;
+  rebin=20;
+  // drawHists( MuAddOrNot, "all", whichpart, rebin, "M_{Z} (GeV)", "", 0., 600, "Zmass", len, 0, 10., 2 );
+  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt", len, 0, 10., 2 );
+  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0, 10., 2 );
+  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0, 10, 2);
+  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0, 10, 2);
+
+  rebin=1;
+  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0, 10, 2);
+  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0, 10, 2);
+  //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0, 10, 2);
+  rebin=2;
+  drawHists( MuAddOrNot, "all", whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1);
+
+
 }

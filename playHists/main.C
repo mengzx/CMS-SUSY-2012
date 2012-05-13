@@ -30,8 +30,8 @@ int main()
   //  table->Hists();
   //   getTranslationFactor *fa=new getTranslationFactor();
   //   fa->getResults();
-        basicPlots *bp=new basicPlots();
-        bp->getResults();
+   basicPlots *bp=new basicPlots();
+   bp->getResults();
   return 0;
 }
 

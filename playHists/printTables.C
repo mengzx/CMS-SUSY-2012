@@ -699,10 +699,16 @@ void printTables::Tables_ForNormal(){
   for(vector<vector<double> >::size_type iAT=0; iAT<factor_NotHadTau.size(); iAT++){
 
     if(iAT == 0){
-      fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{$\\alpha_T > $ 0.55}\\\\ \n ");
+
+      //      fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{$\\alpha_T > $ 0.55}\\\\ \n ");
+      fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut}\\\\ \n ");
       fprintf(outputfile, " HT (GeV) & 275--325 & 325--375 & 375--475 & 475--575 \\\\ \n ");
       //      printout_first( outputfile, numerMC_NotHadTau, numerMC_NotHadTau_WithErr, iAT, 2, column_n, "hadronic MC", withErr );
-      printout_first( outputfile, dominMC_NotHadTau, dominMC_NotHadTau_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC", withErr );
+      if( MuonNumber_ == "DiMuon"){
+		printout_first( outputfile, dominMC_NotHadTau, dominMC_NotHadTau_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC", withErr );
+      } else {
+	      printout_first( outputfile, dominMC_NotHadTau, dominMC_NotHadTau_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC", withErr );
+      }
       //      printout_first( outputfile, factor_NotHadTau, factor_NotHadTau_WithErr, iAT, 2, column_n, "Translation factor", withErr );
       printout_first( outputfile, controlData_NotHadTau, controlData_NotHadTau_WithErr, iAT, 0, column_n, "Control Data", withErr );
       //      printout_first( outputfile, predBG_NotHadTau, predBG_NotHadTau_WithErr, iAT, 1, column_n, "Predicted BG", withErr);
@@ -714,7 +720,11 @@ void printTables::Tables_ForNormal(){
 
       fprintf(outputfile, " HT (GeV) & 575--675 & 675--775 & 775--875 & 875--$\\infty$ \\\\ \n ");
       //      printout_second( outputfile, numerMC_NotHadTau, numerMC_NotHadTau_WithErr, iAT, 2, 4, column_n, "hadronic MC", withErr );
-      printout_second( outputfile, dominMC_NotHadTau, dominMC_NotHadTau_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC", withErr );
+      if( MuonNumber_ == "DiMuon"){
+	        printout_second( outputfile, dominMC_NotHadTau, dominMC_NotHadTau_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC", withErr );
+      } else {
+	        printout_second( outputfile, dominMC_NotHadTau, dominMC_NotHadTau_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC", withErr );
+      }
       //      printout_second( outputfile, factor_NotHadTau, factor_NotHadTau_WithErr, iAT, 2, 4, column_n, "Translation factor", withErr );
       printout_second( outputfile, controlData_NotHadTau, controlData_NotHadTau_WithErr, iAT, 0, 4, column_n, "Control Data", withErr );
       //      printout_second( outputfile, predBG_NotHadTau, predBG_NotHadTau_WithErr, iAT, 1, 4, column_n, "Predicted BG", withErr );
