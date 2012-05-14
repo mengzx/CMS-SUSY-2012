@@ -140,7 +140,7 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
 
     TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad );
     TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
-    
+
     if( notCutAlphaT_ ){
       TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
       AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
@@ -218,15 +218,16 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, 
 
   vector<TString> hNamehad;
   vector<TString> hName1mu;
+    //MuaddOrNot and fullesti is arbitarilly selected, because itoj jet estimation need normalestimation == true
   if( normalEstimation_ == true ){
-    hName1mu=vhname_pusback_domin(false, true, jJetStart, jJet_n);
     if( isData == true ){
-      hNamehad=vhname_pusback_data(false, true, iJetStart, iJet_n);
+      hNamehad=vhname_pusback_data(false, true, jJetStart, jJet_n);
     } else{
-      hNamehad=vhname_pusback_numer(false, true, iJetStart, iJet_n);
+      hNamehad=vhname_pusback_numer(false, true, jJetStart, jJet_n);
     }
+    hName1mu=vhname_pusback_domin(false, true, iJetStart, iJet_n);
   }
-
+    //MuaddOrNot and fullesti is arbitarilly selected, because itoj jet estimation need normalestimation == true
   if( normalEstimation_ == true ){
     vector<TH2D*> reh2d;
     TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad );
@@ -307,6 +308,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_1To2Mu( bool MuAddOrNot, b
     if( notCutAlphaT_ ){
       TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
       AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
+      TH2D* AlphaT_vs_HT_numer_clone=(TH2D*)(AlphaT_vs_HT_numer->Clone("AlphaT_vs_HT_numer_clone"));
+      AlphaT_vs_HT_numer=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_numer_clone );
     }
 
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));

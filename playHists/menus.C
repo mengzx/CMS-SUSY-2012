@@ -8,8 +8,8 @@ menus::menus(){
   testMCFile_="";
   testDataFile_="";
   normalEstimation_=true;
-  startNJet_=2;
-  nJets_=15;
+  startNJet_=0;
+  nJets_=0;
   notCutAlphaT_=true;
 
   len_=new TLegend( 0.75, 0.75, 0.995, 0.995 );

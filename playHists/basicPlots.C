@@ -9,6 +9,7 @@
 #include "TString.h"
 #include <stdio.h>
 #include "TCanvas.h"
+#include "TPad.h"
 #include "TStyle.h"
 #include "TLegend.h"
 
@@ -254,7 +255,14 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   vector<TH1D*> svh=pf1d.SortHists(vh);
   vector<unsigned int> svh_index=pf1d.SortHists_index(vh);
 
+  c1->cd();
+  TPad *pad1=new TPad("pad1","",0,0.3,1,1);
+  pad1->SetBottomMargin(0.009);
+  pad1->Draw();
+  pad1->cd();
+
   TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
+  svh0clone->Sumw2();
   svh0clone->Scale(1.3);
   svh0clone->SetLineColor(0);
   svh0clone->SetMarkerColor(0);
@@ -304,7 +312,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       svh[i]->SetMarkerStyle(20);
       svh[i]->SetMarkerColor(1);
     }
-    }
+  }
 
   len->AddEntry(vh[0], "Data");
 
@@ -318,25 +326,54 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
   len->Draw();
 
+  c1->cd();
+  TPad *pad2=new TPad("pad2","",0,0.03,1,0.3);
+  pad2->SetTopMargin(0.05);
+  pad2->Draw();
+  pad2->cd();
+
+  for( unsigned int i=0; i<svh.size(); i++ ){
+    TH1D* datah=(TH1D*)(svh[0]->Clone("datah"));
+    TH1D* mch=(TH1D*)(svh[0]->Clone("mch"));
+    if( svh_index[i] == 0 ){
+      datah=(TH1D*)(svh[i]->Clone("datah"));
+    }
+    if( svh_index[i] == 1 ){
+      mch=(TH1D*)(svh[i]->Clone("datah"));
+    }
+    TH1D *h1=(TH1D*)(datah->Clone("h1"));
+    mch->Scale(-1.);
+    h1->Add(h1,mch);
+    datah->Divide(h1, datah);
+    datah->GetXaxis()->SetTitle(xAxisName);
+    datah->GetXaxis()->SetTitleSize(0.06);
+    datah->GetYaxis()->SetTitle("(Data-MC)/Data");
+    datah->GetYaxis()->SetRangeUser(-1.,1.);
+    datah->GetYaxis()->SetTitleSize(0.06);
+    datah->GetYaxis()->SetTitleOffset(0.5);
+    datah->SetMarkerSize(0.5);
+    datah->Draw("e1");
+  }
+
   if( whichpart == 1 ){
-    c1->SetLogy(0);
+    pad1->SetLogy(0);
     c1->SaveAs( Form( whichplot+"_HadSele_%s_%iTo%ib.eps",  HTBins.Data(), startNJet_-1, nJets_+startNJet_-2 ) );
-    c1->SetLogy();
+    pad1->SetLogy();
     c1->SaveAs( Form( whichplot+"_HadSele_%s_%iTo%ib_log.eps",  HTBins.Data(), startNJet_-1, nJets_+startNJet_-2 ) );
   } else if ( whichpart != 1 && MuAddOrNot == true && normalEstimation_ == false ){
-    c1->SetLogy(0);
+    pad1->SetLogy(0);
     c1->SaveAs( Form( whichplot+"_MuonAdded_%s_TrueTauHad%d_%s_%iTo%ib.eps", HTBins.Data(), (int)(plotTrueTauHad_), HadTaucontrolTrig_.Data(), startNJet_-1, nJets_-startNJet_+1 ) );
-    c1->SetLogy();
+    pad1->SetLogy();
     c1->SaveAs( Form( whichplot+"_MuonAdded_%s_TrueTauHad%d_%s_%iTo%ib_log.eps",  HTBins.Data(), (int)(plotTrueTauHad_), HadTaucontrolTrig_.Data(), startNJet_-1, nJets_-startNJet_+1  ) );
   } else if ( whichpart !=1 && MuAddOrNot == false  && normalEstimation_ == false ){
-    c1->SetLogy(0);
+    pad1->SetLogy(0);
     c1->SaveAs( Form( whichplot+"_MuonNotAdded_%s_%iTo%ib.eps", HTBins.Data(), startNJet_-1, nJets_+startNJet_-2 ) );
-    c1->SetLogy();
+    pad1->SetLogy();
     c1->SaveAs( Form( whichplot+"_MuonNotAdded_%s_%iTo%ib_log.eps",  HTBins.Data(), startNJet_-1, nJets_+startNJet_-2 ) );
   } else if ( normalEstimation_ == true ){
-    c1->SetLogy(0);
+    pad1->SetLogy(0);
     c1->SaveAs( Form( whichplot+"_Muon_%s_%s%iTo%ib.eps", HTBins.Data(), MuonNumber_.Data(), startNJet_-1, nJets_+startNJet_-2 ) );
-    c1->SetLogy();
+    pad1->SetLogy();
     c1->SaveAs( Form( whichplot+"_Muon_%s_%s%iTo%ib_log.eps",  HTBins.Data(), MuonNumber_.Data(), startNJet_-1, nJets_+startNJet_-2 ) );
   }
 
@@ -417,7 +454,7 @@ void basicPlots::getResults(){
 
   whichpart=2;
   MuAddOrNot=false;
-  rebin=20;
+  rebin=0;
   // drawHists( MuAddOrNot, "all", whichpart, rebin, "M_{Z} (GeV)", "", 0., 600, "Zmass", len, 0, 10., 2 );
   //  drawHists( MuAddOrNot, "all", whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt", len, 0, 10., 2 );
   //  drawHists( MuAddOrNot, "all", whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0, 10., 2 );
@@ -428,7 +465,7 @@ void basicPlots::getResults(){
   //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0, 10, 2);
   //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0, 10, 2);
   //  drawHists( MuAddOrNot, "all", whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0, 10, 2);
-  rebin=2;
+  rebin=4;
   drawHists( MuAddOrNot, "all", whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1);
 
 

@@ -7,7 +7,6 @@
 #include "TLine.h"
 #include "TFile.h"
 #include "TString.h"
-#include <stdio.h>
 #include "TCanvas.h"
 #include <stdio.h>
 #include "TLegend.h"
@@ -65,7 +64,7 @@ vector<vector<double> > printTables::readHist( TH2D* factor){
   return factorre;
 }
 
-vector<vector<TString> > printTables::readHist_WithErr( TH2D* factor){
+vector<vector<TString> > printTables::readHist_WithErr( TH2D* factor, TString digit ){
   TH2D *factorh=(TH2D*)(factor->Clone("factorh"));
 
   vector<vector<TString> > factorre;
@@ -81,8 +80,8 @@ vector<vector<TString> > printTables::readHist_WithErr( TH2D* factor){
 	if( (int)(xbinlow*10.) >= 2750){
 	  double value=factorh->GetBinContent(ix, iy);
 	  double error=factorh->GetBinError(ix, iy);
-	  TString svalue=Form("%.1f", value);
-	  TString serror=Form("%.1f", error);
+	  TString svalue=Form(digit, value);
+	  TString serror=Form(digit, error);
 	  factor.push_back(svalue+" $\\pm$ "+serror);
 	}
       }
@@ -231,53 +230,53 @@ vector<vector<double> > printTables::readPredBGHist( bool MuAddOrNot, bool fulle
 }
 
 
-vector<vector<TString> > printTables::readNumerMCHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<TString> > printTables::readNumerMCHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
   getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getNumerMC( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
   vector<vector<TString> > factorre;
-  factorre=readHist_WithErr( factorh );
+  factorre=readHist_WithErr( factorh, digit );
   return factorre;
 }
 
-vector<vector<TString> > printTables::readDominMCHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<TString> > printTables::readDominMCHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
   getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getDominMC( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
   vector<vector<TString> > factorre;
-  factorre=readHist_WithErr( factorh );
+  factorre=readHist_WithErr( factorh, digit );
   return factorre;
 }
 
 
-vector<vector<TString> > printTables::readFactorHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<TString> > printTables::readFactorHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
   getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getFactor( MuAddOrNot, fullesti, HTBin, isData, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
   vector<vector<TString> > factorre;
-  factorre=readHist_WithErr( factorh );
+  factorre=readHist_WithErr( factorh, digit );
 
   return factorre;
 }
 
-vector<vector<TString> > printTables::readControlDataHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<TString> > printTables::readControlDataHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
   getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getControlData( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
   vector<vector<TString> > factorre;
-  factorre=readHist_WithErr( factorh );
+  factorre=readHist_WithErr( factorh, digit );
   return factorre;
 }
 
-vector<vector<TString> > printTables::readYieldDataHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<TString> > printTables::readYieldDataHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
   getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getYieldData( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
   vector<vector<TString> > factorre;
-  factorre=readHist_WithErr( factorh );
+  factorre=readHist_WithErr( factorh, digit );
   return factorre;
 }
 
-vector<vector<TString> > printTables::readPredBGHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<TString> > printTables::readPredBGHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
   getTranslationFactor factor=getTranslationFactor();
   TH2D* factorh=factor.getPredBG( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
   vector<vector<TString> > factorre;
-  factorre=readHist_WithErr( factorh );
+  factorre=readHist_WithErr( factorh, digit );
   return factorre;
 }
 
@@ -416,12 +415,12 @@ void printTables::Tables_ForHadTau( TString closureTests, int iJetStart, int iJe
   predBG_HadTau_h_trigcorr->Divide(predBG_HadTau_h_trigcorr, SingleMuTrigeff);
   //  predBG_HadTau_h_trigcorr->Divide(predBG_HadTau_h_trigcorr, SingleMuTrigeff);
 
-
-  vector<vector<TString> > numerMC_HadTau_WithErr=readHist_WithErr( numerMC_HadTau_h );
-  vector<vector<TString> > dominMC_HadTau_WithErr=readHist_WithErr( dominMC_HadTau_h_trigcorr );
-  vector<vector<TString> > factor_HadTau_WithErr=readHist_WithErr( factor_HadTau_h_trigcorr );
-  vector<vector<TString> > controlData_HadTau_WithErr=readHist_WithErr( controlData_HadTau_h_trigcorr );
-  vector<vector<TString> > predBG_HadTau_WithErr=readHist_WithErr( predBG_HadTau_h_trigcorr );
+  TString digit="%.1f";
+  vector<vector<TString> > numerMC_HadTau_WithErr=readHist_WithErr( numerMC_HadTau_h, digit );
+  vector<vector<TString> > dominMC_HadTau_WithErr=readHist_WithErr( dominMC_HadTau_h_trigcorr, digit );
+  vector<vector<TString> > factor_HadTau_WithErr=readHist_WithErr( factor_HadTau_h_trigcorr, digit );
+  vector<vector<TString> > controlData_HadTau_WithErr=readHist_WithErr( controlData_HadTau_h_trigcorr, digit );
+  vector<vector<TString> > predBG_HadTau_WithErr=readHist_WithErr( predBG_HadTau_h_trigcorr, digit );
 
 
 
@@ -442,28 +441,29 @@ void printTables::Tables_ForHadTau( TString closureTests, int iJetStart, int iJe
   predBG_NotHadTau_h_trigcorr->Divide(predBG_NotHadTau_h_trigcorr, HT_ATTrigeff);
 
 
-  vector<vector<TString> > numerMC_NotHadTau_WithErr=readHist_WithErr( numerMC_NotHadTau_h );
-  vector<vector<TString> > dominMC_NotHadTau_WithErr=readHist_WithErr( dominMC_NotHadTau_h_trigcorr );
-  vector<vector<TString> > factor_NotHadTau_WithErr=readHist_WithErr( factor_NotHadTau_h_trigcorr );
-  vector<vector<TString> > controlData_NotHadTau_WithErr=readHist_WithErr( controlData_NotHadTau_h );
-  vector<vector<TString> > predBG_NotHadTau_WithErr=readHist_WithErr( predBG_NotHadTau_h_trigcorr );
+  vector<vector<TString> > numerMC_NotHadTau_WithErr=readHist_WithErr( numerMC_NotHadTau_h, digit );
+  vector<vector<TString> > dominMC_NotHadTau_WithErr=readHist_WithErr( dominMC_NotHadTau_h_trigcorr, digit );
+  vector<vector<TString> > factor_NotHadTau_WithErr=readHist_WithErr( factor_NotHadTau_h_trigcorr, digit );
+  vector<vector<TString> > controlData_NotHadTau_WithErr=readHist_WithErr( controlData_NotHadTau_h, digit );
+  vector<vector<TString> > predBG_NotHadTau_WithErr=readHist_WithErr( predBG_NotHadTau_h_trigcorr, digit );
 
 
   TH2D *Zinvh=ZinvPredBG();
-  vector<vector<TString> > predBG_Zinv_WithErr=readHist_WithErr( Zinvh );
+  vector<vector<TString> > predBG_Zinv_WithErr=readHist_WithErr( Zinvh, digit );
 
   TH2D *predBG_totalh_withZinvpred=(TH2D*)(predBG_HadTau_h_trigcorr->Clone("predBG_totalh_withZinvpred"));
   predBG_totalh_withZinvpred->Add(predBG_totalh_withZinvpred, predBG_NotHadTau_h_trigcorr);
   predBG_totalh_withZinvpred->Add(predBG_totalh_withZinvpred, Zinvh );
-  vector<vector<TString> > predBG_total_withZinvpred_WithErr=readHist_WithErr( predBG_totalh_withZinvpred );
+  vector<vector<TString> > predBG_total_withZinvpred_WithErr=readHist_WithErr( predBG_totalh_withZinvpred, digit );
 
 
 
-  vector<vector<TString> > yieldData_WithErr=readYieldDataHist_WithErr( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  vector<vector<TString> > yieldData_WithErr=readYieldDataHist_WithErr( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, digit );
 
   int column_n=4;
 
   FILE * outputfile;
+
   outputfile = fopen ("test.tex","w");
 
   fprintf(outputfile, "\\documentclass[a4paper,12pt]{article} \n");
@@ -534,50 +534,65 @@ void printTables::Tables_ForHadTau( TString closureTests, int iJetStart, int iJe
 }
 
 
-void printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
 
+  if ( normalEstimation_ != true ){
+    cout<< "Note: Not normal Estimation" <<endl;
+    return 0;
+  }
   getTranslationFactor factor=getTranslationFactor();
 
   TH2D *HT_ATTrigeff = HT_ATTrigEff();
 
-  TH2D *numerMC_NotHadTau_h=factor.getNumerMC( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *dominMC_NotHadTau_h=factor.getDominMC( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *factor_NotHadTau_h=factor.getFactor( false, true, "allHTBins", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *controlData_NotHadTau_h=factor.getControlData( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *predBG_NotHadTau_h=factor.getPredBG( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *dominMC_NotHadTau_h_trigcorr=(TH2D*)( dominMC_NotHadTau_h->Clone("dominMC_NotHadTau_h_trigcorr") );
-  //  dominMC_NotHadTau_h_trigcorr->Multiply(dominMC_NotHadTau_h_trigcorr, HT_ATTrigeff);
+  TH2D *numerMC_h=factor.getNumerMC( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D *dominMC_h=factor.getDominMC( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D *factor_h=factor.getFactor( false, true, "allHTBins", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D *controlData_h=factor.getControlData( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D *predBG_h=factor.getPredBG( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D *dominMC_h_trigcorr=(TH2D*)( dominMC_h->Clone("dominMC_h_trigcorr") );
+  //  dominMC_h_trigcorr->Multiply(dominMC_h_trigcorr, HT_ATTrigeff);
 
-  TH2D *factor_NotHadTau_h_trigcorr=(TH2D*)( factor_NotHadTau_h->Clone("factor_NotHadTau_h_trigcorr") );
-  //  factor_NotHadTau_h_trigcorr->Divide(factor_NotHadTau_h_trigcorr, HT_ATTrigeff);
+  TH2D *factor_h_trigcorr=(TH2D*)( factor_h->Clone("factor_h_trigcorr") );
+  //  factor_h_trigcorr->Divide(factor_h_trigcorr, HT_ATTrigeff);
 
-  TH2D *predBG_NotHadTau_h_trigcorr=(TH2D*)( predBG_NotHadTau_h->Clone("predBG_NotHadTau_h_trigcorr") );
-  predBG_NotHadTau_h_trigcorr->Divide(predBG_NotHadTau_h_trigcorr, HT_ATTrigeff);
+  TH2D *predBG_h_trigcorr=(TH2D*)( predBG_h->Clone("predBG_h_trigcorr") );
+  //  predBG_h_trigcorr->Divide(predBG_h_trigcorr, HT_ATTrigeff);
 
-
-  vector<vector<TString> > numerMC_NotHadTau_WithErr=readHist_WithErr( numerMC_NotHadTau_h );
-  vector<vector<TString> > dominMC_NotHadTau_WithErr=readHist_WithErr( dominMC_NotHadTau_h_trigcorr );
-  vector<vector<TString> > factor_NotHadTau_WithErr=readHist_WithErr( factor_NotHadTau_h_trigcorr );
-  vector<vector<TString> > controlData_NotHadTau_WithErr=readHist_WithErr( controlData_NotHadTau_h );
-  vector<vector<TString> > predBG_NotHadTau_WithErr=readHist_WithErr( predBG_NotHadTau_h_trigcorr );
+  TString digit="%.1f";
+  vector<vector<TString> > numerMC_WithErr=readHist_WithErr( numerMC_h, digit );
+  vector<vector<TString> > dominMC_WithErr=readHist_WithErr( dominMC_h_trigcorr, digit );
+  vector<vector<TString> > factor_WithErr=readHist_WithErr( factor_h_trigcorr, "%.2f" );
+  vector<vector<TString> > controlData_WithErr=readHist_WithErr( controlData_h, digit );
+  vector<vector<TString> > predBG_WithErr=readHist_WithErr( predBG_h_trigcorr, digit );
 
 
   TH2D *Zinvh=ZinvPredBG();
-  vector<vector<TString> > predBG_Zinv_WithErr=readHist_WithErr( Zinvh );
+  vector<vector<TString> > predBG_Zinv_WithErr=readHist_WithErr( Zinvh, digit );
 
-  TH2D *predBG_totalh_withZinvpred=(TH2D*)(predBG_NotHadTau_h_trigcorr->Clone("predBG_totalh_withZinvpred"));
+  TH2D *predBG_totalh_withZinvpred=(TH2D*)(predBG_h_trigcorr->Clone("predBG_totalh_withZinvpred"));
   predBG_totalh_withZinvpred->Add(predBG_totalh_withZinvpred, Zinvh );
-  vector<vector<TString> > predBG_total_withZinvpred_WithErr=readHist_WithErr( predBG_totalh_withZinvpred );
+  vector<vector<TString> > predBG_total_withZinvpred_WithErr=readHist_WithErr( predBG_totalh_withZinvpred, digit );
 
-  vector<vector<TString> > yieldData_WithErr=readYieldDataHist_WithErr( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  vector<vector<TString> > yieldData_WithErr=readYieldDataHist_WithErr( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, digit );
 
 
 
   int column_n=4;
 
   FILE * outputfile;
-  outputfile = fopen ("test.tex","w");
-
+  if( closureTests == "iTojJet" ){
+    char buffer[100];
+    sprintf (buffer, "table_iTojJet_%d_%dTo%d_%db.tex", iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2);
+    outputfile = fopen (buffer,"w");
+  } else if( closureTests == "1To2Mu"){
+    char buffer[100];
+    sprintf (buffer, "table_1To2Mu_%dTo%db.tex", startNJet_-1, startNJet_+nJets_-2);
+    outputfile = fopen (buffer,"w");
+  } else {
+    char buffer[100];
+    sprintf (buffer, "table_%dTo%db.tex", startNJet_-1, startNJet_+nJets_-2);
+    outputfile = fopen (buffer,"w");
+  }
   fprintf(outputfile, "\\documentclass[a4paper,12pt]{article} \n");
   fprintf(outputfile, "\\begin{document} \n");
 
@@ -589,43 +604,78 @@ void printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJe
 
   fprintf(outputfile, "\\hline\n");
 
-  for(vector<vector<double> >::size_type iAT=0; iAT<factor_NotHadTau_WithErr.size(); iAT++){
+  for(vector<vector<double> >::size_type iAT=0; iAT<factor_WithErr.size(); iAT++){
 
     if(iAT == 0){
 
       //      fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{$\\alpha_T > $ 0.55}\\\\ \n ");
-      fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut}\\\\ \n ");
-      fprintf(outputfile, " HT (GeV) & 275--325 & 325--375 & 375--475 & 475--575 \\\\ \n ");
-      //      printout_first_WithErr( outputfile, numerMC_NotHadTau_WithErr, iAT, 2, column_n, "hadronic MC" );
-      if( MuonNumber_ == "DiMuon"){
-	printout_first_WithErr( outputfile, dominMC_NotHadTau_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC" );
+      if( closureTests == "iTojJet" ){
+	if( jJet_n < 15 ){
+	  fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut ( Closure test: b-jets %d--%d $\\rightarrow$ %d--%d )}\\\\ \n ", iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2 );
+	} else{
+	  fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut ( Closure test: b-jets %d--%d $\\rightarrow$ %d--$\\infty$ )}\\\\ \n ", iJetStart-1, iJetStart+iJet_n-2, jJetStart-1 );
+	}
+      } else if( closureTests == "1To2Mu" ){
+	fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut ( Closure test: $\\mu \\rightarrow \\mu\\mu$, %d--%d b-jets )}\\\\ \n ", startNJet_-1, startNJet_+nJets_-2 );
       } else {
-	printout_first_WithErr( outputfile, dominMC_NotHadTau_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC" );
+	fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut (%d--%d b-jets) }\\\\ \n ",  startNJet_-1, startNJet_+nJets_-2 );
       }
-      //      printout_first_WithErr( outputfile, factor_NotHadTau_WithErr, iAT, 2, column_n, "Translation factor" );
-      printout_first_WithErr( outputfile, controlData_NotHadTau_WithErr, iAT, 0, column_n, "Control Data" );
-      //      printout_first_WithErr( outputfile, predBG_NotHadTau_WithErr, iAT, 1, column_n, "Predicted BG" );
-      //      fprintf(outputfile, "\\hline\n");
+      fprintf(outputfile, " HT (GeV) & 275--325 & 325--375 & 375--475 & 475--575 \\\\ \n ");
+
+      //      printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "hadronic MC" );
+      if( closureTests == "1To2Mu" ){
+        printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC" );
+	printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC" );
+      } else if ( closureTests == "iTojJet" ){
+        printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "hadronic MC" );
+	if( MuonNumber_ == "DiMuon"){
+	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC" );
+	} else {
+	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC" );
+	}
+      } else {
+	if( MuonNumber_ == "DiMuon_"){
+	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC" );
+	} else if ( MuonNumber_ == "OneMuon_" ){
+	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC" );
+	}
+      }
+      printout_first_WithErr( outputfile, factor_WithErr, iAT, 2, column_n, "Translation factor" );
+      printout_first_WithErr( outputfile, controlData_WithErr, iAT, 0, column_n, "Control Data" );
+      printout_first_WithErr( outputfile, predBG_WithErr, iAT, 1, column_n, "Prediction" );
+      fprintf(outputfile, "\\hline\n");
       //      printout_first_WithErr( outputfile, predBG_Zinv_WithErr, iAT, 1, column_n, "Predicted Z~$\\rightarrow\\nu\\nu$ + jets" );
-      //      fprintf(outputfile, "\\hline\n");
-      //      printout_first_WithErr( outputfile, yieldData_WithErr, iAT, 1, column_n, "Data Hadronic Yield" );
+      fprintf(outputfile, "\\hline\n");
+      printout_first_WithErr( outputfile, yieldData_WithErr, iAT, 1, column_n, "Data Hadronic Yield" );
       fprintf(outputfile, "\\hline\n");
 
       fprintf(outputfile, " HT (GeV) & 575--675 & 675--775 & 775--875 & 875--$\\infty$ \\\\ \n ");
-      //      printout_second_WithErr( outputfile, numerMC_NotHadTau_WithErr, iAT, 2, 4, column_n, "hadronic MC" );
-      if( MuonNumber_ == "DiMuon"){
-	printout_second_WithErr( outputfile, dominMC_NotHadTau_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC" );
+      //      printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "hadronic MC" );
+      if( closureTests == "1To2Mu" ){
+	printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC" );
+	printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC" );
+      } else if(  closureTests == "iTojJet" ){
+	printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "hadronic MC" );
+	if( MuonNumber_ == "DiMuon"){
+	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC" );
+	} else {
+	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC" );
+	}
       } else {
-	printout_second_WithErr( outputfile, dominMC_NotHadTau_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC" );
+	if( MuonNumber_ == "DiMuon"){
+	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC" );
+	} else {
+	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC" );
+	}
       }
-      //      printout_second_WithErr( outputfile, factor_NotHadTau_WithErr, iAT, 2, 4, column_n, "Translation factor" );
-      printout_second_WithErr( outputfile, controlData_NotHadTau_WithErr, iAT, 0, 4, column_n, "Control Data" );
-      //      printout_second_WithErr( outputfile, predBG_NotHadTau_WithErr, iAT, 1, 4, column_n, "Predicted BG" );
+      printout_second_WithErr( outputfile, factor_WithErr, iAT, 2, 4, column_n, "Translation factor" );
+      printout_second_WithErr( outputfile, controlData_WithErr, iAT, 0, 4, column_n, "Control Data" );
+      printout_second_WithErr( outputfile, predBG_WithErr, iAT, 1, 4, column_n, "Prediction" );
       //      fprintf(outputfile, "\\hline\n");
       //      printout_second_WithErr( outputfile, predBG_Zinv_WithErr, iAT, 1, 4, column_n, "Predicted Z~$\\rightarrow\\nu\\nu$ + jets" );
       //      fprintf(outputfile, "\\hline\n");
       //      printout_second_WithErr( outputfile, predBG_total_withZinvpred_WithErr, iAT, 1, 4, column_n, "Total Predicted BG" );
-      //      printout_second_WithErr( outputfile, yieldData_WithErr, iAT, 1, 4, column_n, "Data Hadronic Yield" );
+      printout_second_WithErr( outputfile, yieldData_WithErr, iAT, 1, 4, column_n, "Data Hadronic Yield" );
       fprintf(outputfile, "\\hline\n");
     }
 
@@ -633,7 +683,14 @@ void printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJe
 
   fprintf(outputfile, " \\end{tabular}\n");
   fprintf(outputfile, " \\end{flushleft}\n");
-  fprintf(outputfile, "\\label{tab:bg-esti-tauhad-1}\n");
+  if( closureTests == "iTojJet" ){
+    fprintf(outputfile, "\\label{tab:bg-esti-iTojJet-%d_%dTo%d_%db}\n", iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2);
+  } else if( closureTests == "1To2Mu" ){
+    fprintf(outputfile, "\\label{tab:bg-esti-1To2Mu-%dTo%db}\n", startNJet_-1, startNJet_+nJets_-2);
+  } else {
+    fprintf(outputfile, "\\label{tab:bg-esti-iTojJet-%dTo%db}\n", startNJet_-1, startNJet_+nJets_-2);
+  }
+
   fprintf(outputfile, " \\end{table}\n\n\n\n");
 
 
@@ -641,6 +698,7 @@ void printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJe
 
   fclose( outputfile );
 
+  return 1;
 }
 
 

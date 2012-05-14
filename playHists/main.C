@@ -24,18 +24,19 @@ int main()
   //  WPt->getResults();
 
   //  printTables *table=new printTables();
-  //  table->Tables_ForNormal();
+  //  table->Tables_ForNormal("iTojJet", 1, 1, 2, 15);
+  //  table->Tables_ForNormal("1To2Mu", 0, 0, 0, 0 );
   //  table->CompareYouAndMe();
 
   //  table->Tables();
   //  table->Hists();
-  getTranslationFactor *fa=new getTranslationFactor();
+  //  getTranslationFactor *fa=new getTranslationFactor();
   //  fa->getResults( "", 0, 0, 0, 0 );
   //  fa->getResults( "1To2Mu", 0, 0, 0, 0 );
-  fa->getResults( "iTojJet", 1, 1, 2, 15 );
+  //  fa->getResults( "iTojJet", 1, 1, 2, 15 );
 
-  //   basicPlots *bp=new basicPlots();
-  //   bp->getResults();
+   basicPlots *bp=new basicPlots();
+   bp->getResults();
   return 0;
 }
 
