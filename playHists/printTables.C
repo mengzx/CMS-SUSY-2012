@@ -627,11 +627,14 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
         printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC" );
 	printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC" );
       } else if ( closureTests == "iTojJet" ){
-        printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "hadronic MC" );
-	if( MuonNumber_ == "DiMuon"){
-	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC" );
+	TString outputnum=Form("%d--%d b-jets", jJetStart-1, jJetStart+jJet_n-2);
+	TString outputdom=Form("%d--%d b-jets", iJetStart-1, iJetStart+iJet_n-2);
+	if( MuonNumber_ == "DiMuon_"){
+          printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC ("+outputnum+")" );
+	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC ("+outputdom+")" );
 	} else {
-	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC" );
+          printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC ("+outputnum+")" );
+	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC ("+outputdom+")" );
 	}
       } else {
 	if( MuonNumber_ == "DiMuon_"){
@@ -643,10 +646,19 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
       printout_first_WithErr( outputfile, factor_WithErr, iAT, 2, column_n, "Translation factor" );
       printout_first_WithErr( outputfile, controlData_WithErr, iAT, 0, column_n, "Control Data" );
       printout_first_WithErr( outputfile, predBG_WithErr, iAT, 1, column_n, "Prediction" );
-      fprintf(outputfile, "\\hline\n");
       //      printout_first_WithErr( outputfile, predBG_Zinv_WithErr, iAT, 1, column_n, "Predicted Z~$\\rightarrow\\nu\\nu$ + jets" );
-      fprintf(outputfile, "\\hline\n");
-      printout_first_WithErr( outputfile, yieldData_WithErr, iAT, 1, column_n, "Data Hadronic Yield" );
+      //      fprintf(outputfile, "\\hline\n");
+      if( closureTests == "1To2Mu" ){
+	printout_first_WithErr( outputfile, yieldData_WithErr, iAT, 1, column_n, "Data Yield ($\\mu\\mu + jets$)" );
+      } else if ( closureTests == "iTojJet" ){
+        if( MuonNumber_ == "DiMuon_"){
+	  printout_first_WithErr( outputfile, yieldData_WithErr, iAT, 1, column_n, "Data Yield ($\\mu\\mu + jets$)" );
+	} else {
+	  printout_first_WithErr( outputfile, yieldData_WithErr, iAT, 1, column_n, "Data Yield ($\\mu + jets$)" );
+	}
+      } else {
+	  printout_first_WithErr( outputfile, yieldData_WithErr, iAT, 1, column_n, "Data Yield (hadronic)" );
+      }
       fprintf(outputfile, "\\hline\n");
 
       fprintf(outputfile, " HT (GeV) & 575--675 & 675--775 & 775--875 & 875--$\\infty$ \\\\ \n ");
@@ -655,11 +667,14 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
 	printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC" );
 	printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC" );
       } else if(  closureTests == "iTojJet" ){
-	printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "hadronic MC" );
+	TString outputnum=Form("%d--%d b-jets", jJetStart-1, jJetStart+jJet_n-2);
+	TString outputdom=Form("%d--%d b-jets", iJetStart-1, iJetStart+iJet_n-2);
 	if( MuonNumber_ == "DiMuon"){
-	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC" );
+	  printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC ("+outputnum+")" );;
+	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC ("+outputdom+")" );
 	} else {
-	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC" );
+	  printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC ("+outputnum+")" );
+	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC ("+outputdom+")" );
 	}
       } else {
 	if( MuonNumber_ == "DiMuon"){
@@ -675,7 +690,17 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
       //      printout_second_WithErr( outputfile, predBG_Zinv_WithErr, iAT, 1, 4, column_n, "Predicted Z~$\\rightarrow\\nu\\nu$ + jets" );
       //      fprintf(outputfile, "\\hline\n");
       //      printout_second_WithErr( outputfile, predBG_total_withZinvpred_WithErr, iAT, 1, 4, column_n, "Total Predicted BG" );
-      printout_second_WithErr( outputfile, yieldData_WithErr, iAT, 1, 4, column_n, "Data Hadronic Yield" );
+      if( closureTests == "1To2Mu" ){
+	printout_second_WithErr( outputfile, yieldData_WithErr, iAT, 1, 4, column_n, "Data Yield ($\\mu\\mu + jets$)" );
+      } else if ( closureTests == "iTojJet" ){
+        if( MuonNumber_ == "DiMuon_"){
+	  printout_second_WithErr( outputfile, yieldData_WithErr, iAT, 1, 4, column_n, "Data Yield ($\\mu\\mu + jets$)" );
+	} else {
+	  printout_second_WithErr( outputfile, yieldData_WithErr, iAT, 1, 4, column_n, "Data Yield ($\\mu + jets$)" );
+	}
+      } else {
+	printout_second_WithErr( outputfile, yieldData_WithErr, iAT, 1, 4, column_n, "Data Hadronic Yield" );
+      }
       fprintf(outputfile, "\\hline\n");
     }
 

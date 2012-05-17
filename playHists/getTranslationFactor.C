@@ -184,7 +184,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
 vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
   playHist2D factor=playHist2D();
 
-  TString dirhad = inidir_ + "rootfiles/hadronicSele" + subdir_;
+  //  TString dirhad = inidir_ + "rootfiles/hadronicSele" + subdir_;
+  TString dirhad = inidir_ + "rootfiles/oneMuonSele/muonpT45GeV" + subdir_;
 
   TString dir1mu="";
   if( normalEstimation_ == true){
@@ -193,9 +194,9 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, 
 
   vector<TFile*> vf_had;
   if( isData == true ){
-    vf_had=Datavf_pushback(dirhad, signalDataset_, "HadSele"+signalTrig_, HTBins);
+    vf_had=Datavf_pushback(dirhad, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
   } else {
-    vf_had=MCvf_pushback(dirhad, MCsample_, "HadSele"+signalTrig_, HTBins, false, "");
+    vf_had=MCvf_pushback(dirhad, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
   }
 
   vector<TFile*> vf_1mu;
@@ -213,7 +214,7 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, 
     digit1in=digit1_;
   }
 
-  vector<TString> dirNamehad=dirName_pushback(folderlabel_ + "", HTBins);
+  vector<TString> dirNamehad=dirName_pushback(folderlabel_ + MuonNumber_, HTBins);
   vector<TString> dirName1mu=dirName_pushback(folderlabel_ + MuonNumber_, HTBins);
 
   vector<TString> hNamehad;

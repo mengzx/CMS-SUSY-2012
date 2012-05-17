@@ -24,7 +24,9 @@ int main()
   //  WPt->getResults();
 
   //  printTables *table=new printTables();
+  //  table->Tables_ForNormal("", 0, 0, 0, 0);
   //  table->Tables_ForNormal("iTojJet", 1, 1, 2, 15);
+  //  table->Tables_ForNormal("iTojJet", 2, 1, 3, 14);
   //  table->Tables_ForNormal("1To2Mu", 0, 0, 0, 0 );
   //  table->CompareYouAndMe();
 
@@ -36,7 +38,9 @@ int main()
   //  fa->getResults( "iTojJet", 1, 1, 2, 15 );
 
    basicPlots *bp=new basicPlots();
-   bp->getResults();
+   bp->getResults("all");
+   bp->getResults("lowHTBins");
+   bp->getResults("highHTBins");
   return 0;
 }
 
