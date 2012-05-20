@@ -237,29 +237,29 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
   vector<TString> vlenname;
   vlenname.push_back("Data");
-  vlenname.push_back("Total MC");
   //  vlenname.push_back("Z#rightarrow#nu#nu+jets");
   vlenname.push_back("W+jets");
-  vlenname.push_back("Drell-Yan");
-  vlenname.push_back("T#bar{T}");
-  vlenname.push_back("Single top");
+  vlenname.push_back("Total MC");
+  //  vlenname.push_back("Drell-Yan");
+  //  vlenname.push_back("T#bar{T}");
+  //  vlenname.push_back("Single top");
   //  vlenname.push_back("Di-Boson");
 
   vector<TH1D*> vh;
   vh.push_back(Datah);
-  vh.push_back(MCh_total);
   //  vh.push_back(MCh_Zinv);
   vh.push_back(MCh_WJ);
-  vh.push_back(MCh_DY);
-  vh.push_back(MCh_TT);
-  vh.push_back(MCh_SingleT);
+  vh.push_back(MCh_total);
+  //  vh.push_back(MCh_DY);
+  //  vh.push_back(MCh_TT);
+  //  vh.push_back(MCh_SingleT);
   //  vh.push_back(MCh_DiBoson);
 
   vector<TH1D*> svh=pf1d.SortHists(vh);
   vector<unsigned int> svh_index=pf1d.SortHists_index(vh);
 
   c1->cd();
-  TPad *pad1=new TPad("pad1","",0,0,1,1);
+  TPad *pad1=new TPad("pad1","",0,0.3,1,1);
   //  pad1->SetBottomMargin(0.009);
   pad1->Draw();
   pad1->cd();
@@ -271,6 +271,8 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   svh0clone->Draw();
 
   for( unsigned int i=0; i<svh.size(); i++ ){
+    cout<<"svh_index["<<i<<"]="<<svh_index[i]<< " i="<<i<<" svh["<<svh.size()-1<<"]="<<svh[svh.size()-1]<<" "<<"vh["<<svh.size()-1<<"]="<<vh[svh.size()-1]<<endl;
+
     if( svh_index[i] != 0 && svh_index[i] != 1){
       if( svh_index[i] == 2 ){
 	svh[i]->Draw("same HIST 9");
@@ -315,7 +317,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
   TLegend *len1=new TLegend(0.55, 0.70, 0.90, 0.90);
   len1->AddEntry("", "CMS Preliminary 2012 8 TeV","");
-  len1->AddEntry("", "#int L dt = 0.55 fb^{-1}","");
+  len1->AddEntry("", "#int L dt = 0.81 fb^{-1}","");
   len1->SetFillColor(0);
   len1->SetLineColor(0);
   len1->SetBorderSize(0);
@@ -332,7 +334,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   len1->Draw();
   len->Draw();
 
-  /* c1->cd();
+  c1->cd();
    TPad *pad2=new TPad("pad2","",0,0.03,1,0.3);
 //  pad2->SetTopMargin(0.05);
   pad2->Draw();
@@ -351,7 +353,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     datah->SetMarkerSize(0.5);
     datah->Draw("e1");
     }
-  */
+
 
   if( whichpart == 1 ){
     pad1->SetLogy(0);
@@ -378,6 +380,47 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   len->Clear();
 }
 
+
+
+
+void basicPlots::getResults( TString HTBins){
+  TLegend *len=new TLegend( 0.65, 0.45, 0.90, 0.70 );
+  //  TLegend *len=new TLegend(0.75, 0.75, 0.90, .90);
+  len->SetFillColor(0);
+  len->SetLineColor(0);
+  len->SetBorderSize(0);
+  int whichpart=1;
+  bool MuAddOrNot=true;
+  int rebin=20;
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0.55, 10., 2 );
+  /*  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0.55, 10, 2);
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0.55, 10, 2);
+  rebin=1;
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0.55, 10, 2);
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0.55, 10, 2);
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0.55, 10, 2);
+  rebin=4;
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.5, 1.2, "AlphaT", len, 0, 0, 1);
+
+
+  whichpart=2;
+  MuAddOrNot=false;
+  rebin=20;
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{Z} (GeV)", "", 0., 600, "Zmass", len, 0, 10., 2 );
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt", len, 0, 10., 2 );
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0, 10., 2 );
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0, 10, 2);
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0, 10, 2);
+
+  rebin=1;
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0, 10, 2);
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0, 10, 2);
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0, 10, 2);
+  rebin=4;
+  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1);
+  */
+
+}
 
 
 
@@ -433,40 +476,3 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   }*/
 
 
-void basicPlots::getResults( TString HTBins){
-  TLegend *len=new TLegend( 0.65, 0.45, 0.90, 0.70 );
-  //  TLegend *len=new TLegend(0.75, 0.75, 0.90, .90);
-  len->SetFillColor(0);
-  len->SetLineColor(0);
-  int whichpart=1;
-  bool MuAddOrNot=true;
-  int rebin=20;
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0.55, 10., 2 );
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0.55, 10, 2);
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0.55, 10, 2);
-  rebin=1;
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0.55, 10, 2);
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0.55, 10, 2);
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0.55, 10, 2);
-  rebin=4;
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.5, 1.2, "AlphaT", len, 0, 0, 1);
-
-
-  whichpart=2;
-  MuAddOrNot=false;
-  rebin=20;
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{Z} (GeV)", "", 0., 600, "Zmass", len, 0, 10., 2 );
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt", len, 0, 10., 2 );
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0, 10., 2 );
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0, 10, 2);
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0, 10, 2);
-
-  rebin=1;
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0, 10, 2);
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0, 10, 2);
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0, 10, 2);
-  rebin=4;
-  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1);
-
-
-}

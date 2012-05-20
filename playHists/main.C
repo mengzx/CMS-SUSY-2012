@@ -39,8 +39,8 @@ int main()
 
    basicPlots *bp=new basicPlots();
    bp->getResults("all");
-   bp->getResults("lowHTBins");
-   bp->getResults("highHTBins");
+   //   bp->getResults("lowHTBins");
+   //   bp->getResults("highHTBins");
   return 0;
 }
 
