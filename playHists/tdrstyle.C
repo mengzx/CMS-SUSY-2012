@@ -46,7 +46,7 @@ void tdrstyle::setTDRStyle( TString digit ) {
   tdrStyle->SetEndErrorSize(2);
   // tdrStyle->SetErrorMarker(20);
   tdrStyle->SetMarkerStyle(20);
-  tdrStyle->SetErrorX(0.);
+  //  tdrStyle->SetErrorX(0.);
 
 // For the fit/function:
   tdrStyle->SetOptFit(1);

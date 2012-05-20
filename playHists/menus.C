@@ -12,7 +12,6 @@ menus::menus(){
   nJets_=1;
   notCutAlphaT_=true;
 
-  len_=new TLegend( 0.75, 0.75, 0.995, 0.995 );
   inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/SixthLookAt8TeVData_AimToICHEP_ForHPA17052012_15052012/";
   subdir_="/allBJets";
   folderlabel_="";

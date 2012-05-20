@@ -16,7 +16,6 @@ class menus{
   bool normalEstimation_;
   bool notCutAlphaT_;
 
-  TLegend *len_;
   int startNJet_;
   int nJets_;
   TString inidir_;

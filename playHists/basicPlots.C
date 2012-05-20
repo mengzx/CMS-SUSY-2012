@@ -219,7 +219,7 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
 
 
 
-void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int rebin, TString xAxisName, TString yAxisName, double xAxisRange1, double xAxisRange2, TString whichplot, TLegend *len, double lowy, double highy, int OneDTwoD ){
+void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int rebin, TString xAxisName, TString yAxisName, double xAxisRange1, double xAxisRange2, TString whichplot, TLegend * len, double lowy, double highy, int OneDTwoD ){
 
   TCanvas *c1=new TCanvas();
 
@@ -237,22 +237,22 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
   vector<TString> vlenname;
   vlenname.push_back("Data");
+  vlenname.push_back("Total MC");
   //  vlenname.push_back("Z#rightarrow#nu#nu+jets");
   vlenname.push_back("W+jets");
-  vlenname.push_back("Total MC");
-  //  vlenname.push_back("Drell-Yan");
-  //  vlenname.push_back("T#bar{T}");
-  //  vlenname.push_back("Single top");
+  vlenname.push_back("Drell-Yan");
+  vlenname.push_back("T#bar{T}");
+  vlenname.push_back("Single top");
   //  vlenname.push_back("Di-Boson");
 
   vector<TH1D*> vh;
   vh.push_back(Datah);
+  vh.push_back(MCh_total);
   //  vh.push_back(MCh_Zinv);
   vh.push_back(MCh_WJ);
-  vh.push_back(MCh_total);
-  //  vh.push_back(MCh_DY);
-  //  vh.push_back(MCh_TT);
-  //  vh.push_back(MCh_SingleT);
+  vh.push_back(MCh_DY);
+  vh.push_back(MCh_TT);
+  vh.push_back(MCh_SingleT);
   //  vh.push_back(MCh_DiBoson);
 
   vector<TH1D*> svh=pf1d.SortHists(vh);
@@ -260,7 +260,6 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
   c1->cd();
   TPad *pad1=new TPad("pad1","",0,0.3,1,1);
-  //  pad1->SetBottomMargin(0.009);
   pad1->Draw();
   pad1->cd();
 
@@ -269,9 +268,15 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   svh0clone->SetLineColor(0);
   svh0clone->SetMarkerColor(0);
   svh0clone->Draw();
+  svh0clone->GetXaxis()->SetLabelFont(63);
+  svh0clone->GetXaxis()->SetLabelSize(15);
+  svh0clone->GetYaxis()->SetLabelFont(63);
+  svh0clone->GetYaxis()->SetLabelSize(15);
+  svh0clone->GetXaxis()->SetTitleSize(0.06);
+  svh0clone->GetYaxis()->SetTitleSize(0.06);
 
   for( unsigned int i=0; i<svh.size(); i++ ){
-    cout<<"svh_index["<<i<<"]="<<svh_index[i]<< " i="<<i<<" svh["<<svh.size()-1<<"]="<<svh[svh.size()-1]<<" "<<"vh["<<svh.size()-1<<"]="<<vh[svh.size()-1]<<endl;
+    //    cout<<"svh_index["<<i<<"]="<<svh_index[i]<< " i="<<i<<" svh["<<i<<"]="<<svh[i]<<" "<<"vh["<<i<<"]="<<vh[i]<<" vh[svh_index["<<i<<"] ]="<<vh[svh_index[i] ]<<endl;
 
     if( svh_index[i] != 0 && svh_index[i] != 1){
       if( svh_index[i] == 2 ){
@@ -296,11 +301,11 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	svh[i]->SetMarkerColor( kOrange -1 );
       }
     } else if( svh_index[i] == 1 ){
-      svh[i]->SetLineColor(5);
+      svh[i]->SetLineColor(kOrange-3);
+      svh[i]->SetLineWidth(0.5);
       svh[i]->SetFillColor(5);
-      //      svh[i]->SetFillStyle(3007);
       svh[i]->SetMarkerColor(5);
-      svh[i]->Draw("same E2 HIST");
+      svh[i]->Draw("same HIST");
     }
   }
 
@@ -315,44 +320,83 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     }
   }
 
-  TLegend *len1=new TLegend(0.55, 0.70, 0.90, 0.90);
-  len1->AddEntry("", "CMS Preliminary 2012 8 TeV","");
-  len1->AddEntry("", "#int L dt = 0.81 fb^{-1}","");
-  len1->SetFillColor(0);
-  len1->SetLineColor(0);
-  len1->SetBorderSize(0);
+  double lowmche=vh[1]->GetBinLowEdge(1);
+  double highmche=vh[1]->GetBinLowEdge(vh[1]->GetNbinsX())+vh[1]->GetBinWidth(1);
+  TH1D *mche=new TH1D("mche","mche",vh[1]->GetNbinsX(), lowmche, highmche);
+  for( int ib=1; ib<=mche->GetNbinsX(); ib++ ){
+    mche->SetBinContent(ib, vh[1]->GetBinContent(ib) );
+    mche->SetBinError(ib, vh[1]->GetBinError(ib) );
+  }
+  mche->SetFillColor(kOrange-3);
+  mche->SetFillStyle(3013);
+  mche->SetLineColor(kOrange-3);
+  mche->SetMarkerSize(0);
+  mche->Draw("e2same");
+
   len->AddEntry(vh[0], "Data");
 
   for( unsigned int i=0; i<svh.size(); i++ ){
     if( svh_index[i] != 0 && svh_index[i] != 1){
-      len->AddEntry(vh[ svh_index[i] ], vlenname[ svh_index[i] ]);
+      len->AddEntry(vh[i], vlenname[i]);
     }
   }
-
   len->AddEntry(vh[1], "Total MC");
 
+  TLegend *len1=new TLegend( 0.55, 0.70, 0.90, 0.90 );
+  len1->AddEntry("", "CMS Preliminary 2012 8 TeV","");
+  len1->AddEntry("", Form("#int L dt = %.2f fb^{-1}", mcscale_/10.),"");
+  len1->SetFillColor(0);
+  len1->SetLineColor(0);
+  len1->SetBorderSize(0);
   len1->Draw();
   len->Draw();
 
+  //Ration plots
   c1->cd();
-   TPad *pad2=new TPad("pad2","",0,0.03,1,0.3);
-//  pad2->SetTopMargin(0.05);
+  TPad *pad2=new TPad("pad2","",0,0.03,1,0.3);
   pad2->Draw();
   pad2->cd();
 
-  for( unsigned int i=0; i<vh.size(); i++ ){
-    TH1D* datah=(TH1D*)(vh[0]->Clone("datah"));
-    TH1D* mch=(TH1D*)(vh[1]->Clone("mch"));
-    datah->Divide(datah, mch);
-    //    h1->GetXaxis()->SetTitle(xAxisName);
-    //    h1->GetXaxis()->SetTitleSize(0.06);
-    datah->GetYaxis()->SetTitle("Data/MC");
-    //    datah->GetYaxis()->SetRangeUser(-1.,1.);
-    //    h1->GetYaxis()->SetTitleSize(0.06);
-    //    h1->GetYaxis()->SetTitleOffset(0.5);
-    datah->SetMarkerSize(0.5);
-    datah->Draw("e1");
-    }
+  TH1D* datah=(TH1D*)(vh[0]->Clone("datah"));
+  TH1D* mch=(TH1D*)(vh[1]->Clone("mch"));
+  datah->Divide(datah, mch);
+  datah->GetXaxis()->SetLabelFont(63);
+  datah->GetXaxis()->SetLabelSize(11);
+  datah->GetXaxis()->SetTitleOffset(10);
+
+  datah->GetYaxis()->SetLabelFont(63);
+  datah->GetYaxis()->SetLabelSize(11);
+  datah->GetYaxis()->SetTitle("Data/MC");
+  datah->GetYaxis()->SetTitleSize(0.12);
+  datah->GetYaxis()->SetTitleOffset(0.3);
+  datah->SetMarkerSize(0.5);
+  datah->GetYaxis()->SetRangeUser(0.,2.);
+
+  double lowmch=datah->GetBinLowEdge(1);
+  double highmch=datah->GetBinLowEdge(datah->GetNbinsX())+datah->GetBinWidth(1);
+
+  TH1D *mch1=new TH1D("mch1","mch1",datah->GetNbinsX(), lowmch, highmch);
+  for( int ib=1; ib<=mch1->GetNbinsX(); ib++ ){
+    mch1->SetBinContent(ib, 1.);
+    mch1->SetBinError(ib, datah->GetBinError(ib) );
+  }
+  mch1->SetFillColor(kGray);
+  mch1->SetFillStyle(3008);
+  mch1->SetLineColor(0);
+  mch1->SetMarkerSize(0);
+
+  TH1D *mch11=new TH1D("mch11","mch11",datah->GetNbinsX(), lowmch, highmch);
+  for( int ib=1; ib<=mch11->GetNbinsX(); ib++ ){
+    mch11->SetBinContent(ib, 1.);
+  }
+  mch11->SetLineWidth(1);
+  mch11->SetLineColor(1);
+  mch11->SetMarkerSize(0);
+
+  datah->Draw();
+  mch1->Draw("e2same");
+  mch11->Draw("same L hist");
+  datah->Draw("same");
 
 
   if( whichpart == 1 ){
@@ -384,14 +428,15 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
 
 void basicPlots::getResults( TString HTBins){
-  TLegend *len=new TLegend( 0.65, 0.45, 0.90, 0.70 );
+
+  TLegend *len=new TLegend( 0.65, 0.35, 0.90, 0.70 );
   //  TLegend *len=new TLegend(0.75, 0.75, 0.90, .90);
   len->SetFillColor(0);
   len->SetLineColor(0);
   len->SetBorderSize(0);
   int whichpart=1;
   bool MuAddOrNot=true;
-  int rebin=20;
+  int rebin=50;
   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0.55, 10., 2 );
   /*  drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0.55, 10, 2);
   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0.55, 10, 2);
