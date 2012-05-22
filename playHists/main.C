@@ -25,8 +25,8 @@ int main()
 
   //  printTables *table=new printTables();
   //  table->Tables_ForNormal("", 0, 0, 0, 0);
-  //  table->Tables_ForNormal("iTojJet", 1, 1, 2, 15);
-  //  table->Tables_ForNormal("iTojJet", 2, 1, 3, 14);
+  //  table->Tables_ForNormal("iTojJet", 1, 1, 2, 14);
+  //  table->Tables_ForNormal("iTojJet", 2, 1, 3, 13);
   //  table->Tables_ForNormal("1To2Mu", 0, 0, 0, 0 );
   //  table->CompareYouAndMe();
 
@@ -37,10 +37,13 @@ int main()
   //  fa->getResults( "1To2Mu", 0, 0, 0, 0 );
   //  fa->getResults( "iTojJet", 1, 1, 2, 15 );
 
-   basicPlots *bp=new basicPlots();
-   bp->getResults("all");
-   //   bp->getResults("lowHTBins");
-   //   bp->getResults("highHTBins");
+     basicPlots *bp=new basicPlots();
+     bp->getResults("all", "OneMu");
+     bp->getResults("lowHTBins", "OneMu");
+     bp->getResults("highHTBins", "OneMu");
+     bp->getResults("all", "HadSele");
+     bp->getResults("lowHTBins", "HadSele");
+     bp->getResults("highHTBins", "HadSele");
   return 0;
 }
 
