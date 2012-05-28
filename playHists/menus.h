@@ -15,7 +15,8 @@ class menus{
   TString testDataFile_;
   bool normalEstimation_;
   bool notCutAlphaT_;
-
+  bool drawStack_;
+  TString  epspng_;
   int startNJet_;
   int nJets_;
   TString inidir_;

@@ -12,9 +12,11 @@ menus::menus(){
   startNJet_=0;
   nJets_=0;
   notCutAlphaT_=true;
+  drawStack_=true;
+  epspng_="png";
 
-  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/SeventhLookAt8TeVData_AimToICHEP_ForSUSY22052012_19052012/";
-  subdir_="/allBJets_BAMHToverMET";
+  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/EighthLookAt8TeVData_AimToICHEP_ForDocumentAproval01062012_27052012/";
+  subdir_="/allBJets_NoECALnoiseNoMHToverMETNoZmass_MC7TeVData8TeV";
   folderlabel_="";
   HadTaudataset_="SingleMu2012";
   NotHadTaudataset_="HT2012";
@@ -26,11 +28,12 @@ menus::menus(){
   controlDataset_ = "SingleMu2012";
   MCsample_="";
   plotTrueTauHad_=false;
-  MuonNumber_ = "DiMuon_";
+  MuonNumber_ = "OneMuon_";
 
   datascale_=1.;
   //  mcscale_=5.56788; //6th look
-  mcscale_=8.09551;
+  //  mcscale_=8.09551; // 7th look
+  mcscale_=15.33;
 
   digit1_=".1f";
   digit2_=".2f";
