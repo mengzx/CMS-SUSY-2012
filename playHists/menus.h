@@ -13,12 +13,20 @@ class menus{
   TString testHTBin_;
   TString testMCFile_;
   TString testDataFile_;
-  bool normalEstimation_;
   bool notCutAlphaT_;
-  bool drawStack_;
-  TString  epspng_;
   int startNJet_;
   int nJets_;
+  bool normalEstimation_;
+  bool drawStack_;
+  TString  epspng_;
+
+  bool hasDY_;
+  bool hasTT_;
+  bool hasWJ_;
+  bool hasSingleT_;
+  bool hasZinv_;
+  bool hasDiBoson_;
+
   TString inidir_;
   TString subdir_;
   TString folderlabel_;

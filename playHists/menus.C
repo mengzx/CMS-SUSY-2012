@@ -15,6 +15,13 @@ menus::menus(){
   drawStack_=true;
   epspng_="png";
 
+  hasDY_=true;
+  hasTT_=true;
+  hasWJ_=true;
+  hasSingleT_=true;
+  hasZinv_=false;
+  hasDiBoson_=false;
+
   inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/EighthLookAt8TeVData_AimToICHEP_ForDocumentAproval01062012_27052012/";
   subdir_="/allBJets_NoECALnoiseNoMHToverMETNoZmass_MC7TeVData8TeV";
   folderlabel_="";

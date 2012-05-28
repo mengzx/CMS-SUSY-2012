@@ -208,54 +208,90 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7HigHTBins"+sele+".root");
       vf.push_back(f1);
     } else {
-      TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7HigHTBins"+sele+".root");
-      TFile *f2=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7HigHTBins"+sele+".root");
-      TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7HigHTBins"+sele+".root");
-      TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7HigHTBins"+sele+".root");
-      TFile *f5=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7HigHTBins"+sele+".root");
-      TFile *f6=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7HigHTBins"+sele+".root");
-      vf.push_back(f1);
-      vf.push_back(f2);
-      vf.push_back(f3);
-      vf.push_back(f4);
-      vf.push_back(f5);
-      vf.push_back(f6);
+      if( listmenus->hasDY_ ){
+	TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7HigHTBins"+sele+".root");
+	vf.push_back(f1);
+      }
+      if( listmenus->hasTT_ ){
+	TFile *f2=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7HigHTBins"+sele+".root");
+	vf.push_back(f2);
+      }
+      if( listmenus->hasWJ_ ){
+	TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7HigHTBins"+sele+".root");
+	vf.push_back(f3);
+      }
+      if(listmenus->hasSingleT_){
+	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7HigHTBins"+sele+".root");
+	vf.push_back(f4);
+      }
+      if( listmenus->hasZinv_ ){
+	TFile *f5=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7HigHTBins"+sele+".root");
+	vf.push_back(f5);
+      }
+      if( listmenus->hasDiBoson_ ){
+	TFile *f6=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7HigHTBins"+sele+".root");
+	vf.push_back(f6);
+      }
     }
   } else if( sTreeThr == "86"){
     if( separateSample ){
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7LowHTBins"+sele+"325.root");
       vf.push_back(f1);
     } else {
-      TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f2=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f5=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7HigHTBins"+sele+"325.root");
-      TFile *f6=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7HigHTBins"+sele+"325.root");
-      vf.push_back(f1);
-      vf.push_back(f2);
-      vf.push_back(f3);
-      vf.push_back(f4);
-      vf.push_back(f5);
-      vf.push_back(f6);
+      if( listmenus->hasDY_ ){
+	TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+	vf.push_back(f1);
+      }
+      if( listmenus->hasTT_ ){
+	TFile *f2=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+	vf.push_back(f2);
+      }
+      if( listmenus->hasWJ_ ){
+	TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+	vf.push_back(f3);
+      }
+      if( listmenus->hasSingleT_ ){
+	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+	vf.push_back(f4);
+      }
+      if( listmenus->hasZinv_ ){
+	TFile *f5=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+	vf.push_back(f5);
+      }
+      if( listmenus->hasDiBoson_ ){
+	TFile *f6=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+	vf.push_back(f6);
+      }
     }
   } else if( sTreeThr == "73"){
     if( separateSample ){
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7LowHTBins"+sele+"275.root");
       vf.push_back(f1);
     } else {
-      TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f2=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f5=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f6=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      vf.push_back(f1);
-      vf.push_back(f2);
-      vf.push_back(f3);
-      vf.push_back(f4);
-      vf.push_back(f5);
-      vf.push_back(f6);
+      if( listmenus->hasDY_ ){
+	TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+	vf.push_back(f1);
+      }
+      if( listmenus->hasTT_ ){
+	TFile *f2=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+	vf.push_back(f2);
+      }
+      if( listmenus->hasWJ_ ){
+	TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+	vf.push_back(f3);
+      }
+      if( listmenus->hasSingleT_ ){
+	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+	vf.push_back(f4);
+      }
+      if( listmenus->hasZinv_ ){
+	TFile *f5=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+	vf.push_back(f5);
+      }
+      if( listmenus->hasDiBoson_ ){
+	TFile *f6=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+	vf.push_back(f6);
+      }
     }
   } else if( sTreeThr == "all" || sTreeThr == "allHTBins"){
     if( separateSample ){
@@ -266,43 +302,54 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       vf.push_back(f2);
       vf.push_back(f3);
     } else {
-      TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f2=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f13=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f14=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f5=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f6=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f7=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f8=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f15=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f16=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f9=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7HigHTBins"+sele+".root");
-      TFile *f10=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7HigHTBins"+sele+".root");
-      TFile *f11=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7HigHTBins"+sele+".root");
-      TFile *f12=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7HigHTBins"+sele+".root");
-      TFile *f17=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7HigHTBins"+sele+".root");
-      TFile *f18=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7HigHTBins"+sele+".root");
-
-      vf.push_back(f1);
-      vf.push_back(f2);
-      vf.push_back(f3);
-      vf.push_back(f4);
-      vf.push_back(f5);
-      vf.push_back(f6);
-      vf.push_back(f7);
-      vf.push_back(f8);
-      vf.push_back(f9);
-      vf.push_back(f10);
-      vf.push_back(f11);
-      vf.push_back(f12);
-      vf.push_back(f13);
-      vf.push_back(f14);
-      vf.push_back(f15);
-      vf.push_back(f16);
-      vf.push_back(f17);
-      vf.push_back(f18);
+      if( listmenus->hasDY_ ){
+	TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f1);
+	TFile *f5=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f5);
+        TFile *f9=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7HigHTBins"+sele+".root");
+        vf.push_back(f9);
+      }
+      if( listmenus->hasTT_ ){
+	TFile *f2=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f2);
+	TFile *f6=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f6);
+        TFile *f10=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7HigHTBins"+sele+".root");
+        vf.push_back(f10);
+      }
+      if( listmenus->hasWJ_ ){
+	TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f3);
+        TFile *f7=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f7);
+        TFile *f11=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7HigHTBins"+sele+".root");
+        vf.push_back(f11);
+      }
+      if( listmenus->hasSingleT_ ){
+	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f4);
+        TFile *f8=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f8);
+        TFile *f12=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7HigHTBins"+sele+".root");
+        vf.push_back(f12);
+      }
+      if( listmenus->hasZinv_ ){
+        TFile *f13=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f13);
+        TFile *f15=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f15);
+        TFile *f17=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7HigHTBins"+sele+".root");
+        vf.push_back(f17);
+      }
+      if( listmenus->hasDiBoson_ ){
+        TFile *f14=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f14);
+        TFile *f16=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f16);
+        TFile *f18=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7HigHTBins"+sele+".root");
+        vf.push_back(f18);
+      }
     }
   } else if( sTreeThr == "low" || sTreeThr == "lowHTBins"){
     if( separateSample ){
@@ -311,30 +358,42 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       vf.push_back(f1);
       vf.push_back(f2);
     } else {
-      TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f2=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f9=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f10=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"275.root");
-      TFile *f5=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f6=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f7=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f8=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f11=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f12=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      vf.push_back(f1);
-      vf.push_back(f2);
-      vf.push_back(f3);
-      vf.push_back(f4);
-      vf.push_back(f5);
-      vf.push_back(f6);
-      vf.push_back(f7);
-      vf.push_back(f8);
-      vf.push_back(f9);
-      vf.push_back(f10);
-      vf.push_back(f11);
-      vf.push_back(f12);
+      if( listmenus->hasDY_ ){
+	TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f1);
+        TFile *f5=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f5);
+      }
+      if( listmenus->hasTT_ ){
+        TFile *f2=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f2);
+        TFile *f6=new TFile(dir+"/"+"NoSmearTT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f6);
+      }
+      if( listmenus->hasWJ_ ){
+	TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f3);
+	TFile *f7=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f7);
+      }
+      if( listmenus->hasSingleT_ ){
+        TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f4);
+        TFile *f8=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f8);
+      }
+      if( listmenus->hasZinv_ ){
+	TFile *f9=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f9);
+        TFile *f11=new TFile(dir+"/"+"NoSmearZinv_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f11);
+      }
+      if( listmenus->hasDiBoson_ ){
+	TFile *f10=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f10);
+	TFile *f12=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f12);
+      }
     }
   } else if( sTreeThr == "test"){
     TFile *f1=new TFile(dir+"/"+listmenus->testMCFile_);
@@ -579,34 +638,34 @@ vector<TString> vectors::vhname_pusback_numer( bool MuAddOrNot, bool fullesti, i
   vector<TString> reh;
   if( MuAddOrNot == true && ( fullesti == true || fullesti == false ) && listmenus->normalEstimation_ == false ){
     if( startnjet == 0 ){
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_all");
     } else {
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_%d", i));
       }
     }
   } else if ( MuAddOrNot == false && fullesti == true && listmenus->normalEstimation_ == false ){
     if( startnjet == 0 ){
       reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_all");
     } else {
       for (int i=startnjet; i<startnjet+njets; i++){
 	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_h_%d", i));
       }
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_%d", i));
       }
     }
   } else if ( MuAddOrNot == false && fullesti == false && listmenus->normalEstimation_ == false ){
     if( startnjet == 0 ){
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauLep_h_all");
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueVlep_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauLep_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueVlep_h_all");
     } else {
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueTauLep_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauLep_h_%d", i));
       }
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueVlep_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueVlep_h_%d", i));
       }
     }
   } else if ( listmenus->normalEstimation_ == true ){
