@@ -104,15 +104,17 @@ TH1D* playHist1D::getHistInvFvDirvH1D( vector<TFile*> vf, vector<TString> vdirna
   }
 }
 
-TH1D* playHist1D::addHistForDiffFoldersFilesHists1D(vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname){
+TH1D* playHist1D::addHistForDiffFoldersFilesHists1D(vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname, vector<double> trigeff){
 
   TH1D* h=(TH1D*)(getHistInvFvDirvH1D( vf, vdirname, vhname)->Clone("h"));
   vector<unsigned int> ifileidirih_ini=getifileidirih1D( vf, vdirname, vhname );
+  h->Scale(trigeff[ ifileidirih_ini[1] ]);
   for( unsigned int i=0; i< vf.size(); i++ ){
     for( unsigned int j=0; j<vdirname.size(); j++ ){
       for( unsigned int k=0; k<vhname.size(); k++ ){
 	TH1D* h1=getHist1D(vf[i], vdirname[j], vhname[k]);
 	if( h1 && h && ( !( ( ifileidirih_ini[0] == i ) && ( ifileidirih_ini[1] == j ) && ( ifileidirih_ini[2] == k ) ) ) ){
+	  h1->Scale(trigeff[j]);
 	  h->Add(h,h1);
 	}
       }

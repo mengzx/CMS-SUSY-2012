@@ -208,6 +208,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7HigHTBins"+sele+".root");
       vf.push_back(f1);
     } else {
+      if( listmenus->hasZinvFromDY_ ){
+	TFile *f1=new TFile(dir+"/"+"NoSmearZinvFromDY_"+dataset+"PUS7HigHTBins"+sele+".root");
+	vf.push_back(f1);
+      }
       if( listmenus->hasDY_ ){
 	TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7HigHTBins"+sele+".root");
 	vf.push_back(f1);
@@ -219,6 +223,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       if( listmenus->hasWJ_ ){
 	TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7HigHTBins"+sele+".root");
 	vf.push_back(f3);
+	if( listmenus->hasWJveryHighHT_ ){
+	  TFile *f7=new TFile(dir+"/"+"NoSmearWJveryHighHT_"+dataset+"PUS7HigHTBins"+sele+".root");
+	  vf.push_back(f7);
+	}
       }
       if(listmenus->hasSingleT_){
 	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7HigHTBins"+sele+".root");
@@ -238,6 +246,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7LowHTBins"+sele+"325.root");
       vf.push_back(f1);
     } else {
+      if( listmenus->hasZinvFromDY_ ){
+	TFile *f1=new TFile(dir+"/"+"NoSmearZinvFromDY_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+	vf.push_back(f1);
+      }
       if( listmenus->hasDY_ ){
 	TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"325.root");
 	vf.push_back(f1);
@@ -268,6 +280,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7LowHTBins"+sele+"275.root");
       vf.push_back(f1);
     } else {
+      if( listmenus->hasZinvFromDY_ ){
+	TFile *f1=new TFile(dir+"/"+"NoSmearZinvFromDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+	vf.push_back(f1);
+      }
       if( listmenus->hasDY_ ){
 	TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
 	vf.push_back(f1);
@@ -297,11 +313,19 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
     if( separateSample ){
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7LowHTBins"+sele+"275.root");
       TFile *f2=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7LowHTBins"+sele+"325.root");
-      TFile *f3=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7HigHTBins"+sele+".root");
       vf.push_back(f1);
       vf.push_back(f2);
+      TFile *f3=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7HigHTBins"+sele+".root");
       vf.push_back(f3);
     } else {
+      if( listmenus->hasZinvFromDY_ ){
+	TFile *f1=new TFile(dir+"/"+"NoSmearZinvFromDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f1);
+	TFile *f5=new TFile(dir+"/"+"NoSmearZinvFromDY_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f5);
+        TFile *f9=new TFile(dir+"/"+"NoSmearZinvFromDY_"+dataset+"PUS7HigHTBins"+sele+".root");
+        vf.push_back(f9);
+      }
       if( listmenus->hasDY_ ){
 	TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
         vf.push_back(f1);
@@ -325,6 +349,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
         vf.push_back(f7);
         TFile *f11=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7HigHTBins"+sele+".root");
         vf.push_back(f11);
+	if( listmenus->hasWJveryHighHT_ ){
+	  TFile *f19=new TFile(dir+"/"+"NoSmearWJveryHighHT_"+dataset+"PUS7HigHTBins"+sele+".root");
+	  vf.push_back(f19);
+	}
       }
       if( listmenus->hasSingleT_ ){
 	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
@@ -358,6 +386,12 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       vf.push_back(f1);
       vf.push_back(f2);
     } else {
+      if( listmenus->hasZinvFromDY_ ){
+	TFile *f1=new TFile(dir+"/"+"NoSmearZinvFromDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f1);
+        TFile *f5=new TFile(dir+"/"+"NoSmearZinvFromDY_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f5);
+      }
       if( listmenus->hasDY_ ){
 	TFile *f1=new TFile(dir+"/"+"NoSmearDY_"+dataset+"PUS7LowHTBins"+sele+"275.root");
         vf.push_back(f1);
@@ -629,6 +663,180 @@ vector<TString> vectors::dirName_pushback(TString label, TString sTreeThr){
     dirname.push_back(label+"325_375");
   } else if ( sTreeThr == "test" ){
     dirname.push_back(listmenus->testHTBin_);
+  }
+
+  return dirname;
+}
+
+vector<double> vectors::nominaltrigeff_pushback(TString sTreeThr){
+  vector<double> dirname;
+  if( sTreeThr == "100" || sTreeThr == "highHTBins" ){
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+  } else if ( sTreeThr == "375" ){
+    dirname.push_back(1.0);
+  }  else if ( sTreeThr == "475" ){
+    dirname.push_back(1.0);
+  }  else if ( sTreeThr == "575" ){
+    dirname.push_back(1.0);
+  }  else if ( sTreeThr == "675" ){
+    dirname.push_back(1.0);
+  }  else if ( sTreeThr == "775" ){
+    dirname.push_back(1.0);
+  }  else if ( sTreeThr == "875" ){
+    dirname.push_back(1.0);
+  } else if ( sTreeThr == "86" ){
+    dirname.push_back(1.0);
+  } else if ( sTreeThr == "73" ){
+    dirname.push_back(1.0);
+  } else if ( sTreeThr == "all" || sTreeThr == "allHTBins"){
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+  } else if ( sTreeThr == "low" || sTreeThr == "lowHTBins" ){
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+  } else if ( sTreeThr == "test" ){
+    dirname.push_back(1.0);
+  }
+
+  return dirname;
+}
+
+vector<double> vectors::HTATTrigEff_pushback(TString sTreeThr){
+  vector<double> dirname;
+  if( sTreeThr == "100" || sTreeThr == "highHTBins" ){
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+  } else if ( sTreeThr == "375" ){
+    dirname.push_back(1.0);
+  }  else if ( sTreeThr == "475" ){
+    dirname.push_back(1.0);
+  }  else if ( sTreeThr == "575" ){
+    dirname.push_back(1.0);
+  }  else if ( sTreeThr == "675" ){
+    dirname.push_back(1.0);
+  }  else if ( sTreeThr == "775" ){
+    dirname.push_back(1.0);
+  }  else if ( sTreeThr == "875" ){
+    dirname.push_back(1.0);
+  } else if ( sTreeThr == "86" ){
+    dirname.push_back(0.99);
+  } else if ( sTreeThr == "73" ){
+    dirname.push_back(0.92);
+  } else if ( sTreeThr == "all" || sTreeThr == "allHTBins"){
+    dirname.push_back(0.92);
+    dirname.push_back(0.99);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+    dirname.push_back(1.0);
+  } else if ( sTreeThr == "low" || sTreeThr == "lowHTBins" ){
+    dirname.push_back(0.92);
+    dirname.push_back(0.99);
+  } else if ( sTreeThr == "test" ){
+    dirname.push_back(1.0);
+  }
+
+  return dirname;
+}
+
+vector<double> vectors::SingleMuTrigEff_pushback(TString sTreeThr){
+  vector<double> dirname;
+  if( sTreeThr == "100" || sTreeThr == "highHTBins" ){
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+  } else if ( sTreeThr == "375" ){
+    dirname.push_back(0.88);
+  }  else if ( sTreeThr == "475" ){
+    dirname.push_back(0.88);
+  }  else if ( sTreeThr == "575" ){
+    dirname.push_back(0.88);
+  }  else if ( sTreeThr == "675" ){
+    dirname.push_back(0.88);
+  }  else if ( sTreeThr == "775" ){
+    dirname.push_back(0.88);
+  }  else if ( sTreeThr == "875" ){
+    dirname.push_back(0.88);
+  } else if ( sTreeThr == "86" ){
+    dirname.push_back(0.88);
+  } else if ( sTreeThr == "73" ){
+    dirname.push_back(0.88);
+  } else if ( sTreeThr == "all" || sTreeThr == "allHTBins"){
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+    dirname.push_back(0.88);
+  } else if ( sTreeThr == "low" || sTreeThr == "lowHTBins" ){
+    dirname.push_back(0.88);
+  } else if ( sTreeThr == "test" ){
+    dirname.push_back(0.88);
+  }
+
+  return dirname;
+}
+
+vector<double> vectors::DiMuTrigEff_pushback(TString sTreeThr){
+  vector<double> dirname;
+  if( sTreeThr == "100" || sTreeThr == "highHTBins" ){
+    dirname.push_back(0.96);
+    dirname.push_back(0.97);
+    dirname.push_back(0.97);
+    dirname.push_back(0.07);
+    dirname.push_back(0.98);
+    dirname.push_back(0.98);
+  } else if ( sTreeThr == "375" ){
+    dirname.push_back(0.96);
+  }  else if ( sTreeThr == "475" ){
+    dirname.push_back(0.97);
+  }  else if ( sTreeThr == "575" ){
+    dirname.push_back(0.97);
+  }  else if ( sTreeThr == "675" ){
+    dirname.push_back(0.97);
+  }  else if ( sTreeThr == "775" ){
+    dirname.push_back(0.98);
+  }  else if ( sTreeThr == "875" ){
+    dirname.push_back(0.98);
+  } else if ( sTreeThr == "86" ){
+    dirname.push_back(0.96);
+  } else if ( sTreeThr == "73" ){
+    dirname.push_back(0.95);
+  } else if ( sTreeThr == "all" || sTreeThr == "allHTBins"){
+    dirname.push_back(0.95);
+    dirname.push_back(0.96);
+    dirname.push_back(0.96);
+    dirname.push_back(0.97);
+    dirname.push_back(0.97);
+    dirname.push_back(0.97);
+    dirname.push_back(0.98);
+    dirname.push_back(0.98);
+  } else if ( sTreeThr == "low" || sTreeThr == "lowHTBins" ){
+    dirname.push_back(0.88);
+  } else if ( sTreeThr == "test" ){
+    dirname.push_back(0.88);
   }
 
   return dirname;

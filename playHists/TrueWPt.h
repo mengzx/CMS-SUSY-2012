@@ -9,11 +9,12 @@
 #include "TString.h"
 #include <stdio.h>
 #include "TLegend.h"
+#include "vectors.h"
 
 using namespace std;
 
 
-class TrueWPt{
+class TrueWPt : public vectors{
 
  public:
   TrueWPt();

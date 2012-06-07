@@ -27,6 +27,10 @@ class vectors{
   vector<TString> vhname_pusback_numer( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
   vector<TString> vhname_pusback_data( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
   vector<TString> vhname_pusback_domin( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
+  vector<double> DiMuTrigEff_pushback(TString sTreeThr);
+  vector<double> SingleMuTrigEff_pushback(TString sTreeThr);
+  vector<double> HTATTrigEff_pushback(TString sTreeThr);
+  vector<double> nominaltrigeff_pushback(TString sTreeThr);
 
 }; //end vectors
 #endif

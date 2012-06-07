@@ -110,15 +110,17 @@ TH2D* playHist2D::getHistInvFvDirvH2D( vector<TFile*> vf, vector<TString> vdirna
 }
 
 
-TH2D* playHist2D::addHistForDiffFoldersFilesHists2D(vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname){
+TH2D* playHist2D::addHistForDiffFoldersFilesHists2D(vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname, vector<double> trigeff){
 
   TH2D* h=(TH2D*)(getHistInvFvDirvH2D( vf, vdirname, vhname)->Clone("h"));
   vector<unsigned int> ifileidirih_ini=getifileidirih2D( vf, vdirname, vhname );
+  h->Scale(trigeff[ ifileidirih_ini[1] ]);
   for( unsigned int i=0; i< vf.size(); i++ ){
     for( unsigned int j=0; j<vdirname.size(); j++ ){
       for( unsigned int k=0; k<vhname.size(); k++ ){
 	TH2D* h1=getHist2D(vf[i], vdirname[j], vhname[k]);
 	if( h1 && h && ( !( ( ifileidirih_ini[0] == i ) && ( ifileidirih_ini[1] == j ) && ( ifileidirih_ini[2] == k ) ) ) ){
+	  h1->Scale(trigeff[j]);
 	  h->Add(h,h1);
 	}
       }
@@ -130,10 +132,10 @@ TH2D* playHist2D::addHistForDiffFoldersFilesHists2D(vector<TFile*> vf, vector<TS
 
 // -----------------------------------------------------------------------------
 //
-TH2D* playHist2D::addHistForDiffFoldersAndFiles_SubtrackHists2D(vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname_first, vector<TString> vhname_second){
+TH2D* playHist2D::addHistForDiffFoldersAndFiles_SubtrackHists2D(vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname_first, vector<TString> vhname_second, vector<double> trigeff ){
 
-  TH2D* h_first=(TH2D*)(addHistForDiffFoldersFilesHists2D( vf, vdirname, vhname_first)->Clone("h_first"));
-  TH2D* h_second=(TH2D*)(addHistForDiffFoldersFilesHists2D( vf, vdirname, vhname_second)->Clone("h_second"));
+  TH2D* h_first=(TH2D*)(addHistForDiffFoldersFilesHists2D( vf, vdirname, vhname_first, trigeff )->Clone("h_first") );
+  TH2D* h_second=(TH2D*)(addHistForDiffFoldersFilesHists2D( vf, vdirname, vhname_second, trigeff )->Clone("h_second") );
   TH2D* h=(TH2D*)(h_first->Clone("h"));
   TH2D* h1=(TH2D*)(h_second->Clone("h1"));
   h1->Scale(-1.);

@@ -155,11 +155,11 @@ void TrueWPt::getResults(){
   vector<TString> vhname_njet3to3=vhname_pushback(3,1);
   vector<TString> vhname_njet4to5=vhname_pushback(4,2);
   vector<TString> vhname_njet6toi=vhname_pushback(6,15);
-
-  TH1D* h_njet2to2=factor.addHistForDiffFoldersFilesHists1D(MCvf, vdirName, vhname_njet2to2);
-  TH1D* h_njet3to3=factor.addHistForDiffFoldersFilesHists1D(MCvf, vdirName, vhname_njet3to3);
-  TH1D* h_njet4to5=factor.addHistForDiffFoldersFilesHists1D(MCvf, vdirName, vhname_njet4to5);
-  TH1D* h_njet6toi=factor.addHistForDiffFoldersFilesHists1D(MCvf, vdirName, vhname_njet6toi);
+  vector<double> nominaltrigeff=nominaltrigeff_pushback("all");
+  TH1D* h_njet2to2=factor.addHistForDiffFoldersFilesHists1D(MCvf, vdirName, vhname_njet2to2, nominaltrigeff );
+  TH1D* h_njet3to3=factor.addHistForDiffFoldersFilesHists1D(MCvf, vdirName, vhname_njet3to3, nominaltrigeff);
+  TH1D* h_njet4to5=factor.addHistForDiffFoldersFilesHists1D(MCvf, vdirName, vhname_njet4to5, nominaltrigeff);
+  TH1D* h_njet6toi=factor.addHistForDiffFoldersFilesHists1D(MCvf, vdirName, vhname_njet6toi, nominaltrigeff);
 
   vector<TH1D*> WPt_withnjet;
   WPt_withnjet.push_back(h_njet2to2);

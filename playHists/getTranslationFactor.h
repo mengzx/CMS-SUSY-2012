@@ -19,9 +19,9 @@ class getTranslationFactor : public menus, public vectors{
   getTranslationFactor();
   ~getTranslationFactor(){;}
 
-  vector<TH2D*> TranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData);
+  vector<TH2D*> TranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData );
   vector<TH2D*> TranslationFactor_iTojJet( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, int iJetStart, int iJet_n, int jJetStart, int jJet_n );
-  vector<TH2D*> TranslationFactor_1To2Mu( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData);
+  vector<TH2D*> TranslationFactor_1To2Mu( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData );
   TH2D* getFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n );
   TH2D* getNumerMC( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n );
   TH2D* getDominMC( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n );

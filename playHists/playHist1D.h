@@ -23,7 +23,7 @@ class playHist1D{
   TH1D* addHistForDiffFoldersAndFiles1D(vector<TFile*> vf, vector<TString> vdirname, TString hname);
   vector<unsigned int> getifileidirih1D( vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname );
   TH1D* getHistInvFvDirvH1D( vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname );
-  TH1D* addHistForDiffFoldersFilesHists1D(vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname);
+  TH1D* addHistForDiffFoldersFilesHists1D(vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname, vector<double> trigeff);
 
   TH1D* formatHist( TH1D* inh, double inscale, TString titlex, TString titley, double xlow, double xhigh, int rebin);
   TH1D* MaxHist( vector<TH1D*> vinh);

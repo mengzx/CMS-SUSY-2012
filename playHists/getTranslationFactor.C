@@ -17,14 +17,14 @@
 using namespace std;
 
 
-
 getTranslationFactor::getTranslationFactor()
 {}
 
 // -----------------------------------------------------------------------------
 //
-vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData){
+vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData ){
   playHist2D factor=playHist2D();
+  vector<double> nominaltrigeff=nominaltrigeff_pushback(HTBins);
 
   TString dirhad = inidir_ + "rootfiles/hadronicSele" + subdir_;
 
@@ -62,13 +62,25 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
       } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NotHadTaucontrolTrig_, HTBins, false, "" );
     }
   }
-  double scalein=1.;
+  double scalein_numer=1.;
+  double scalein_domin=1.;
   TString digit1in="";
   if( isData == true ){
-    scalein=datascale_;
+    scalein_numer=datascale_;
+    scalein_domin=datascale_;
     digit1in="g";
   } else {
-    scalein = mcscale_;
+    if( useCommentJson_ ){
+      scalein_numer = mcscale_;
+      scalein_domin = mcscale_;
+    } else {
+      scalein_numer = mcscale_HT_;
+      if( MuonNumber_ == "OneMuon_" ){
+	scalein_domin = mcscale_SingleMu_;
+      } else if ( MuonNumber_ == "DiMuon_"){
+	scalein_domin = mcscale_DiMu_;
+      }
+    }
     digit1in=digit1_;
   }
 
@@ -87,8 +99,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
   if( MuAddOrNot == true  && normalEstimation_ == false ){
     vector<TH2D*> reh2d;
 
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D( vf_had, dirNamehad, hNamehad );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D( vf_1mu, dirName1mu, hName1mu );
+    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D( vf_had, dirNamehad, hNamehad, nominaltrigeff );
+    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D( vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
 
     if( notCutAlphaT_ ){
       TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
@@ -98,8 +110,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     TH2D* factor_h=(TH2D*)( AlphaT_vs_HT_numer->Clone( "factor_h" ) );
     factor_h->Divide( AlphaT_vs_HT_numer, AlphaT_vs_HT_domin );
 
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
     reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     return reh2d;
   }
@@ -117,8 +129,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
       }
     }
 
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersAndFiles_SubtrackHists2D(vf_had, dirNamehad, vhname_first, vhname_second );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
+    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersAndFiles_SubtrackHists2D(vf_had, dirNamehad, vhname_first, vhname_second, nominaltrigeff );
+    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
 
     if( notCutAlphaT_ ){
       TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
@@ -128,8 +140,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
     reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     
     return reh2d;
@@ -138,8 +150,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
   if( MuAddOrNot == false && fullesti == false && normalEstimation_ == false ){
     vector<TH2D*> reh2d;
 
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
+    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
+    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
 
     if( notCutAlphaT_ ){
       TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
@@ -149,16 +161,16 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
     reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     return reh2d;
   }
 
   if( normalEstimation_ == true ){
     vector<TH2D*> reh2d;
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
+    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
+    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
     
     if( notCutAlphaT_ ){
       TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
@@ -168,8 +180,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
     reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     return reh2d;
   }
@@ -182,6 +194,7 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
 // -----------------------------------------------------------------------------
 //
 vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+  vector<double> nominaltrigeff=nominaltrigeff_pushback(HTBins);
   playHist2D factor=playHist2D();
 
   //  TString dirhad = inidir_ + "rootfiles/hadronicSele" + subdir_;
@@ -204,15 +217,29 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, 
     vf_1mu=Datavf_pushback(dir1mu, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
   } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
 
-  double scalein=1.;
+  double scalein_numer=1.;
+  double scalein_domin=1.;
   TString digit1in="";
   if( isData == true ){
-    scalein=datascale_;
+    scalein_numer=datascale_;
+    scalein_domin=datascale_;
     digit1in="g";
   } else {
-    scalein = mcscale_;
+    if( useCommentJson_ ){
+      scalein_numer = mcscale_;
+      scalein_domin = mcscale_;
+    } else {
+      if( MuonNumber_ == "OneMuon_" ){
+        scalein_numer = mcscale_SingleMu_;
+	scalein_domin = mcscale_SingleMu_;
+      } else if ( MuonNumber_ == "DiMuon_"){
+	scalein_domin = mcscale_DiMu_;
+	scalein_numer = mcscale_DiMu_;
+      }
+    }
     digit1in=digit1_;
   }
+
 
   vector<TString> dirNamehad=dirName_pushback(folderlabel_ + MuonNumber_, HTBins);
   vector<TString> dirName1mu=dirName_pushback(folderlabel_ + MuonNumber_, HTBins);
@@ -231,8 +258,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, 
     //MuaddOrNot and fullesti is arbitarilly selected, because itoj jet estimation need normalestimation == true
   if( normalEstimation_ == true ){
     vector<TH2D*> reh2d;
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
+    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
+    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
     
     if( notCutAlphaT_ ){
       TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
@@ -242,8 +269,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, 
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
     reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     return reh2d;
   }
@@ -255,7 +282,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, 
 
 // -----------------------------------------------------------------------------
 //
-vector<TH2D*> getTranslationFactor::TranslationFactor_1To2Mu( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData){
+vector<TH2D*> getTranslationFactor::TranslationFactor_1To2Mu( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData ){
+  vector<double> nominaltrigeff=nominaltrigeff_pushback(HTBins);
   playHist2D factor=playHist2D();
 
   TString dir1mu="";
@@ -275,15 +303,24 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_1To2Mu( bool MuAddOrNot, b
     vf_1mu=Datavf_pushback(dir1mu, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
   } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
 
-  double scalein=1.;
+  double scalein_numer=1.;
+  double scalein_domin=1.;
   TString digit1in="";
   if( isData == true ){
-    scalein=datascale_;
+    scalein_numer=datascale_;
+    scalein_domin=datascale_;
     digit1in="g";
   } else {
-    scalein = mcscale_;
+    if( useCommentJson_ ){
+      scalein_numer = mcscale_;
+      scalein_domin = mcscale_;
+    } else {
+      scalein_numer = mcscale_DiMu_;
+      scalein_domin = mcscale_SingleMu_;
+    }
     digit1in=digit1_;
   }
+
 
   vector<TString> dirNamehad=dirName_pushback(folderlabel_ + "DiMuon_", HTBins);
   vector<TString> dirName1mu=dirName_pushback(folderlabel_ + "OneMuon_", HTBins);
@@ -303,8 +340,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_1To2Mu( bool MuAddOrNot, b
 
   if( normalEstimation_ == true ){
     vector<TH2D*> reh2d;
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu );
+    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
+    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
     
     if( notCutAlphaT_ ){
       TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
@@ -316,8 +353,8 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_1To2Mu( bool MuAddOrNot, b
     TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
     factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
+    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
     reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     return reh2d;
   }
@@ -371,7 +408,7 @@ TH2D* getTranslationFactor::getDominMC( bool MuAddOrNot, bool fullesti, TString 
 
 // -----------------------------------------------------------------------------
 //
-TH2D* getTranslationFactor::getControlData( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+TH2D* getTranslationFactor::getControlData( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n  ){
   if( closureTests == "1To2Mu" ){
     vector<TH2D*> Data1mu=TranslationFactor_1To2Mu( MuAddOrNot, fullesti, HTBins, true );
     return Data1mu[1];

@@ -456,9 +456,8 @@ void printTables::Tables_ForHadTau( TString closureTests, int iJetStart, int iJe
   predBG_totalh_withZinvpred->Add(predBG_totalh_withZinvpred, Zinvh );
   vector<vector<TString> > predBG_total_withZinvpred_WithErr=readHist_WithErr( predBG_totalh_withZinvpred, digit );
 
-
-
-  vector<vector<TString> > yieldData_WithErr=readYieldDataHist_WithErr( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, digit );
+  TH2D* yieldData_h=factor.getYieldData( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  vector<vector<TString> > yieldData_WithErr=readHist_WithErr( yieldData_h, digit );
 
   int column_n=4;
 
@@ -549,14 +548,45 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
   TH2D *factor_h=factor.getFactor( false, true, "allHTBins", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
   TH2D *controlData_h=factor.getControlData( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
   TH2D *predBG_h=factor.getPredBG( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* yieldData_h=factor.getYieldData( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+
   TH2D *dominMC_h_trigcorr=(TH2D*)( dominMC_h->Clone("dominMC_h_trigcorr") );
   //  dominMC_h_trigcorr->Multiply(dominMC_h_trigcorr, HT_ATTrigeff);
-
   TH2D *factor_h_trigcorr=(TH2D*)( factor_h->Clone("factor_h_trigcorr") );
   //  factor_h_trigcorr->Divide(factor_h_trigcorr, HT_ATTrigeff);
 
   TH2D *predBG_h_trigcorr=(TH2D*)( predBG_h->Clone("predBG_h_trigcorr") );
   //  predBG_h_trigcorr->Divide(predBG_h_trigcorr, HT_ATTrigeff);
+
+
+
+  if( !useCommentJson_){
+    double scaletoHT=1.;
+    if( closureTests == "iTojJet" ){
+      if( MuonNumber_ == "OneMuon_"){
+	scaletoHT=mcscale_HT_/mcscale_SingleMu_;
+      } else if( MuonNumber_ == "DiMuon_" ){
+	scaletoHT=mcscale_HT_/mcscale_DiMu_;
+      }
+      yieldData_h->Scale(scaletoHT);
+      numerMC_h->Scale(scaletoHT);
+    } else if ( closureTests == "1To2Mu"){
+      scaletoHT=mcscale_HT_/mcscale_SingleMu_;
+      double scaletoHT_numer=mcscale_HT_/mcscale_DiMu_;
+      yieldData_h->Scale(scaletoHT_numer);
+      numerMC_h->Scale(scaletoHT_numer);
+    } else {
+      if( MuonNumber_ == "OneMuon_"){
+	scaletoHT=mcscale_HT_/mcscale_SingleMu_;
+      } else if( MuonNumber_ == "DiMuon_" ){
+	scaletoHT=mcscale_HT_/mcscale_DiMu_;
+      }
+    }
+    dominMC_h_trigcorr->Scale(scaletoHT);
+    controlData_h->Scale(scaletoHT);
+    predBG_h_trigcorr->Scale(scaletoHT);
+  }
+
 
   TString digit="%.1f";
   vector<vector<TString> > numerMC_WithErr=readHist_WithErr( numerMC_h, digit );
@@ -573,7 +603,8 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
   predBG_totalh_withZinvpred->Add(predBG_totalh_withZinvpred, Zinvh );
   vector<vector<TString> > predBG_total_withZinvpred_WithErr=readHist_WithErr( predBG_totalh_withZinvpred, digit );
 
-  vector<vector<TString> > yieldData_WithErr=readYieldDataHist_WithErr( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, digit );
+
+  vector<vector<TString> > yieldData_WithErr=readHist_WithErr( yieldData_h, digit );
 
 
 
@@ -590,7 +621,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
     outputfile = fopen (buffer,"w");
   } else {
     char buffer[100];
-    sprintf (buffer, "table_%dTo%db.tex", startNJet_-1, startNJet_+nJets_-2);
+    sprintf (buffer, "table_%s%dTo%db.tex", MuonNumber_.Data(), startNJet_-1, startNJet_+nJets_-2);
     outputfile = fopen (buffer,"w");
   }
   fprintf(outputfile, "\\documentclass[a4paper,12pt]{article} \n");
