@@ -19,6 +19,7 @@ class menus{
   bool normalEstimation_;
   bool drawStack_;
   TString  epspng_;
+  bool doTrigCorr_;
 
   bool hasData_;
   bool hasMCtotal_;
@@ -30,6 +31,14 @@ class menus{
   bool hasDiBoson_;
   bool hasZinvFromDY_;
   bool hasWJveryHighHT_;
+  bool hasZinv_HT50To100_;
+  bool hasZinv_FastSim_HT100To200_;
+  bool hasZinv_FastSim_HT200To400_;
+  bool hasZinv_HT400Toinf_;
+  bool hasWJ_inclusive_;
+  bool hasWJ_FastSim_HT250To300_;
+  bool hasWJ_FastSim_HT300To400_;
+  bool hasWJ_HT400Toinf_;
   TString inidir_;
   TString subdir_;
   TString folderlabel_;

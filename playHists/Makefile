@@ -8,7 +8,7 @@ SOURCEDIR	=  ./
 HEADERDIR	= ./
 
 
-all:tdrstyle.o playHist2D.o playHist1D.o project2DHists.o menus.o vectors.o getTranslationFactor.o basicPlots.o printTables.o TrueWPt.o rootdict.o main.exe
+all:tdrstyle.o playHist2D.o playHist1D.o project2DHists.o menus.o vectors.o getTranslationFactor.o basicPlots.o printTables.o TrueWPt.o rootdict.o QCDk.o main.exe
 
 rootdict.C:    ./linkdef.h
 	@echo "Generating dictionary"
@@ -50,10 +50,13 @@ printTables.o:printTables.C printTables.h
 TrueWPt.o:TrueWPt.C TrueWPt.h 
 	g++ -c TrueWPt.C -o $@ -I $(ROOTCFLAGS) -I . -I $(SOURCEDIR) -I $(HEADERDIR)
 
+QCDk.o:QCDk.C QCDk.h 
+	g++ -c QCDk.C -o $@ -I $(ROOTCFLAGS) -I . -I $(SOURCEDIR) -I $(HEADERDIR)
+
 
 
 main.exe:main.C
-	g++ -O3 -Wall -I $(ROOTCFLAGS) $^ -o $@ tdrstyle.o playHist2D.o playHist1D.o project2DHists.o menus.o vectors.o TrueWPt.o getTranslationFactor.o basicPlots.o printTables.o rootdict.o $(DQSO) -I . -I $(SOURCEDIR)  -I $(HEADERDIR) $(ROOTLIBS)
+	g++ -O3 -Wall -I $(ROOTCFLAGS) $^ -o $@ tdrstyle.o playHist2D.o playHist1D.o project2DHists.o menus.o vectors.o TrueWPt.o getTranslationFactor.o basicPlots.o printTables.o rootdict.o QCDk.o $(DQSO) -I . -I $(SOURCEDIR)  -I $(HEADERDIR) $(ROOTLIBS)
 
 
 #main.exe:main.C tauperf.C file.txt

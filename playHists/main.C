@@ -5,6 +5,7 @@
 #include "project2DHists.h"
 #include "TrueWPt.h"
 #include "printTables.h"
+#include "QCDk.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
@@ -19,6 +20,8 @@ using namespace std;
 
 int main()
 {
+  QCDk *qcdk=new QCDk();
+  qcdk->getResults();
 
   //  TrueWPt *WPt=new TrueWPt();
   //  WPt->getResults();
@@ -44,42 +47,45 @@ int main()
       //  int startNJet[1]={0};
       ///  int nJet[1]     ={0};
 
-	     /*
-             for( int i=0; i< 5; i++){
+
+      /*            for( int i=3; i< 5; i++){
             basicPlots *bp=new basicPlots();
            bp->getResults("all", "OneMu", startNJet[i], nJet[i] );
             delete bp;
           }
-
-	     for( int i=0; i< 5; i++){
+      */
+      
+      /*
+    		     for( int i=0; i< 3; i++){
        basicPlots *bp=new basicPlots();
      bp->getResults("lowHTBins", "OneMu", startNJet[i], nJet[i] );
        delete bp;
        }
 
 
-      for( int i=0; i< 5; i++){
+      for( int i=3; i< 5; i++){
        basicPlots *bp=new basicPlots();
        bp->getResults("highHTBins", "OneMu", startNJet[i], nJet[i] );
        delete bp;
-       }
-	     */
-       for( int i=0; i< 6; i++){
+       }*/
+
+      /*	         for( int i=0; i< 6; i++){
        basicPlots *bp=new basicPlots();
        bp->getResults("all", "HadSele", startNJet[i], nJet[i] );
        delete bp;
-     }
+       }*/
 
-                 for( int i=0; i< 5; i++){
+      /*                 for( int i=0; i< 5; i++){
        basicPlots *bp=new basicPlots();
        bp->getResults("lowHTBins", "HadSele", startNJet[i], nJet[i] );
        delete bp;
-       }
-     for( int i=0; i< 5; i++){
+       }*/
+
+      /*    for( int i=0; i< 5; i++){
        basicPlots *bp=new basicPlots();
        bp->getResults("highHTBins", "HadSele", startNJet[i], nJet[i] );
        delete bp;
-       }
+       }*/
 
 
 

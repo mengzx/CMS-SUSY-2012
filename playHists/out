@@ -1,0 +1,32 @@
+ FCN=3.2133 FROM MIGRAD    STATUS=CONVERGED      55 CALLS          56 TOTAL
+                     EDM=9.55066e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant    -5.22908e+00   1.72010e+00   2.15844e-04   1.60861e-03
+   2  Slope       -7.17866e-03   4.67502e-03   5.86480e-07   6.44259e-01
+Region: B  N_bjets: all
+ mean: 0 error: 0 chi2: 3.2133 ndof: 2 p-value: 0.200558
+ FCN=2.05658 FROM MIGRAD    STATUS=CONVERGED      48 CALLS          49 TOTAL
+                     EDM=1.42896e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant    -5.96405e+00   1.55558e+00   1.92504e-04   3.46203e-03
+   2  Slope       -7.96534e-03   4.26125e-03   5.30074e-07   1.60272e+00
+Region: C1  N_bjets: all
+ mean: 0 error: 0 chi2: 2.05658 ndof: 2 p-value: 0.357617
+ FCN=0.679737 FROM MIGRAD    STATUS=CONVERGED      50 CALLS          51 TOTAL
+                     EDM=9.06676e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant    -3.19669e+00   7.07827e-01   8.39501e-05   2.05607e-04
+   2  Slope       -1.28555e-02   2.04937e-03   2.43030e-07   5.40933e-03
+Region: C2  N_bjets: all
+ mean: 0 error: 0 chi2: 0.679737 ndof: 2 p-value: 0.711864
+ FCN=0.253548 FROM MIGRAD    STATUS=CONVERGED      47 CALLS          48 TOTAL
+                     EDM=6.70881e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Constant    -3.40097e+00   3.74438e-01   4.02002e-05   4.20346e-04
+   2  Slope       -8.87159e-03   1.03171e-03   1.10777e-07   2.57788e-01
+Region: C3  N_bjets: all
+ mean: 0 error: 0 chi2: 0.253548 ndof: 2 p-value: 0.880933

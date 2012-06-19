@@ -178,28 +178,58 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
     } else if( dataMC == 2 ){
       if( useCommentJson_ ){
 	if( whichpart == 1 ){
-	  MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, HTATtrigeff );
-	  vh.push_back( MCh );
+	  if( doTrigCorr_ ){
+	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, HTATtrigeff );
+	    vh.push_back( MCh );
+	  } else {
+	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	    vh.push_back( MCh );
+	  }
 	} else {
 	  if(  MuonNumber_ == "OneMuon_" ){
-	    MCh=Hist1D( MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, SingleMutrigeff );
-	    vh.push_back( MCh );
+	    if( doTrigCorr_ ){
+	      MCh=Hist1D( MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, SingleMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist1D( MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  } else if ( MuonNumber_ == "DiMuon_" ){
-	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, DiMutrigeff );
-	    vh.push_back( MCh );
+            if( doTrigCorr_ ){
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, DiMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  }
 	} 
       } else {
 	if( whichpart == 1 ){
-	  MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, HTATtrigeff );
-	  vh.push_back( MCh );
+	  if( doTrigCorr_ ){
+	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, HTATtrigeff );
+	    vh.push_back( MCh );
+	  } else {
+	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	    vh.push_back( MCh );
+	  }
 	} else {
 	  if(  MuonNumber_ == "OneMuon_" ){
-	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, SingleMutrigeff );
-	    vh.push_back( MCh );
+	    if( doTrigCorr_ ){
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, SingleMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  } else if( MuonNumber_ == "DiMuon_" ){
-	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, DiMutrigeff );
-	    vh.push_back( MCh );
+            if( doTrigCorr_ ){
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, DiMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  }
 	}
       }
@@ -210,28 +240,58 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
     } else if( dataMC == 0){
       if( useCommentJson_ ){
 	if( whichpart == 1 ){
-	  MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, HTATtrigeff );
-	  vh.push_back( MCh );
+	  if( doTrigCorr_ ){
+	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, HTATtrigeff );
+	    vh.push_back( MCh );
+	  } else {
+	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	    vh.push_back( MCh );
+	  }
 	} else {
 	  if(  MuonNumber_ == "OneMuon_" ){
-	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, SingleMutrigeff );
-	    vh.push_back( MCh );
+	    if( doTrigCorr_ ){
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, SingleMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  } else if( MuonNumber_ == "DiMuon_" ){
-	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, DiMutrigeff );
-	    vh.push_back( MCh );
+	    if( doTrigCorr_ ){
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, DiMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  }
 	}
       } else {
 	if( whichpart == 1 ){
-	  MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, HTATtrigeff );
-	  vh.push_back( MCh );
+	  if( doTrigCorr_ ){
+	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, HTATtrigeff );
+	    vh.push_back( MCh );
+	  } else {
+	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	    vh.push_back( MCh );
+	  }
 	} else {
 	  if(  MuonNumber_ == "OneMuon_" ){
-	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, SingleMutrigeff );
-	    vh.push_back( MCh );
+	    if( doTrigCorr_ ){
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, SingleMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  } else if( MuonNumber_ == "DiMuon_" ){
-	    MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, DiMutrigeff );
-	    vh.push_back( MCh );
+            if( doTrigCorr_ ){
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, DiMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  }
 	}
       }
@@ -249,28 +309,58 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
     } else if( dataMC == 2 ){
       if( useCommentJson_ ){
 	if( whichpart == 1 ){
-	  MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, HTATtrigeff );
-	  vh.push_back( MCh );
+	  if( doTrigCorr_ ){
+	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, HTATtrigeff );
+	    vh.push_back( MCh );
+	  } else {
+	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	    vh.push_back( MCh );
+	  }
 	} else {
 	  if(  MuonNumber_ == "OneMuon_" ){
-	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, SingleMutrigeff );
-	    vh.push_back( MCh );
+	    if( doTrigCorr_ ){
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, SingleMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  } else if( MuonNumber_ == "DiMuon_" ){
-	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, DiMutrigeff );
-	    vh.push_back( MCh );
+            if( doTrigCorr_ ){
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, DiMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  }
 	}
       } else {
 	if( whichpart == 1 ){
-	  MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, HTATtrigeff );
-	  vh.push_back( MCh );
+	  if( doTrigCorr_ ){
+	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, HTATtrigeff );
+	    vh.push_back( MCh );
+	  } else {
+	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	    vh.push_back( MCh );
+	  }
 	} else {
 	  if(  MuonNumber_ == "OneMuon_" ){
-	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, SingleMutrigeff );
-	    vh.push_back( MCh );
+	    if( doTrigCorr_ ){
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, SingleMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  } else if( MuonNumber_ == "DiMuon_" ){
-	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, DiMutrigeff );
-	    vh.push_back( MCh );
+            if( doTrigCorr_ ){
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, DiMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  }
 	}
       }
@@ -281,28 +371,58 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
     } else if( dataMC == 0){
       if( useCommentJson_ ){
 	if( whichpart == 1 ){
-	  MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, HTATtrigeff );
-	  vh.push_back( MCh );
+	  if( doTrigCorr_ ){
+	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, HTATtrigeff );
+	    vh.push_back( MCh );
+	  } else {
+	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	    vh.push_back( MCh );
+	  }
 	} else {
 	  if(  MuonNumber_ == "OneMuon_" ){
-	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, SingleMutrigeff );
-	    vh.push_back( MCh );
+	    if( doTrigCorr_ ){
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, SingleMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  } else if( MuonNumber_ == "DiMuon_" ){
-	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, DiMutrigeff );
-	    vh.push_back( MCh );
+            if( doTrigCorr_ ){
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, DiMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  }
 	}
       } else {
 	if( whichpart == 1 ){
-	  MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, HTATtrigeff );
-	  vh.push_back( MCh );
+	  if( doTrigCorr_ ){
+	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, HTATtrigeff );
+	    vh.push_back( MCh );
+	  } else {
+	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_HT_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	    vh.push_back( MCh );
+	  }
 	} else {
 	  if(  MuonNumber_ == "OneMuon_" ){
-	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, SingleMutrigeff );
-	    vh.push_back( MCh );
+	    if( doTrigCorr_ ){
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, SingleMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_SingleMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  } else if( MuonNumber_ == "DiMuon_" ){
-	    MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, DiMutrigeff );
-	    vh.push_back( MCh );
+            if( doTrigCorr_ ){
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, DiMutrigeff );
+	      vh.push_back( MCh );
+	    } else {
+	      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale_DiMu_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
+	      vh.push_back( MCh );
+	    }
 	  }
 	}
       }
@@ -367,6 +487,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     vlenname.push_back("Total MC");
     vhnames.push_back("MCtotal");
   }
+
   if( hasWJ_ ){
     TH1D *MCh_WJ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ", lowy, highy, OneDTwoD, startNJet, nJets ))[0];
     if( hasWJveryHighHT_ && ( HTBins == "highHTBins" || HTBins == "all") ){
@@ -408,6 +529,65 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     vlenname.push_back("Z#rightarrow#nu#nu+jets");
     vhnames.push_back("Zinv");
   }
+
+  if( hasZinv_HT50To100_ ){
+    TH1D *MCh_Zinv_HT50To100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_HT50To100", lowy, highy, OneDTwoD, startNJet, nJets ))[0];
+    vh.push_back(MCh_Zinv_HT50To100);
+    vlenname.push_back("Z#rightarrow#nu#nu+jets (50<HT<100)");
+    vhnames.push_back("Zinv_HT50To100");
+  }
+
+  if( hasZinv_FastSim_HT100To200_ ){
+    TH1D *MCh_Zinv_FastSim_HT100To200= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_FastSim_HT100To200", lowy, highy, OneDTwoD, startNJet, nJets ))[0];
+    vh.push_back(MCh_Zinv_FastSim_HT100To200);
+    vlenname.push_back("Z#rightarrow#nu#nu+jets (100<HT<200, Fast)");
+    vhnames.push_back("Zinv_FastSim_HT100To200");
+  }
+
+  if( hasZinv_FastSim_HT200To400_ ){
+    TH1D *MCh_Zinv_FastSim_HT200To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_FastSim_HT200To400", lowy, highy, OneDTwoD, startNJet, nJets ))[0];
+    vh.push_back(MCh_Zinv_FastSim_HT200To400);
+    vlenname.push_back("Z#rightarrow#nu#nu+jets (200<HT<400, Fast)");
+    vhnames.push_back("Zinv_FastSim_HT200To400");
+  }
+
+  if( hasZinv_HT400Toinf_ ){
+    TH1D *MCh_Zinv_HT400Toinf= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_HT400Toinf", lowy, highy, OneDTwoD, startNJet, nJets ))[0];
+    vh.push_back(MCh_Zinv_HT400Toinf);
+    vlenname.push_back("Z#rightarrow#nu#nu+jets (HT>400)");
+    vhnames.push_back("Zinv_HT400Toinf");
+  }
+
+
+  if( hasWJ_inclusive_ ){
+    TH1D *MCh_WJ_inclusive= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_inclusive", lowy, highy, OneDTwoD, startNJet, nJets ))[0];
+    vh.push_back(MCh_WJ_inclusive);
+    vlenname.push_back("W+jets (HT<250)");
+    vhnames.push_back("WJ_inclusive");
+  }
+
+  if( hasWJ_FastSim_HT250To300_ ){
+    TH1D *MCh_WJ_FastSim_HT250To300= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_FastSim_HT250To300", lowy, highy, OneDTwoD, startNJet, nJets ))[0];
+    vh.push_back(MCh_WJ_FastSim_HT250To300);
+    vlenname.push_back("W+jets (250<HT<300, Fast)");
+    vhnames.push_back("WJ_FastSim_HT250To300");
+  }
+
+  if( hasWJ_FastSim_HT300To400_ ){
+    TH1D *MCh_WJ_FastSim_HT300To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_FastSim_HT300To400", lowy, highy, OneDTwoD, startNJet, nJets ))[0];
+    vh.push_back(MCh_WJ_FastSim_HT300To400);
+    vlenname.push_back("W+jets (300<HT<400, Fast)");
+    vhnames.push_back("WJ_FastSim_HT300To400");
+  }
+
+  if( hasWJ_HT400Toinf_ ){
+    TH1D *MCh_WJ_HT400Toinf= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_HT400Toinf", lowy, highy, OneDTwoD, startNJet, nJets ))[0];
+    vh.push_back(MCh_WJ_HT400Toinf);
+    vlenname.push_back("W+jets (HT>400)");
+    vhnames.push_back("WJ_HT400Toinf");
+  }
+
+
   if( hasDiBoson_ ){
     TH1D *MCh_DiBoson= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DiBoson", lowy, highy, OneDTwoD, startNJet, nJets ))[0];
     vh.push_back(MCh_DiBoson);
@@ -582,6 +762,46 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  invsvh[i]->SetFillColor(7);
 	  invsvh[i]->SetMarkerColor(7);
 	  hs->Add(invsvh[i]);
+       	} else if( vhnames[ invsvh_index[i] ] == "Zinv_HT50To100" ){
+	  invsvh[i]->SetLineColor(kCyan-10);
+	  invsvh[i]->SetFillColor(kCyan-10);
+	  invsvh[i]->SetMarkerColor(kCyan-10);
+	  hs->Add(invsvh[i]);
+	} else if( vhnames[ invsvh_index[i] ] == "Zinv_FastSim_HT100To200" ){
+	  invsvh[i]->SetLineColor(kCyan+1);
+	  invsvh[i]->SetFillColor(kCyan+1);
+	  invsvh[i]->SetMarkerColor(kCyan+1);
+	  hs->Add(invsvh[i]);
+	} else if( vhnames[ invsvh_index[i] ] == "Zinv_FastSim_HT200To400" ){
+	  invsvh[i]->SetLineColor(kCyan+2);
+	  invsvh[i]->SetFillColor(kCyan+2);
+	  invsvh[i]->SetMarkerColor(kCyan+2);
+	  hs->Add(invsvh[i]);
+	} else if( vhnames[ invsvh_index[i] ] == "Zinv_HT400Toinf" ){
+	  invsvh[i]->SetLineColor(kCyan+3);
+	  invsvh[i]->SetFillColor(kCyan+3);
+	  invsvh[i]->SetMarkerColor(kCyan+3);
+	  hs->Add(invsvh[i]);
+       	} else if( vhnames[ invsvh_index[i] ] == "WJ_inclusive" ){
+	  invsvh[i]->SetLineColor(kRed-10);
+	  invsvh[i]->SetFillColor(kRed-10);
+	  invsvh[i]->SetMarkerColor(kRed-10);
+	  hs->Add(invsvh[i]);
+	} else if( vhnames[ invsvh_index[i] ] == "WJ_FastSim_HT250To300" ){
+	  invsvh[i]->SetLineColor(kRed+1);
+	  invsvh[i]->SetFillColor(kRed+1);
+	  invsvh[i]->SetMarkerColor(kRed+1);
+	  hs->Add(invsvh[i]);
+	} else if( vhnames[ invsvh_index[i] ] == "WJ_FastSim_HT300To400" ){
+	  invsvh[i]->SetLineColor(kYellow+1);
+	  invsvh[i]->SetFillColor(kYellow+1);
+	  invsvh[i]->SetMarkerColor(kYellow+1);
+	  hs->Add(invsvh[i]);
+	} else if( vhnames[ invsvh_index[i] ] == "WJ_HT400Toinf" ){
+	  invsvh[i]->SetLineColor(kBlue-10);
+	  invsvh[i]->SetFillColor(kBlue-10);
+	  invsvh[i]->SetMarkerColor(kBlue-10);
+	  hs->Add(invsvh[i]);
 	}
       }
     }
@@ -589,7 +809,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
     hs->Draw("HIST 9 same");
 
-    if( vh.size() > 1 ){
+    if( vh.size() > 1 and hasMCtotal_){
       double lowmche=vh[1]->GetBinLowEdge(1);
       double highmche=vh[1]->GetBinLowEdge(vh[1]->GetNbinsX())+vh[1]->GetBinWidth(1);
       TH1D *mche=new TH1D("mche","mche",vh[1]->GetNbinsX(), lowmche, highmche);
@@ -619,8 +839,14 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     if( vh.size() > 0 && vhnames[0] == "Data"){
       len->AddEntry(vh[0], "Data");
     }
-    for( unsigned int i=2; i<vh.size(); i++ ){
-      len->AddEntry(vh[i], vlenname[i]);
+    if( hasMCtotal_ && hasData_ ){
+      for( unsigned int i=2; i<vh.size(); i++ ){
+	len->AddEntry(vh[i], vlenname[i]);
+      }
+    } else{
+      for( unsigned int i=0; i<vh.size(); i++ ){
+	len->AddEntry(vh[i], vlenname[i]);
+      }
     }
   }
 
@@ -778,16 +1004,16 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
   bool MuAddOrNot=true;
   int rebin=50;
   if( selection == "HadSele"){
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 800, "MET", len, 0.55, 10, 2, startNJet, nJets );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0.55, 10, 2, startNJet, nJets );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 800, "MET", len, 0.55, 10, 2, startNJet, nJets );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0.55, 10, 2, startNJet, nJets );
     rebin=50;
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0.55, 10., 2, startNJet, nJets );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, 0.55, 10., 2, startNJet, nJets );
     rebin=20;
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0.55, 10, 2, startNJet, nJets );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0.55, 10, 2, startNJet, nJets );
     rebin=1;
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0.55, 10, 2, startNJet, nJets );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0.55, 10, 2, startNJet, nJets );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0.55, 10, 2, startNJet, nJets );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0.55, 10, 2, startNJet, nJets );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0.55, 10, 2, startNJet, nJets );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0.55, 10, 2, startNJet, nJets );
     rebin=5;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.5, 1.2, "AlphaT", len, 0, 0, 1, startNJet, nJets );
   }

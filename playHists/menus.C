@@ -15,6 +15,7 @@ menus::menus(){
   notCutAlphaT_=true;
   drawStack_=true;
   epspng_="png";
+  doTrigCorr_=true;
 
   hasData_=true;
   hasMCtotal_=true;
@@ -22,13 +23,22 @@ menus::menus(){
   hasDY_=true;
   hasTT_=true;
   hasSingleT_=true;
-  hasZinv_=false;
-  hasDiBoson_=false;
-  hasZinvFromDY_=true;
-  hasWJveryHighHT_=true;
+  hasZinv_=true;
+  hasDiBoson_=true;
 
-  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/EighthLookAt8TeVData_AimToICHEP_ForDocumentAproval01062012_27052012/";
-  subdir_="/allBJets_MC8TeVData8TeV_WithRecoVertexWeight_CaloMETNoEtraAddofMuElPho";
+  hasZinvFromDY_=false;
+  hasWJveryHighHT_=false;
+  hasZinv_HT50To100_=false;
+  hasZinv_FastSim_HT100To200_=false;
+  hasZinv_FastSim_HT200To400_=false;
+  hasZinv_HT400Toinf_=false;
+  hasWJ_inclusive_=false;
+  hasWJ_FastSim_HT250To300_=false;
+  hasWJ_FastSim_HT300To400_=false;
+  hasWJ_HT400Toinf_=false;
+
+  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/NinthLookAt8TeVData_AimToICHEP_ForAproval27062012_18062012/";
+  subdir_="/allBJets";
   folderlabel_="";
   HadTaudataset_="SingleMu2012";
   NotHadTaudataset_="HT2012";
@@ -46,10 +56,10 @@ menus::menus(){
   //  mcscale_=5.56788; //6th look
   //  mcscale_=8.09551; // 7th look
   useCommentJson_=false;
-  mcscale_=15.33;
-  mcscale_HT_=15.66;
-  mcscale_SingleMu_=15.61;
-  mcscale_DiMu_=15.61;
+  mcscale_=1.;
+  mcscale_HT_=38.71;
+  mcscale_SingleMu_=36.6607;
+  mcscale_DiMu_=36.6607;
 
   digit1_=".1f";
   digit2_=".2f";
