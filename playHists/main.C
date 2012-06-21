@@ -6,6 +6,7 @@
 #include "TrueWPt.h"
 #include "printTables.h"
 #include "QCDk.h"
+#include "BGCompositions.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
@@ -20,8 +21,19 @@ using namespace std;
 
 int main()
 {
-  QCDk *qcdk=new QCDk();
-  qcdk->getResults();
+
+  BGCompositions *bg=new BGCompositions();
+  //  bg->printout( "MuonSingleMuTrig", -1 );
+  //  bg->printout( "MuonSingleMuTrig", 0 );
+  bg->printout( "MuonSingleMuTrig", 1 );
+  bg->printout( "MuonSingleMuTrig", 2 );
+  /*  bg->printout( "HadSele", -1 );
+  bg->printout( "HadSele", 0 );
+  bg->printout( "HadSele", 1 );
+  bg->printout( "HadSele", 2 );
+  */
+  //  QCDk *qcdk=new QCDk();
+  //  qcdk->getResults();
 
   //  TrueWPt *WPt=new TrueWPt();
   //  WPt->getResults();
@@ -48,45 +60,46 @@ int main()
       ///  int nJet[1]     ={0};
 
 
-      /*            for( int i=3; i< 5; i++){
+      /*         for( int i=0; i< 3; i++){
             basicPlots *bp=new basicPlots();
            bp->getResults("all", "OneMu", startNJet[i], nJet[i] );
             delete bp;
           }
-      */
       
-      /*
-    		     for( int i=0; i< 3; i++){
+     for( int i=0; i< 3; i++){
        basicPlots *bp=new basicPlots();
      bp->getResults("lowHTBins", "OneMu", startNJet[i], nJet[i] );
        delete bp;
        }
 
-
-      for( int i=3; i< 5; i++){
+    	 for( int i=3; i< 5; i++){
        basicPlots *bp=new basicPlots();
        bp->getResults("highHTBins", "OneMu", startNJet[i], nJet[i] );
        delete bp;
-       }*/
+       }
+      */
 
-      /*	         for( int i=0; i< 6; i++){
+
+      /*      for( int i=3; i< 5; i++){
        basicPlots *bp=new basicPlots();
        bp->getResults("all", "HadSele", startNJet[i], nJet[i] );
        delete bp;
        }*/
 
-      /*                 for( int i=0; i< 5; i++){
+      /*
+                       for( int i=0; i< 5; i++){
        basicPlots *bp=new basicPlots();
        bp->getResults("lowHTBins", "HadSele", startNJet[i], nJet[i] );
        delete bp;
        }*/
 
-      /*    for( int i=0; i< 5; i++){
+      /*
+          for( int i=3; i< 6; i++){
        basicPlots *bp=new basicPlots();
        bp->getResults("highHTBins", "HadSele", startNJet[i], nJet[i] );
        delete bp;
-       }*/
-
+       }
+      */
 
 
 

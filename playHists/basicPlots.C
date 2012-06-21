@@ -667,32 +667,74 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  svh[i]->SetLineColor(7);
 	  svh[i]->SetFillColor(7);
 	  svh[i]->SetMarkerColor(7);
-	}
-      } else if( vhnames[ svh_index[i] ] == "MCtotal" ){
-	svh[i]->SetLineColor(3);
-	svh[i]->SetLineWidth(2);
-	svh[i]->SetFillColor(3);
-	svh[i]->SetMarkerColor(3);
+       	} else if( vhnames[ svh_index[i] ] == "Zinv_HT50To100" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kCyan-10);
+	  svh[i]->SetFillColor(kCyan-10);
+	  svh[i]->SetMarkerColor(kCyan-10);
+	} else if( vhnames[ svh_index[i] ] == "Zinv_FastSim_HT100To200" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kCyan+1);
+	  svh[i]->SetFillColor(kCyan+1);
+	  svh[i]->SetMarkerColor(kCyan+1);
+	} else if( vhnames[ svh_index[i] ] == "Zinv_FastSim_HT200To400" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kCyan+2);
+	  svh[i]->SetFillColor(kCyan+2);
+	  svh[i]->SetMarkerColor(kCyan+2);
+	} else if( vhnames[ svh_index[i] ] == "Zinv_HT400Toinf" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kCyan+3);
+	  svh[i]->SetFillColor(kCyan+3);
+	  svh[i]->SetMarkerColor(kCyan+3);
+       	} else if( vhnames[ svh_index[i] ] == "WJ_inclusive" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kRed-10);
+	  svh[i]->SetFillColor(kRed-10);
+	  svh[i]->SetMarkerColor(kRed-10);
+	} else if( vhnames[ svh_index[i] ] == "WJ_FastSim_HT250To300" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kRed+1);
+	  svh[i]->SetFillColor(kRed+1);
+	  svh[i]->SetMarkerColor(kRed+1);
+	} else if( vhnames[ svh_index[i] ] == "WJ_FastSim_HT300To400" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kYellow+1);
+	  svh[i]->SetFillColor(kYellow+1);
+	  svh[i]->SetMarkerColor(kYellow+1);
+	} else if( vhnames[ svh_index[i] ] == "WJ_HT400Toinf" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kBlue-10);
+	  svh[i]->SetFillColor(kBlue-10);
+	  svh[i]->SetMarkerColor(kBlue-10);
+	} else if( vhnames[ svh_index[i] ] == "MCtotal" ){
+	  svh[i]->SetLineColor(3);
+	  svh[i]->SetLineWidth(2);
+	  svh[i]->SetFillColor(3);
+	  svh[i]->SetMarkerColor(3);
 	//	svh[i]->Draw("same HIST");
+	}
       }
     }
 
-    double lowmche=vh[1]->GetBinLowEdge(1);
-    double highmche=vh[1]->GetBinLowEdge(vh[1]->GetNbinsX())+vh[1]->GetBinWidth(1);
-    TH1D *mche=new TH1D("mche","mche",vh[1]->GetNbinsX(), lowmche, highmche);
-    for( int ib=1; ib<=mche->GetNbinsX(); ib++ ){
-      mche->SetBinContent(ib, vh[1]->GetBinContent(ib) );
-      mche->SetBinError(ib, vh[1]->GetBinError(ib) );
+    if( vh.size() > 1 && hasMCtotal_){
+      double lowmche=vh[1]->GetBinLowEdge(1);
+      double highmche=vh[1]->GetBinLowEdge(vh[1]->GetNbinsX())+vh[1]->GetBinWidth(1);
+      TH1D *mche=new TH1D("mche","mche",vh[1]->GetNbinsX(), lowmche, highmche);
+      for( int ib=1; ib<=mche->GetNbinsX(); ib++ ){
+	mche->SetBinContent(ib, vh[1]->GetBinContent(ib) );
+	mche->SetBinError(ib, vh[1]->GetBinError(ib) );
+      }
+      mche->SetFillColor(kOrange-3);
+      mche->SetFillStyle(3001);
+      mche->SetLineColor(3);
+      mche->SetLineWidth(2);
+      mche->SetMarkerSize(0);
+      mche->Draw("e2same");
     }
-    mche->SetFillColor(kOrange-3);
-    mche->SetFillStyle(3001);
-    mche->SetLineColor(3);
-    mche->SetLineWidth(2);
-    mche->SetMarkerSize(0);
-    mche->Draw("e2same");
 
     for( unsigned int i=0; i<svh.size(); i++ ){
-      if( svh_index[i] == 0 ){
+      if( vhnames[ svh_index[i] ] == "Data" ){
 	svh[i]->Draw("same P 9");
 	svh[i]->SetLineColor(1);
 	svh[i]->SetLineWidth(2);
@@ -703,13 +745,21 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     }
 
 
-    len->AddEntry(vh[0], "Data");
-    
-    for( unsigned int i=2; i<svh.size(); i++ ){
-      len->AddEntry(vh[i], vlenname[i]);
+    if( vh.size() > 0 && vhnames[0] == "Data"){
+      len->AddEntry(vh[0], "Data");
+    }    
+    if( hasMCtotal_ && hasData_ ){
+      for( unsigned int i=2; i<svh.size(); i++ ){
+	len->AddEntry(vh[i], vlenname[i]);
+      }
+    } else{
+      for( unsigned int i=0; i<vh.size(); i++ ){
+	len->AddEntry(vh[i], vlenname[i]);
+      }
     }
-    len->AddEntry(vh[1], "Total MC");
-
+    if( vh.size() > 1 && hasMCtotal_){
+      len->AddEntry(vh[1], "Total MC");
+    }
   } else  if( drawStack_ ){
     TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
     svh0clone->Scale(1.5);
@@ -809,7 +859,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
     hs->Draw("HIST 9 same");
 
-    if( vh.size() > 1 and hasMCtotal_){
+    if( vh.size() > 1 && hasMCtotal_){
       double lowmche=vh[1]->GetBinLowEdge(1);
       double highmche=vh[1]->GetBinLowEdge(vh[1]->GetNbinsX())+vh[1]->GetBinWidth(1);
       TH1D *mche=new TH1D("mche","mche",vh[1]->GetNbinsX(), lowmche, highmche);
@@ -1027,9 +1077,9 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{Z} (GeV)", "", 50., 150, "Zmass", len, 0, 10., 2, startNJet, nJets );
     rebin=1;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}", "", 0, 0.15, "muonIso", len, 0, 10., 2, startNJet, nJets );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{ECAL}", "", 0, 0.15, "muonIsoECAL", len, 0, 10., 2, startNJet, nJets );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{HCAL}", "", 0, 0.15, "muonIsoHCAL", len, 0, 10., 2, startNJet, nJets );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{Trk}", "", 0, 0.15, "muonIsoTrk", len, 0, 10., 2, startNJet, nJets );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{ECAL}", "", 0, 0.15, "muonIsoECAL", len, 0, 10., 2, startNJet, nJets );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{HCAL}", "", 0, 0.15, "muonIsoHCAL", len, 0, 10., 2, startNJet, nJets );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{Trk}", "", 0, 0.15, "muonIsoTrk", len, 0, 10., 2, startNJet, nJets );
     rebin=20;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt", len, 0, 10., 2, startNJet, nJets );
     rebin=50;
