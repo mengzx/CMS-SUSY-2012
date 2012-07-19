@@ -20,6 +20,7 @@ class menus{
   bool drawStack_;
   TString  epspng_;
   bool doTrigCorr_;
+  bool drawOverflow_;
 
   bool hasData_;
   bool hasMCtotal_;
@@ -38,6 +39,8 @@ class menus{
   bool hasWJ_inclusive_;
   bool hasWJ_FastSim_HT250To300_;
   bool hasWJ_FastSim_HT300To400_;
+  bool hasWJ_HT250To300_;
+  bool hasWJ_HT300To400_;
   bool hasWJ_HT400Toinf_;
   TString inidir_;
   TString subdir_;
@@ -55,7 +58,7 @@ class menus{
   TString MuonNumber_;
 
   double datascale_;
-  bool useCommentJson_;
+  bool useCommonJson_;
   double mcscale_;
   double mcscale_HT_;
   double mcscale_SingleMu_;

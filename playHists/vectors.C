@@ -2,8 +2,9 @@
 #include "TH2D.h"
 #include "TFile.h"
 #include "TString.h"
-
+#include <iostream>
 #include <vector>
+#include <stdio.h>
 
 #include "menus.h"
 
@@ -14,6 +15,15 @@ menus *listmenus=new menus();
 
 vectors::vectors(){}
 
+void vectors::closefV(){
+  for (unsigned int index=0; index<vfdata_save.size(); ++index){
+    vfdata_save[index]->Close();
+  }
+
+  for (unsigned int index=0; index<vf_save.size(); ++index){
+    vf_save[index]->Close();
+  }
+}
 
 
 TH2D* vectors::ZinvPredBG(){
@@ -57,8 +67,9 @@ TH2D* vectors::ZinvPredBG(){
 
   Zinv->SetBinError(11, 6, 0 );
   Zinv->SetBinError(12, 6, 0 );
-
-  return Zinv;
+  TH2D *reh=(TH2D*)(Zinv->Clone("reh"));
+  delete Zinv;
+  return reh;
 }
 
 TH2D* vectors::NormalWJPredBG(){
@@ -103,7 +114,9 @@ TH2D* vectors::NormalWJPredBG(){
   Zinv->SetBinError(11, 6, 0 );
   Zinv->SetBinError(12, 6, 0 );
 
-  return Zinv;
+  TH2D *reh=(TH2D*)(Zinv->Clone("reh"));
+  delete Zinv;
+  return reh;
 }
 
 
@@ -149,7 +162,9 @@ TH2D* vectors::HT_ATTrigEff(){
   Zinv->SetBinError(11, 6, 0 );
   Zinv->SetBinError(12, 6, 0 );
 
-  return Zinv;
+  TH2D *reh=(TH2D*)(Zinv->Clone("reh"));
+  delete Zinv;
+  return reh;
 
 }
 
@@ -195,14 +210,22 @@ TH2D* vectors::SingleMuTrigEff(){
   Zinv->SetBinError(11, 6, 0 );
   Zinv->SetBinError(12, 6, 0 );
 
-  return Zinv;
+  TH2D *reh=(TH2D*)(Zinv->Clone("reh"));
+  delete Zinv;
+  return reh;
+
 
 }
 
 // -----------------------------------------------------------------------------
 //
 vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr, bool separateSample, TString separateSampleName){
-  vector<TFile*> vf;
+  //  vector<TFile*> vf;
+  for( unsigned int i=0; i< vf.size(); i++){
+    vf_save.push_back(vf[i]);
+  }
+  vf.clear();
+
   if( sTreeThr == "100" || sTreeThr == "highHTBins" || sTreeThr == "375" || sTreeThr == "475" || sTreeThr == "575" || sTreeThr == "675" || sTreeThr == "775" || sTreeThr == "875"){
     if( separateSample ){
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7HigHTBins"+sele+".root");
@@ -409,6 +432,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
         vf.push_back(f3);
 	TFile *f7=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
         vf.push_back(f7);
+	if( listmenus->hasWJveryHighHT_ ){
+	  TFile *f19=new TFile(dir+"/"+"NoSmearWJveryHighHT_"+dataset+"PUS7HigHTBins"+sele+".root");
+	  vf.push_back(f19);
+	}
       }
       if( listmenus->hasSingleT_ ){
         TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
@@ -439,35 +466,38 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
 
 vector<TFile*> vectors::Datavf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr ){
 
-  vector<TFile*> vf;
-
+  //  vector<TFile*> vfdata;
+  for( unsigned int i=0; i< vfdata.size(); i++){
+    vfdata_save.push_back(vfdata[i]);
+  }
+  vfdata.clear();
   if( sTreeThr == "100" || sTreeThr == "highHTBins" || sTreeThr == "375" || sTreeThr == "475" || sTreeThr == "575" || sTreeThr == "675" || sTreeThr == "775" || sTreeThr == "875"){
     TFile *f1=new TFile(dir+"/"+"Data"+dataset+"_PUS0HigHTBins"+sele+".root");
-    vf.push_back(f1);
+    vfdata.push_back(f1);
   } else if( sTreeThr == "86"){
     TFile *f1=new TFile(dir+"/"+"Data"+dataset+"_PUS0LowHTBins"+sele+"325.root");
-    vf.push_back(f1);
+    vfdata.push_back(f1);
   } else if( sTreeThr == "73"){
     TFile *f1=new TFile(dir+"/"+"Data"+dataset+"_PUS0LowHTBins"+sele+"275.root");
-    vf.push_back(f1);
+    vfdata.push_back(f1);
   } else if( sTreeThr == "all" || sTreeThr == "allHTBins"){
     TFile *f1=new TFile(dir+"/"+"Data"+dataset+"_PUS0LowHTBins"+sele+"275.root");
     TFile *f2=new TFile(dir+"/"+"Data"+dataset+"_PUS0LowHTBins"+sele+"325.root");
     TFile *f3=new TFile(dir+"/"+"Data"+dataset+"_PUS0HigHTBins"+sele+".root");
-    vf.push_back(f1);
-    vf.push_back(f2);
-    vf.push_back(f3);
+    vfdata.push_back(f1);
+    vfdata.push_back(f2);
+    vfdata.push_back(f3);
   } else if( sTreeThr == "low" || sTreeThr == "lowHTBins"){
     TFile *f1=new TFile(dir+"/"+"Data"+dataset+"_PUS0LowHTBins"+sele+"275.root");
     TFile *f2=new TFile(dir+"/"+"Data"+dataset+"_PUS0LowHTBins"+sele+"325.root");
-    vf.push_back(f1);
-    vf.push_back(f2);
+    vfdata.push_back(f1);
+    vfdata.push_back(f2);
   } else if( sTreeThr == "test"){
     TFile *f1=new TFile(dir+"/"+listmenus->testDataFile_);
-    vf.push_back(f1);
+    vfdata.push_back(f1);
  }
 
-  return vf;
+  return vfdata;
 }
 
 /*vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr, bool separateSample, TString separateSampleName){
@@ -792,6 +822,7 @@ vector<double> vectors::SingleMuTrigEff_pushback(TString sTreeThr){
     dirname.push_back(0.88);
   } else if ( sTreeThr == "low" || sTreeThr == "lowHTBins" ){
     dirname.push_back(0.88);
+    dirname.push_back(0.88);
   } else if ( sTreeThr == "test" ){
     dirname.push_back(0.88);
   }
@@ -805,7 +836,7 @@ vector<double> vectors::DiMuTrigEff_pushback(TString sTreeThr){
     dirname.push_back(0.96);
     dirname.push_back(0.97);
     dirname.push_back(0.97);
-    dirname.push_back(0.07);
+    dirname.push_back(0.97);
     dirname.push_back(0.98);
     dirname.push_back(0.98);
   } else if ( sTreeThr == "375" ){
@@ -834,7 +865,8 @@ vector<double> vectors::DiMuTrigEff_pushback(TString sTreeThr){
     dirname.push_back(0.98);
     dirname.push_back(0.98);
   } else if ( sTreeThr == "low" || sTreeThr == "lowHTBins" ){
-    dirname.push_back(0.88);
+    dirname.push_back(0.95);
+    dirname.push_back(0.96);
   } else if ( sTreeThr == "test" ){
     dirname.push_back(0.88);
   }

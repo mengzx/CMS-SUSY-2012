@@ -8,6 +8,7 @@
 #include "TString.h"
 #include <stdio.h>
 #include "TCanvas.h"
+#include "TMath.h"
 
 #include "TStyle.h"
 
@@ -26,9 +27,22 @@ playHist1D::playHist1D():
 TH1D* playHist1D::getHist1D( TFile *f, TString dirname, TString hname){
   TDirectory *TDir = (TDirectory*)( f->Get( dirname ) );
   if( TDir ){
-    TH1D* inh= (TH1D*)( TDir->Get( hname ) );
-    return inh;
-  } else return 0;
+    TH1D* hh= (TH1D*)( TDir->Get( hname ) );
+    //    hh->SetDirectory(0);
+    //    f->Close();
+    return hh;
+  } else { return 0; }
+}
+
+TH1D *playHist1D::cloneHist1D( TH1D *hh ){
+  TH1D *inh=new TH1D( Form( "%s_0", ( hh->GetName() ) ), Form( "%s", ( hh->GetTitle() ) ), hh->GetNbinsX(), hh->GetBinLowEdge(1), hh->GetBinLowEdge(hh->GetNbinsX()+1) );
+  cout<<Form( "%s", ( hh->GetName() ) )<< " "<<Form( "%s", ( hh->GetTitle() ) ) <<endl;
+  inh->Sumw2();
+  for( int i=1; i<= inh->GetNbinsX(); i++ ){
+    inh->SetBinContent(i, hh->GetBinContent(i));
+    inh->SetBinError(i, hh->GetBinError(i));
+  }
+  return inh;
 }
 
 // -----------------------------------------------------------------------------
@@ -134,6 +148,13 @@ TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString
     h->Rebin(rebin);
   }
   h->GetXaxis()->SetRangeUser(xlow, xhigh);
+  if( drawOverflow_ ){
+    int overflowbin=getOverflowbin(h, xhigh);
+    double overflowbinerr=getOverflowbinErr(h, xhigh);
+    h->SetBinContent(overflowbin, h->Integral(overflowbin,1000000) );
+    cout<<" overflow "<< h->Integral(overflowbin,1000000) <<endl;
+    h->SetBinError(overflowbin, overflowbinerr);
+  }
   h->GetYaxis()->SetTitle(titley);
   h->GetXaxis()->SetTitle(titlex);
   h->SetLineWidth(linewidth);
@@ -145,6 +166,21 @@ TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString
   }
 
   return h;
+}
+
+int playHist1D::getOverflowbin( TH1D *h, double xhigh ){
+    double binwidth=h->GetBinWidth(1);
+    int overflowbin=(int)(xhigh/binwidth+1);
+    return overflowbin;
+}
+
+double playHist1D::getOverflowbinErr( TH1D *h, double xhigh ){
+  int overflowbin=getOverflowbin(h, xhigh);
+  double err=0;
+  for(int i=overflowbin; i <= h->GetNbinsX()+1;i++){
+    err=err+( h->GetBinError(i) )*( h->GetBinError(i) );
+  }
+  return sqrt(err);
 }
 
 TH1D* playHist1D::MaxHist( vector<TH1D*> vinh){

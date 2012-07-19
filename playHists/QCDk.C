@@ -103,15 +103,15 @@ void QCDk::getBulkYield( TString bslices ){
   outputfile.close();
 }
 
-TH1D* QCDk::getRATvsHT( TString label, TString bslices, double lowy, double highy ){
+TH1D* QCDk::getRATvsHT( TString label, TString bslices, double lowy, double highy, double lowybulk ){
   TH1D *tail=getTailBulk( label, "AlphaT_vs_HT_CommJetgeq2_h_", bslices, lowy, highy );
-  TH1D *bulk=getTailBulk( label, "AlphaT_vs_HT_CommJetgeq2_h_", bslices, 0, lowy );
+  TH1D *bulk=getTailBulk( label, "AlphaT_vs_HT_CommJetgeq2_h_", bslices, 0, lowybulk );
   TH1D *tailoverbulk=(TH1D*)(tail->Clone("tailoverbulk"));
   tailoverbulk->Divide(tailoverbulk,bulk);
   return tailoverbulk;
 }
 
-void QCDk::fitRATvsHT( TString region, TString bslices ){
+void QCDk::fitRATvsHT( TString region, TString bslices, TString output ){
   TCanvas *c1=new TCanvas("c1","c1",600,700);
   TPad *pad1=new TPad("pad1","",0,0,1,1);
   pad1->Draw();
@@ -125,51 +125,87 @@ void QCDk::fitRATvsHT( TString region, TString bslices ){
   TString label="";
   double lowy=0.;
   double highy=0.;
+  double lowybulk=0.;
   //  TString output="_LowAT0.5";
-  TString output="";
+  //  TString output="";
   if( region == "B" ){
     label="";
     lowy=0.52;
     highy=0.55;
+    if( output == "" ){
+      lowybulk=lowy;
+    } else if( output == "_LowAT0.5") {
+      lowybulk=0.5;
+    }
   } 
 
   if( region == "C1" ){
     label="NoMHToverMET_";
     lowy=0.54;
     highy=0.55;
+    if( output == "" ){
+      lowybulk=lowy;
+    } else if( output == "_LowAT0.5") {
+      lowybulk=0.5;
+    }
   } 
 
   if( region == "C2" ){
     label="NoMHToverMET_";
     lowy=0.53;
     highy=0.54;
+    if( output == "" ){
+      lowybulk=lowy;
+    } else if( output == "_LowAT0.5") {
+      lowybulk=0.5;
+    }
   } 
 
   if( region == "C3" ){
     label="NoMHToverMET_";
     lowy=0.52;
     highy=0.53;
+    if( output == "" ){
+      lowybulk=lowy;
+    } else if( output == "_LowAT0.5") {
+      lowybulk=0.5;
+    }
   } 
 
   if( region == "C1_ReverseMHToverMHT" ){
     label="ReverseMHToverMET_";
     lowy=0.54;
     highy=0.55;
+    if( output == "" ){
+      lowybulk=lowy;
+    } else if( output == "_LowAT0.5") {
+      lowybulk=0.5;
+    }
   } 
 
   if( region == "C2_ReverseMHToverMHT" ){
     label="ReverseMHToverMET_";
     lowy=0.53;
     highy=0.54;
+    if( output == "" ){
+      lowybulk=lowy;
+    } else if( output == "_LowAT0.5") {
+      lowybulk=0.5;
+    }
   } 
 
   if( region == "C3_ReverseMHToverMHT" ){
     label="ReverseMHToverMET_";
     lowy=0.52;
     highy=0.53;
+    if( output == "" ){
+      lowybulk=lowy;
+    } else if( output == "_LowAT0.5") {
+      lowybulk=0.5;
+    }
   } 
 
-  TH1D *ratio=getRATvsHT(label, bslices, lowy, highy);
+  TH1D *ratio=getRATvsHT(label, bslices, lowy, highy, lowybulk);
   ratio->SetLineColor(1);
   ratio->GetXaxis()->SetTitle("H_{T} (GeV)");
   ratio->GetYaxis()->SetTitle("R_{#alpha_{T}}");
@@ -207,14 +243,17 @@ void QCDk::fitRATvsHT( TString region, TString bslices ){
   delete c1;
 }
 
-void QCDk::getResults( ){
-  fitRATvsHT("B","all");
-  fitRATvsHT("C1","all");
-  fitRATvsHT("C2","all");
-  fitRATvsHT("C3","all");
-  fitRATvsHT("C1_ReverseMHToverMHT","all");
-  fitRATvsHT("C2_ReverseMHToverMHT","all");
-  fitRATvsHT("C3_ReverseMHToverMHT","all");
-  getBulkYield("all");
+void QCDk::getResults( TString output ){
+  fitRATvsHT("B","all", output);
+  /*  fitRATvsHT("B","1", output);
+  fitRATvsHT("B","2", output);
+  fitRATvsHT("B","3", output);
+  fitRATvsHT("C1","all", output);
+  fitRATvsHT("C2","all", output);
+  fitRATvsHT("C3","all", output);
+  fitRATvsHT("C1_ReverseMHToverMHT","all", output);
+  fitRATvsHT("C2_ReverseMHToverMHT","all", output);
+  fitRATvsHT("C3_ReverseMHToverMHT","all", output);
+  getBulkYield("all");*/
 
 }

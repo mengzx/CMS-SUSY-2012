@@ -4,8 +4,8 @@
 #include "TH2D.h"
 #include "TFile.h"
 #include "TString.h"
-
 #include "menus.h"
+#include <iostream>
 #include <vector>
 
 using namespace std;
@@ -13,8 +13,29 @@ using namespace std;
 class vectors{
  public:
   vectors();
-  ~vectors(){;}
+  ~vectors(){
 
+    for (unsigned int index=0; index<vf_save.size(); ++index){
+      delete vf_save[index];
+    }
+
+   for (unsigned int index=0; index<vfdata_save.size(); ++index){
+      delete vfdata_save[index];
+    }
+
+   for (unsigned int index=0; index<vfdata.size(); ++index){
+      vfdata[index]->Close();
+      delete vfdata[index];
+   }
+   vfdata.clear();
+   for (unsigned int index=0; index<vf.size(); ++index){
+      vf[index]->Close();
+      delete vf[index];
+    }
+   vf.clear();
+  }
+
+  void closefV();
 
   TH2D* ZinvPredBG();
   TH2D* NormalWJPredBG();
@@ -32,5 +53,9 @@ class vectors{
   vector<double> HTATTrigEff_pushback(TString sTreeThr);
   vector<double> nominaltrigeff_pushback(TString sTreeThr);
 
+  vector<TFile*> vf;
+  vector<TFile*> vfdata;
+  vector<TFile*> vf_save;
+  vector<TFile*> vfdata_save;
 }; //end vectors
 #endif

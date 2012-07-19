@@ -70,7 +70,7 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     scalein_domin=datascale_;
     digit1in="g";
   } else {
-    if( useCommentJson_ ){
+    if( useCommonJson_ ){
       scalein_numer = mcscale_;
       scalein_domin = mcscale_;
     } else {
@@ -225,7 +225,7 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, 
     scalein_domin=datascale_;
     digit1in="g";
   } else {
-    if( useCommentJson_ ){
+    if( useCommonJson_ ){
       scalein_numer = mcscale_;
       scalein_domin = mcscale_;
     } else {
@@ -311,7 +311,7 @@ vector<TH2D*> getTranslationFactor::TranslationFactor_1To2Mu( bool MuAddOrNot, b
     scalein_domin=datascale_;
     digit1in="g";
   } else {
-    if( useCommentJson_ ){
+    if( useCommonJson_ ){
       scalein_numer = mcscale_;
       scalein_domin = mcscale_;
     } else {

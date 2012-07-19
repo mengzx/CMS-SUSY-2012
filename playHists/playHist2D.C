@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include "TH1D.h"
+#include "TH1.h"
 #include "TH2D.h"
 #include "TLine.h"
 #include "TFile.h"
@@ -24,13 +25,28 @@ playHist2D::playHist2D()
 // -----------------------------------------------------------------------------
 //
 TH2D* playHist2D::getHist2D( TFile *f, TString dirname, TString hname){
+  //  TH1::AddDirectory(kFALSE);
   TDirectory *TDir = (TDirectory*)( f->Get( dirname ) );
   if( TDir ){
-    TH2D* inh= (TH2D*)( TDir->Get( hname ) );
-    return inh;
-  } else return 0;
+    TH2D* hh= (TH2D*)( TDir->Get( hname ) );
+    //    TH2D *reh=cloneHist2D(hh);
+    //    hh->SetDirectory(0);
+    //    f->Close();
+    return hh;
+  } else { return 0; }
 }
 
+TH2D* playHist2D::cloneHist2D( TH2D *hh ){
+  TH2D *inh=new TH2D( ( hh->GetName() ), ( hh->GetTitle() ), hh->GetNbinsX(), hh->GetXaxis()->GetBinLowEdge(1), hh->GetXaxis()->GetBinLowEdge(hh->GetNbinsX()+1), hh->GetNbinsY(), hh->GetYaxis()->GetBinLowEdge(1), hh->GetYaxis()->GetBinLowEdge(hh->GetNbinsY()+1) );
+  inh->Sumw2();
+  for( int i=1; i<= inh->GetNbinsX(); i++ ){
+    for( int j=1; j<= inh->GetNbinsY(); j++ ){
+      inh->SetBinContent(i,j, hh->GetBinContent(i,j));
+      inh->SetBinError(i,j, hh->GetBinError(i,j));
+    }
+  }
+  return inh;
+}
 // -----------------------------------------------------------------------------
 //
 vector<unsigned int> playHist2D::getifileidir2D( vector<TFile*> vf, vector<TString> vdirname, TString hname ){

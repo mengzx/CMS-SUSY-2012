@@ -22,6 +22,7 @@ TH2D* BGCompositions::getHist2D_i( TString dir, TString fname, TString dirname, 
   playHist2D p2d=playHist2D();
   TFile *f=(MCvf_pushback( inidir_+dir+subdir_, "", sele, HTBins, true, fname ))[0];
   TH2D *h=p2d.getHist2D( f, dirname, hname );
+  closefV();
   return h;
 }
 
@@ -33,6 +34,7 @@ TH2D* BGCompositions::getHist2D_all( TString dir, TString dirname, TString hname
     TH2D *h1=p2d.getHist2D( f[i], dirname, hname );
     h->Add(h,h1);
   }
+  closefV();
   return h;
 }
 

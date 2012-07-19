@@ -14,10 +14,10 @@ class QCDk : public menus, public vectors{
   QCDk();
   ~QCDk(){;}
   TH1D* getTailBulk( TString label, TString hname, TString bslices, double lowy, double highy );
-  TH1D* getRATvsHT( TString label, TString bslices, double lowy, double highy );
+  TH1D* getRATvsHT( TString label, TString bslices, double lowy, double highy, double lowybulk );
   void getBulkYield( TString bslices );
-  void fitRATvsHT( TString region, TString bslices );
-  void getResults();
+  void fitRATvsHT( TString region, TString bslices, TString output );
+  void getResults( TString output );
 
 };// QCDk
 

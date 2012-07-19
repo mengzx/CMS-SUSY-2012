@@ -560,7 +560,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
 
 
 
-  if( !useCommentJson_){
+  if( !useCommonJson_){
     double scaletoHT=1.;
     if( closureTests == "iTojJet" ){
       if( MuonNumber_ == "OneMuon_"){

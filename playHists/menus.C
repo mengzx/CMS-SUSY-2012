@@ -16,6 +16,7 @@ menus::menus(){
   drawStack_=true;
   epspng_="png";
   doTrigCorr_=true;
+  drawOverflow_=true;
 
   hasData_=true;
   hasMCtotal_=true;
@@ -35,31 +36,34 @@ menus::menus(){
   hasWJ_inclusive_=false;
   hasWJ_FastSim_HT250To300_=false;
   hasWJ_FastSim_HT300To400_=false;
+  hasWJ_HT250To300_=false;
+  hasWJ_HT300To400_=false;
   hasWJ_HT400Toinf_=false;
 
-  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/NinthLookAt8TeVData_AimToICHEP_ForAproval27062012_18062012/";
-  subdir_="/allBJets";
+  //  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
+  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/DiMuTrig/LeadingMuPt30GeV/";
+  subdir_="/allBJets_WithWJCombinFullSim_NoVtxReweight_DiMuTrigMu17Mu8";
   folderlabel_="";
-  HadTaudataset_="SingleMu2012";
+  //  HadTaudataset_="SingleMu2012";
+  HadTaudataset_="DoubleMu2012";
   NotHadTaudataset_="HT2012";
   signalTrig_="";
   signalDataset_ = "HT2012";
   HadTaucontrolTrig_="SingleMuTrig";
   NotHadTaucontrolTrig_="HTATTrig";
   NormalcontrolTrig_="SingleMuTrig";
-  controlDataset_ = "SingleMu2012";
+  //  controlDataset_ = "SingleMu2012";
+  controlDataset_ = "DoubleMu2012";
   MCsample_="";
   plotTrueTauHad_=false;
-  MuonNumber_ = "DiMuon_";
+  MuonNumber_ = "OneMuon_";
 
   datascale_=1.;
-  //  mcscale_=5.56788; //6th look
-  //  mcscale_=8.09551; // 7th look
-  useCommentJson_=false;
+  useCommonJson_=false;
   mcscale_=1.;
-  mcscale_HT_=38.71;
-  mcscale_SingleMu_=36.6607;
-  mcscale_DiMu_=36.6607;
+  mcscale_HT_=49.76;
+  mcscale_SingleMu_=49.54071;
+  mcscale_DiMu_=49.54071;
 
   digit1_=".1f";
   digit2_=".2f";

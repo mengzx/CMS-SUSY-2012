@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include "TH1.h"
 #include "TH2D.h"
 #include "TLine.h"
 #include "TFile.h"
@@ -12,6 +13,7 @@
 
 using namespace std;
 
+//
 class playHist2D{
 
  public:
@@ -19,6 +21,7 @@ class playHist2D{
   ~playHist2D(){;}
 
   TH2D* getHist2D( TFile *f, TString dirname, TString hname);
+  TH2D *cloneHist2D( TH2D *hh );
   vector<unsigned int> getifileidir2D( vector<TFile*> vf, vector<TString> vdirname, TString hname );
   TH2D* getHistInvFandvDir2D( vector<TFile*> vf, vector<TString> vdirname, TString hname );
   TH2D* addHistForDiffFoldersAndFiles2D(vector<TFile*> vf, vector<TString> vdirname, TString hname);
