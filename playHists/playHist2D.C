@@ -183,6 +183,53 @@ TH2D* playHist2D::ReFillHist_AlphaTVSHT(TH2D* inh ){
 
 // -----------------------------------------------------------------------------
 //
+TH2D* playHist2D::ReFillHist_low( TH2D* inh, double cuty ){
+  int nxbins=12;
+  int nybins=8;
+
+  double binwidth=inh->GetYaxis()->GetBinWidth(1);
+  int overflowbin=(int)(cuty/binwidth);
+
+  TH2D* h=(TH2D*)(inh->Clone("h"));
+  for( int ih=1; ih<nxbins+1; ih++){
+    double iaih=inh->Integral(ih, ih, 1, overflowbin);
+    h->SetBinContent(ih, 8, iaih);
+    double err2=0;
+    for(int j=1; j<nybins+1; j++){
+      err2=err2+( h->GetBinError( ih, j ) )*(h->GetBinError( ih, j ));
+    }
+    h->SetBinError(ih, 8, sqrt(err2) );
+  }
+
+  return h;
+}
+
+
+TH2D* playHist2D::ReFillHist_high( TH2D* inh, double cuty ){
+  int nxbins=12;
+  int nybins=8;
+
+  double binwidth=inh->GetYaxis()->GetBinWidth(1);
+  int overflowbin=(int)(cuty/binwidth+1);
+
+  TH2D* h=(TH2D*)(inh->Clone("h"));
+  for( int ih=1; ih<nxbins+1; ih++){
+    double iaih=inh->Integral(ih, ih, overflowbin, 100000);
+    h->SetBinContent(ih, 8, iaih);
+    double err2=0;
+    for(int j=1; j<nybins+1; j++){
+      err2=err2+( h->GetBinError( ih, j ) )*(h->GetBinError( ih, j ));
+    }
+    h->SetBinError(ih, 8, sqrt(err2) );
+  }
+
+  return h;
+}
+
+
+
+// -----------------------------------------------------------------------------
+//
 TH2D* playHist2D::formatHist(TH2D* inh, double inscale, TString digit){
   tdrstyle tdr=tdrstyle();
   tdr.setTDRStyle( digit );

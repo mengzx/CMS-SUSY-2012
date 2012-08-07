@@ -178,103 +178,103 @@ vector<vector<double> > printTables::readHist_Err( TH2D* factor){
 
 
 
-vector<vector<double> > printTables::readNumerMCHist( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<double> > printTables::readNumerMCHist( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getNumerMC( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getNumerMC( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets);
   vector<vector<double> > factorre;
   factorre=readHist( factorh );
 
   return factorre;
 }
 
-vector<vector<double> > printTables::readDominMCHist( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<double> > printTables::readDominMCHist( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getDominMC( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getDominMC( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<double> > factorre;
   factorre=readHist( factorh );
 
   return factorre;
 }
 
-vector<vector<double> > printTables::readFactorHist( bool MuAddOrNot, bool fullesti, TString HTBin, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<double> > printTables::readFactorHist( bool MuAddOrNot, bool fullesti, TString HTBin, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getFactor( MuAddOrNot, fullesti, HTBin, isData, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getFactor( MuAddOrNot, fullesti, HTBin, isData, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<double> > factorre;
   factorre=readHist( factorh );
 
   return factorre;
 }
 
-vector<vector<double> > printTables::readControlDataHist( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<double> > printTables::readControlDataHist( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getControlData( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getControlData( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<double> > factorre;
   factorre=readHist( factorh );
   return factorre;
 }
 
-vector<vector<double> > printTables::readYieldDataHist( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<double> > printTables::readYieldDataHist( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getYieldData( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getYieldData( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<double> > factorre;
   factorre=readHist( factorh );
   return factorre;
 }
 
-vector<vector<double> > printTables::readPredBGHist( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+vector<vector<double> > printTables::readPredBGHist( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getPredBG( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getPredBG( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<double> > factorre;
   factorre=readHist( factorh );
   return factorre;
 }
 
 
-vector<vector<TString> > printTables::readNumerMCHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
+vector<vector<TString> > printTables::readNumerMCHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getNumerMC( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getNumerMC( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<TString> > factorre;
   factorre=readHist_WithErr( factorh, digit );
   return factorre;
 }
 
-vector<vector<TString> > printTables::readDominMCHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
+vector<vector<TString> > printTables::readDominMCHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getDominMC( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getDominMC( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<TString> > factorre;
   factorre=readHist_WithErr( factorh, digit );
   return factorre;
 }
 
 
-vector<vector<TString> > printTables::readFactorHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
+vector<vector<TString> > printTables::readFactorHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getFactor( MuAddOrNot, fullesti, HTBin, isData, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getFactor( MuAddOrNot, fullesti, HTBin, isData, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<TString> > factorre;
   factorre=readHist_WithErr( factorh, digit );
 
   return factorre;
 }
 
-vector<vector<TString> > printTables::readControlDataHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
+vector<vector<TString> > printTables::readControlDataHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getControlData( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getControlData( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<TString> > factorre;
   factorre=readHist_WithErr( factorh, digit );
   return factorre;
 }
 
-vector<vector<TString> > printTables::readYieldDataHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
+vector<vector<TString> > printTables::readYieldDataHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getYieldData( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getYieldData( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<TString> > factorre;
   factorre=readHist_WithErr( factorh, digit );
   return factorre;
 }
 
-vector<vector<TString> > printTables::readPredBGHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit ){
+vector<vector<TString> > printTables::readPredBGHist_WithErr( bool MuAddOrNot, bool fullesti, TString HTBin, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString digit, TString MuonNumber, int startNJet, int nJets ){
   getTranslationFactor factor=getTranslationFactor();
-  TH2D* factorh=factor.getPredBG( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* factorh=factor.getPredBG( MuAddOrNot, fullesti, HTBin, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<TString> > factorre;
   factorre=readHist_WithErr( factorh, digit );
   return factorre;
@@ -385,7 +385,7 @@ void printTables::printout_final( FILE *infile, vector<vector<double> > invector
   }
 }
 
-void printTables::Tables_ForHadTau( TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+void printTables::Tables_ForHadTau( TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int startNJet, int nJets ){
 
   getTranslationFactor factor=getTranslationFactor();
 
@@ -393,11 +393,11 @@ void printTables::Tables_ForHadTau( TString closureTests, int iJetStart, int iJe
   TH2D *SingleMuTrigeff = factor.SingleMuTrigEff();
 
   //had tau
-  TH2D *numerMC_HadTau_h=factor.getNumerMC( true, false, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *dominMC_HadTau_h=factor.getDominMC( true, false, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *factor_HadTau_h=factor.getFactor( true, false, "allHTBins", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *controlData_HadTau_h=factor.getControlData( true, false, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *predBG_HadTau_h=factor.getPredBG( true, false, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D *numerMC_HadTau_h=factor.getNumerMC( true, false, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *dominMC_HadTau_h=factor.getDominMC( true, false, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *factor_HadTau_h=factor.getFactor( true, false, "allHTBins", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *controlData_HadTau_h=factor.getControlData( true, false, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *predBG_HadTau_h=factor.getPredBG( true, false, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
 
   TH2D *dominMC_HadTau_h_trigcorr=(TH2D*)( dominMC_HadTau_h->Clone("dominMC_HadTau_h_trigcorr") );
   dominMC_HadTau_h_trigcorr->Multiply(dominMC_HadTau_h_trigcorr, SingleMuTrigeff);
@@ -425,11 +425,11 @@ void printTables::Tables_ForHadTau( TString closureTests, int iJetStart, int iJe
 
 
 
-  TH2D *numerMC_NotHadTau_h=factor.getNumerMC( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *dominMC_NotHadTau_h=factor.getDominMC( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *factor_NotHadTau_h=factor.getFactor( false, true, "all", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *controlData_NotHadTau_h=factor.getControlData( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *predBG_NotHadTau_h=factor.getPredBG( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D *numerMC_NotHadTau_h=factor.getNumerMC( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *dominMC_NotHadTau_h=factor.getDominMC( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *factor_NotHadTau_h=factor.getFactor( false, true, "all", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *controlData_NotHadTau_h=factor.getControlData( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *predBG_NotHadTau_h=factor.getPredBG( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
 
   TH2D *dominMC_NotHadTau_h_trigcorr=(TH2D*)( dominMC_NotHadTau_h->Clone("dominMC_NotHadTau_h_trigcorr") );
   dominMC_NotHadTau_h_trigcorr->Multiply(dominMC_NotHadTau_h_trigcorr, HT_ATTrigeff);
@@ -456,7 +456,7 @@ void printTables::Tables_ForHadTau( TString closureTests, int iJetStart, int iJe
   predBG_totalh_withZinvpred->Add(predBG_totalh_withZinvpred, Zinvh );
   vector<vector<TString> > predBG_total_withZinvpred_WithErr=readHist_WithErr( predBG_totalh_withZinvpred, digit );
 
-  TH2D* yieldData_h=factor.getYieldData( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D* yieldData_h=factor.getYieldData( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
   vector<vector<TString> > yieldData_WithErr=readHist_WithErr( yieldData_h, digit );
 
   int column_n=4;
@@ -533,22 +533,21 @@ void printTables::Tables_ForHadTau( TString closureTests, int iJetStart, int iJe
 }
 
 
-int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n ){
+int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int startNJet, int nJets ){
 
   if ( normalEstimation_ != true ){
     cout<< "Note: Not normal Estimation" <<endl;
     return 0;
   }
   getTranslationFactor factor=getTranslationFactor();
-
   TH2D *HT_ATTrigeff = HT_ATTrigEff();
 
-  TH2D *numerMC_h=factor.getNumerMC( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *dominMC_h=factor.getDominMC( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *factor_h=factor.getFactor( false, true, "allHTBins", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *controlData_h=factor.getControlData( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D *predBG_h=factor.getPredBG( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
-  TH2D* yieldData_h=factor.getYieldData( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n );
+  TH2D *numerMC_h=factor.getNumerMC( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *dominMC_h=factor.getDominMC( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *factor_h=factor.getFactor( false, true, "allHTBins", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *controlData_h=factor.getControlData( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D *predBG_h=factor.getPredBG( false, true, "allHTBins", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
+  TH2D* yieldData_h=factor.getYieldData( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, startNJet, nJets );
 
   TH2D *dominMC_h_trigcorr=(TH2D*)( dominMC_h->Clone("dominMC_h_trigcorr") );
   //  dominMC_h_trigcorr->Multiply(dominMC_h_trigcorr, HT_ATTrigeff);
@@ -563,9 +562,9 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
   if( !useCommonJson_){
     double scaletoHT=1.;
     if( closureTests == "iTojJet" ){
-      if( MuonNumber_ == "OneMuon_"){
+      if( MuonNumber == "OneMuon_"){
 	scaletoHT=mcscale_HT_/mcscale_SingleMu_;
-      } else if( MuonNumber_ == "DiMuon_" ){
+      } else if( MuonNumber == "DiMuon_" ){
 	scaletoHT=mcscale_HT_/mcscale_DiMu_;
       }
       yieldData_h->Scale(scaletoHT);
@@ -576,9 +575,9 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
       yieldData_h->Scale(scaletoHT_numer);
       numerMC_h->Scale(scaletoHT_numer);
     } else {
-      if( MuonNumber_ == "OneMuon_"){
+      if( MuonNumber == "OneMuon_"){
 	scaletoHT=mcscale_HT_/mcscale_SingleMu_;
-      } else if( MuonNumber_ == "DiMuon_" ){
+      } else if( MuonNumber == "DiMuon_" ){
 	scaletoHT=mcscale_HT_/mcscale_DiMu_;
       }
     }
@@ -603,17 +602,14 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
   predBG_totalh_withZinvpred->Add(predBG_totalh_withZinvpred, Zinvh );
   vector<vector<TString> > predBG_total_withZinvpred_WithErr=readHist_WithErr( predBG_totalh_withZinvpred, digit );
 
-
   vector<vector<TString> > yieldData_WithErr=readHist_WithErr( yieldData_h, digit );
-
-
 
   int column_n=4;
 
   FILE * outputfile;
   if( closureTests == "iTojJet" ){
     char buffer[100];
-    sprintf (buffer, "table_iTojJet_%d_%dTo%d_%db.tex", iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2);
+    sprintf (buffer, "table_%siTojJet_%d_%dTo%d_%db.tex", MuonNumber.Data(), iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2);
     outputfile = fopen (buffer,"w");
   } else if( closureTests == "1To2Mu"){
     char buffer[100];
@@ -621,7 +617,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
     outputfile = fopen (buffer,"w");
   } else {
     char buffer[100];
-    sprintf (buffer, "table_%s%dTo%db.tex", MuonNumber_.Data(), startNJet_-1, startNJet_+nJets_-2);
+    sprintf (buffer, "table_%s%dTo%db.tex", MuonNumber.Data(), startNJet_-1, startNJet_+nJets_-2);
     outputfile = fopen (buffer,"w");
   }
   fprintf(outputfile, "\\documentclass[a4paper,12pt]{article} \n");
@@ -660,7 +656,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
       } else if ( closureTests == "iTojJet" ){
 	TString outputnum=Form("%d--%d b-jets", jJetStart-1, jJetStart+jJet_n-2);
 	TString outputdom=Form("%d--%d b-jets", iJetStart-1, iJetStart+iJet_n-2);
-	if( MuonNumber_ == "DiMuon_"){
+	if( MuonNumber == "DiMuon_"){
           printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC ("+outputnum+")" );
 	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC ("+outputdom+")" );
 	} else {
@@ -668,9 +664,9 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
 	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC ("+outputdom+")" );
 	}
       } else {
-	if( MuonNumber_ == "DiMuon_"){
+	if( MuonNumber == "DiMuon_"){
 	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC" );
-	} else if ( MuonNumber_ == "OneMuon_" ){
+	} else if ( MuonNumber == "OneMuon_" ){
 	  printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC" );
 	}
       }
@@ -682,7 +678,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
       if( closureTests == "1To2Mu" ){
 	printout_first_WithErr( outputfile, yieldData_WithErr, iAT, 1, column_n, "Data Yield ($\\mu\\mu + jets$)" );
       } else if ( closureTests == "iTojJet" ){
-        if( MuonNumber_ == "DiMuon_"){
+        if( MuonNumber == "DiMuon_"){
 	  printout_first_WithErr( outputfile, yieldData_WithErr, iAT, 1, column_n, "Data Yield ($\\mu\\mu + jets$)" );
 	} else {
 	  printout_first_WithErr( outputfile, yieldData_WithErr, iAT, 1, column_n, "Data Yield ($\\mu + jets$)" );
@@ -700,7 +696,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
       } else if(  closureTests == "iTojJet" ){
 	TString outputnum=Form("%d--%d b-jets", jJetStart-1, jJetStart+jJet_n-2);
 	TString outputdom=Form("%d--%d b-jets", iJetStart-1, iJetStart+iJet_n-2);
-	if( MuonNumber_ == "DiMuon"){
+	if( MuonNumber == "DiMuon"){
 	  printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC ("+outputnum+")" );;
 	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC ("+outputdom+")" );
 	} else {
@@ -708,7 +704,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
 	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC ("+outputdom+")" );
 	}
       } else {
-	if( MuonNumber_ == "DiMuon"){
+	if( MuonNumber == "DiMuon"){
 	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC" );
 	} else {
 	  printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC" );
@@ -724,7 +720,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
       if( closureTests == "1To2Mu" ){
 	printout_second_WithErr( outputfile, yieldData_WithErr, iAT, 1, 4, column_n, "Data Yield ($\\mu\\mu + jets$)" );
       } else if ( closureTests == "iTojJet" ){
-        if( MuonNumber_ == "DiMuon_"){
+        if( MuonNumber == "DiMuon_"){
 	  printout_second_WithErr( outputfile, yieldData_WithErr, iAT, 1, 4, column_n, "Data Yield ($\\mu\\mu + jets$)" );
 	} else {
 	  printout_second_WithErr( outputfile, yieldData_WithErr, iAT, 1, 4, column_n, "Data Yield ($\\mu + jets$)" );

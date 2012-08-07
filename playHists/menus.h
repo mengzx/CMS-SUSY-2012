@@ -3,6 +3,8 @@
 
 #include "TString.h"
 #include "TLegend.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 class menus{
 
@@ -10,6 +12,7 @@ class menus{
   menus();
   ~menus(){;}
 
+  int debug_;
   TString testHTBin_;
   TString testMCFile_;
   TString testDataFile_;
@@ -30,6 +33,7 @@ class menus{
   bool hasSingleT_;
   bool hasZinv_;
   bool hasDiBoson_;
+  bool hasTTZ_;
   bool hasZinvFromDY_;
   bool hasWJveryHighHT_;
   bool hasZinv_HT50To100_;
@@ -42,6 +46,20 @@ class menus{
   bool hasWJ_HT250To300_;
   bool hasWJ_HT300To400_;
   bool hasWJ_HT400Toinf_;
+  bool hasTTZ525_;
+  bool hasTTZ532_;
+  bool hasT2tt_smallScan_350_100_;
+
+  bool hasT2tt_smallScan_200_0_;
+  bool hasT2bw_smallScan_05_200_0_;
+  bool hasT2bw_smallScan_075_150_30_;
+  bool hasT2bw_smallScan_075_120_0_;
+  bool hasT2tt_smallScan_350_50_;
+  bool hasT2bw_smallScan_05_350_50_;
+  bool hasT2bw_smallScan_075_350_50_;
+  bool hasT2tt_smallScan_500_50_;
+
+
   TString inidir_;
   TString subdir_;
   TString folderlabel_;

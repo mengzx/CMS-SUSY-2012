@@ -8,12 +8,41 @@
 
 #include "menus.h"
 
+#define NX 13
+#define NY 9
+
+
 using namespace std;
 
 
 menus *listmenus=new menus();
 
-vectors::vectors(){}
+vectors::vectors(){
+  nxbins=12;
+  nybins=8;
+  xbinsv.push_back(75.0); 
+  xbinsv.push_back(125.0); 
+  xbinsv.push_back(175.0); 
+  xbinsv.push_back(225.0); 
+  xbinsv.push_back(275.0); 
+  xbinsv.push_back(325.0); 
+  xbinsv.push_back(375.0); 
+  xbinsv.push_back(475.0); 
+  xbinsv.push_back(575.0); 
+  xbinsv.push_back(675.0); 
+  xbinsv.push_back(775.0); 
+  xbinsv.push_back(875.0); 
+  xbinsv.push_back(975.0); 
+  ybinsv.push_back(0.);
+  ybinsv.push_back(0.2);
+  ybinsv.push_back(0.5);
+  ybinsv.push_back(0.51);
+  ybinsv.push_back(0.52);
+  ybinsv.push_back(0.53);
+  ybinsv.push_back(0.54);
+  ybinsv.push_back(0.55);
+  ybinsv.push_back(0.56);
+}
 
 void vectors::closefV(){
   for (unsigned int index=0; index<vfdata_save.size(); ++index){
@@ -27,11 +56,15 @@ void vectors::closefV(){
 
 
 TH2D* vectors::ZinvPredBG(){
-  double xbins[13]={75.,125.,175.,225.,275.,325.,375.,475.,575.,675.,775.,875.,975.};
-  double ybins[9]={0., 0.10, 0.20, 0.50, 0.51, 0.52, 0.53, 0.55, 0.56};
-  int nxbins=12;
-  int nybins=8;
   //Not the two bins (275GeV, >0.55) and (325GeV, >0.55) are from Z->mumu prediction while others are all from gammam+jets prediction. Because at high HT bins, Z->mumu statistic is limited, but with alphaT > 0.52 and < 0.55 bins, no out put from Z->mumu and gammajets prediction in the note, so set to zero
+  double xbins[NX];
+  double ybins[NY];
+  for( int i=0; i< xbinsv.size(); i++){
+    xbins[i]=xbinsv[i];
+  }
+  for( int i=0; i< ybinsv.size(); i++){
+    ybins[i]=ybinsv[i];
+  }
   TH2D *Zinv=new TH2D( "Zinv","Prediced Z(#rightarrow#nu#nu) + jets background from Z(#rightarrow#mu#mu) + jets and #gamma + jets events", nxbins, xbins, nybins, ybins );
   Zinv->Sumw2();
   Zinv->SetBinContent(5, 8, 1458.15 );
@@ -73,11 +106,16 @@ TH2D* vectors::ZinvPredBG(){
 }
 
 TH2D* vectors::NormalWJPredBG(){
-  double xbins[13]={75.,125.,175.,225.,275.,325.,375.,475.,575.,675.,775.,875.,975.};
-  double ybins[9]={0., 0.10, 0.20, 0.50, 0.51, 0.52, 0.53, 0.55, 0.56};
-  int nxbins=12;
-  int nybins=8;
+
   //Not the two bins (275GeV, >0.55) and (325GeV, >0.55) are from Z->mumu prediction while others are all from gammam+jets prediction. Because at high HT bins, Z->mumu statistic is limited, but with alphaT > 0.52 and < 0.55 bins, no out put from Z->mumu and gammajets prediction in the note, so set to zero
+  double xbins[NX];
+  double ybins[NY];
+  for( int i=0; i< xbinsv.size(); i++){
+    xbins[i]=xbinsv[i];
+  }
+  for( int i=0; i< ybinsv.size(); i++){
+    ybins[i]=ybinsv[i];
+  }
   TH2D *Zinv=new TH2D( "Zinv1","Prediced Z(#rightarrow#nu#nu) + jets background from Z(#rightarrow#mu#mu) + jets and #gamma + jets events", nxbins, xbins, nybins, ybins );
   Zinv->Sumw2();
   Zinv->SetBinContent(5, 8, 1886.58 );
@@ -121,11 +159,15 @@ TH2D* vectors::NormalWJPredBG(){
 
 
 TH2D* vectors::HT_ATTrigEff(){
-  double xbins[13]={75.,125.,175.,225.,275.,325.,375.,475.,575.,675.,775.,875.,975.};
-  double ybins[9]={0., 0.10, 0.20, 0.50, 0.51, 0.52, 0.53, 0.55, 0.56};
-  int nxbins=12;
-  int nybins=8;
   //Note the two bins 
+  double xbins[NX];
+  double ybins[NY];
+  for( int i=0; i< xbinsv.size(); i++){
+    xbins[i]=xbinsv[i];
+  }
+  for( int i=0; i< ybinsv.size(); i++){
+    ybins[i]=ybinsv[i];
+  }
   TH2D *Zinv=new TH2D( "Zinv1","HT_AlphaT trigger efficiency", nxbins, xbins, nybins, ybins );
   Zinv->Sumw2();
   Zinv->SetBinContent(5, 8, 0.727 );
@@ -169,11 +211,15 @@ TH2D* vectors::HT_ATTrigEff(){
 }
 
 TH2D* vectors::SingleMuTrigEff(){
-  double xbins[13]={75.,125.,175.,225.,275.,325.,375.,475.,575.,675.,775.,875.,975.};
-  double ybins[9]={0., 0.10, 0.20, 0.50, 0.51, 0.52, 0.53, 0.55, 0.56};
-  int nxbins=12;
-  int nybins=8;
   //Note the two bins 
+  double xbins[NX];
+  double ybins[NY];
+  for( int i=0; i< xbinsv.size(); i++){
+    xbins[i]=xbinsv[i];
+  }
+  for( int i=0; i< ybinsv.size(); i++){
+    ybins[i]=ybinsv[i];
+  }
   TH2D *Zinv=new TH2D( "Zinv","Single Muon trigger efficiency", nxbins, xbins, nybins, ybins );
   Zinv->Sumw2();
   Zinv->SetBinContent(5, 8, 0.913 );
@@ -246,10 +292,6 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       if( listmenus->hasWJ_ ){
 	TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7HigHTBins"+sele+".root");
 	vf.push_back(f3);
-	if( listmenus->hasWJveryHighHT_ ){
-	  TFile *f7=new TFile(dir+"/"+"NoSmearWJveryHighHT_"+dataset+"PUS7HigHTBins"+sele+".root");
-	  vf.push_back(f7);
-	}
       }
       if(listmenus->hasSingleT_){
 	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7HigHTBins"+sele+".root");
@@ -262,6 +304,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       if( listmenus->hasDiBoson_ ){
 	TFile *f6=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7HigHTBins"+sele+".root");
 	vf.push_back(f6);
+      }
+      if( listmenus->hasTTZ_ ){
+	TFile *f7=new TFile(dir+"/"+"NoSmearTTZ_"+dataset+"PUS7HigHTBins"+sele+".root");
+	vf.push_back(f7);
       }
     }
   } else if( sTreeThr == "86"){
@@ -297,6 +343,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
 	TFile *f6=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"325.root");
 	vf.push_back(f6);
       }
+      if( listmenus->hasTTZ_ ){
+	TFile *f7=new TFile(dir+"/"+"NoSmearTTZ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+	vf.push_back(f7);
+      }
     }
   } else if( sTreeThr == "73"){
     if( separateSample ){
@@ -330,6 +380,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       if( listmenus->hasDiBoson_ ){
 	TFile *f6=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"275.root");
 	vf.push_back(f6);
+      }
+      if( listmenus->hasTTZ_ ){
+	TFile *f7=new TFile(dir+"/"+"NoSmearTTZ_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+	vf.push_back(f7);
       }
     }
   } else if( sTreeThr == "all" || sTreeThr == "allHTBins"){
@@ -401,6 +455,14 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
         TFile *f18=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7HigHTBins"+sele+".root");
         vf.push_back(f18);
       }
+      if( listmenus->hasTTZ_ ){
+	TFile *f20=new TFile(dir+"/"+"NoSmearTTZ_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f20);
+	TFile *f21=new TFile(dir+"/"+"NoSmearTTZ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f21);
+        TFile *f22=new TFile(dir+"/"+"NoSmearTTZ_"+dataset+"PUS7HigHTBins"+sele+".root");
+        vf.push_back(f22);
+      }
     }
   } else if( sTreeThr == "low" || sTreeThr == "lowHTBins"){
     if( separateSample ){
@@ -454,6 +516,12 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
         vf.push_back(f10);
 	TFile *f12=new TFile(dir+"/"+"NoSmearDiBoson_"+dataset+"PUS7LowHTBins"+sele+"325.root");
         vf.push_back(f12);
+      }
+      if( listmenus->hasTTZ_ ){
+        TFile *f20=new TFile(dir+"/"+"NoSmearTTZ_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f20);
+        TFile *f21=new TFile(dir+"/"+"NoSmearTTZ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f21);
       }
     }
   } else if( sTreeThr == "test"){

@@ -30,6 +30,8 @@ class playHist2D{
   TH2D* addHistForDiffFoldersFilesHists2D(vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname, vector<double> trigeff);
   TH2D* addHistForDiffFoldersAndFiles_SubtrackHists2D(vector<TFile*> vf, vector<TString> vdirname, vector<TString> vhname_first, vector<TString> vhname_second, vector<double> trigeff );
   TH2D* ReFillHist_AlphaTVSHT(TH2D* inh );
+  TH2D* ReFillHist_low(TH2D* inh, double cuty);
+  TH2D* ReFillHist_high(TH2D* inh, double cuty);
   TH2D* formatHist(TH2D* inh, double inscale, TString digit);
   vector<TLine*> Lines();
 

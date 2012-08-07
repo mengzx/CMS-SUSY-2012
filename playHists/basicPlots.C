@@ -499,6 +499,12 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     vlenname.push_back("t#bar{t}");
     vhnames.push_back("TT");
   }
+  if( hasTTZ_ ){
+    TH1D *MCh_TTZ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_TTZ);
+    vlenname.push_back("t#bar{t}Z+jets");
+    vhnames.push_back("TTZ");
+  }
   if( hasSingleT_ ){
     TH1D *MCh_SingleT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "SingleT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
     vh.push_back(MCh_SingleT);
@@ -584,11 +590,90 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   }
 
 
+  if( hasTTZ525_ ){
+    TH1D *MCh_TTZ525= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ525", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_TTZ525);
+    vlenname.push_back("TTZ+jets (525)");
+    vhnames.push_back("TTZ525");
+  }
+
+
+  if( hasTTZ532_ ){
+    TH1D *MCh_TTZ532= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ532", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_TTZ532);
+    vlenname.push_back("TTZ+jets (532)");
+    vhnames.push_back("TTZ532");
+  }
+
+
   if( hasDiBoson_ ){
     TH1D *MCh_DiBoson= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DiBoson", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
     vh.push_back(MCh_DiBoson);
     vlenname.push_back("Di-Boson");
     vhnames.push_back("DiBoson");
+  }
+
+  if( hasT2tt_smallScan_350_100_ ){
+    TH1D *MCh_T2tt_smallScan_350_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_350_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2tt_smallScan_350_100);
+    vlenname.push_back("T2tt(350,100)");
+    vhnames.push_back("T2tt_smallScan_350_100");
+  }
+
+  if( hasT2tt_smallScan_200_0_ ){
+    TH1D *MCh_T2tt_smallScan_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2tt_smallScan_200_0);
+    vlenname.push_back("T2tt(200,0)");
+    vhnames.push_back("T2tt_smallScan_200_0");
+  }
+
+  if( hasT2tt_smallScan_350_50_ ){
+    TH1D *MCh_T2tt_smallScan_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2tt_smallScan_350_50);
+    vlenname.push_back("T2tt(350,50)");
+    vhnames.push_back("T2tt_smallScan_350_50");
+  }
+
+  if( hasT2tt_smallScan_500_50_ ){
+    TH1D *MCh_T2tt_smallScan_500_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2tt_smallScan_500_50);
+    vlenname.push_back("T2tt(500,50)");
+    vhnames.push_back("T2tt_smallScan_500_50");
+  }
+
+  if( hasT2bw_smallScan_05_200_0_ ){
+    TH1D *MCh_T2bw_smallScan_05_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_05_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2bw_smallScan_05_200_0);
+    vlenname.push_back("T2bw(x=0.5,200,0)");
+    vhnames.push_back("T2bw_smallScan_05_200_0");
+  }
+
+  if( hasT2bw_smallScan_075_150_30_ ){
+    TH1D *MCh_T2bw_smallScan_075_150_30= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_150_30", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2bw_smallScan_075_150_30);
+    vlenname.push_back("T2bw(x=0.75,150,30)");
+    vhnames.push_back("T2bw_smallScan_075_150_30");
+  }
+
+  if( hasT2bw_smallScan_075_120_0_ ){
+    TH1D *MCh_T2bw_smallScan_075_120_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_120_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2bw_smallScan_075_120_0);
+    vlenname.push_back("T2bw(x=0.75,120,0)");
+    vhnames.push_back("T2bw_smallScan_075_120_0");
+  }
+
+  if( hasT2bw_smallScan_05_350_50_ ){
+    TH1D *MCh_T2bw_smallScan_05_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_05_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2bw_smallScan_05_350_50);
+    vlenname.push_back("T2bw(x=0.5,350,50)");
+    vhnames.push_back("T2bw_smallScan_05_350_50");
+  }
+
+  if( hasT2bw_smallScan_075_350_50_ ){
+    TH1D *MCh_T2bw_smallScan_075_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2bw_smallScan_075_350_50);
+    vlenname.push_back("T2bw(x=0.75,350,50)");
+    vhnames.push_back("T2bw_smallScan_075_350_50");
   }
 
   /*  //  MCh_TT->Scale(1.429822);
@@ -623,7 +708,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     svh0clone->GetYaxis()->SetLabelSize(18);
     svh0clone->GetXaxis()->SetTitleSize(0.06);
     svh0clone->GetYaxis()->SetTitleSize(0.06);
-    svh0clone->SetMinimum(0.5);
+    svh0clone->SetMinimum(0.001);
     for( unsigned int i=0; i<svh.size(); i++ ){
       if( vhnames[ svh_index[i] ] != "Data" && vhnames[ svh_index[i] ] != "MCtotal"){
 	if( vhnames[ svh_index[i] ] == "WJ" ){
@@ -636,21 +721,21 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  svh[i]->SetLineColor(kViolet+1);
 	  svh[i]->SetFillColor(kViolet+1);
 	  svh[i]->SetMarkerColor(kViolet+1);
-	} else if( vhnames[ svh_index[i] ] == "ZinvFromDY" ){
-	  svh[i]->Draw("same HIST 9");
-	  svh[i]->SetLineColor(kYellow-3);
-	  svh[i]->SetFillColor(kYellow-3);
-	  svh[i]->SetMarkerColor(kYellow-3);
 	} else if( vhnames[ svh_index[i] ] == "TT" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(4);
-	  svh[i]->SetFillColor(4);
+	  //	  svh[i]->SetFillColor(4);
 	  svh[i]->SetMarkerColor(4);
+	} else if( vhnames[ svh_index[i] ] == "TTZ" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kBlue-7);
+	  svh[i]->SetFillColor(kBlue-7);
+	  svh[i]->SetMarkerColor(kBlue-7);
 	} else if( vhnames[ svh_index[i] ] == "SingleT" ){
 	  svh[i]->Draw("same HIST 9");
-	  svh[i]->SetLineColor(5);
-	  svh[i]->SetFillColor(5);
-	  svh[i]->SetMarkerColor(5);
+	  svh[i]->SetLineColor(3);
+	  svh[i]->SetFillColor(3);
+	  svh[i]->SetMarkerColor(3);
 	} else if( vhnames[ svh_index[i] ] == "Zinv" ){
 	  svh[i]->Draw("same HIST 9" );
 	  svh[i]->SetLineColor(6);
@@ -661,6 +746,11 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  svh[i]->SetLineColor(7);
 	  svh[i]->SetFillColor(7);
 	  svh[i]->SetMarkerColor(7);
+	} else if( vhnames[ svh_index[i] ] == "ZinvFromDY" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kYellow-3);
+	  svh[i]->SetFillColor(kYellow-3);
+	  svh[i]->SetMarkerColor(kYellow-3);
        	} else if( vhnames[ svh_index[i] ] == "Zinv_HT50To100" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kCyan-10);
@@ -711,13 +801,68 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  svh[i]->SetLineColor(kRed-1);
 	  svh[i]->SetFillColor(kRed-1);
 	  svh[i]->SetMarkerColor(kRed-1);
-	} else if( vhnames[ svh_index[i] ] == "MCtotal" ){
+	} else if( vhnames[ svh_index[i] ] == "TTZ525" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kBlue-4);
+	  svh[i]->SetFillColor(kBlue-4);
+	  svh[i]->SetMarkerColor(kBlue-4);
+	} else if( vhnames[ svh_index[i] ] == "TTZ532" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kYellow-7);
+	  svh[i]->SetFillColor(kYellow-7);
+	  svh[i]->SetMarkerColor(kYellow-7);
+	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_100" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(1);
+	  //	  svh[i]->SetFillColor(1);
+	  svh[i]->SetMarkerColor(1);
+	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_200_0" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(2);
+	  //	  svh[i]->SetFillColor(2);
+	  svh[i]->SetMarkerColor(2);
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_200_0" ){
+	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(3);
-	  svh[i]->SetLineWidth(2);
-	  svh[i]->SetFillColor(3);
+	  //	  svh[i]->SetFillColor(3);
 	  svh[i]->SetMarkerColor(3);
-	//	svh[i]->Draw("same HIST");
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_150_30" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(6);
+	  //	  svh[i]->SetFillColor(6);
+	  svh[i]->SetMarkerColor(6);
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_120_0" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(7);
+	  //	  svh[i]->SetFillColor(7);
+	  svh[i]->SetMarkerColor(7);
+	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_50" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(2);
+	  //	  svh[i]->SetFillColor(2);
+	  svh[i]->SetMarkerColor(2);
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_350_50" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(3);
+	  //	  svh[i]->SetFillColor(3);
+	  svh[i]->SetMarkerColor(3);
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_350_50" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(6);
+	  //	  svh[i]->SetFillColor(6);
+	  svh[i]->SetMarkerColor(6);
+	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_50" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(7);
+	  //	  svh[i]->SetFillColor(7);
+	  svh[i]->SetMarkerColor(7);
 	}
+      } else if( vhnames[ svh_index[i] ] == "MCtotal" ){
+	svh[i]->SetLineColor(5);
+	svh[i]->SetLineWidth(2);
+	svh[i]->SetFillColor(5);
+	svh[i]->SetMarkerColor(5);
+	svh[i]->Draw("same HIST");
       }
     }
 
@@ -731,11 +876,11 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       }
       mche->SetFillColor(kOrange-3);
       mche->SetFillStyle(3001);
-      mche->SetLineColor(3);
+      mche->SetLineColor(5);
       mche->SetLineWidth(2);
       mche->SetMarkerSize(0);
       mche->Draw("e2same");
-      delete mche;
+      //      delete mche;
     }
 
     for( unsigned int i=0; i<svh.size(); i++ ){
@@ -783,48 +928,49 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     THStack *hs=new THStack("hs","");
     for( unsigned int i=0; i<invsvh.size(); i++ ){
       if( vhnames[ invsvh_index[i] ] != "Data" && vhnames[ invsvh_index[i] ] != "MCtotal"){
-          if( vhnames[ invsvh_index[i] ] == "WJ" ){
+	if( debug_ >= 2 ){
+	cout<<"sample: "<< vhnames[ invsvh_index[i] ]<<" number: "<<invsvh[i]->Integral(1,10000)<<endl;
+	}
+	if( vhnames[ invsvh_index[i] ] == "WJ" ){
 	  invsvh[i]->SetLineColor(2);
 	  invsvh[i]->SetFillColor(2);
 	  invsvh[i]->SetMarkerColor(2);
 	  hs->Add(invsvh[i]);
-	  //	  cout<<"sample: "<< vhnames[ invsvh_index[i] ]<<" number: "<<invsvh[i]->Integral(1,10000)<<endl;
 	} else if( vhnames[ invsvh_index[i] ] == "DY" ){
 	  invsvh[i]->SetLineColor(kViolet+1);
 	  invsvh[i]->SetFillColor(kViolet+1);
 	  invsvh[i]->SetMarkerColor(kViolet+1);
 	  hs->Add(invsvh[i]);
-	  //	  cout<<"sample: "<< vhnames[ invsvh_index[i] ]<<" number: "<<invsvh[i]->Integral(1,10000)<<endl;
-	} else if( vhnames[ invsvh_index[i] ] == "ZinvFromDY" ){
-	  invsvh[i]->SetLineColor(kYellow-3);
-	  invsvh[i]->SetFillColor(kYellow-3);
-	  invsvh[i]->SetMarkerColor(kYellow-3);
-	  hs->Add(invsvh[i]);
-	  //	  cout<<"sample: "<< vhnames[ invsvh_index[i] ]<<" number: "<<invsvh[i]->Integral(1,10000)<<endl;
 	} else if( vhnames[ invsvh_index[i] ] == "TT" ){
 	  invsvh[i]->SetLineColor(4);
 	  invsvh[i]->SetFillColor(4);
 	  invsvh[i]->SetMarkerColor(4);
 	  hs->Add(invsvh[i]);
-	  //	  cout<<"sample: "<< vhnames[ invsvh_index[i] ]<<" number: "<<invsvh[i]->Integral(1,10000)<<endl;
+	} else if( vhnames[ invsvh_index[i] ] == "TTZ" ){
+	  invsvh[i]->SetLineColor(kBlue-7);
+	  invsvh[i]->SetFillColor(kBlue-7);
+	  invsvh[i]->SetMarkerColor(kBlue-7);
+	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "SingleT" ){
 	  invsvh[i]->SetLineColor(3);
 	  invsvh[i]->SetFillColor(3);
 	  invsvh[i]->SetMarkerColor(3);
 	  hs->Add(invsvh[i]);
-	  //	  cout<<"sample: "<< vhnames[ invsvh_index[i] ]<<" number: "<<invsvh[i]->Integral(1,10000)<<endl;
        	} else if( vhnames[ invsvh_index[i] ] == "Zinv" ){
 	  invsvh[i]->SetLineColor(6);
 	  invsvh[i]->SetFillColor(6);
 	  invsvh[i]->SetMarkerColor(6);
 	  hs->Add(invsvh[i]);
-	  //	  cout<<"sample: "<< vhnames[ invsvh_index[i] ]<<" number: "<<invsvh[i]->Integral(1,10000)<<endl;
        	} else if( vhnames[ invsvh_index[i] ] == "DiBoson" ){
 	  invsvh[i]->SetLineColor(7);
 	  invsvh[i]->SetFillColor(7);
 	  invsvh[i]->SetMarkerColor(7);
 	  hs->Add(invsvh[i]);
-	  //	  cout<<"sample: "<< vhnames[ invsvh_index[i] ]<<" number: "<<invsvh[i]->Integral(1,10000)<<endl;
+	} else if( vhnames[ invsvh_index[i] ] == "ZinvFromDY" ){
+	  invsvh[i]->SetLineColor(kYellow-3);
+	  invsvh[i]->SetFillColor(kYellow-3);
+	  invsvh[i]->SetMarkerColor(kYellow-3);
+	  hs->Add(invsvh[i]);
        	} else if( vhnames[ invsvh_index[i] ] == "Zinv_HT50To100" ){
 	  invsvh[i]->SetLineColor(kCyan-10);
 	  invsvh[i]->SetFillColor(kCyan-10);
@@ -879,9 +1025,9 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       }
     }
     
-
-    hs->Draw("HIST 9 same");
-
+    if( ( vh.size() > 1 && hasData_ ) || ( vh.size() > 0 && !hasData_ ) ){
+      hs->Draw("HIST 9 same");
+    }
     if( vh.size() > 1 && hasMCtotal_){
       double lowmche=vh[1]->GetBinLowEdge(1);
       double highmche=vh[1]->GetBinLowEdge(vh[1]->GetNbinsX())+vh[1]->GetBinWidth(1);
@@ -934,7 +1080,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       len1->AddEntry("", Form("CMS Preliminary 2012 8 TeV, #int L dt = %.2f fb^{-1}", mcscale_HT_/10.),"");
     } else {
       if( MuonNumber == "OneMuon_"){
-	len1->AddEntry("", Form("CMS Preliminary 2012 8 TeV, #int L dt = %.2f fb^{-1}", mcscale_SingleMu_/10.),"");
+        len1->AddEntry("", Form("CMS Preliminary 2012 8 TeV, #int L dt = %.2f fb^{-1}", mcscale_SingleMu_/10.),"");
       } else if( MuonNumber == "DiMuon_"){
 	len1->AddEntry("", Form("CMS Preliminary 2012 8 TeV, #int L dt = %.2f fb^{-1}", mcscale_DiMu_/10.),"");
       }
@@ -1076,18 +1222,18 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
   bool MuAddOrNot=true;
   int rebin=50;
   if( selection == "HadSele"){
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 800, "MET", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-    rebin=50;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1075., "HT", len, 0.55, 10., 2, startNJet, nJets, MuonNumber );
-    rebin=20;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-    rebin=1;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-    rebin=5;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.5, 1.2, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 800, "MET", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
+   rebin=50;
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1075., "HT", len, 0.55, 10., 2, startNJet, nJets, MuonNumber );
+   rebin=10;
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 1.5, "MHToverMET", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
+   rebin=1;
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
+   rebin=5;
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.5, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber );
   }
 
   whichpart=2;
@@ -1107,8 +1253,8 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
     rebin=50;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1075, "HT", len, 0, 10., 2, startNJet, nJets, MuonNumber );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0, 10, 2, startNJet, nJets, MuonNumber );
-    rebin=20;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 3, "MHToverMET", len, 0, 10, 2, startNJet, nJets, MuonNumber );
+    rebin=10;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 1.5, "MHToverMET", len, 0, 10, 2, startNJet, nJets, MuonNumber );
 
     rebin=1;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0., 10, 2, startNJet, nJets, MuonNumber );
@@ -1116,12 +1262,14 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0, 10, 2, startNJet, nJets, MuonNumber );
     rebin=5;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber );
-    /*   rebin=1;
+
+    rebin=20;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt2", len, 0, 10., 2, startNJet, nJets, MuonNumber );                                                  
+    /*    rebin=1;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu13_Mu8)", "", 0, 3000, "trigMu13Mu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu17_Mu8)", "", 0, 3000, "trigMu17Mu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu17_TkMu8)", "", 0, 3000, "trigMu17TkMu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber );
     */
-
   }
 
   delete len;

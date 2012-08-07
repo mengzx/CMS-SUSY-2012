@@ -149,11 +149,13 @@ TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString
   }
   h->GetXaxis()->SetRangeUser(xlow, xhigh);
   if( drawOverflow_ ){
-    int overflowbin=getOverflowbin(h, xhigh);
-    double overflowbinerr=getOverflowbinErr(h, xhigh);
-    h->SetBinContent(overflowbin, h->Integral(overflowbin,1000000) );
-    cout<<" overflow "<< h->Integral(overflowbin,1000000) <<endl;
-    h->SetBinError(overflowbin, overflowbinerr);
+    //    int overflowbin=getOverflowbin(h, xhigh);
+    //    double overflowbinerr=getOverflowbinErr(h, xhigh);
+    h->SetBinContent(( xhigh - ( h->GetBinLowEdge(1) ) ) / (h->GetBinWidth(1)) + 1, h->Integral(( xhigh - ( h->GetBinLowEdge(1) ) ) / ( h->GetBinWidth(1) ) + 1,1000000) );
+    if( debug_ >= 2){
+      cout<<" overflow "<< ( xhigh - ( h->GetBinLowEdge(1) ) ) / (h->GetBinWidth(1)) + 1 << " "<<h->Integral(( xhigh - ( h->GetBinLowEdge(1) ) ) / (h->GetBinWidth(1)) + 1,1000000) <<endl;
+    }
+    h->SetBinError(( xhigh - ( h->GetBinLowEdge(1) ) ) / (h->GetBinWidth(1)) + 1, 0);
   }
   h->GetYaxis()->SetTitle(titley);
   h->GetXaxis()->SetTitle(titlex);
@@ -170,8 +172,10 @@ TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString
 
 int playHist1D::getOverflowbin( TH1D *h, double xhigh ){
     double binwidth=h->GetBinWidth(1);
-    int overflowbin=(int)(xhigh/binwidth+1);
-    return overflowbin;
+    return (( xhigh - ( h->GetBinLowEdge(1) ) )/binwidth)+1;
+    cout<<"  hi "<<xhigh<<" hh "<< h->GetBinLowEdge(1)<< "   "<< ( xhigh - ( h->GetBinLowEdge(1) ) ) /binwidth + 1 << "  "<< h->GetBinWidth(1)<< endl;
+    //    cout<< overflowbin <<endl;
+    //    return overflowbin;
 }
 
 double playHist1D::getOverflowbinErr( TH1D *h, double xhigh ){

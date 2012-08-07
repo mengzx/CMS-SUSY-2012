@@ -37,6 +37,11 @@ class vectors{
 
   void closefV();
 
+  vector<double> xbinsv;
+  vector<double> ybinsv;
+  int nxbins;
+  int nybins;
+
   TH2D* ZinvPredBG();
   TH2D* NormalWJPredBG();
   TH2D* HT_ATTrigEff();
