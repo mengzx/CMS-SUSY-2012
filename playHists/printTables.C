@@ -613,11 +613,11 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
     outputfile = fopen (buffer,"w");
   } else if( closureTests == "1To2Mu"){
     char buffer[100];
-    sprintf (buffer, "table_1To2Mu_%dTo%db.tex", startNJet_-1, startNJet_+nJets_-2);
+    sprintf (buffer, "table_1To2Mu_%dTo%db.tex", startNJet-1, startNJet+nJets-2);
     outputfile = fopen (buffer,"w");
   } else {
     char buffer[100];
-    sprintf (buffer, "table_%s%dTo%db.tex", MuonNumber.Data(), startNJet_-1, startNJet_+nJets_-2);
+    sprintf (buffer, "table_%s%dTo%db.tex", MuonNumber.Data(), startNJet-1, startNJet+nJets-2);
     outputfile = fopen (buffer,"w");
   }
   fprintf(outputfile, "\\documentclass[a4paper,12pt]{article} \n");
@@ -643,13 +643,14 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
 	  fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut ( Closure test: b-jets %d--%d $\\rightarrow$ %d--$\\infty$ )}\\\\ \n ", iJetStart-1, iJetStart+iJet_n-2, jJetStart-1 );
 	}
       } else if( closureTests == "1To2Mu" ){
-	fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut ( Closure test: $\\mu \\rightarrow \\mu\\mu$, %d--%d b-jets )}\\\\ \n ", startNJet_-1, startNJet_+nJets_-2 );
+	fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut ( Closure test: $\\mu \\rightarrow \\mu\\mu$, %d--%d b-jets )}\\\\ \n ", startNJet-1, startNJet+nJets_
+-2 );
       } else {
-	fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut (%d--%d b-jets) }\\\\ \n ",  startNJet_-1, startNJet_+nJets_-2 );
+	fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut (%d--%d b-jets) }\\\\ \n ",  startNJet-1, startNJet+nJets-2 );
       }
       fprintf(outputfile, " HT (GeV) & 275--325 & 325--375 & 375--475 & 475--575 \\\\ \n ");
 
-      //      printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "hadronic MC" );
+      printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "hadronic MC" );
       if( closureTests == "1To2Mu" ){
         printout_first_WithErr( outputfile, numerMC_WithErr, iAT, 2, column_n, "$\\mu\\mu + jets$ MC" );
 	printout_first_WithErr( outputfile, dominMC_WithErr, iAT, 2, column_n, "$\\mu + jets$ MC" );
@@ -689,7 +690,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
       fprintf(outputfile, "\\hline\n");
 
       fprintf(outputfile, " HT (GeV) & 575--675 & 675--775 & 775--875 & 875--$\\infty$ \\\\ \n ");
-      //      printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "hadronic MC" );
+      printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "hadronic MC" );
       if( closureTests == "1To2Mu" ){
 	printout_second_WithErr( outputfile, numerMC_WithErr, iAT, 2, 4, column_n, "$\\mu\\mu + jets$ MC" );
 	printout_second_WithErr( outputfile, dominMC_WithErr, iAT, 2, 4, column_n, "$\\mu + jets$ MC" );
@@ -738,9 +739,9 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
   if( closureTests == "iTojJet" ){
     fprintf(outputfile, "\\label{tab:bg-esti-iTojJet-%d_%dTo%d_%db}\n", iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2);
   } else if( closureTests == "1To2Mu" ){
-    fprintf(outputfile, "\\label{tab:bg-esti-1To2Mu-%dTo%db}\n", startNJet_-1, startNJet_+nJets_-2);
+    fprintf(outputfile, "\\label{tab:bg-esti-1To2Mu-%dTo%db}\n", startNJet-1, startNJet+nJets_-2);
   } else {
-    fprintf(outputfile, "\\label{tab:bg-esti-iTojJet-%dTo%db}\n", startNJet_-1, startNJet_+nJets_-2);
+    fprintf(outputfile, "\\label{tab:bg-esti-iTojJet-%dTo%db}\n", startNJet-1, startNJet+nJets_-2);
   }
 
   fprintf(outputfile, " \\end{table}\n\n\n\n");

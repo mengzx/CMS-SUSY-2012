@@ -23,13 +23,13 @@ menus::menus(){
   drawOverflow_=false;
 
   hasData_=true;
-  hasMCtotal_=false;
-  hasWJ_=false;
-  hasDY_=false;
-  hasTT_=false;
-  hasSingleT_=false;
-  hasZinv_=false;
-  hasDiBoson_=false;
+  hasMCtotal_=true;
+  hasWJ_=true;
+  hasDY_=true;
+  hasTT_=true;
+  hasSingleT_=true;
+  hasZinv_=true;
+  hasDiBoson_=true;
   hasTTZ_=false;
 
   hasZinvFromDY_=false;
@@ -57,8 +57,9 @@ menus::menus(){
   hasT2bw_smallScan_075_350_50_=false;
   hasT2tt_smallScan_500_50_=false;
 
+  hasT1tttt_ = false;
   //  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
-  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/ThirteenthLook_07Aug2012/";
+  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/FifteenthLook_27Aug2012/";
   subdir_="/allBJets_HadSeleMuIso012";
   folderlabel_="";
   //  HadTaudataset_="SingleMu2012";
@@ -76,10 +77,21 @@ menus::menus(){
   datascale_=1.;
   useCommonJson_=false;
   mcscale_=1.;
-  mcscale_HT_=  70.20;
+
+  //Aug 24
+  mcscale_HT_=  84.74;
+  mcscale_SingleMu_= 84.73;
+  mcscale_DiMu_= 84.73;
+
+
+  /*  mcscale_HT_=  80.15;
+  mcscale_SingleMu_= 79.57;
+  mcscale_DiMu_= 79.57;*/
+
+  /*  mcscale_HT_=  70.20;
   mcscale_SingleMu_= 70.23553;
   mcscale_DiMu_=70.23553;
-
+  */
   /*  mcscale_HT_= 56.92799; ABC
   mcscale_SingleMu_= 61.42799;
   mcscale_DiMu_=61.42799;

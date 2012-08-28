@@ -58,7 +58,7 @@ class menus{
   bool hasT2bw_smallScan_05_350_50_;
   bool hasT2bw_smallScan_075_350_50_;
   bool hasT2tt_smallScan_500_50_;
-
+  bool hasT1tttt_;
 
   TString inidir_;
   TString subdir_;

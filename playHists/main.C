@@ -47,18 +47,31 @@ int main( int argc, char* argv[] )
 
   if( word == "printTables" ){
     printTables *table=new printTables();
-    table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 0, 1);
-    table->Tables_ForNormal( "iTojJet", 1, 1, 2,1, "OneMuon_", 0, 1);
-    table->Tables_ForNormal( "iTojJet", 2, 1, 3, 1, "OneMuon_", 0, 1);
-    table->Tables_ForNormal( "iTojJet", 3, 1, 3, 13, "OneMuon_", 0, 1);
+    /*    table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 0, 0);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 1, 1);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 2, 1);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 3, 1);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 4, 1);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 5, 1);*/
 
-    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 0, 1);
-    table->Tables_ForNormal( "iTojJet", 1, 1, 2,1, "DiMuon_", 0, 1);
-    table->Tables_ForNormal( "iTojJet", 2, 1, 3, 1, "DiMuon_", 0, 1);
-    table->Tables_ForNormal( "iTojJet", 3, 1, 3, 13, "DiMuon_", 0, 1);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 0, 0);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 1, 1);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 2, 1);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 3, 1);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 4, 1);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 5, 1);
+
+    /*    table->Tables_ForNormal( "iTojJet", 1, 1, 2,1, "OneMuon_", 0, 0);
+    table->Tables_ForNormal( "iTojJet", 2, 1, 3, 1, "OneMuon_", 0, 0);
+    table->Tables_ForNormal( "iTojJet", 3, 1, 3, 13, "OneMuon_", 0, 0);
+
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 0, 0);
+    table->Tables_ForNormal( "iTojJet", 1, 1, 2,1, "DiMuon_", 0, 0);
+    table->Tables_ForNormal( "iTojJet", 2, 1, 3, 1, "DiMuon_", 0, 0);
+    table->Tables_ForNormal( "iTojJet", 3, 1, 3, 13, "DiMuon_", 0, 0);*/
 
 
-    table->Tables_ForNormal( "1To2Mu", 0, 0, 0, 0, "", 0, 1 );
+    //    table->Tables_ForNormal( "1To2Mu", 0, 0, 0, 0, "", 0, 0 );
   //  table->CompareYouAndMe();
   }
 
