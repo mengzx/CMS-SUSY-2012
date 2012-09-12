@@ -16,6 +16,7 @@
 #include <string>
 #include <TChain.h>
 #include <TString.h>
+#include "menus.h"
 
 using namespace std;
 
@@ -83,11 +84,17 @@ int main( int argc, char* argv[] )
   }
 
   if( word == "basicPlots" || word == "basicPlots_OneMuon" || word == "basicPlots_DiMuon" || word == "basicPlots_Had" ){
-    int startNJet[9]={0, 1, 2, 2, 3, 4, 4, 5 , 5};
-    int nJet[9]     ={0, 1, 14, 1, 1, 12, 1, 1, 12 };
+    int startNJet[11]={2, 4, 0, 1, 2, 2, 3, 4, 4, 5 , 5};
+    int nJet[11]     ={2, 12, 0, 1, 14, 1, 1, 12, 1, 1, 12 };
     
-    int start = 0;
-    int end = 9;
+    int start = 2;
+    int end = 11;
+
+    menus *listmenus=new menus();
+    if( !(listmenus->useBTag_) ){
+      start = 0;
+      end = 3;
+    }
 
     if( word == "basicPlots" || word == "basicPlots_OneMuon"){
       for( int i=start; i< end; i++){
@@ -143,7 +150,7 @@ int main( int argc, char* argv[] )
       }
 
 
-      for( int i=0; i< 9; i++){
+      for( int i=start; i< end; i++){
 	basicPlots *bp=new basicPlots();
 	bp->getResults("lowHTBins", "HadSele", startNJet[i], nJet[i], "" );
 	delete bp;
@@ -151,7 +158,7 @@ int main( int argc, char* argv[] )
 
 
 
-      for( int i=0; i< 9; i++){
+      for( int i=start; i< end; i++){
 	basicPlots *bp=new basicPlots();
 	bp->getResults("highHTBins", "HadSele", startNJet[i], nJet[i], "" );
 	delete bp;

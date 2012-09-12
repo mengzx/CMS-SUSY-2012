@@ -39,6 +39,7 @@ class playHist1D : public menus {
   vector<TH1D*> invSortHists( vector<TH1D*> vinh);
   vector<unsigned int> invSortHists_index( vector<TH1D*> vinh);
   int MaxHist_index( vector<TH1D*> vinh);
+  TH1D* CumulativeH( TH1D* inh );
 
  private:
   int linewidth;

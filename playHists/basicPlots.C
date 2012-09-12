@@ -613,13 +613,6 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     vhnames.push_back("DiBoson");
   }
 
-  if( hasT2tt_smallScan_350_100_ ){
-    TH1D *MCh_T2tt_smallScan_350_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_350_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
-    vh.push_back(MCh_T2tt_smallScan_350_100);
-    vlenname.push_back("T2tt(350,100)");
-    vhnames.push_back("T2tt_smallScan_350_100");
-  }
-
   if( hasT2tt_smallScan_200_0_ ){
     TH1D *MCh_T2tt_smallScan_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
     vh.push_back(MCh_T2tt_smallScan_200_0);
@@ -634,6 +627,13 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     vhnames.push_back("T2tt_smallScan_350_50");
   }
 
+  if( hasT2tt_smallScan_350_100_ ){
+    TH1D *MCh_T2tt_smallScan_350_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_350_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2tt_smallScan_350_100);
+    vlenname.push_back("T2tt(350,100)");
+    vhnames.push_back("T2tt_smallScan_350_100");
+  }
+
   if( hasT2tt_smallScan_500_50_ ){
     TH1D *MCh_T2tt_smallScan_500_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
     vh.push_back(MCh_T2tt_smallScan_500_50);
@@ -641,11 +641,26 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     vhnames.push_back("T2tt_smallScan_500_50");
   }
 
-  if( hasT2bw_smallScan_05_200_0_ ){
-    TH1D *MCh_T2bw_smallScan_05_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_05_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
-    vh.push_back(MCh_T2bw_smallScan_05_200_0);
-    vlenname.push_back("T2bw(x=0.5,200,0)");
-    vhnames.push_back("T2bw_smallScan_05_200_0");
+  if( hasT2tt_smallScan_500_100_ ){
+    TH1D *MCh_T2tt_smallScan_500_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2tt_smallScan_500_100);
+    vlenname.push_back("T2tt(500,100)");
+    vhnames.push_back("T2tt_smallScan_500_100");
+  }
+
+  if( hasT2tt_smallScan_500_200_ ){
+    TH1D *MCh_T2tt_smallScan_500_200= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_200", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2tt_smallScan_500_200);
+    vlenname.push_back("T2tt(500,200)");
+    vhnames.push_back("T2tt_smallScan_500_200");
+  }
+
+
+  if( hasT2bw_smallScan_075_120_0_ ){
+    TH1D *MCh_T2bw_smallScan_075_120_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_120_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2bw_smallScan_075_120_0);
+    vlenname.push_back("T2bw(x=0.75,120,0)");
+    vhnames.push_back("T2bw_smallScan_075_120_0");
   }
 
   if( hasT2bw_smallScan_075_150_30_ ){
@@ -655,11 +670,11 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     vhnames.push_back("T2bw_smallScan_075_150_30");
   }
 
-  if( hasT2bw_smallScan_075_120_0_ ){
-    TH1D *MCh_T2bw_smallScan_075_120_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_120_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
-    vh.push_back(MCh_T2bw_smallScan_075_120_0);
-    vlenname.push_back("T2bw(x=0.75,120,0)");
-    vhnames.push_back("T2bw_smallScan_075_120_0");
+  if( hasT2bw_smallScan_05_200_0_ ){
+    TH1D *MCh_T2bw_smallScan_05_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_05_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2bw_smallScan_05_200_0);
+    vlenname.push_back("T2bw(x=0.5,200,0)");
+    vhnames.push_back("T2bw_smallScan_05_200_0");
   }
 
   if( hasT2bw_smallScan_05_350_50_ ){
@@ -674,6 +689,13 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     vh.push_back(MCh_T2bw_smallScan_075_350_50);
     vlenname.push_back("T2bw(x=0.75,350,50)");
     vhnames.push_back("T2bw_smallScan_075_350_50");
+  }
+
+  if( hasT2bw_smallScan_025_500_100_ ){
+    TH1D *MCh_T2bw_smallScan_025_500_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_025_500_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    vh.push_back(MCh_T2bw_smallScan_025_500_100);
+    vlenname.push_back("T2bw(x=0.25,500,100)");
+    vhnames.push_back("T2bw_smallScan_025_500_100");
   }
 
   if( hasT1tttt_ ){
@@ -703,7 +725,97 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   pad1->cd();
   pad1->SetTopMargin(0.1);
 
-  if( !drawStack_ ){
+  if( doCumulative_ ){
+    TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
+    TH1D *ih0=pf1d.CumulativeH( svh0clone );
+    ih0->SetLineColor(0);
+    ih0->SetMarkerColor(0);
+    ih0->Draw();
+    ih0->GetXaxis()->SetLabelFont(63);
+    ih0->GetXaxis()->SetLabelSize(18);
+    ih0->GetYaxis()->SetLabelFont(63);
+    ih0->GetYaxis()->SetLabelSize(18);
+    ih0->GetXaxis()->SetTitleSize(0.06);
+    ih0->GetYaxis()->SetTitleSize(0.06);
+    ih0->SetMinimum(0.0001);
+
+    for( unsigned int i=0; i<svh.size(); i++ ){
+      if( vhnames[ svh_index[i] ] == "T2tt_smallScan_200_0" ){
+	TH1D *ih1=pf1d.CumulativeH( svh[i] );
+	ih1->Draw("same");
+	ih1->SetLineColor(2);
+	ih1->SetMarkerColor(2);
+	len->AddEntry(ih1,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_50" ){
+	TH1D *ih2=pf1d.CumulativeH( svh[i] );
+	ih2->Draw("same HIST 9");
+	ih2->SetLineColor(3);
+	ih2->SetMarkerColor(3);
+	len->AddEntry(ih2,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_100" ){
+	TH1D *ih3=pf1d.CumulativeH( svh[i] );
+	ih3->Draw("same HIST 9");
+	ih3->SetLineColor(4);
+	ih3->SetMarkerColor(4);
+	len->AddEntry(ih3,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_50" ){
+	TH1D *ih4=pf1d.CumulativeH( svh[i] );
+	ih4->Draw("same HIST 9");
+	ih4->SetLineColor(6);
+	ih4->SetMarkerColor(6);
+	len->AddEntry(ih4,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_100" ){
+	TH1D *ih5=pf1d.CumulativeH( svh[i] );
+	ih5->Draw("same HIST 9");
+	ih5->SetLineColor(7);
+	ih5->SetMarkerColor(7);
+	len->AddEntry(ih5,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_200" ){
+	TH1D *ih6=pf1d.CumulativeH( svh[i] );
+	ih6->Draw("same HIST 9");
+	ih6->SetLineColor(kPink-7);
+	ih6->SetMarkerColor(kPink-7);
+	len->AddEntry(ih6,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_120_0" ){
+	TH1D *ih7=pf1d.CumulativeH( svh[i] );
+	ih7->Draw("same HIST 9");
+	ih7->SetLineColor(kOrange);
+	ih7->SetMarkerColor(kOrange);
+	len->AddEntry(ih7,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_150_30" ){
+	TH1D *ih8=pf1d.CumulativeH( svh[i] );
+	ih8->Draw("same HIST 9");
+	ih8->SetLineColor(kGreen+4);
+	ih8->SetMarkerColor(kGreen+4);
+	len->AddEntry(ih8,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_200_0" ){
+	TH1D *ih9=pf1d.CumulativeH( svh[i] );
+	ih9->Draw("same HIST 9");
+	ih9->SetLineColor(kMagenta-8);
+	ih9->SetMarkerColor(kMagenta-8);
+	len->AddEntry(ih9,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_350_50" ){
+	TH1D *ih10=pf1d.CumulativeH( svh[i] );
+	ih10->Draw("same HIST 9");
+	ih10->SetLineColor(kViolet+1);
+	ih10->SetMarkerColor(kViolet+1);
+	len->AddEntry(ih10,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_350_50" ){
+	TH1D *ih11=pf1d.CumulativeH( svh[i] );
+	ih11->Draw("same HIST 9");
+	ih11->SetLineColor(kRed-8);
+	ih11->SetMarkerColor(kRed-8);
+	len->AddEntry(ih11,vlenname[ svh_index[i] ]);
+      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_025_500_100" ){
+	TH1D *ih12=pf1d.CumulativeH( svh[i] );
+	ih12->Draw("same HIST 9");
+	ih12->SetLineColor(kGray+2);
+	ih12->SetMarkerColor(kGray+2);
+	len->AddEntry(ih12,vlenname[ svh_index[i] ]);
+      }
+    }
+  } else {
+   if( !drawStack_ ){
     TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
     svh0clone->Scale(1.5);
     svh0clone->SetLineColor(0);
@@ -715,7 +827,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     svh0clone->GetYaxis()->SetLabelSize(18);
     svh0clone->GetXaxis()->SetTitleSize(0.06);
     svh0clone->GetYaxis()->SetTitleSize(0.06);
-    svh0clone->SetMinimum(0.5);
+    svh0clone->SetMinimum(0.01);
     for( unsigned int i=0; i<svh.size(); i++ ){
       if( vhnames[ svh_index[i] ] != "Data" && vhnames[ svh_index[i] ] != "MCtotal"){
 	if( vhnames[ svh_index[i] ] == "WJ" ){
@@ -818,51 +930,66 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  svh[i]->SetLineColor(kYellow-7);
 	  svh[i]->SetFillColor(kYellow-7);
 	  svh[i]->SetMarkerColor(kYellow-7);
-	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_100" ){
-	  svh[i]->Draw("same HIST 9");
-	  svh[i]->SetLineColor(1);
-	  //	  svh[i]->SetFillColor(1);
-	  svh[i]->SetMarkerColor(1);
 	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_200_0" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(2);
 	  //	  svh[i]->SetFillColor(2);
 	  svh[i]->SetMarkerColor(2);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_200_0" ){
-	  svh[i]->Draw("same HIST 9");
-	  svh[i]->SetLineColor(3);
-	  //	  svh[i]->SetFillColor(3);
-	  svh[i]->SetMarkerColor(3);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_150_30" ){
-	  svh[i]->Draw("same HIST 9");
-	  svh[i]->SetLineColor(6);
-	  //	  svh[i]->SetFillColor(6);
-	  svh[i]->SetMarkerColor(6);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_120_0" ){
-	  svh[i]->Draw("same HIST 9");
-	  svh[i]->SetLineColor(7);
-	  //	  svh[i]->SetFillColor(7);
-	  svh[i]->SetMarkerColor(7);
 	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_50" ){
 	  svh[i]->Draw("same HIST 9");
-	  svh[i]->SetLineColor(2);
-	  //	  svh[i]->SetFillColor(2);
-	  svh[i]->SetMarkerColor(2);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_350_50" ){
-	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(3);
 	  //	  svh[i]->SetFillColor(3);
 	  svh[i]->SetMarkerColor(3);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_350_50" ){
+	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_100" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(4);
+	  //	  svh[i]->SetFillColor(4);
+	  svh[i]->SetMarkerColor(4);
+	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_50" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(6);
 	  //	  svh[i]->SetFillColor(6);
 	  svh[i]->SetMarkerColor(6);
-	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_50" ){
+	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_100" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(7);
 	  //	  svh[i]->SetFillColor(7);
 	  svh[i]->SetMarkerColor(7);
+	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_200" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kPink-7);
+	  //	  svh[i]->SetFillColor(kPink-7);
+	  svh[i]->SetMarkerColor(kPink-7);
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_120_0" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kOrange);
+	  //	  svh[i]->SetFillColor(kOrange);
+	  svh[i]->SetMarkerColor(kOrange);
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_150_30" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kGreen+4);
+	  //	  svh[i]->SetFillColor(kGreen+4);
+	  svh[i]->SetMarkerColor(kGreen+4);
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_200_0" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kMagenta-8);
+	  //	  svh[i]->SetFillColor(kMagenta-8);
+	  svh[i]->SetMarkerColor(kMagenta-8);
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_350_50" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kViolet+1);
+	  //	  svh[i]->SetFillColor(kViolet+1);
+	  svh[i]->SetMarkerColor(kViolet+1);
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_350_50" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kRed-8);
+	  //	  svh[i]->SetFillColor(kRed-8);
+	  svh[i]->SetMarkerColor(kRed-8);
+	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_025_500_100" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(kGray+2);
+	  //	  svh[i]->SetFillColor(kGray+2);
+	  svh[i]->SetMarkerColor(kGray+2);
 	} else if( vhnames[ svh_index[i] ] == "T1tttt" ){
 	  svh[i]->Draw("same HIST 9");
           svh[i]->SetLineColor(7);
@@ -1080,6 +1207,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       }
     }
   }
+  }
 
   //  TLegend *len1=new TLegend( 0.56, 0.70, 0.93, 0.90 );
   //  len1->AddEntry("", "CMS Preliminary 2012 8 TeV","");
@@ -1136,14 +1264,6 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       mch1->SetBinContent(ib, 1.);
       if(vh[1]->GetBinContent(ib) > 1E-2){
 	mch1->SetBinError(ib, vh[1]->GetBinError(ib)/vh[1]->GetBinContent(ib) );
-	if( ib == 1 && whichplot == "nbjet" &&  startNJet > 0 ){
-	  mch1->SetBinError(ib, 0 );
-	}
-	if( ( ib == 1 || ib ==2 ) && whichplot == "njet" && ( normalEstimation_ == true || MuAddOrNot == false || whichpart == 1) ){
-	  mch1->SetBinError(ib, 0 );
-	} else if ( ib == 1 && whichplot == "njet" && MuAddOrNot == true ){
-	  mch1->SetBinError(ib, 0 );
-	}
       }
     }
     mch1->SetFillColor(kGray+1);
@@ -1176,38 +1296,76 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     datah1->Draw("same");
   }
     TString stack="";
-    if(drawStack_){
-      stack="Stack_";
+    if ( doCumulative_ ){
+      stack="Cumu_";
+    } else {
+      if(drawStack_){
+	stack="Stack_";
+      }
     }
 
   if( whichpart == 1 ){
     pad1->SetLogy(0);
+    //    pad1->SetLogx(0);
     pad1->RedrawAxis();
-    c1->SaveAs( Form( "%s"+whichplot+"_HadSele_%s_%iTo%ib.%s",  stack.Data(), HTBins.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    if( useBTag_ ){
+      c1->SaveAs( Form( "%s"+whichplot+"_HadSele_%s_%iTo%ib.%s",  stack.Data(), HTBins.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );;
+    } else {
+      c1->SaveAs( Form( "%s"+whichplot+"_HadSele_%s_%iTo%ij.%s",  stack.Data(), HTBins.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );;
+    }
     pad1->SetLogy();
+    //    pad1->SetLogx();
     pad1->RedrawAxis();
-    c1->SaveAs( Form( "%s"+whichplot+"_HadSele_%s_%iTo%ib_log.%s",  stack.Data(), HTBins.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    if( useBTag_ ){
+      c1->SaveAs( Form( "%s"+whichplot+"_HadSele_%s_%iTo%ib_log.%s",  stack.Data(), HTBins.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    } else {
+      c1->SaveAs( Form( "%s"+whichplot+"_HadSele_%s_%iTo%ij_log.%s",  stack.Data(), HTBins.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );
+    }
   } else if ( whichpart != 1 && MuAddOrNot == true && normalEstimation_ == false ){
     pad1->SetLogy(0);
     pad1->RedrawAxis();
-    c1->SaveAs( Form( "%s"+whichplot+"_MuonAdded_%s_TrueTauHad%d_%s_%iTo%ib.%s", stack.Data(), HTBins.Data(), (int)(plotTrueTauHad_), HadTaucontrolTrig_.Data(), startNJet-1, nJets-startNJet-2, epspng_.Data() ) );
+    if( useBTag_ ){
+      c1->SaveAs( Form( "%s"+whichplot+"_MuonAdded_%s_TrueTauHad%d_%s_%iTo%ib.%s", stack.Data(), HTBins.Data(), (int)(plotTrueTauHad_), HadTaucontrolTrig_.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    } else {
+      c1->SaveAs( Form( "%s"+whichplot+"_MuonAdded_%s_TrueTauHad%d_%s_%iTo%ij.%s", stack.Data(), HTBins.Data(), (int)(plotTrueTauHad_), HadTaucontrolTrig_.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );
+    }
     pad1->SetLogy();
     pad1->RedrawAxis();
-    c1->SaveAs( Form( "%s"+whichplot+"_MuonAdded_%s_TrueTauHad%d_%s_%iTo%ib_log.%s",  stack.Data(), HTBins.Data(), (int)(plotTrueTauHad_), HadTaucontrolTrig_.Data(), startNJet-1, nJets-startNJet-2, epspng_.Data()  ) );
+    if( useBTag_ ){
+      c1->SaveAs( Form( "%s"+whichplot+"_MuonAdded_%s_TrueTauHad%d_%s_%iTo%ib_log.%s",  stack.Data(), HTBins.Data(), (int)(plotTrueTauHad_), HadTaucontrolTrig_.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data()  ) );
+    } else {
+      c1->SaveAs( Form( "%s"+whichplot+"_MuonAdded_%s_TrueTauHad%d_%s_%iTo%ij_log.%s",  stack.Data(), HTBins.Data(), (int)(plotTrueTauHad_), HadTaucontrolTrig_.Data(), startNJet, nJets+startNJet-1, epspng_.Data()  ) );
+    }
   } else if ( whichpart !=1 && MuAddOrNot == false  && normalEstimation_ == false ){
     pad1->SetLogy(0);
     pad1->RedrawAxis();
-    c1->SaveAs( Form( "%s"+whichplot+"_MuonNotAdded_%s_%iTo%ib.%s", stack.Data(), HTBins.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    if( useBTag_ ){
+      c1->SaveAs( Form( "%s"+whichplot+"_MuonNotAdded_%s_%iTo%ib.%s", stack.Data(), HTBins.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    } else{
+      c1->SaveAs( Form( "%s"+whichplot+"_MuonNotAdded_%s_%iTo%ij.%s", stack.Data(), HTBins.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );
+    }
     pad1->SetLogy();
     pad1->RedrawAxis();
-    c1->SaveAs( Form( "%s"+whichplot+"_MuonNotAdded_%s_%iTo%ib_log.%s",  stack.Data(), HTBins.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    if( useBTag_ ){
+      c1->SaveAs( Form( "%s"+whichplot+"_MuonNotAdded_%s_%iTo%ib_log.%s",  stack.Data(), HTBins.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    } else {
+      c1->SaveAs( Form( "%s"+whichplot+"_MuonNotAdded_%s_%iTo%ij_log.%s",  stack.Data(), HTBins.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );
+    }
   } else if ( normalEstimation_ == true ){
     pad1->SetLogy(0);
     pad1->RedrawAxis();
-    c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%iTo%ib.%s", stack.Data(), HTBins.Data(), MuonNumber.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    if( useBTag_ ){
+      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%iTo%ib.%s", stack.Data(), HTBins.Data(), MuonNumber.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    } else {
+      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%iTo%ij.%s", stack.Data(), HTBins.Data(), MuonNumber.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );
+    }
     pad1->SetLogy();
     pad1->RedrawAxis();
-    c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%iTo%ib_log.%s",  stack.Data(), HTBins.Data(), MuonNumber.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    if( useBTag_ ){
+      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%iTo%ib_log.%s",  stack.Data(), HTBins.Data(), MuonNumber.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+    } else {
+      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%iTo%ij_log.%s",  stack.Data(), HTBins.Data(), MuonNumber.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );
+    }
   }
 
   delete pad1;
@@ -1242,32 +1400,47 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
   bool MuAddOrNot=true;
   int rebin=50;
   if( selection == "HadSele"){
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 800, "MET", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-   rebin=50;
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1075., "HT", len, 0.55, 10., 2, startNJet, nJets, MuonNumber );
-   rebin=10;
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 1.5, "MHToverMET", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-   rebin=1;
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0.55, 10, 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 600, "MET", len, 0., 10, 2, startNJet, nJets, MuonNumber );
    rebin=5;
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.5, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 300, "muPt", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "second #mu p_{T} (GeV)", "", 0., 150, "muPt2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "electron p_{T} (GeV)", "", 0., 300, "elePt", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "second electron p_{T} (GeV)", "", 0., 150., "elePt2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   rebin=20;
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "jet p_{T} (GeV)", "", 0., 650, "jetPt", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "second p_{T} (GeV)", "", 0., 650, "jetPt2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "jet #eta (GeV)", "", -10.,10., "jetEta", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "second #eta (GeV)", "", -10.,10., "jetEta2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   rebin=10;
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(electron,E_{T}^{miss}) (GeV)", "", 0., 600, "PFMTele", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#mu,E_{T}^{miss}) (GeV)", "", 0., 600, "PFMTmu", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#Sigma p_{T}^{ele},E_{T}^{miss}) (GeV)", "", 0., 600, "PFMTvele", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#Sigma p_{T}^{#mu},E_{T}^{miss}) (GeV)", "", 0., 600, "PFMTvmu", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+   rebin=50;
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 600, "MHT", len, 0., 10, 2, startNJet, nJets, MuonNumber );
+   //   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 600., "HT", len, 0., 10., 2, startNJet, nJets, MuonNumber );
+   rebin=10;
+   //   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 2., "MHToverMET", len, 0., 10, 2, startNJet, nJets, MuonNumber );
+   rebin=1;
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 8, "nbjet", len, 0., 10, 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 14, "njet", len, 0., 10, 2, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0., 10, 2, startNJet, nJets, MuonNumber );
+   rebin=5;
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.0, 1.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber );
   }
 
   whichpart=2;
   MuAddOrNot=false;
   if( selection != "HadSele"){
     rebin=50;
-    /*    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 800, "MET", len, 0, 10, 2, startNJet, nJets, MuonNumber );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 800, "MET", len, 0, 10, 2, startNJet, nJets, MuonNumber );
     rebin=2;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{Z} (GeV)", "", 50., 150, "Zmass", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{Z} (GeV)", "", 0., 200, "Zmass", len, 0, 10., 2, startNJet, nJets, MuonNumber );
     rebin=1;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}", "", 0, 0.15, "muonIso", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{ECAL}", "", 0, 0.15, "muonIsoECAL", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{HCAL}", "", 0, 0.15, "muonIsoHCAL", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{Trk}", "", 0, 0.15, "muonIsoTrk", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{ECAL}", "", 0, 0.15, "muonIsoECAL", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{HCAL}", "", 0, 0.15, "muonIsoHCAL", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{Trk}", "", 0, 0.15, "muonIsoTrk", len, 0, 10., 2, startNJet, nJets, MuonNumber );
     rebin=20;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt", len, 0, 10., 2, startNJet, nJets, MuonNumber );
     rebin=50;
@@ -1281,13 +1454,14 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0., 10, 2, startNJet, nJets, MuonNumber );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0, 10, 2, startNJet, nJets, MuonNumber );
     rebin=5;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber );*/
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber );
 
     rebin=20;
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(mu,E_{T}^{miss}) (GeV)", "", 0., 600, "PFMT", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-
-    /*    rebin=1;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+    rebin=10;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#mu,E_{T}^{miss}) (GeV)", "", 20., 700, "PFMTT", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+ 
+  /*    rebin=1;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu13_Mu8)", "", 0, 3000, "trigMu13Mu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu17_Mu8)", "", 0, 3000, "trigMu17Mu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu17_TkMu8)", "", 0, 3000, "trigMu17TkMu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber );

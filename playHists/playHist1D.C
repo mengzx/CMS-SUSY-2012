@@ -147,16 +147,17 @@ TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString
   if(rebin > 1){
     h->Rebin(rebin);
   }
-  h->GetXaxis()->SetRangeUser(xlow, xhigh);
   if( drawOverflow_ ){
-    //    int overflowbin=getOverflowbin(h, xhigh);
-    //    double overflowbinerr=getOverflowbinErr(h, xhigh);
-    h->SetBinContent(( xhigh - ( h->GetBinLowEdge(1) ) ) / (h->GetBinWidth(1)) + 1, h->Integral(( xhigh - ( h->GetBinLowEdge(1) ) ) / ( h->GetBinWidth(1) ) + 1,1000000) );
+    int overflowbin=getOverflowbin(h, xhigh);
+    double overflowbinerr=getOverflowbinErr(h, xhigh);
+    h->SetBinContent( overflowbin, h->Integral( overflowbin,1000000) );
     if( debug_ >= 2){
-      cout<<" overflow "<< ( xhigh - ( h->GetBinLowEdge(1) ) ) / (h->GetBinWidth(1)) + 1 << " "<<h->Integral(( xhigh - ( h->GetBinLowEdge(1) ) ) / (h->GetBinWidth(1)) + 1,1000000) <<endl;
+      cout<<" overflow bin= "<< overflowbin << " overflow= "<<h->Integral(overflowbin + 1,1000000) <<endl;
     }
-    h->SetBinError(( xhigh - ( h->GetBinLowEdge(1) ) ) / (h->GetBinWidth(1)) + 1, 0);
+    h->SetBinError( overflowbin, overflowbinerr);
   }
+  //  h->GetXaxis()->SetLimits(xlow, xhigh);
+  h->GetXaxis()->SetRangeUser(xlow, xhigh);
   h->GetYaxis()->SetTitle(titley);
   h->GetXaxis()->SetTitle(titlex);
   h->SetLineWidth(linewidth);
@@ -166,16 +167,14 @@ TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString
   } else {
     h->Scale(inscale);
   }
-
   return h;
 }
 
 int playHist1D::getOverflowbin( TH1D *h, double xhigh ){
-    double binwidth=h->GetBinWidth(1);
-    return (( xhigh - ( h->GetBinLowEdge(1) ) )/binwidth)+1;
-    cout<<"  hi "<<xhigh<<" hh "<< h->GetBinLowEdge(1)<< "   "<< ( xhigh - ( h->GetBinLowEdge(1) ) ) /binwidth + 1 << "  "<< h->GetBinWidth(1)<< endl;
-    //    cout<< overflowbin <<endl;
-    //    return overflowbin;
+    if( debug_ >=2 ){
+      cout<<"  xhigh= "<<xhigh<<" lowedge= "<< h->GetBinLowEdge(1)<< " binwidth= "<< h->GetBinWidth(1) << " needed bin= "<< ( xhigh - ( h->GetBinLowEdge(1) ) )/( h->GetBinWidth(1) )<< endl;
+    }
+    return (( xhigh - ( h->GetBinLowEdge(1) ) )/( h->GetBinWidth(1) ));
 }
 
 double playHist1D::getOverflowbinErr( TH1D *h, double xhigh ){
@@ -303,4 +302,22 @@ int playHist1D::MaxHist_index( vector<TH1D*> vinh){
   }
 
   return index;
+}
+
+TH1D* playHist1D::CumulativeH( TH1D* inh ){
+  TH1D *inhc=(TH1D*)(inh->Clone("inhc"));
+
+  double total=inh->GetSumOfWeights();
+
+  for( int i=1; i<= inh->GetNbinsX(); i++ ){
+    double total_before=0.;
+    for( int j=1; j<i; j++){
+      total_before=total_before+inh->GetBinContent(j);
+    }
+    double total_after=total-total_before;
+    inhc->SetBinContent(i, total_after/total);
+    inhc->SetBinError(i, 0.);
+  }
+
+  return inhc;
 }

@@ -21,6 +21,8 @@ menus::menus(){
   epspng_="png";
   doTrigCorr_=true;
   drawOverflow_=false;
+  useBTag_=false;
+  doCumulative_=false;
 
   hasData_=true;
   hasMCtotal_=true;
@@ -46,21 +48,25 @@ menus::menus(){
   hasWJ_HT400Toinf_=false;
   hasTTZ525_=false;
   hasTTZ532_=false;
-  hasT2tt_smallScan_350_100_=false;
   hasT2tt_smallScan_200_0_=false;
   hasT2bw_smallScan_05_200_0_=false;
   hasT2bw_smallScan_075_150_30_=false;
   hasT2bw_smallScan_075_120_0_=false;
 
+  hasT2bw_smallScan_025_500_100_=false;
+  hasT2tt_smallScan_500_50_=false;
+  hasT2tt_smallScan_500_200_=false;
+  hasT2tt_smallScan_500_100_=false;
+
+  hasT2tt_smallScan_350_100_=false;
   hasT2tt_smallScan_350_50_=false;
   hasT2bw_smallScan_05_350_50_=false;
   hasT2bw_smallScan_075_350_50_=false;
-  hasT2tt_smallScan_500_50_=false;
 
   hasT1tttt_ = false;
   //  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
-  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/FifteenthLook_27Aug2012/";
-  subdir_="/allBJets_HadSeleMuIso012";
+  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/SixteenthLook_29Aug2012/";
+  subdir_="/Jets_HadSeleMuIso012";
   folderlabel_="";
   //  HadTaudataset_="SingleMu2012";
   NotHadTaudataset_="HT2012";
@@ -75,13 +81,25 @@ menus::menus(){
   MuonNumber_ = "OneMuon_";
 
   datascale_=1.;
-  useCommonJson_=false;
-  mcscale_=1.;
+
+  if( doCumulative_ ){
+    useCommonJson_=true;
+    mcscale_=1.;
+    mcscale_HT_=  1.;
+    mcscale_SingleMu_= 1.;
+    mcscale_DiMu_= 1.;
+  } else {
+    useCommonJson_=false;
+    mcscale_=1.;
+    mcscale_HT_=  93.51;
+    mcscale_SingleMu_= 93.18801;
+    mcscale_DiMu_= 93.18801;
+  }
 
   //Aug 24
-  mcscale_HT_=  84.74;
+  /*  mcscale_HT_=  84.74;
   mcscale_SingleMu_= 84.73;
-  mcscale_DiMu_= 84.73;
+  mcscale_DiMu_= 84.73;*/
 
 
   /*  mcscale_HT_=  80.15;

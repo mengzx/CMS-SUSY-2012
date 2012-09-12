@@ -24,6 +24,8 @@ class menus{
   TString  epspng_;
   bool doTrigCorr_;
   bool drawOverflow_;
+  bool useBTag_;
+  bool doCumulative_;
 
   bool hasData_;
   bool hasMCtotal_;
@@ -48,16 +50,21 @@ class menus{
   bool hasWJ_HT400Toinf_;
   bool hasTTZ525_;
   bool hasTTZ532_;
-  bool hasT2tt_smallScan_350_100_;
 
   bool hasT2tt_smallScan_200_0_;
-  bool hasT2bw_smallScan_05_200_0_;
-  bool hasT2bw_smallScan_075_150_30_;
-  bool hasT2bw_smallScan_075_120_0_;
   bool hasT2tt_smallScan_350_50_;
+  bool hasT2tt_smallScan_350_100_;
+  bool hasT2tt_smallScan_500_50_;
+  bool hasT2tt_smallScan_500_200_;
+  bool hasT2tt_smallScan_500_100_;
+
+  bool hasT2bw_smallScan_075_120_0_;
+  bool hasT2bw_smallScan_075_150_30_;
+  bool hasT2bw_smallScan_05_200_0_;
   bool hasT2bw_smallScan_05_350_50_;
   bool hasT2bw_smallScan_075_350_50_;
-  bool hasT2tt_smallScan_500_50_;
+  bool hasT2bw_smallScan_025_500_100_;
+
   bool hasT1tttt_;
 
   TString inidir_;
