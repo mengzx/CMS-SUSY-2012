@@ -12,11 +12,13 @@ class NBjets : public menus, public vectors{
   NBjets();
   ~NBjets(){;}
 
-  double Ebsion();
-  double Aem();
-  double N_bs();
-  double N_bmatch();
-  double N_nonbmatch();
+  double Ebsion( vector<TFile*> invf, vector<TString> vdirname, int inibin );
+  double Im( vector<TFile*> invf, vector<TString> vdirname, int inibin );
+  double N_bs( vector<TFile*> invf, vector<TString> vdirname, int inibin );
+  double N_bmatch( vector<TFile*> invf, vector<TString> vdirname, int inibin );
+  double N_nonbmatch( vector<TFile*> invf, vector<TString> vdirname, int inibin );
+
+  double Nb0( vector<TFile*> invf, vector<TString> vdirname, int inibin );
 
 };//NBjets
 

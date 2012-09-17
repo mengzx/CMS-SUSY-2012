@@ -946,34 +946,34 @@ vector<TString> vectors::vhname_pusback_numer( bool MuAddOrNot, bool fullesti, i
   vector<TString> reh;
   if( MuAddOrNot == true && ( fullesti == true || fullesti == false ) && listmenus->normalEstimation_ == false ){
     if( startnjet == 0 ){
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_all");
     } else {
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_%d", i));
       }
     }
   } else if ( MuAddOrNot == false && fullesti == true && listmenus->normalEstimation_ == false ){
     if( startnjet == 0 ){
       reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_all");
     } else {
       for (int i=startnjet; i<startnjet+njets; i++){
 	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_h_%d", i));
       }
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_%d", i));
       }
     }
   } else if ( MuAddOrNot == false && fullesti == false && listmenus->normalEstimation_ == false ){
     if( startnjet == 0 ){
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauLep_h_all");
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueVlep_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauLep_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueVlep_h_all");
     } else {
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauLep_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueTauLep_h_%d", i));
       }
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueVlep_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueVlep_h_%d", i));
       }
     }
   } else if ( listmenus->normalEstimation_ == true ){

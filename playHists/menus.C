@@ -20,8 +20,8 @@ menus::menus(){
   drawStack_=true;
   epspng_="png";
   doTrigCorr_=true;
-  drawOverflow_=false;
-  useBTag_=false;
+  drawOverflow_=true;
+  useBTag_=true;
   doCumulative_=false;
 
   hasData_=true;
@@ -64,9 +64,9 @@ menus::menus(){
   hasT2bw_smallScan_075_350_50_=false;
 
   hasT1tttt_ = false;
-  //  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
-  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/SixteenthLook_29Aug2012/";
-  subdir_="/Jets_HadSeleMuIso012";
+  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
+  //  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/SixteenthLook_29Aug2012/";
+  subdir_="/allBJets_WithWJCombinFullSim_NoVtxReweight";
   folderlabel_="";
   //  HadTaudataset_="SingleMu2012";
   NotHadTaudataset_="HT2012";
@@ -91,9 +91,12 @@ menus::menus(){
   } else {
     useCommonJson_=false;
     mcscale_=1.;
-    mcscale_HT_=  93.51;
+    /*    mcscale_HT_=  93.51;
     mcscale_SingleMu_= 93.18801;
-    mcscale_DiMu_= 93.18801;
+    mcscale_DiMu_= 93.18801;*/
+    mcscale_HT_=  49.76;
+    mcscale_SingleMu_= 49.54071;
+    mcscale_DiMu_= 49.54071;
   }
 
   //Aug 24

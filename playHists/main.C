@@ -84,85 +84,68 @@ int main( int argc, char* argv[] )
   }
 
   if( word == "basicPlots" || word == "basicPlots_OneMuon" || word == "basicPlots_DiMuon" || word == "basicPlots_Had" ){
-    int startNJet[11]={2, 4, 0, 1, 2, 2, 3, 4, 4, 5 , 5};
-    int nJet[11]     ={2, 12, 0, 1, 14, 1, 1, 12, 1, 1, 12 };
+
+    vector<TString > folder;
+    folder.push_back("");
+    //    folder.push_back("TwoJet_");
+    //    folder.push_back("ThreeJet_");
+    //    folder.push_back("TwoThreeJet_");
+    //    folder.push_back("MoreThreeJet_");
+    vector<TString > HTBins;
+    HTBins.push_back("all");
+    HTBins.push_back("lowHTBins");
+    HTBins.push_back("highHTBins");
+
+    int startNJet[16]={2, 3, 2, 4, 4, 5, 6, 0, 1, 2, 2, 3, 4, 4, 5, 5};
+    int nJet[16]     ={1, 1, 2, 12, 1, 1, 1, 0, 1, 14, 1, 1, 12, 1, 1, 12 };
     
-    int start = 2;
-    int end = 11;
+    int start = 7;
+    int end = 16;
 
     menus *listmenus=new menus();
     if( !(listmenus->useBTag_) ){
-      start = 0;
-      end = 3;
+      start = 7;
+      end = 8;
     }
 
     if( word == "basicPlots" || word == "basicPlots_OneMuon"){
       for( int i=start; i< end; i++){
-	basicPlots *bp=new basicPlots();
-	bp->getResults("all", "OneMu", startNJet[i], nJet[i], "OneMuon_" );
-	delete bp;
-      }
-
-
-      for( int i=start; i< end; i++){
-	basicPlots *bp=new basicPlots();
-	bp->getResults("lowHTBins", "OneMu", startNJet[i], nJet[i], "OneMuon_" );
-	delete bp;
-      }
-
-
-      for( int i=start; i< end; i++){
-	basicPlots *bp=new basicPlots();
-	bp->getResults("highHTBins", "OneMu", startNJet[i], nJet[i], "OneMuon_" );
-	delete bp;
+	for( unsigned int ibin=0; ibin<HTBins.size();ibin++){
+	  for( unsigned int il=0; il<folder.size(); il++){ 
+	    basicPlots *bp=new basicPlots();
+	    bp->getResults(HTBins[ibin], "OneMu", startNJet[i], nJet[i], "OneMuon_", folder[il] );
+	    delete bp;
+	  }
+	}
       }
     }
 
     if( word == "basicPlots" || word == "basicPlots_DiMuon" ){
       for( int i=start; i< end; i++){
-	basicPlots *bp=new basicPlots();
-	bp->getResults("all", "OneMu", startNJet[i], nJet[i], "DiMuon_" );
-	delete bp;
+	for( unsigned int ibin=0; ibin<HTBins.size();ibin++){
+	  for( unsigned int il=0; il<folder.size(); il++){ 
+	    basicPlots *bp=new basicPlots();
+	    bp->getResults(HTBins[ibin], "OneMu", startNJet[i], nJet[i], "DiMuon_", folder[il] );
+	    delete bp;
+	  }
+	}
       }
 
-
-      for( int i=start; i< end; i++){
-	basicPlots *bp=new basicPlots();
-	bp->getResults("lowHTBins", "OneMu", startNJet[i], nJet[i], "DiMuon_" );
-	delete bp;
-      }
-
-
-      for( int i=start; i< end; i++){
-	basicPlots *bp=new basicPlots();
-	bp->getResults("highHTBins", "OneMu", startNJet[i], nJet[i], "DiMuon_" );
-	delete bp;
-      }
     }
 
 
 
     if( word == "basicPlots" || word == "basicPlots_Had" ){
       for( int i=start; i< end; i++){
-	basicPlots *bp=new basicPlots();
-	bp->getResults("all", "HadSele", startNJet[i], nJet[i], "" );
-	delete bp;
+	for( unsigned int ibin=0; ibin<HTBins.size();ibin++){
+	  for( unsigned int il=0; il<folder.size(); il++){ 
+	    basicPlots *bp=new basicPlots();
+	    bp->getResults(HTBins[ibin], "HadSele", startNJet[i], nJet[i], "", folder[il] );
+	    delete bp;
+	  }
+	}
       }
 
-
-      for( int i=start; i< end; i++){
-	basicPlots *bp=new basicPlots();
-	bp->getResults("lowHTBins", "HadSele", startNJet[i], nJet[i], "" );
-	delete bp;
-      }
-
-
-
-      for( int i=start; i< end; i++){
-	basicPlots *bp=new basicPlots();
-	bp->getResults("highHTBins", "HadSele", startNJet[i], nJet[i], "" );
-	delete bp;
-      }
     }
   }
   return 0;

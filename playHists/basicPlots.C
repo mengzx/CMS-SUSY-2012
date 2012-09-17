@@ -17,7 +17,7 @@
 #include "playHist2D.h"
 #include "playHist1D.h"
 #include "project2DHists.h"
-#include "getTranslationFactor.h"
+//#include "getTranslationFactor.h"
 #include "THStack.h"
 #include "menus.h"
 
@@ -50,9 +50,9 @@ TH1D* basicPlots::Hist2D( vector<TFile*> invf, vector<TString> vdirname, vector<
 }
 
 
-vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpart, int rebin, TString xAxisName, TString yAxisName, double xAxisRange1, double xAxisRange2, int dataMC, TString whichplot, bool separateSample, TString singleMCsample, double lowy, double highy, int OneDTwoD, int startNJet, int nJets, TString MuonNumber ){
+vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpart, int rebin, TString xAxisName, TString yAxisName, double xAxisRange1, double xAxisRange2, int dataMC, TString whichplot, bool separateSample, TString singleMCsample, double lowy, double highy, int OneDTwoD, int startNJet, int nJets, TString MuonNumber, TString FolderLabel ){
 
-  getTranslationFactor tf=getTranslationFactor();
+  //  getTranslationFactor tf=getTranslationFactor();
   playHist1D pf1d=playHist1D();
 
   TString dir;
@@ -108,7 +108,7 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
       Datavf=Datavf_pushback(dir, HadTaudataset_, "MuonAdded"+HadTaucontrolTrig_, HTBins);
       MCvf=MCvf_pushback(dir, MCsample_, "MuonAdded"+HadTaucontrolTrig_, HTBins, separateSample, singleMCsample );
     }
-    vdirname=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
+    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
     if( startNJet == 0 ){
       vhname.push_back(whichplot+"_JetMugeq2_h_all");
     } else {
@@ -136,7 +136,7 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
       Datavf=Datavf_pushback(dir, NotHadTaudataset_, "Muon"+NotHadTaucontrolTrig_, HTBins);
       MCvf=MCvf_pushback(dir, MCsample_, "Muon"+NotHadTaucontrolTrig_, HTBins, separateSample, singleMCsample );
     }
-    vdirname=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
+    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
     if( startNJet == 0 ){
       vhname.push_back(whichplot+"_CommJetgeq2_h_all");
     } else {
@@ -153,7 +153,7 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
       Datavf=Datavf_pushback(dir, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
       MCvf=MCvf_pushback(dir, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, separateSample, singleMCsample );
     }
-    vdirname=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
+    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
     if( startNJet == 0 ){
       vhname.push_back(whichplot+"_CommJetgeq2_h_all");
     } else {
@@ -435,11 +435,11 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
 
 
 
-void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int rebin, TString xAxisName, TString yAxisName, double xAxisRange1, double xAxisRange2, TString whichplot, TLegend * len, double lowy, double highy, int OneDTwoD, int startNJet, int nJets, TString MuonNumber ){
+void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int rebin, TString xAxisName, TString yAxisName, double xAxisRange1, double xAxisRange2, TString whichplot, TLegend * len, double lowy, double highy, int OneDTwoD, int startNJet, int nJets, TString MuonNumber, TString FolderLabel ){
 
   TCanvas *c1=new TCanvas("c1","c1", 1);
 
-  getTranslationFactor tf=getTranslationFactor();
+  //  getTranslationFactor tf=getTranslationFactor();
   playHist1D pf1d=playHist1D();
 
   vector<TString> vlenname;
@@ -447,23 +447,23 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   vector<TH1D*> vh;
 
   if( hasData_ ){
-    TH1D *Datah= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 1, whichplot, false, "", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *Datah= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 1, whichplot, false, "", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(Datah);
     vlenname.push_back("Data");
     vhnames.push_back("Data");
   }
 
   if( hasMCtotal_ ){
-    TH1D *MCh_total= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, false, "", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_total= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, false, "", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     if( hasZinvFromDY_ && whichpart == 1){
-      TH1D *MCh_ZinvFromDY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "ZinvFromDY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+      TH1D *MCh_ZinvFromDY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "ZinvFromDY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
       TH1D* MCh_ZinvFromDYcopy=(TH1D*)(MCh_ZinvFromDY->Clone("MCh_ZinvFromDYcopy"));
       MCh_ZinvFromDYcopy->Scale(-1);
       MCh_total->Add(MCh_total,MCh_ZinvFromDYcopy);
       MCh_ZinvFromDY->Scale(3.);
       MCh_total->Add(MCh_total,MCh_ZinvFromDY);
     } else if ( hasZinvFromDY_ && whichpart != 1){
-      TH1D *MCh_ZinvFromDY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "ZinvFromDY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+      TH1D *MCh_ZinvFromDY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "ZinvFromDY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
       TH1D* MCh_ZinvFromDYcopy=(TH1D*)(MCh_ZinvFromDY->Clone("MCh_ZinvFromDYcopy"));
       MCh_ZinvFromDYcopy->Scale(-1);
       MCh_total->Add(MCh_total,MCh_ZinvFromDYcopy);
@@ -474,73 +474,73 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   }
 
   if( hasWJ_ ){
-    TH1D *MCh_WJ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_WJ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_WJ);
     vlenname.push_back("W+jets");
     vhnames.push_back("WJ");
   }
 
   if( hasDY_ ){
-    TH1D *MCh_DY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_DY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_DY);
     vlenname.push_back("Drell-Yan");
     vhnames.push_back("DY");
   }
   if( hasZinvFromDY_ && whichpart == 1){
-    TH1D *MCh_ZinvFromDY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "ZinvFromDY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_ZinvFromDY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "ZinvFromDY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     MCh_ZinvFromDY->Scale(3.);
     vh.push_back(MCh_ZinvFromDY);
     vlenname.push_back("Z#rightarrow#nu#nu+jets");
     vhnames.push_back("ZinvFromDY");
   }
   if( hasTT_ ){
-    TH1D *MCh_TT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_TT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_TT);
     vlenname.push_back("t#bar{t}");
     vhnames.push_back("TT");
   }
   if( hasTTZ_ ){
-    TH1D *MCh_TTZ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_TTZ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_TTZ);
     vlenname.push_back("t#bar{t}Z+jets");
     vhnames.push_back("TTZ");
   }
   if( hasSingleT_ ){
-    TH1D *MCh_SingleT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "SingleT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_SingleT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "SingleT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_SingleT);
     vlenname.push_back("Single top");
     vhnames.push_back("SingleT");
   }
   if( hasZinv_ ){
-    TH1D *MCh_Zinv= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_Zinv= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_Zinv);
     vlenname.push_back("Z#rightarrow#nu#nu+jets");
     vhnames.push_back("Zinv");
   }
 
   if( hasZinv_HT50To100_ ){
-    TH1D *MCh_Zinv_HT50To100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_HT50To100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_Zinv_HT50To100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_HT50To100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_Zinv_HT50To100);
     vlenname.push_back("Z#rightarrow#nu#nu+jets (50<HT<100)");
     vhnames.push_back("Zinv_HT50To100");
   }
 
   if( hasZinv_FastSim_HT100To200_ ){
-    TH1D *MCh_Zinv_FastSim_HT100To200= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_FastSim_HT100To200", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_Zinv_FastSim_HT100To200= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_FastSim_HT100To200", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_Zinv_FastSim_HT100To200);
     vlenname.push_back("Z#rightarrow#nu#nu+jets (100<HT<200, Fast)");
     vhnames.push_back("Zinv_FastSim_HT100To200");
   }
 
   if( hasZinv_FastSim_HT200To400_ ){
-    TH1D *MCh_Zinv_FastSim_HT200To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_FastSim_HT200To400", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_Zinv_FastSim_HT200To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_FastSim_HT200To400", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_Zinv_FastSim_HT200To400);
     vlenname.push_back("Z#rightarrow#nu#nu+jets (200<HT<400, Fast)");
     vhnames.push_back("Zinv_FastSim_HT200To400");
   }
 
   if( hasZinv_HT400Toinf_ ){
-    TH1D *MCh_Zinv_HT400Toinf= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_HT400Toinf", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_Zinv_HT400Toinf= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_HT400Toinf", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_Zinv_HT400Toinf);
     vlenname.push_back("Z#rightarrow#nu#nu+jets (HT>400)");
     vhnames.push_back("Zinv_HT400Toinf");
@@ -548,42 +548,42 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
 
   if( hasWJ_inclusive_ ){
-    TH1D *MCh_WJ_inclusive= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_inclusive", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_WJ_inclusive= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_inclusive", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_WJ_inclusive);
     vlenname.push_back("W+jets (HT<250)");
     vhnames.push_back("WJ_inclusive");
   }
 
   if( hasWJ_FastSim_HT250To300_ ){
-    TH1D *MCh_WJ_FastSim_HT250To300= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_FastSim_HT250To300", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_WJ_FastSim_HT250To300= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_FastSim_HT250To300", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_WJ_FastSim_HT250To300);
     vlenname.push_back("W+jets (250<HT<300, Fast)");
     vhnames.push_back("WJ_FastSim_HT250To300");
   }
 
   if( hasWJ_FastSim_HT300To400_ ){
-    TH1D *MCh_WJ_FastSim_HT300To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_FastSim_HT300To400", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_WJ_FastSim_HT300To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_FastSim_HT300To400", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_WJ_FastSim_HT300To400);
     vlenname.push_back("W+jets (300<HT<400, Fast)");
     vhnames.push_back("WJ_FastSim_HT300To400");
   }
 
   if( hasWJ_HT250To300_ ){
-    TH1D *MCh_WJ_HT250To300= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_HT250To300", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_WJ_HT250To300= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_HT250To300", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_WJ_HT250To300);
     vlenname.push_back("W+jets (250<HT<300)");
     vhnames.push_back("WJ_HT250To300");
   }
 
   if( hasWJ_HT300To400_ ){
-    TH1D *MCh_WJ_HT300To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_HT300To400", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_WJ_HT300To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_HT300To400", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_WJ_HT300To400);
     vlenname.push_back("W+jets (300<HT<400)");
     vhnames.push_back("WJ_HT300To400");
   }
 
   if( hasWJ_HT400Toinf_ ){
-    TH1D *MCh_WJ_HT400Toinf= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_HT400Toinf", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_WJ_HT400Toinf= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_HT400Toinf", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_WJ_HT400Toinf);
     vlenname.push_back("W+jets (HT>400)");
     vhnames.push_back("WJ_HT400Toinf");
@@ -591,7 +591,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
 
   if( hasTTZ525_ ){
-    TH1D *MCh_TTZ525= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ525", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_TTZ525= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ525", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_TTZ525);
     vlenname.push_back("TTZ+jets (525)");
     vhnames.push_back("TTZ525");
@@ -599,7 +599,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
 
   if( hasTTZ532_ ){
-    TH1D *MCh_TTZ532= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ532", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_TTZ532= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ532", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_TTZ532);
     vlenname.push_back("TTZ+jets (532)");
     vhnames.push_back("TTZ532");
@@ -607,49 +607,49 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
 
   if( hasDiBoson_ ){
-    TH1D *MCh_DiBoson= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DiBoson", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_DiBoson= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DiBoson", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_DiBoson);
     vlenname.push_back("Di-Boson");
     vhnames.push_back("DiBoson");
   }
 
   if( hasT2tt_smallScan_200_0_ ){
-    TH1D *MCh_T2tt_smallScan_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2tt_smallScan_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2tt_smallScan_200_0);
     vlenname.push_back("T2tt(200,0)");
     vhnames.push_back("T2tt_smallScan_200_0");
   }
 
   if( hasT2tt_smallScan_350_50_ ){
-    TH1D *MCh_T2tt_smallScan_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2tt_smallScan_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2tt_smallScan_350_50);
     vlenname.push_back("T2tt(350,50)");
     vhnames.push_back("T2tt_smallScan_350_50");
   }
 
   if( hasT2tt_smallScan_350_100_ ){
-    TH1D *MCh_T2tt_smallScan_350_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_350_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2tt_smallScan_350_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_350_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2tt_smallScan_350_100);
     vlenname.push_back("T2tt(350,100)");
     vhnames.push_back("T2tt_smallScan_350_100");
   }
 
   if( hasT2tt_smallScan_500_50_ ){
-    TH1D *MCh_T2tt_smallScan_500_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2tt_smallScan_500_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2tt_smallScan_500_50);
     vlenname.push_back("T2tt(500,50)");
     vhnames.push_back("T2tt_smallScan_500_50");
   }
 
   if( hasT2tt_smallScan_500_100_ ){
-    TH1D *MCh_T2tt_smallScan_500_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2tt_smallScan_500_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2tt_smallScan_500_100);
     vlenname.push_back("T2tt(500,100)");
     vhnames.push_back("T2tt_smallScan_500_100");
   }
 
   if( hasT2tt_smallScan_500_200_ ){
-    TH1D *MCh_T2tt_smallScan_500_200= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_200", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2tt_smallScan_500_200= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_200", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2tt_smallScan_500_200);
     vlenname.push_back("T2tt(500,200)");
     vhnames.push_back("T2tt_smallScan_500_200");
@@ -657,49 +657,49 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
 
   if( hasT2bw_smallScan_075_120_0_ ){
-    TH1D *MCh_T2bw_smallScan_075_120_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_120_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2bw_smallScan_075_120_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_120_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2bw_smallScan_075_120_0);
     vlenname.push_back("T2bw(x=0.75,120,0)");
     vhnames.push_back("T2bw_smallScan_075_120_0");
   }
 
   if( hasT2bw_smallScan_075_150_30_ ){
-    TH1D *MCh_T2bw_smallScan_075_150_30= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_150_30", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2bw_smallScan_075_150_30= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_150_30", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2bw_smallScan_075_150_30);
     vlenname.push_back("T2bw(x=0.75,150,30)");
     vhnames.push_back("T2bw_smallScan_075_150_30");
   }
 
   if( hasT2bw_smallScan_05_200_0_ ){
-    TH1D *MCh_T2bw_smallScan_05_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_05_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2bw_smallScan_05_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_05_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2bw_smallScan_05_200_0);
     vlenname.push_back("T2bw(x=0.5,200,0)");
     vhnames.push_back("T2bw_smallScan_05_200_0");
   }
 
   if( hasT2bw_smallScan_05_350_50_ ){
-    TH1D *MCh_T2bw_smallScan_05_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_05_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2bw_smallScan_05_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_05_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2bw_smallScan_05_350_50);
     vlenname.push_back("T2bw(x=0.5,350,50)");
     vhnames.push_back("T2bw_smallScan_05_350_50");
   }
 
   if( hasT2bw_smallScan_075_350_50_ ){
-    TH1D *MCh_T2bw_smallScan_075_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2bw_smallScan_075_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel))[0];
     vh.push_back(MCh_T2bw_smallScan_075_350_50);
     vlenname.push_back("T2bw(x=0.75,350,50)");
     vhnames.push_back("T2bw_smallScan_075_350_50");
   }
 
   if( hasT2bw_smallScan_025_500_100_ ){
-    TH1D *MCh_T2bw_smallScan_025_500_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_025_500_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T2bw_smallScan_025_500_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_025_500_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T2bw_smallScan_025_500_100);
     vlenname.push_back("T2bw(x=0.25,500,100)");
     vhnames.push_back("T2bw_smallScan_025_500_100");
   }
 
   if( hasT1tttt_ ){
-    TH1D *MCh_T1tttt= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T1tttt", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber ))[0];
+    TH1D *MCh_T1tttt= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T1tttt", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_T1tttt);
     vlenname.push_back("T1tttt");
     vhnames.push_back("T1tttt");
@@ -1168,9 +1168,10 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       hs->Draw("HIST 9 same");
     }
     if( vh.size() > 1 && hasMCtotal_){
-      double lowmche=vh[1]->GetBinLowEdge(1);
-      double highmche=vh[1]->GetBinLowEdge(vh[1]->GetNbinsX())+vh[1]->GetBinWidth(1);
-      TH1D *mche=new TH1D("mche","mche",vh[1]->GetNbinsX(), lowmche, highmche);
+      //      double lowmche=vh[1]->GetBinLowEdge(1);
+      //      double highmche=vh[1]->GetBinLowEdge(vh[1]->GetNbinsX())+vh[1]->GetBinWidth(1);
+      //      TH1D *mche=new TH1D("mche","mche",vh[1]->GetNbinsX(), lowmche, highmche);
+      TH1D *mche=(TH1D*)(vh[1]->Clone("mche"));
       for( int ib=1; ib<=mche->GetNbinsX(); ib++ ){
 	mche->SetBinContent(ib, vh[1]->GetBinContent(ib) );
 	mche->SetBinError(ib, vh[1]->GetBinError(ib) );
@@ -1355,16 +1356,16 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     pad1->SetLogy(0);
     pad1->RedrawAxis();
     if( useBTag_ ){
-      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%iTo%ib.%s", stack.Data(), HTBins.Data(), MuonNumber.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%s%iTo%ib.%s", stack.Data(), HTBins.Data(), MuonNumber.Data(), FolderLabel.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
     } else {
-      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%iTo%ij.%s", stack.Data(), HTBins.Data(), MuonNumber.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );
+      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%s%iTo%ij.%s", stack.Data(), HTBins.Data(), MuonNumber.Data(), FolderLabel.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );
     }
     pad1->SetLogy();
     pad1->RedrawAxis();
     if( useBTag_ ){
-      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%iTo%ib_log.%s",  stack.Data(), HTBins.Data(), MuonNumber.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
+      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%s%iTo%ib_log.%s",  stack.Data(), HTBins.Data(), MuonNumber.Data(), FolderLabel.Data(), startNJet-1, nJets+startNJet-2, epspng_.Data() ) );
     } else {
-      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%iTo%ij_log.%s",  stack.Data(), HTBins.Data(), MuonNumber.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );
+      c1->SaveAs( Form( "%s"+whichplot+"_Muon_%s_%s%s%iTo%ij_log.%s",  stack.Data(), HTBins.Data(), MuonNumber.Data(), FolderLabel.Data(), startNJet, nJets+startNJet-1, epspng_.Data() ) );
     }
   }
 
@@ -1383,9 +1384,9 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
 
 
-void basicPlots::getResults( TString HTBins, TString selection, int startNJet, int nJets, TString MuonNumber ){
+void basicPlots::getResults( TString HTBins, TString selection, int startNJet, int nJets, TString MuonNumber, TString FolderLabel ){
 
-  TLegend *len=new TLegend( 0.70, 0.60, 0.93, 0.85 );
+  TLegend *len=new TLegend( 0.70, 0.60, 0.88, 0.88 );
   //  TLegend *len=new TLegend( 0.70, 0.50, 0.93, 0.75 );
   //  TLegend *len=new TLegend( 0.70, 0.42, 0.93, 0.695 );
   len->SetColumnSeparation(0.2);
@@ -1399,72 +1400,78 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
   int whichpart=1;
   bool MuAddOrNot=true;
   int rebin=50;
+  double lowATcut=0.55;
+  double higATcut=10.;
   if( selection == "HadSele"){
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 600, "MET", len, 0., 10, 2, startNJet, nJets, MuonNumber );
-   rebin=5;
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 300, "muPt", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "second #mu p_{T} (GeV)", "", 0., 150, "muPt2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "electron p_{T} (GeV)", "", 0., 300, "elePt", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "second electron p_{T} (GeV)", "", 0., 150., "elePt2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   rebin=20;
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "jet p_{T} (GeV)", "", 0., 650, "jetPt", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "second p_{T} (GeV)", "", 0., 650, "jetPt2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "jet #eta (GeV)", "", -10.,10., "jetEta", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "second #eta (GeV)", "", -10.,10., "jetEta2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   rebin=10;
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(electron,E_{T}^{miss}) (GeV)", "", 0., 600, "PFMTele", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#mu,E_{T}^{miss}) (GeV)", "", 0., 600, "PFMTmu", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#Sigma p_{T}^{ele},E_{T}^{miss}) (GeV)", "", 0., 600, "PFMTvele", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#Sigma p_{T}^{#mu},E_{T}^{miss}) (GeV)", "", 0., 600, "PFMTvmu", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-   rebin=50;
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 600, "MHT", len, 0., 10, 2, startNJet, nJets, MuonNumber );
-   //   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 600., "HT", len, 0., 10., 2, startNJet, nJets, MuonNumber );
-   rebin=10;
-   //   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 2., "MHToverMET", len, 0., 10, 2, startNJet, nJets, MuonNumber );
+    lowATcut=0.55;
+    higATcut=10.;
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Invaraint mass of B-jets (GeV)", "", 0, 800, "Bmass", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 800, "MET", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    /*    rebin=20;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 1200, "jetPt", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second p_{T} (GeV)", "", 0., 1200, "jetPt2", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet #eta (GeV)", "", -5.,5., "jetEta", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second #eta (GeV)", "", -5.,5., "jetEta2", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );*/
    rebin=1;
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 8, "nbjet", len, 0., 10, 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 14, "njet", len, 0., 10, 2, startNJet, nJets, MuonNumber );
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0., 10, 2, startNJet, nJets, MuonNumber );
-   rebin=5;
-   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.0, 1.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber );
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 975., "AlphaT_vs_HT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+   rebin=50;
+   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+   /*	    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1200., "HT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=10;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 1.5, "MHToverMET", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=1;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 8, "nbjet", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 12, "njet", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=5;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.55, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );*/
   }
 
   whichpart=2;
   MuAddOrNot=false;
   if( selection != "HadSele"){
-    rebin=50;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 800, "MET", len, 0, 10, 2, startNJet, nJets, MuonNumber );
-    rebin=2;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{Z} (GeV)", "", 0., 200, "Zmass", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+    lowATcut=0.;
+    higATcut=10.;
+    /*    rebin=20;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 1200, "jetPt", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second p_{T} (GeV)", "", 0., 1200, "jetPt2", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet #eta (GeV)", "", -5.,5., "jetEta", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second #eta (GeV)", "", -5.,5., "jetEta2", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );*/
     rebin=1;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}", "", 0, 0.15, "muonIso", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{ECAL}", "", 0, 0.15, "muonIsoECAL", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{HCAL}", "", 0, 0.15, "muonIsoHCAL", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Iso_{#mu}^{Trk}", "", 0, 0.15, "muonIsoTrk", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    rebin=20;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    rebin=50;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1075, "HT", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, 0, 10, 2, startNJet, nJets, MuonNumber );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading Iso_{#mu}", "", 0, 0.15, "muonIso", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=10;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 1.5, "MHToverMET", len, 0, 10, 2, startNJet, nJets, MuonNumber );
-
-    rebin=1;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 15, "njet", len, 0., 10, 2, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 15, "nbjet", len, 0., 10, 2, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, 0, 10, 2, startNJet, nJets, MuonNumber );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading #mu p_{T} (GeV)", "", 0., 600, "muPt", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second #mu p_{T} (GeV)", "", 0., 300, "muPt2", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading electron p_{T} (GeV)", "", 0., 600, "elePt", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second electron p_{T} (GeV)", "", 0., 300., "elePt2", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=10;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#mu,E_{T}^{miss}) (GeV)", "", 20., 700, "PFMTT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    /*    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(leading electron,E_{T}^{miss}) (GeV)", "", 0., 800, "PFMTele", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(leading #mu,E_{T}^{miss}) (GeV)", "", 0., 800, "PFMTmu", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#Sigma p_{T}^{ele},E_{T}^{miss}) (GeV)", "", 0., 800, "PFMTvele", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#Sigma p_{T}^{#mu},E_{T}^{miss}) (GeV)", "", 0., 800, "PFMTvmu", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );*/
+    rebin=50;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 800, "MET", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=5;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{Z} (GeV)", "", 0., 200, "Zmass", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=50;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1075, "HT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=5;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 2, "MHToverMET", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
 
-    rebin=20;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#mu p_{T} (GeV)", "", 0., 600, "muPt2", len, 0, 10., 2, startNJet, nJets, MuonNumber );
-    rebin=10;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#mu,E_{T}^{miss}) (GeV)", "", 20., 700, "PFMTT", len, 0, 10., 2, startNJet, nJets, MuonNumber );
+    rebin=1;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of jets", "", 0, 8, "njet", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of b-jets", "", 0, 12, "nbjet", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=5;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );
+
  
   /*    rebin=1;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu13_Mu8)", "", 0, 3000, "trigMu13Mu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu17_Mu8)", "", 0, 3000, "trigMu17Mu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu17_TkMu8)", "", 0, 3000, "trigMu17TkMu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu13_Mu8)", "", 0, 3000, "trigMu13Mu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu17_Mu8)", "", 0, 3000, "trigMu17Mu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Trigger Precale (Mu17_TkMu8)", "", 0, 3000, "trigMu17TkMu8prescale", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );
     */
   }
 

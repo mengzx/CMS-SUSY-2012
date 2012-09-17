@@ -64,7 +64,7 @@ void tdrstyle::setTDRStyle( TString digit ) {
 
 // For the statistics box:
   tdrStyle->SetOptFile(0);
-  tdrStyle->SetOptStat(1111); // To display the mean and RMS:   SetOptStat("mr");
+  tdrStyle->SetOptStat(0); // To display the mean and RMS:   SetOptStat("mr");
   tdrStyle->SetStatColor(kWhite);
   tdrStyle->SetStatFont(42);
   tdrStyle->SetStatFontSize(0.025);

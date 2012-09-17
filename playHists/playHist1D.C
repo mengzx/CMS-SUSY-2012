@@ -156,8 +156,8 @@ TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString
     }
     h->SetBinError( overflowbin, overflowbinerr);
   }
-  //  h->GetXaxis()->SetLimits(xlow, xhigh);
   h->GetXaxis()->SetRangeUser(xlow, xhigh);
+  //  h->GetXaxis()->SetLimits(xlow, xhigh);
   h->GetYaxis()->SetTitle(titley);
   h->GetXaxis()->SetTitle(titlex);
   h->SetLineWidth(linewidth);
@@ -172,9 +172,9 @@ TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString
 
 int playHist1D::getOverflowbin( TH1D *h, double xhigh ){
     if( debug_ >=2 ){
-      cout<<"  xhigh= "<<xhigh<<" lowedge= "<< h->GetBinLowEdge(1)<< " binwidth= "<< h->GetBinWidth(1) << " needed bin= "<< ( xhigh - ( h->GetBinLowEdge(1) ) )/( h->GetBinWidth(1) )<< endl;
+      cout<<"  xhigh= "<<xhigh<<" lowedge= "<< h->GetBinLowEdge(1)<< " binwidth= "<< h->GetBinWidth(1) << " needed bin= "<< ( xhigh - ( h->GetBinLowEdge(1) ) )/( h->GetBinWidth(1) + 1 )<< endl;
     }
-    return (( xhigh - ( h->GetBinLowEdge(1) ) )/( h->GetBinWidth(1) ));
+    return (( xhigh - ( h->GetBinLowEdge(1) ) )/( h->GetBinWidth(1) ) + 1 );
 }
 
 double playHist1D::getOverflowbinErr( TH1D *h, double xhigh ){
