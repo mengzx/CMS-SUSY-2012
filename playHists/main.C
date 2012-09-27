@@ -6,6 +6,7 @@
 #include "TrueWPt.h"
 #include "printTables.h"
 #include "QCDk.h"
+//#include "NBjets.h"
 #include "BGCompositions.h"
 #include <TH2.h>
 #include <TStyle.h>
@@ -45,6 +46,11 @@ int main( int argc, char* argv[] )
     TrueWPt *WPt=new TrueWPt();
     WPt->getResults();
   }
+
+  /*  if( word == "NBjets" ){
+    NBjets *nb=new NBjets();
+    nb->getResults();
+    }*/
 
   if( word == "printTables" ){
     printTables *table=new printTables();
@@ -87,24 +93,25 @@ int main( int argc, char* argv[] )
 
     vector<TString > folder;
     folder.push_back("");
-    //    folder.push_back("TwoJet_");
-    //    folder.push_back("ThreeJet_");
-    //    folder.push_back("TwoThreeJet_");
-    //    folder.push_back("MoreThreeJet_");
+    folder.push_back("TwoJet_");
+    folder.push_back("ThreeJet_");
+    folder.push_back("FourJet_");
+    folder.push_back("MoreThreeJet_");
+    folder.push_back("MoreFourJet_");
     vector<TString > HTBins;
     HTBins.push_back("all");
     HTBins.push_back("lowHTBins");
     HTBins.push_back("highHTBins");
 
-    int startNJet[16]={2, 3, 2, 4, 4, 5, 6, 0, 1, 2, 2, 3, 4, 4, 5, 5};
-    int nJet[16]     ={1, 1, 2, 12, 1, 1, 1, 0, 1, 14, 1, 1, 12, 1, 1, 12 };
-    
-    int start = 7;
+    int n=15;
+    int startNJet[16]={2, 3, 2, 4, 4, 5, 6, 0, 1, 2, 3, 4, 5, 5, 2, 4};
+    int nJet[16]     ={1, 1, 2, n-4+2, 1, 1, 1, 0, 1, 1, 1, 1, 1, n-5+2, n-2+2, n-4+2 };
+    int start = 14;
     int end = 16;
 
     menus *listmenus=new menus();
     if( !(listmenus->useBTag_) ){
-      start = 7;
+      start = 0;
       end = 8;
     }
 

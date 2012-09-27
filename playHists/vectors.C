@@ -310,7 +310,7 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
 	vf.push_back(f7);
       }
     }
-  } else if( sTreeThr == "86"){
+  } else if( sTreeThr == "86" || sTreeThr == "325"){
     if( separateSample ){
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7LowHTBins"+sele+"325.root");
       vf.push_back(f1);
@@ -348,7 +348,7 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
 	vf.push_back(f7);
       }
     }
-  } else if( sTreeThr == "73"){
+  } else if( sTreeThr == "73" || sTreeThr == "275"){
     if( separateSample ){
       TFile *f1=new TFile(dir+"/"+"NoSmear"+separateSampleName+"_"+dataset+"PUS7LowHTBins"+sele+"275.root");
       vf.push_back(f1);
@@ -542,10 +542,10 @@ vector<TFile*> vectors::Datavf_pushback( TString dir, TString dataset, TString s
   if( sTreeThr == "100" || sTreeThr == "highHTBins" || sTreeThr == "375" || sTreeThr == "475" || sTreeThr == "575" || sTreeThr == "675" || sTreeThr == "775" || sTreeThr == "875"){
     TFile *f1=new TFile(dir+"/"+"Data"+dataset+"_PUS0HigHTBins"+sele+".root");
     vfdata.push_back(f1);
-  } else if( sTreeThr == "86"){
+  } else if( sTreeThr == "86" || sTreeThr == "325"){
     TFile *f1=new TFile(dir+"/"+"Data"+dataset+"_PUS0LowHTBins"+sele+"325.root");
     vfdata.push_back(f1);
-  } else if( sTreeThr == "73"){
+  } else if( sTreeThr == "73" || sTreeThr == "275"){
     TFile *f1=new TFile(dir+"/"+"Data"+dataset+"_PUS0LowHTBins"+sele+"275.root");
     vfdata.push_back(f1);
   } else if( sTreeThr == "all" || sTreeThr == "allHTBins"){
@@ -743,9 +743,9 @@ vector<TString> vectors::dirName_pushback(TString label, TString sTreeThr){
     dirname.push_back(label+"775_875");
   }  else if ( sTreeThr == "875" ){
     dirname.push_back(label+"875");
-  } else if ( sTreeThr == "86" ){
+  } else if ( sTreeThr == "86" || sTreeThr == "325"){
     dirname.push_back(label+"325_375");
-  } else if ( sTreeThr == "73" ){
+  } else if ( sTreeThr == "73" || sTreeThr == "275"){
     dirname.push_back(label+"275_325");
   } else if ( sTreeThr == "all" || sTreeThr == "allHTBins"){
     dirname.push_back(label+"275_325");
@@ -787,9 +787,9 @@ vector<double> vectors::nominaltrigeff_pushback(TString sTreeThr){
     dirname.push_back(1.0);
   }  else if ( sTreeThr == "875" ){
     dirname.push_back(1.0);
-  } else if ( sTreeThr == "86" ){
+  } else if ( sTreeThr == "86" || sTreeThr == "325"){
     dirname.push_back(1.0);
-  } else if ( sTreeThr == "73" ){
+  } else if ( sTreeThr == "73" || sTreeThr == "275"){
     dirname.push_back(1.0);
   } else if ( sTreeThr == "all" || sTreeThr == "allHTBins"){
     dirname.push_back(1.0);
@@ -831,9 +831,9 @@ vector<double> vectors::HTATTrigEff_pushback(TString sTreeThr){
     dirname.push_back(1.0);
   }  else if ( sTreeThr == "875" ){
     dirname.push_back(1.0);
-  } else if ( sTreeThr == "86" ){
+  } else if ( sTreeThr == "86" || sTreeThr == "325" ){
     dirname.push_back(0.99);
-  } else if ( sTreeThr == "73" ){
+  } else if ( sTreeThr == "73" || sTreeThr == "275" ){
     dirname.push_back(0.92);
   } else if ( sTreeThr == "all" || sTreeThr == "allHTBins"){
     dirname.push_back(0.92);
@@ -875,9 +875,9 @@ vector<double> vectors::SingleMuTrigEff_pushback(TString sTreeThr){
     dirname.push_back(0.88);
   }  else if ( sTreeThr == "875" ){
     dirname.push_back(0.88);
-  } else if ( sTreeThr == "86" ){
+  } else if ( sTreeThr == "86" || sTreeThr == "325" ){
     dirname.push_back(0.88);
-  } else if ( sTreeThr == "73" ){
+  } else if ( sTreeThr == "73" || sTreeThr == "275" ){
     dirname.push_back(0.88);
   } else if ( sTreeThr == "all" || sTreeThr == "allHTBins"){
     dirname.push_back(0.88);
@@ -919,9 +919,9 @@ vector<double> vectors::DiMuTrigEff_pushback(TString sTreeThr){
     dirname.push_back(0.98);
   }  else if ( sTreeThr == "875" ){
     dirname.push_back(0.98);
-  } else if ( sTreeThr == "86" ){
+  } else if ( sTreeThr == "86" || sTreeThr == "325"){
     dirname.push_back(0.96);
-  } else if ( sTreeThr == "73" ){
+  } else if ( sTreeThr == "73" || sTreeThr == "275"){
     dirname.push_back(0.95);
   } else if ( sTreeThr == "all" || sTreeThr == "allHTBins"){
     dirname.push_back(0.95);
@@ -946,34 +946,34 @@ vector<TString> vectors::vhname_pusback_numer( bool MuAddOrNot, bool fullesti, i
   vector<TString> reh;
   if( MuAddOrNot == true && ( fullesti == true || fullesti == false ) && listmenus->normalEstimation_ == false ){
     if( startnjet == 0 ){
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_all");
     } else {
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_%d", i));
       }
     }
   } else if ( MuAddOrNot == false && fullesti == true && listmenus->normalEstimation_ == false ){
     if( startnjet == 0 ){
       reh.push_back("AlphaT_vs_HT_CommJetgeq2_h_all");
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_all");
     } else {
       for (int i=startnjet; i<startnjet+njets; i++){
 	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_h_%d", i));
       }
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueTauHad_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauHad_h_%d", i));
       }
     }
   } else if ( MuAddOrNot == false && fullesti == false && listmenus->normalEstimation_ == false ){
     if( startnjet == 0 ){
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueTauLep_h_all");
-      reh.push_back("AlphaT_vs_HT_CommJetgeq2_hasTrueVlep_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauLep_h_all");
+      reh.push_back("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueVlep_h_all");
     } else {
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueTauLep_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueTauLep_h_%d", i));
       }
       for (int i=startnjet; i<startnjet+njets; i++){
-	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_hasTrueVlep_h_%d", i));
+	reh.push_back( Form("AlphaT_vs_HT_CommJetgeq2_listmenus->hasTrueVlep_h_%d", i));
       }
     }
   } else if ( listmenus->normalEstimation_ == true ){

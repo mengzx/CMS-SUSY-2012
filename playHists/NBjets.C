@@ -35,15 +35,21 @@ double NBjets::Ebsion( vector<TFile*> invf, vector<TString> vdirname, int inibin
   vhname_num.push_back("nJetMatchBPartonAndTagged_CommJetgeq2_h_all");
   vhname_dom.push_back("nJetMatchBParton_CommJetgeq2_h_all");
   playHist2D hf2d=playHist2D();
+  for( unsigned int id=0; id<vdirname.size(); id++){
+    cout<<" "<<vdirname[id]<<endl;
+  }
   TH2D *numh=hf2d.addHistForDiffFoldersFilesHists2D(invf, vdirname, vhname_num, trigeff );
   TH2D *domh=hf2d.addHistForDiffFoldersFilesHists2D(invf, vdirname, vhname_dom, trigeff );
 
   double num=numh->Integral(1, 20, inibin, 10);
-  double dom=domh->Integral(1, 10, inibin, 10);
-
+  double dom=domh->Integral(1, 20, inibin, 10);
   double ebsion=num/dom;
 
-  return ebsion;
+  if( dom == 0. ){
+    return -1.;
+  } else {
+    return ebsion;
+  }
 
 }
 
@@ -57,11 +63,16 @@ double NBjets::Im( vector<TFile*> invf, vector<TString> vdirname, int inibin, ve
   TH2D *domh=hf2d.addHistForDiffFoldersFilesHists2D(invf, vdirname, vhname_dom, trigeff );
 
   double num=numh->Integral(1, 20, inibin, 10);
-  double dom=domh->Integral(1, 10, inibin, 10);
+  double dom=domh->Integral(1, 20, inibin, 10);
 
   double im=num/dom;
 
-  return im;
+  if( dom == 0. ){
+    return -1.;
+  } else {
+    return im;
+  }
+
 }
 
 
@@ -76,7 +87,7 @@ double NBjets::N_bs( vector<TFile*> invf, vector<TString> vdirname, int inibin, 
   TH2D *domh=hf2d.addHistForDiffFoldersFilesHists2D(invf, vdirname, vhname_dom, trigeff );
 
   double num=numh->Integral(1, 20, inibin, 10);
-  double dom=domh->Integral(1, 10, inibin, 10);
+  double dom=domh->Integral(1, 20, inibin, 10);
 
   double im=num+dom;
 
@@ -138,24 +149,24 @@ vector<TFile*> NBjets::getMCvf( int whichpart, TString HTBins, bool separateSamp
   return MCvf;
 }
 
-vector<TString> NBjets::getVdirname( int whichpart, TString HTBins, TString MuonNumber, bool MuAddOrNot ){
+vector<TString> NBjets::getVdirname( int whichpart, TString HTBins, TString MuonNumber, TString FolderLabel, bool MuAddOrNot ){
   vector<TString> vdirname;
   if( whichpart == 1 ){
-    vdirname=dirName_pushback(folderlabel_+"", HTBins);
+    vdirname=dirName_pushback(FolderLabel+"", HTBins);
   } else if( whichpart != 1 && MuAddOrNot == true && normalEstimation_ == false ){
-    vdirname=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
+    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
   } else if ( whichpart != 1 && MuAddOrNot == false && normalEstimation_ == false ){
-    vdirname=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
+    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
   } else if ( whichpart != 1 && normalEstimation_ == true ) {
-    vdirname=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
+    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
   }
 
   return vdirname;
 }
 
-double NBjets::getEff( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, vector<double> trigeff ){
+double NBjets::getEff( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, TString FolderLabel, vector<double> trigeff ){
   vector<TFile*> mcvf=getMCvf( whichpart, HTBins, separateSample, singleMCsample, false );
-  vector<TString> vdir=getVdirname( whichpart, HTBins, MuonNumber, false );
+  vector<TString> vdir=getVdirname( whichpart, HTBins, MuonNumber, FolderLabel, false );
   int inibin=8;
   if( whichpart != 1 ){
     if( notCutAlphaT_ ){
@@ -165,13 +176,13 @@ double NBjets::getEff( int whichpart, TString HTBins, bool separateSample, TStri
 
   double eff=Ebsion( mcvf, vdir, inibin,trigeff );
 
-  closefV();
+  //  closefV();
   return eff;
 }
 
-double NBjets::getMistag( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString  MuonNumber, vector<double> trigeff ){
+double NBjets::getMistag( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString  MuonNumber, TString FolderLabel, vector<double> trigeff ){
   vector<TFile*> mcvf=getMCvf( whichpart, HTBins, separateSample, singleMCsample, false );
-  vector<TString> vdir=getVdirname( whichpart, HTBins, MuonNumber, false );
+  vector<TString> vdir=getVdirname( whichpart, HTBins, MuonNumber, FolderLabel, false );
   int inibin=8;
   if( whichpart != 1 ){
     if( notCutAlphaT_ ){
@@ -185,27 +196,28 @@ double NBjets::getMistag( int whichpart, TString HTBins, bool separateSample, TS
   return im;
 }
 
-double NBjets::getNbs( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, vector<double> trigeff ){
+vector<vector<double> > NBjets::getNbs( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, TString FolderLabel, vector<double> trigeff ){
   vector<TFile*> mcvf=getMCvf( whichpart, HTBins, separateSample, singleMCsample, false );
-  vector<TString> vdir=getVdirname( whichpart, HTBins, MuonNumber, false );
-  int inibin=8;
-  if( whichpart != 1 ){
-    if( notCutAlphaT_ ){
-      inibin=1;
-    }
+  vector<TString> vdir=getVdirname( whichpart, HTBins, MuonNumber, FolderLabel, false );
+  vector<TString> vhname_num;
+
+  if( whichpart == 1 ){
+    vhname_num.push_back("nJetMatchBParton_vs_nJetMatchNonBParton_ATg055_CommJetgeq2_h_all");
+  } else {
+    vhname_num.push_back("nJetMatchBParton_vs_nJetMatchNonBParton_ATg0_CommJetgeq2_h_all");
   }
 
-  double im=N_bs( mcvf, vdir, inibin, trigeff );
+  TH2D *numh=hf2d.addHistForDiffFoldersFilesHists2D(mcvf, vdir, vhname_num, trigeff );
 
   closefV();
   return im;
 }
 
 
-double NBjets::ZeroB( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, vector<double> trigeff ){
-  double eff=getEff( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
-  double mis=getMistag( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
-  double nbs=getNbs( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
+double NBjets::ZeroB( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, TString FolderLabel, vector<double> trigeff ){
+  double eff=getEff( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
+  double mis=getMistag( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
+  double nbs=getNbs( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
   double zerob=0;
   for( int ib=0; ib<=4; ib++){
     for( int is=0; is<=8; is++){
@@ -213,14 +225,18 @@ double NBjets::ZeroB( int whichpart, TString HTBins, bool separateSample, TStrin
     }
   }
 
-  return zerob;
+  if( eff == -1. || mis == -1. ){
+    return -1;
+  } else {
+    return zerob;
+  }
 }
 
 
-double NBjets::OneB( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, vector<double> trigeff ){
-  double eff=getEff( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
-  double mis=getMistag( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
-  double nbs=getNbs( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
+double NBjets::OneB( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, TString FolderLabel, vector<double> trigeff ){
+  double eff=getEff( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
+  double mis=getMistag( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
+  double nbs=getNbs( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
   double b1=0; double b2=0;
   for( int ib=0; ib<=4; ib++){
     for( int is=1; is<=8; is++){
@@ -238,10 +254,10 @@ double NBjets::OneB( int whichpart, TString HTBins, bool separateSample, TString
 }
 
 
-double NBjets::TwoB( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, vector<double> trigeff ){
-  double eff=getEff( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
-  double mis=getMistag( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
-  double nbs=getNbs( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
+double NBjets::TwoB( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, TString FolderLabel, vector<double> trigeff ){
+  double eff=getEff( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
+  double mis=getMistag( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
+  double nbs=getNbs( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
   double b1=0; double b2=0; double b3=0;
   for( int ib=0; ib<=4; ib++){
     for( int is=2; is<=8; is++){
@@ -264,10 +280,10 @@ double NBjets::TwoB( int whichpart, TString HTBins, bool separateSample, TString
   return b1+b2+b3;
 }
 
-double NBjets::ThreeB( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, vector<double> trigeff ){
-  double eff=getEff( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
-  double mis=getMistag( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
-  double nbs=getNbs( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, trigeff );
+double NBjets::ThreeB( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, TString MuonNumber, TString FolderLabel, vector<double> trigeff ){
+  double eff=getEff( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
+  double mis=getMistag( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
+  double nbs=getNbs( whichpart, HTBins, separateSample, singleMCsample, MuonNumber, FolderLabel, trigeff );
   double b1=0; double b2=0; double b3=0; double b4=0;
   for( int ib=0; ib<=4; ib++){
     for( int is=3; is<=8; is++){
@@ -300,9 +316,9 @@ double NBjets::ThreeB( int whichpart, TString HTBins, bool separateSample, TStri
 
 
 
-void NBjets::restults(){
+void NBjets::getResults(){
 
-  /*  //Hadronic
+ //Hadronic
   int whichpart=1;
   TString MuonNumber="";
   vector<TString> vHTBins;
@@ -314,14 +330,22 @@ void NBjets::restults(){
   vHTBins.push_back("675");
   vHTBins.push_back("775");
   vHTBins.push_back("875");
+  vector<TString> FolderLabel;
+  FolderLabel.push_back("");
+  //  FolderLabel.push_back("TwoJet_");
+  //  FolderLabel.push_back("ThreeJet_");
+  //  FolderLabel.push_back("TwoThreeJet_");
+  //  FolderLabel.push_back("MoreThreeJet_");
   cout<<" Hadroni selection "<<endl;
   for( unsigned int i=0; i<vHTBins.size(); i++ ){
-    double eff=getEff( whichpart, HTBins[i], false, "", "" );
-    double mis=getMistag( whichpart, HTBins[i], false, "", "" );
-    cout<<vHTBins[i]<<": "<<"Eff: "<<eff<<" MisTag: "<<mis<<endl;
+    vector<double> trigeff=getTrigEff(whichpart, vHTBins[i], MuonNumber);
+    for( unsigned int ifold=0; ifold<FolderLabel.size(); ifold++){
+      double b0=ZeroB( whichpart, vHTBins[i], false, "", MuonNumber, FolderLabel[ifold], trigeff );
+      cout<<vHTBins[i]<<": "<<" Njet: "<<FolderLabel[ifold]<<" :::: ZeroB: "<<b0<<endl;
+    }
   }
 
-  whichpart=2;
+  /*  whichpart=2;
   MuonNumber="OneMuon_";
   cout<<" one muon selection "<<endl;
   for( unsigned int i=0; i<vHTBins.size(); i++ ){

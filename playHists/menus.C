@@ -64,18 +64,18 @@ menus::menus(){
   hasT2bw_smallScan_075_350_50_=false;
 
   hasT1tttt_ = false;
-  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
-  //  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/SixteenthLook_29Aug2012/";
-  subdir_="/allBJets_WithWJCombinFullSim_NoVtxReweight";
+  //  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
+  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/SeventeenthLook_25_Sep2012/";
+  subdir_="/allBJets_HadSeleMuIso012_WithPUReW_JetPt30";
   folderlabel_="";
   //  HadTaudataset_="SingleMu2012";
-  NotHadTaudataset_="HT2012";
+  NotHadTaudataset_="HT2012AB";
   signalTrig_="";
-  signalDataset_ = "HT2012";
+  signalDataset_ = "HT2012AB";
   HadTaucontrolTrig_="SingleMuTrig";
   NotHadTaucontrolTrig_="HTATTrig";
   NormalcontrolTrig_="SingleMuTrig";
-  controlDataset_ = "SingleMu2012";
+  controlDataset_ = "SingleMu2012AB";
   MCsample_="";
   plotTrueTauHad_=false;
   MuonNumber_ = "OneMuon_";
@@ -91,12 +91,18 @@ menus::menus(){
   } else {
     useCommonJson_=false;
     mcscale_=1.;
-    /*    mcscale_HT_=  93.51;
-    mcscale_SingleMu_= 93.18801;
-    mcscale_DiMu_= 93.18801;*/
-    mcscale_HT_=  49.76;
-    mcscale_SingleMu_= 49.54071;
-    mcscale_DiMu_= 49.54071;
+    //period AB. Sep 24
+
+    mcscale_HT_=  51.26247;
+    mcscale_SingleMu_= 50.00191;
+    mcscale_DiMu_= 50.00191;
+
+    //period ABC. Sep 24
+    /*
+    mcscale_HT_=  116.59247;
+    mcscale_SingleMu_= 113.89191;
+    mcscale_DiMu_= 113.89191;
+    */
   }
 
   //Aug 24
