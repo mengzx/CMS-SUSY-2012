@@ -27,13 +27,17 @@ menus::menus(){
   hasData_=true;
   hasMCtotal_=true;
   hasWJ_=true;
+  useLOXSWJ_=false;
   hasDY_=true;
+  useLOXSDY_=false;
   hasTT_=true;
   hasSingleT_=true;
   hasZinv_=true;
+  useLOXSZinv_=false;
   hasDiBoson_=true;
-  hasTTZ_=false;
+  hasTTZ_=true;
 
+  hasWJ_XSLO_=false;
   hasZinvFromDY_=false;
   hasWJveryHighHT_=false;
   hasZinv_HT50To100_=false;
@@ -69,13 +73,14 @@ menus::menus(){
   subdir_="/allBJets_HadSeleMuIso012_WithPUReW_JetPt30";
   folderlabel_="";
   //  HadTaudataset_="SingleMu2012";
-  NotHadTaudataset_="HT2012AB";
+  NotHadTaudataset_="HT2012";
   signalTrig_="";
-  signalDataset_ = "HT2012AB";
+  signalDataset_ = "HT2012";
   HadTaucontrolTrig_="SingleMuTrig";
   NotHadTaucontrolTrig_="HTATTrig";
   NormalcontrolTrig_="SingleMuTrig";
-  controlDataset_ = "SingleMu2012AB";
+  controlDataset_ = "SingleMu2012";
+  JetHTDataset_ = "DataJetHT2012";
   MCsample_="";
   plotTrueTauHad_=false;
   MuonNumber_ = "OneMuon_";
@@ -93,16 +98,14 @@ menus::menus(){
     mcscale_=1.;
     //period AB. Sep 24
 
-    mcscale_HT_=  51.26247;
+    /*    mcscale_HT_=  51.26247;
     mcscale_SingleMu_= 50.00191;
     mcscale_DiMu_= 50.00191;
-
+    */
     //period ABC. Sep 24
-    /*
     mcscale_HT_=  116.59247;
     mcscale_SingleMu_= 113.89191;
     mcscale_DiMu_= 113.89191;
-    */
   }
 
   //Aug 24

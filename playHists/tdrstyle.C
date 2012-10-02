@@ -49,7 +49,7 @@ void tdrstyle::setTDRStyle( TString digit ) {
   //  tdrStyle->SetErrorX(0.);
 
 // For the fit/function:
-  tdrStyle->SetOptFit(1);
+  tdrStyle->SetOptFit(0);
   tdrStyle->SetFitFormat("5.4g");
   tdrStyle->SetFuncColor(2);
   tdrStyle->SetFuncStyle(1);

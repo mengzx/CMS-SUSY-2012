@@ -38,8 +38,17 @@ int main( int argc, char* argv[] )
 
   if( word == "QCDk" ){
     QCDk *qcdk=new QCDk();
-    qcdk->getResults("");
-    qcdk->getResults("_LowAT0.5");
+    int n=15;
+    int startNJet[3]={0, 2, 4 };
+    int nJet[3]     ={0, 2, n-4+1 };
+    int start = 0;
+    int end = 3;
+
+    for( int i=start; i< end; i++ ){
+      qcdk->getResults("", startNJet[i], nJet[i], 0.50);
+      qcdk->getResults("_LowAT0.5", startNJet[i], nJet[i], 0.50);
+    }
+
   }
 
   if( word == "TrueWPt" ){
@@ -91,22 +100,29 @@ int main( int argc, char* argv[] )
 
   if( word == "basicPlots" || word == "basicPlots_OneMuon" || word == "basicPlots_DiMuon" || word == "basicPlots_Had" ){
 
-    vector<TString > folder;
+    vector<TString> folder;
     folder.push_back("");
     folder.push_back("TwoJet_");
     folder.push_back("ThreeJet_");
     folder.push_back("FourJet_");
     folder.push_back("MoreThreeJet_");
     folder.push_back("MoreFourJet_");
-    vector<TString > HTBins;
+    vector<TString> HTBins;
     HTBins.push_back("all");
     HTBins.push_back("lowHTBins");
     HTBins.push_back("highHTBins");
+    vector<int> folder_n;
+    folder_n.push_back(10);
+    folder_n.push_back(2);
+    folder_n.push_back(3);
+    folder_n.push_back(4);
+    folder_n.push_back(10);
+    folder_n.push_back(10);
 
     int n=15;
     int startNJet[16]={2, 3, 2, 4, 4, 5, 6, 0, 1, 2, 3, 4, 5, 5, 2, 4};
     int nJet[16]     ={1, 1, 2, n-4+2, 1, 1, 1, 0, 1, 1, 1, 1, 1, n-5+2, n-2+2, n-4+2 };
-    int start = 14;
+    int start = 7;
     int end = 16;
 
     menus *listmenus=new menus();
@@ -119,6 +135,8 @@ int main( int argc, char* argv[] )
       for( int i=start; i< end; i++){
 	for( unsigned int ibin=0; ibin<HTBins.size();ibin++){
 	  for( unsigned int il=0; il<folder.size(); il++){ 
+	    cout<<  startNJet[i] - 1 << " *****  " << folder_n[il] <<endl;
+	    if( ( startNJet[i] - 1 ) > folder_n[il] ) continue;
 	    basicPlots *bp=new basicPlots();
 	    bp->getResults(HTBins[ibin], "OneMu", startNJet[i], nJet[i], "OneMuon_", folder[il] );
 	    delete bp;

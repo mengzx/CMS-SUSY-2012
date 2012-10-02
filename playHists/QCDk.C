@@ -27,14 +27,14 @@ using namespace std;
 
 QCDk::QCDk(){}
 
-TH1D* QCDk::getTailBulk( TString label, TString hname, TString bslices, double lowy, double highy ) {
+TH1D* QCDk::getTailBulk( TString label, TString hname, int startNJet, int nJets, double lowy, double highy ) {
   playHist2D hf2d=playHist2D();
   playHist1D hf1d=playHist1D();
   project2DHists pf=project2DHists();
   vector<TFile*> invf;
-  TFile *f1=new TFile(inidir_+"rootfiles/hadronicSele"+subdir_+"/DataJetHT2012_PUS0LowHTBinsHadSele275.root");
-  TFile *f2=new TFile(inidir_+"rootfiles/hadronicSele"+subdir_+"/DataJetHT2012_PUS0LowHTBinsHadSele325.root");
-  TFile *f3=new TFile(inidir_+"rootfiles/hadronicSele"+subdir_+"/DataJetHT2012_PUS0HigHTBinsHadSele.root");
+  TFile *f1=new TFile(inidir_+"rootfiles/hadronicSele"+subdir_+"/"+JetHTDataset_+"_PUS0LowHTBinsHadSele275.root");
+  TFile *f2=new TFile(inidir_+"rootfiles/hadronicSele"+subdir_+"/"+JetHTDataset_+"_PUS0LowHTBinsHadSele325.root");
+  TFile *f3=new TFile(inidir_+"rootfiles/hadronicSele"+subdir_+"/"+JetHTDataset_+"_PUS0HigHTBinsHadSele.root");
   invf.push_back(f1);
   invf.push_back(f2);
   invf.push_back(f3);
@@ -48,7 +48,15 @@ TH1D* QCDk::getTailBulk( TString label, TString hname, TString bslices, double l
   vdirname.push_back(label+"775_875");
   vdirname.push_back(label+"875");
   vector<TString> vhname;
-  vhname.push_back(hname+bslices);
+  if( startNJet == 0 ){
+    vhname.push_back(hname+"all" );
+      cout<<hname+"all"<<endl;
+  } else {
+    for( int i=startNJet; i< startNJet+nJets; i++){
+      cout<<Form( "%s%i", hname.Data(), i )<<endl;
+      vhname.push_back(Form( "%s%i", hname.Data(), i ) );
+    }
+  }
   vector<double> nominaltrigeff=nominaltrigeff_pushback("all");
   TH2D* hT=hf2d.addHistForDiffFoldersFilesHists2D( invf, vdirname, vhname, nominaltrigeff );
   TH1D* hTalphaTSlices=pf.projectX( hT, lowy, highy );
@@ -58,60 +66,63 @@ TH1D* QCDk::getTailBulk( TString label, TString hname, TString bslices, double l
   return formathT;
 }
 
-void QCDk::getBulkYield( TString bslices ){
-  TH1D *bulk1=getTailBulk( "preselection_", "AlphaT_vs_HT_CommJetgeq2_h_", bslices, 0, 0.55 );
-  TH1D *weightedht=getTailBulk( "preselection_", "AlphaT_vs_HT_CommJetgeq2_HTWeighted_h_", bslices, 0, 0.55 );
+void QCDk::getBulkYield( int startNJet, int nJets, double higAT ){
+  TH1D *bulk1=getTailBulk( "preselection_", "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, 0., higAT );
+  TH1D *weightedht=getTailBulk( "preselection_", "AlphaT_vs_HT_CommJetgeq2_HTWeighted_h_", startNJet, nJets, 0., higAT );
 
-  ofstream outputfile;
-  outputfile.open ("BulkYield_"+bslices+".txt");
+  FILE * outputfile;
+  char buffer[100];
+  if( useBTag_ ){
+    sprintf (buffer, "BulkYield_%iTo%ib_AT%.2f.txt", startNJet-1, startNJet+nJets-2, higAT );
+  } else {
+    sprintf (buffer, "BulkYield_%iTo%ij_AT%.2f.txt", startNJet, startNJet+nJets-1, higAT );
+  }
+  outputfile = fopen (buffer,"w");
+
+  //  ofstream outputfile;
+  //  outputfile.open ("BulkYield_"+bslices+".txt");
 
   double HT=375.;
   for( unsigned int i=5; i<13;i++){
     if( i == 5){
-      outputfile<<"275-325: "<<" Bulk Yied: " <<bulk1->GetBinContent(i)<<" +- "<<bulk1->GetBinError(i)<<"   Bulk with HT weighted yield: "<<weightedht->GetBinContent(i)<<" +- "<<weightedht->GetBinError(i)<<endl;
+      fprintf(outputfile, "275-325:  Bulk Yied: %f +- %f;   Bulk with HT weighted yield: %f +- %f. \n", bulk1->GetBinContent(i), bulk1->GetBinError(i), weightedht->GetBinContent(i), weightedht->GetBinError(i) );
       double num=weightedht->GetBinContent(i);
       double numerr=weightedht->GetBinError(i);
       double dom=bulk1->GetBinContent(i);
       double domerr = bulk1->GetBinError(i);
       double err2=numerr*numerr/dom + num/(dom*dom)*(domerr*domerr);
-      outputfile<<" ==> 275-325: Weighted HT (meanHT)"<< (weightedht->GetBinContent(i))/(bulk1->GetBinContent(i))<<" +- "<< sqrt(err2)<<endl;
-      outputfile<<endl;
-      outputfile<<endl;
+      fprintf( outputfile, " ==> 275-325: Weighted HT (meanHT) %f +- %f. \n\n",  (weightedht->GetBinContent(i))/(bulk1->GetBinContent(i)), sqrt(err2) );
     } else if( i == 6){
-      outputfile<<"325-375: "<<" Bulk Yied: " <<bulk1->GetBinContent(i)<<" +- "<<bulk1->GetBinError(i)<<"   Bulk with HT weighted yield: "<<weightedht->GetBinContent(i)<<" +- "<<weightedht->GetBinError(i)<<endl;
+      fprintf(outputfile, "325-375:  Bulk Yied: %f +- %f;   Bulk with HT weighted yield: %f +- %f. \n", bulk1->GetBinContent(i), bulk1->GetBinError(i), weightedht->GetBinContent(i), weightedht->GetBinError(i) );
       double num=weightedht->GetBinContent(i);
       double numerr=weightedht->GetBinError(i);
       double dom=bulk1->GetBinContent(i);
       double domerr = bulk1->GetBinError(i);
       double err2=numerr*numerr/dom + num/(dom*dom)*(domerr*domerr);
-      outputfile<<" ==> 325-375: Weighted HT (meanHT)"<< (weightedht->GetBinContent(i))/(bulk1->GetBinContent(i))<<" +- "<< sqrt(err2)<<endl;
-      outputfile<<endl;
-      outputfile<<endl;
+      fprintf( outputfile, " ==> 325-375: Weighted HT (meanHT) %f +- %f. \n\n",  (weightedht->GetBinContent(i))/(bulk1->GetBinContent(i)), sqrt(err2) );
     } else{
-      outputfile<<HT<<"-"<<HT+100<<": "<<" Bulk Yied: " <<bulk1->GetBinContent(i)<<" +- "<<bulk1->GetBinError(i)<<"   Bulk with HT weighted yield: "<<weightedht->GetBinContent(i)<<" +- "<<weightedht->GetBinError(i)<<endl;
+      fprintf(outputfile, "%.0f-%.0f:  Bulk Yied: %f +- %f;   Bulk with HT weighted yield: %f +- %f. \n", HT, HT+100, bulk1->GetBinContent(i), bulk1->GetBinError(i), weightedht->GetBinContent(i), weightedht->GetBinError(i) );
       double num=weightedht->GetBinContent(i);
       double numerr=weightedht->GetBinError(i);
       double dom=bulk1->GetBinContent(i);
       double domerr = bulk1->GetBinError(i);
       double err2=numerr*numerr/dom + num/(dom*dom)*(domerr*domerr);
-      outputfile<<" ==> "<<HT<<"-"<<HT+100<<": Weighted HT (meanHT)"<< (weightedht->GetBinContent(i))/(bulk1->GetBinContent(i))<<" +- "<< sqrt(err2)<<endl;
-      outputfile<<endl;
-      outputfile<<endl;
+      fprintf( outputfile, " ==> %.0f-%.0f: Weighted HT (meanHT) %f +- %f. \n\n", HT, HT+100, (weightedht->GetBinContent(i))/(bulk1->GetBinContent(i)), sqrt(err2) );
       HT=HT+100;
     }
   }
-  outputfile.close();
+  fclose( outputfile );
 }
 
-TH1D* QCDk::getRATvsHT( TString label, TString bslices, double lowy, double highy, double lowybulk ){
-  TH1D *tail=getTailBulk( label, "AlphaT_vs_HT_CommJetgeq2_h_", bslices, lowy, highy );
-  TH1D *bulk=getTailBulk( label, "AlphaT_vs_HT_CommJetgeq2_h_", bslices, 0, lowybulk );
+TH1D* QCDk::getRATvsHT( TString label, int startNJet, int nJets, double lowy, double highy, double lowybulk ){
+  TH1D *tail=getTailBulk( label, "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, lowy, highy );
+  TH1D *bulk=getTailBulk( label, "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, 0, lowybulk );
   TH1D *tailoverbulk=(TH1D*)(tail->Clone("tailoverbulk"));
   tailoverbulk->Divide(tailoverbulk,bulk);
   return tailoverbulk;
 }
 
-void QCDk::fitRATvsHT( TString region, TString bslices, TString output ){
+void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output, double higAT ){
   TCanvas *c1=new TCanvas("c1","c1",600,700);
   TPad *pad1=new TPad("pad1","",0,0,1,1);
   pad1->Draw();
@@ -205,7 +216,7 @@ void QCDk::fitRATvsHT( TString region, TString bslices, TString output ){
     }
   } 
 
-  TH1D *ratio=getRATvsHT(label, bslices, lowy, highy, lowybulk);
+  TH1D *ratio=getRATvsHT(label, startNJet, nJets, lowy, highy, lowybulk);
   ratio->SetLineColor(1);
   ratio->GetXaxis()->SetTitle("H_{T} (GeV)");
   ratio->GetYaxis()->SetTitle("R_{#alpha_{T}}");
@@ -221,39 +232,55 @@ void QCDk::fitRATvsHT( TString region, TString bslices, TString output ){
   ratio->Fit(fit,"R");
   ratio->Draw("same");
 
-  ofstream outputfile;
 
-  outputfile.open (region+"_"+bslices+output+".txt");
+  FILE * outputfile;
+  char buffer[100];
+  if(useBTag_){
+    sprintf (buffer, "%s_%iTo%ib%s_bulkAT%.2f.txt", region.Data(), startNJet-1, startNJet+nJets-2, output.Data(), higAT);
+  } else {
+    sprintf (buffer, "%s_%iTo%ij%s_bulkAT%.2f.txt", region.Data(), startNJet, startNJet+nJets-1, output.Data(), higAT);
+  }
+  outputfile = fopen (buffer,"w");
 
-  outputfile<< "Region: "<<region<<"  N_bjets: "<< bslices<<endl;
-  outputfile << " A: " << fit->GetParameter(0)
-	     << "     A error: " << fit->GetParError(0) <<endl;
-  outputfile << " k: " << fit->GetParameter(1)
-	     << "     k error: " << fit->GetParError(1) <<endl;
-  outputfile << " chi2: " << fit->GetChisquare() <<endl;
-  outputfile << " ndof: " << fit->GetNDF() <<endl;
-  outputfile << " p-value: " << fit->GetProb() <<endl;
-  outputfile<<endl;
-  outputfile<<endl;
-  outputfile.close();
+  //  ofstream outputfile;
+  //  outputfile.open (region+"_"+bslices+output+".txt");
+
+  if(useBTag_){
+    fprintf(outputfile, "Region: %s    N_bjets: %i to %i \n", region.Data(), startNJet-1, startNJet+nJets-2 );
+  } else {
+    fprintf(outputfile, "Region: %s    N_jets: %i to %i \n", region.Data(), startNJet, startNJet+nJets-1 );
+  }
+  fprintf(outputfile, " A: %f \n", fit->GetParameter(0) );
+  fprintf(outputfile, "     A error: %f \n", fit->GetParError(0) );
+  fprintf(outputfile, " k: %f \n", fit->GetParameter(1) );
+  fprintf(outputfile, "     k error: %f \n", fit->GetParError(1) );
+  fprintf(outputfile, " chi2: %f\n", fit->GetChisquare() );
+  fprintf(outputfile, " ndof: %i\n", fit->GetNDF() );
+  fprintf(outputfile, " p-value: %f\n", fit->GetProb() );
+  fprintf(outputfile, "\n\n");
+  fclose(outputfile);
   ratio->Draw("e1");
-  c1->SaveAs(region+"_"+bslices+output+".eps");
-  c1->SaveAs(region+"_"+bslices+output+".png");
+  if( useBTag_){
+    c1->SaveAs(Form("%s_%iTo%ib%s_bulkAT%.2f.eps", region.Data(), startNJet-1, startNJet+nJets-2, output.Data(), higAT));
+    c1->SaveAs(Form("%s_%iTo%ib%s_bulkAT%.2f.png", region.Data(), startNJet-1, startNJet+nJets-2, output.Data(), higAT));
+  } else {
+    c1->SaveAs(Form("%s_%iTo%ij%s_bulkAT%.2f.eps", region.Data(), startNJet, startNJet+nJets-1, output.Data(), higAT));
+    c1->SaveAs(Form("%s_%iTo%ij%s_bulkAT%.2f.png", region.Data(), startNJet, startNJet+nJets-1, output.Data(), higAT));
+  }
   c1->Update();
   delete c1;
 }
 
-void QCDk::getResults( TString output ){
-  fitRATvsHT("B","all", output);
-  /*  fitRATvsHT("B","1", output);
-  fitRATvsHT("B","2", output);
-  fitRATvsHT("B","3", output);
-  fitRATvsHT("C1","all", output);
-  fitRATvsHT("C2","all", output);
-  fitRATvsHT("C3","all", output);
-  fitRATvsHT("C1_ReverseMHToverMHT","all", output);
-  fitRATvsHT("C2_ReverseMHToverMHT","all", output);
-  fitRATvsHT("C3_ReverseMHToverMHT","all", output);
-  getBulkYield("all");*/
+void QCDk::getResults( TString output, int startNJet, int nJets, double higAT ){
+
+  fitRATvsHT("B", startNJet, nJets, output, higAT);
+  fitRATvsHT("C1", startNJet, nJets, output, higAT);
+  fitRATvsHT("C2", startNJet, nJets, output, higAT);
+  fitRATvsHT("C3", startNJet, nJets, output, higAT);
+  fitRATvsHT("C1_ReverseMHToverMHT", startNJet, nJets, output, higAT);
+  fitRATvsHT("C2_ReverseMHToverMHT", startNJet, nJets, output, higAT);
+  fitRATvsHT("C3_ReverseMHToverMHT", startNJet, nJets, output, higAT);
+
+  getBulkYield(startNJet, nJets, higAT);
 
 }

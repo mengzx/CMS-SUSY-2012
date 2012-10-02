@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include "TH1D.h"
+#include "TF1.h"
 #include "TH2D.h"
 #include "TLine.h"
 #include "TFile.h"
@@ -12,7 +13,7 @@
 #include "TPad.h"
 #include "TStyle.h"
 #include "TLegend.h"
-
+#include "TPaveStats.h"
 #include "tdrstyle.h"
 #include "playHist2D.h"
 #include "playHist1D.h"
@@ -468,6 +469,26 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       MCh_ZinvFromDYcopy->Scale(-1);
       MCh_total->Add(MCh_total,MCh_ZinvFromDYcopy);
     }
+
+    if( hasZinv_ && useLOXSZinv_ ){
+      TH1D *MCh_Zinv1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+      MCh_Zinv1->Scale(-0.19);
+      MCh_total->Add(MCh_total,MCh_Zinv1);
+    }
+
+    if( hasDY_ && useLOXSDY_ ){
+      TH1D *MCh_DY1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+      MCh_DY1->Scale(-0.19);
+      MCh_total->Add(MCh_total,MCh_DY1);
+    }
+
+    if( hasWJ_ && useLOXSWJ_ ){
+      TH1D *MCh_WJ1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+      MCh_WJ1->Scale(-0.19);
+      MCh_total->Add(MCh_total,MCh_WJ1);
+    }
+
+
     vh.push_back(MCh_total);
     vlenname.push_back("Total MC");
     vhnames.push_back("MCtotal");
@@ -475,13 +496,26 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
   if( hasWJ_ ){
     TH1D *MCh_WJ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    if(useLOXSWJ_){
+      MCh_WJ->Scale(1.-0.19);
+    }
     vh.push_back(MCh_WJ);
     vlenname.push_back("W+jets");
     vhnames.push_back("WJ");
   }
 
+  if( hasWJ_XSLO_ ){
+    TH1D *MCh_WJ_XSLO= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ_XSLO", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    vh.push_back(MCh_WJ_XSLO);
+    vlenname.push_back("W+jets (LO-XS)");
+    vhnames.push_back("WJ_XSLO");
+  }
+
   if( hasDY_ ){
     TH1D *MCh_DY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    if(useLOXSDY_){
+      MCh_DY->Scale(1.-0.19);
+    }
     vh.push_back(MCh_DY);
     vlenname.push_back("Drell-Yan");
     vhnames.push_back("DY");
@@ -513,6 +547,9 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   }
   if( hasZinv_ ){
     TH1D *MCh_Zinv= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    if(useLOXSZinv_){
+      MCh_Zinv->Scale(1.-0.19);
+    }
     vh.push_back(MCh_Zinv);
     vlenname.push_back("Z#rightarrow#nu#nu+jets");
     vhnames.push_back("Zinv");
@@ -835,6 +872,11 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  svh[i]->SetLineColor(2);
 	  svh[i]->SetFillColor(2);
 	  svh[i]->SetMarkerColor(2);
+	} else if( vhnames[ svh_index[i] ] == "WJ_XSLO" ){
+	  svh[i]->Draw("same HIST 9");
+	  svh[i]->SetLineColor(2);
+	  svh[i]->SetFillColor(2);
+	  svh[i]->SetMarkerColor(2);
 	} else if( vhnames[ svh_index[i] ] == "DY" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kViolet+1);
@@ -1075,6 +1117,11 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  invsvh[i]->SetFillColor(2);
 	  invsvh[i]->SetMarkerColor(2);
 	  hs->Add(invsvh[i]);
+	} else if( vhnames[ invsvh_index[i] ] == "WJ_XSLO" ){
+	  invsvh[i]->SetLineColor(2);
+	  invsvh[i]->SetFillColor(2);
+	  invsvh[i]->SetMarkerColor(2);
+	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "DY" ){
 	  invsvh[i]->SetLineColor(kViolet+1);
 	  invsvh[i]->SetFillColor(kViolet+1);
@@ -1294,7 +1341,32 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     datah->SetMarkerColor(0);
     mch1->Draw("e2same");
     mch11->Draw("same L hist");
-    datah1->Draw("same");
+    TF1* fit = new TF1("fit","pol0",lowmch, highmch);
+    datah1->Fit(fit,"R");
+    datah1->GetYaxis()->SetNdivisions(2,0,0,kFALSE);
+    datah1->GetYaxis()->SetLabelFont(63);
+    datah1->GetYaxis()->SetLabelSize(18);
+    datah1->GetYaxis()->SetTitle("Data/MC");
+    datah1->GetYaxis()->SetTitleSize(0.15);
+    datah1->GetYaxis()->SetTitleOffset(0.3);
+    datah1->SetMarkerSize(0.5);
+    datah1->GetYaxis()->SetRangeUser(0.,2.);
+    TPaveStats *st = (TPaveStats*)datah1->FindObject("stats");
+
+    //    st->SetY1NDC(0.16);
+    datah1->Draw("sames");
+    mch1->Draw("e2same");
+    mch11->Draw("same L hist");
+    datah1->Draw("sames");
+
+    TLegend *len2=new TLegend(0.6,0.8,0.95,0.9);
+    len2->SetFillColor(0);
+    len2->SetMargin(0.3);
+    len2->SetLineColor(0);
+    len2->SetBorderSize(0);
+    len2->AddEntry("", Form("p0 = %.3f #pm %.4f", fit->GetParameter(0), fit->GetParError(0) ), "" );
+    len2->Draw();
+    //    delete len2;
   }
     TString stack="";
     if ( doCumulative_ ){

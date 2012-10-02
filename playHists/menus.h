@@ -30,12 +30,16 @@ class menus{
   bool hasData_;
   bool hasMCtotal_;
   bool hasWJ_;
+  bool useLOXSWJ_;
   bool hasDY_;
+  bool useLOXSDY_;
   bool hasTT_;
   bool hasSingleT_;
   bool hasZinv_;
+  bool useLOXSZinv_;
   bool hasDiBoson_;
   bool hasTTZ_;
+  bool hasWJ_XSLO_;
   bool hasZinvFromDY_;
   bool hasWJveryHighHT_;
   bool hasZinv_HT50To100_;
@@ -78,6 +82,7 @@ class menus{
   TString NotHadTaucontrolTrig_;
   TString NormalcontrolTrig_;
   TString controlDataset_;
+  TString JetHTDataset_;
   TString MCsample_;
   bool plotTrueTauHad_;
   TString MuonNumber_;

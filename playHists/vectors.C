@@ -293,6 +293,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
 	TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7HigHTBins"+sele+".root");
 	vf.push_back(f3);
       }
+      if( listmenus->hasWJ_XSLO_ ){
+	TFile *f33=new TFile(dir+"/"+"NoSmearWJ_XSLO_"+dataset+"PUS7HigHTBins"+sele+".root");
+	vf.push_back(f33);
+      }
       if(listmenus->hasSingleT_){
 	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7HigHTBins"+sele+".root");
 	vf.push_back(f4);
@@ -331,6 +335,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
 	TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"325.root");
 	vf.push_back(f3);
       }
+      if( listmenus->hasWJ_XSLO_ ){
+	TFile *f33=new TFile(dir+"/"+"NoSmearWJ_XSLO_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+	vf.push_back(f33);
+      }
       if( listmenus->hasSingleT_ ){
 	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"325.root");
 	vf.push_back(f4);
@@ -368,6 +376,10 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
       if( listmenus->hasWJ_ ){
 	TFile *f3=new TFile(dir+"/"+"NoSmearWJ_"+dataset+"PUS7LowHTBins"+sele+"275.root");
 	vf.push_back(f3);
+      }
+      if( listmenus->hasWJ_XSLO_ ){
+	TFile *f33=new TFile(dir+"/"+"NoSmearWJ_XSLO_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+	vf.push_back(f33);
       }
       if( listmenus->hasSingleT_ ){
 	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
@@ -430,6 +442,14 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
 	  TFile *f19=new TFile(dir+"/"+"NoSmearWJveryHighHT_"+dataset+"PUS7HigHTBins"+sele+".root");
 	  vf.push_back(f19);
 	}
+      }
+      if( listmenus->hasWJ_XSLO_ ){
+	TFile *f33=new TFile(dir+"/"+"NoSmearWJ_XSLO_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f33);
+        TFile *f77=new TFile(dir+"/"+"NoSmearWJ_XSLO_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f77);
+        TFile *f111=new TFile(dir+"/"+"NoSmearWJ_XSLO_"+dataset+"PUS7HigHTBins"+sele+".root");
+        vf.push_back(f111);
       }
       if( listmenus->hasSingleT_ ){
 	TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
@@ -498,6 +518,12 @@ vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sel
 	  TFile *f19=new TFile(dir+"/"+"NoSmearWJveryHighHT_"+dataset+"PUS7HigHTBins"+sele+".root");
 	  vf.push_back(f19);
 	}
+      }
+      if( listmenus->hasWJ_XSLO_ ){
+	TFile *f33=new TFile(dir+"/"+"NoSmearWJ_XSLO_"+dataset+"PUS7LowHTBins"+sele+"275.root");
+        vf.push_back(f33);
+	TFile *f77=new TFile(dir+"/"+"NoSmearWJ_XSLO_"+dataset+"PUS7LowHTBins"+sele+"325.root");
+        vf.push_back(f77);
       }
       if( listmenus->hasSingleT_ ){
         TFile *f4=new TFile(dir+"/"+"NoSmearSingleT_"+dataset+"PUS7LowHTBins"+sele+"275.root");
