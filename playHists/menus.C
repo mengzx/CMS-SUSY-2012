@@ -27,13 +27,13 @@ menus::menus(){
   hasData_=true;
   hasMCtotal_=true;
   hasWJ_=true;
-  useLOXSWJ_=false;
+  useLOXSWJ_=true;
   hasDY_=true;
-  useLOXSDY_=false;
+  useLOXSDY_=true;
   hasTT_=true;
   hasSingleT_=true;
   hasZinv_=true;
-  useLOXSZinv_=false;
+  useLOXSZinv_=true;
   hasDiBoson_=true;
   hasTTZ_=true;
 
@@ -100,8 +100,8 @@ menus::menus(){
 
     /*    mcscale_HT_=  51.26247;
     mcscale_SingleMu_= 50.00191;
-    mcscale_DiMu_= 50.00191;
-    */
+    mcscale_DiMu_= 50.00191;*/
+
     //period ABC. Sep 24
     mcscale_HT_=  116.59247;
     mcscale_SingleMu_= 113.89191;

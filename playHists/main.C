@@ -37,19 +37,36 @@ int main( int argc, char* argv[] )
   }
 
   if( word == "QCDk" ){
-    QCDk *qcdk=new QCDk();
     int n=15;
-    int startNJet[3]={0, 2, 4 };
-    int nJet[3]     ={0, 2, n-4+1 };
+    int startNJet[1]={1 };
+    int nJet[1]     ={1 };
     int start = 0;
-    int end = 3;
+    int end = 1;
+    bool HTto1075=false;
+    TString DataSet="DataJetHT2012";
+    vector<TString> jetmulti;
+    jetmulti.push_back("");
+    //    jetmulti.push_back("TwoThreeJet_");
+    //    jetmulti.push_back("MoreThreeJet_");
+    QCDk *qcdk=new QCDk();
 
     for( int i=start; i< end; i++ ){
-      qcdk->getResults("", startNJet[i], nJet[i], 0.50);
-      qcdk->getResults("_LowAT0.5", startNJet[i], nJet[i], 0.50);
+      for( unsigned int ij =0; ij<jetmulti.size(); ij++){
+      qcdk->getResults("", startNJet[i], nJet[i], 0.50, HTto1075, DataSet, jetmulti[ij] );
+      //      qcdk->getResults("_LowAT0.5", startNJet[i], nJet[i], 0.50, HTto1075, DataSet, jetmulti[ij] );
+      }
     }
 
+    /*    HTto1075=true;
+    DataSet="DataJetHT2012";
+    for( int i=start; i< end; i++ ){
+      qcdk->getResults("", startNJet[i], nJet[i], 0.50, HTto1075, DataSet );
+      qcdk->getResults("_LowAT0.5", startNJet[i], nJet[i], 0.50, HTto1075, DataSet );
+      }*/
   }
+
+
+
 
   if( word == "TrueWPt" ){
     TrueWPt *WPt=new TrueWPt();
@@ -149,6 +166,8 @@ int main( int argc, char* argv[] )
       for( int i=start; i< end; i++){
 	for( unsigned int ibin=0; ibin<HTBins.size();ibin++){
 	  for( unsigned int il=0; il<folder.size(); il++){ 
+	    cout<<  startNJet[i] - 1 << " *****  " << folder_n[il] <<endl;
+	    if( ( startNJet[i] - 1 ) > folder_n[il] ) continue;
 	    basicPlots *bp=new basicPlots();
 	    bp->getResults(HTBins[ibin], "OneMu", startNJet[i], nJet[i], "DiMuon_", folder[il] );
 	    delete bp;
@@ -164,6 +183,8 @@ int main( int argc, char* argv[] )
       for( int i=start; i< end; i++){
 	for( unsigned int ibin=0; ibin<HTBins.size();ibin++){
 	  for( unsigned int il=0; il<folder.size(); il++){ 
+	    cout<<  startNJet[i] - 1 << " *****  " << folder_n[il] <<endl;
+	    if( ( startNJet[i] - 1 ) > folder_n[il] ) continue;
 	    basicPlots *bp=new basicPlots();
 	    bp->getResults(HTBins[ibin], "HadSele", startNJet[i], nJet[i], "", folder[il] );
 	    delete bp;

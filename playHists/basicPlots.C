@@ -92,7 +92,7 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
       Datavf=Datavf_pushback(dir, signalDataset_, "HadSele"+signalTrig_, HTBins);
       MCvf=MCvf_pushback(dir, MCsample_, "HadSele"+signalTrig_, HTBins, separateSample, singleMCsample );
     }
-    vdirname=dirName_pushback(folderlabel_+"", HTBins);
+    vdirname=dirName_pushback(FolderLabel+"", HTBins);
     if( startNJet == 0 ){
       vhname.push_back(whichplot+"_CommJetgeq2_h_all");
     } else {
@@ -1339,10 +1339,12 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     datah->Draw("hist");
     datah->SetLineColor(0);
     datah->SetMarkerColor(0);
-    mch1->Draw("e2same");
-    mch11->Draw("same L hist");
-    TF1* fit = new TF1("fit","pol0",lowmch, highmch);
-    datah1->Fit(fit,"R");
+    TF1* fit = new TF1("fit","pol0",xAxisRange1, xAxisRange2);
+    datah1->Fit(fit,"Rsame");
+    datah1->GetXaxis()->SetRangeUser(xAxisRange1, xAxisRange2);
+    datah1->GetXaxis()->SetLabelFont(63);
+    datah1->GetXaxis()->SetLabelSize(18);
+    datah1->GetXaxis()->SetTitleOffset(10);
     datah1->GetYaxis()->SetNdivisions(2,0,0,kFALSE);
     datah1->GetYaxis()->SetLabelFont(63);
     datah1->GetYaxis()->SetLabelSize(18);
@@ -1351,13 +1353,10 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     datah1->GetYaxis()->SetTitleOffset(0.3);
     datah1->SetMarkerSize(0.5);
     datah1->GetYaxis()->SetRangeUser(0.,2.);
-    TPaveStats *st = (TPaveStats*)datah1->FindObject("stats");
-
-    //    st->SetY1NDC(0.16);
-    datah1->Draw("sames");
+    datah1->Draw("same");
     mch1->Draw("e2same");
     mch11->Draw("same L hist");
-    datah1->Draw("sames");
+    datah1->Draw("same");
 
     TLegend *len2=new TLegend(0.6,0.8,0.95,0.9);
     len2->SetFillColor(0);
