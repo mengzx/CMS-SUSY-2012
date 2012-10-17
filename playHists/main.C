@@ -47,7 +47,7 @@ int main( int argc, char* argv[] )
     jetmulti.push_back("");
     jetmulti.push_back("TwoThreeJet_");
     jetmulti.push_back("MoreThreeJet_");
-    for( unsinged int i=0; i< jetmulti.size(); i++){
+    for( unsigned int i=0; i< jetmulti.size(); i++){
       for( int j=start; j<end; j++ ){
 	bg->printout( "HadSele", nb[j], taucompo, jetmulti[i] );
 	bg->printout( "MuonSingleMuTrig", nb[j], taucompo, jetmulti[i] );
