@@ -49,12 +49,11 @@ void tdrstyle::setTDRStyle( TString digit ) {
   //  tdrStyle->SetErrorX(0.);
 
 // For the fit/function:
-  tdrStyle->SetOptFit(0);
+  tdrStyle->SetOptFit(1111);
   tdrStyle->SetFitFormat("5.4g");
   tdrStyle->SetFuncColor(2);
   tdrStyle->SetFuncStyle(1);
   tdrStyle->SetFuncWidth(1);
-
 
 //For the date:
   tdrStyle->SetOptDate(0);
@@ -65,14 +64,16 @@ void tdrstyle::setTDRStyle( TString digit ) {
 // For the statistics box:
   tdrStyle->SetOptFile(0);
   tdrStyle->SetOptStat(0); // To display the mean and RMS:   SetOptStat("mr");
-  tdrStyle->SetStatColor(kWhite);
+  tdrStyle->SetStatColor(0);
   tdrStyle->SetStatFont(42);
   tdrStyle->SetStatFontSize(0.025);
   tdrStyle->SetStatTextColor(1);
   tdrStyle->SetStatFormat("6.4g");
   tdrStyle->SetStatBorderSize(1);
-  tdrStyle->SetStatH(0.1);
-  tdrStyle->SetStatW(0.15);
+  tdrStyle->SetStatY(0.92);
+  tdrStyle->SetStatX(0.92);
+  tdrStyle->SetStatW(0.3);
+  tdrStyle->SetStatH(2);
   // tdrStyle->SetStatStyle(Style_t style = 1001);
   // tdrStyle->SetStatX(Float_t x = 0);
   // tdrStyle->SetStatY(Float_t y = 0);

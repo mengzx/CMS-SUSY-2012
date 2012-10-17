@@ -594,6 +594,52 @@ vector<TFile*> vectors::Datavf_pushback( TString dir, TString dataset, TString s
   return vfdata;
 }
 
+TString vectors::getDir( int whichpart, bool MuAddOrNot){
+  TString dir;
+  if( whichpart == 1 ){
+    dir = listmenus->inidir_ + "rootfiles/hadronicSele" + listmenus->subdir_;
+  } else if ( whichpart != 1 && MuAddOrNot == true && listmenus->normalEstimation_ == false){
+    dir = listmenus->inidir_ + "rootfiles/oneMuonSele/muonpT50GeV" + listmenus->subdir_;
+  } else if ( whichpart !=1 && MuAddOrNot == false && listmenus->normalEstimation_ == false){
+    dir = listmenus->inidir_ + "rootfiles/oneMuonSele/muonpT10GeV" + listmenus->subdir_;
+  } else if ( whichpart !=1 && listmenus->normalEstimation_ == true){
+    dir = listmenus->inidir_ + "rootfiles/oneMuonSele/muonpT45GeV" + listmenus->subdir_;
+  }
+  return dir;
+}
+
+vector<TFile*> vectors::getMCvf( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, bool MuAddOrNot ){
+  TString dir=getDir( whichpart, MuAddOrNot );
+  vector<TFile*> MCvf;
+  if( whichpart == 1 ){
+    MCvf=MCvf_pushback(dir, listmenus->MCsample_, "HadSele"+listmenus->signalTrig_, HTBins, separateSample, singleMCsample );
+  } else if( whichpart != 1 && MuAddOrNot == true && listmenus->normalEstimation_ == false ){
+    MCvf=MCvf_pushback(dir, listmenus->MCsample_, "MuonAdded"+listmenus->HadTaucontrolTrig_, HTBins, separateSample, singleMCsample );
+  } else if ( whichpart != 1 && MuAddOrNot == false && listmenus->normalEstimation_ == false ){
+    MCvf=MCvf_pushback(dir, listmenus->MCsample_, "Muon"+ listmenus->NotHadTaucontrolTrig_, HTBins, separateSample, singleMCsample );
+  } else if ( whichpart != 1 && listmenus->normalEstimation_ == true ) {
+    MCvf=MCvf_pushback(dir, listmenus->MCsample_, "Muon"+ listmenus->NormalcontrolTrig_, HTBins, separateSample, singleMCsample );
+  }
+
+  return MCvf;
+}
+
+vector<TString> vectors::getVdirname( int whichpart, TString HTBins, TString MuonNumber, TString FolderLabel, bool MuAddOrNot ){
+  vector<TString> vdirname;
+  if( whichpart == 1 ){
+    vdirname=dirName_pushback(FolderLabel+"", HTBins);
+  } else if( whichpart != 1 && MuAddOrNot == true && listmenus->normalEstimation_ == false ){
+    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
+  } else if ( whichpart != 1 && MuAddOrNot == false && listmenus->normalEstimation_ == false ){
+    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
+  } else if ( whichpart != 1 && listmenus->normalEstimation_ == true ) {
+    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
+  }
+
+  return vdirname;
+}
+
+
 /*vector<TFile*> vectors::MCvf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr, bool separateSample, TString separateSampleName){
   vector<TFile*> vf;
   if( sTreeThr == "100" || sTreeThr == "highHTBins" || sTreeThr == "375" || sTreeThr == "475" || sTreeThr == "575" || sTreeThr == "675" || sTreeThr == "775" || sTreeThr == "875"){

@@ -26,6 +26,8 @@ class menus{
   bool drawOverflow_;
   bool useBTag_;
   bool doCumulative_;
+  TString mcPUS_;
+  bool getFitParak_;
 
   bool hasData_;
   bool hasMCtotal_;
@@ -82,10 +84,10 @@ class menus{
   TString NotHadTaucontrolTrig_;
   TString NormalcontrolTrig_;
   TString controlDataset_;
-  TString JetHTDataset_;
   TString MCsample_;
   bool plotTrueTauHad_;
   TString MuonNumber_;
+  TString QCDDataSet_;
 
   double datascale_;
   bool useCommonJson_;

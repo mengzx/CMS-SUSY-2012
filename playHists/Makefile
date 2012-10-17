@@ -9,7 +9,7 @@ HEADERDIR	= ./
 
 
 #all:tdrstyle.o playHist2D.o playHist1D.o project2DHists.o menus.o vectors.o getTranslationFactor.o basicPlots.o printTables.o TrueWPt.o rootdict.o QCDk.o BGCompositions.o NBjets.o main.exe
-all:tdrstyle.o playHist2D.o playHist1D.o project2DHists.o menus.o vectors.o getTranslationFactor.o basicPlots.o printTables.o TrueWPt.o rootdict.o QCDk.o BGCompositions.o main.exe
+all:tdrstyle.o playHist2D.o playHist1D.o project2DHists.o menus.o vectors.o getTranslationFactor.o basicPlots.o printTables.o TrueWPt.o rootdict.o QCDk.o BGCompositions.o getPUWeight.o main.exe
 
 rootdict.C:    ./linkdef.h
 	@echo "Generating dictionary"
@@ -57,6 +57,9 @@ QCDk.o:QCDk.C QCDk.h
 BGCompositions.o:BGCompositions.C BGCompositions.h 
 	g++ -c BGCompositions.C -o $@ -I $(ROOTCFLAGS) -I . -I $(SOURCEDIR) -I $(HEADERDIR)
 
+getPUWeight.o:getPUWeight.C getPUWeight.h 
+	g++ -c getPUWeight.C -o $@ -I $(ROOTCFLAGS) -I . -I $(SOURCEDIR) -I $(HEADERDIR)
+
 #NBjets.o:NBjets.C NBjets.h 
 #	g++ -c NBjets.C -o $@ -I $(ROOTCFLAGS) -I . -I $(SOURCEDIR) -I $(HEADERDIR)
 
@@ -64,7 +67,7 @@ BGCompositions.o:BGCompositions.C BGCompositions.h
 
 main.exe:main.C
 #	g++ -O3 -Wall -I $(ROOTCFLAGS) $^ -o $@ tdrstyle.o playHist2D.o playHist1D.o project2DHists.o menus.o vectors.o TrueWPt.o getTranslationFactor.o basicPlots.o printTables.o rootdict.o QCDk.o BGCompositions.o NBjets.o $(DQSO) -I . -I $(SOURCEDIR)  -I $(HEADERDIR) $(ROOTLIBS)
-	g++ -O3 -Wall -I $(ROOTCFLAGS) $^ -o $@ tdrstyle.o playHist2D.o playHist1D.o project2DHists.o menus.o vectors.o TrueWPt.o getTranslationFactor.o basicPlots.o printTables.o rootdict.o QCDk.o BGCompositions.o $(DQSO) -I . -I $(SOURCEDIR)  -I $(HEADERDIR) $(ROOTLIBS)
+	g++ -O3 -Wall -I $(ROOTCFLAGS) $^ -o $@ tdrstyle.o playHist2D.o playHist1D.o project2DHists.o menus.o vectors.o TrueWPt.o getTranslationFactor.o basicPlots.o printTables.o rootdict.o QCDk.o BGCompositions.o getPUWeight.o $(DQSO) -I . -I $(SOURCEDIR)  -I $(HEADERDIR) $(ROOTLIBS)
 
 
 #main.exe:main.C tauperf.C file.txt

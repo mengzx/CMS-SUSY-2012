@@ -20,7 +20,7 @@ class BGCompositions : public menus, public vectors{
   TH2D* getHist2D_i( TString dir, TString fname, TString dirname, TString hname, TString sele, TString HTBins );
 
   TH2D* getHist2D_all( TString dir, TString dirname, TString hname, TString sele, TString HTBins );
-  void printout( TString sele, int nbjets );
+  void printout( TString sele, int nbjets, bool taucompo, TString jetmulit );
 
 }; // BGCompositions
 

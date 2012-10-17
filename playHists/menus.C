@@ -23,7 +23,9 @@ menus::menus(){
   drawOverflow_=true;
   useBTag_=true;
   doCumulative_=false;
-
+  mcPUS_="PUS7";
+  getFitParak_=true;
+ 
   hasData_=true;
   hasMCtotal_=true;
   hasWJ_=true;
@@ -70,17 +72,17 @@ menus::menus(){
   hasT1tttt_ = false;
   //  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
   inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/SeventeenthLook_25_Sep2012/";
-  subdir_="/allBJets_HadSeleMuIso012_WithPUReW_JetPt30";
+  subdir_="/allBJets_PUReWNoTopLimi_Has2To3Jets";
   folderlabel_="";
   //  HadTaudataset_="SingleMu2012";
-  NotHadTaudataset_="HT2012";
+  NotHadTaudataset_="HT2012AB";
   signalTrig_="";
-  signalDataset_ = "HT2012";
+  signalDataset_ = "HT2012AB";
   HadTaucontrolTrig_="SingleMuTrig";
   NotHadTaucontrolTrig_="HTATTrig";
   NormalcontrolTrig_="SingleMuTrig";
-  controlDataset_ = "SingleMu2012";
-  JetHTDataset_ = "DataJetHT2012";
+  controlDataset_ = "SingleMu2012AB";
+  QCDDataSet_="JetHT2012";
   MCsample_="";
   plotTrueTauHad_=false;
   MuonNumber_ = "OneMuon_";
@@ -98,14 +100,14 @@ menus::menus(){
     mcscale_=1.;
     //period AB. Sep 24
 
-    /*    mcscale_HT_=  51.26247;
+    mcscale_HT_=  51.26247;
     mcscale_SingleMu_= 50.00191;
-    mcscale_DiMu_= 50.00191;*/
+    mcscale_DiMu_= 50.00191;
 
     //period ABC. Sep 24
-    mcscale_HT_=  116.59247;
+    /*    mcscale_HT_=  116.59247;
     mcscale_SingleMu_= 113.89191;
-    mcscale_DiMu_= 113.89191;
+    mcscale_DiMu_= 113.89191;*/
   }
 
   //Aug 24

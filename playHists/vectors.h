@@ -57,6 +57,9 @@ class vectors{
   vector<double> SingleMuTrigEff_pushback(TString sTreeThr);
   vector<double> HTATTrigEff_pushback(TString sTreeThr);
   vector<double> nominaltrigeff_pushback(TString sTreeThr);
+  TString getDir( int whichpart, bool MuAddOrNot);
+  vector<TFile*> getMCvf( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, bool MuAddOrNot );
+  vector<TString> getVdirname( int whichpart, TString HTBins, TString MuonNumber, TString FolderLabel, bool MuAddOrNot );
 
   vector<TFile*> vf;
   vector<TFile*> vfdata;

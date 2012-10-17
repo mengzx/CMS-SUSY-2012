@@ -27,17 +27,57 @@ using namespace std;
 
 QCDk::QCDk(){}
 
-TH1D* QCDk::getTailBulk( TString label, TString hname, int startNJet, int nJets, double lowy, double highy, bool HTto1075, TString DataSet) {
+vector<TFile*> QCDk::MCvfSM(){
+  vector<TFile*> mcvf=MCvf_pushback(inidir_+"rootfiles/hadronicSele"+subdir_, "", "HadSele", "all", false, "");
+  vector<TFile*> mcvfqcd=MCvf_pushback(inidir_+"rootfiles/hadronicSele"+subdir_, "", "HadSele", "all", true, "QCD_80plus");
+  mcvf.push_back(mcvfqcd[0]);
+  mcvf.push_back(mcvfqcd[1]);
+  mcvf.push_back(mcvfqcd[2]);
+  return mcvf;
+}
+vector<TFile*> QCDk::MCvfEWK(){
+  vector<TFile*> mcvf=MCvf_pushback(inidir_+"rootfiles/hadronicSele"+subdir_, "", "HadSele", "all", false, "");
+  return mcvf;
+}
+vector<TFile*> QCDk::MCvfTT(){
+  vector<TFile*> mcvf=MCvf_pushback(inidir_+"rootfiles/hadronicSele"+subdir_, "", "HadSele", "all", true, "TT");
+  return mcvf;
+}
+vector<TFile*> QCDk::MCvfQCD(){
+  vector<TFile*> mcvf=MCvf_pushback(inidir_+"rootfiles/hadronicSele"+subdir_, "", "HadSele", "all", true, "QCD_80plus");
+  return mcvf;
+}
+
+vector<TFile*> QCDk::Datavf(){
+  vector<TFile*> mcvf=Datavf_pushback(inidir_+"rootfiles/hadronicSele"+subdir_, QCDDataSet_, "HadSele", "all");
+  return mcvf;
+}
+
+TH1D* QCDk::getTailBulk( TString label, TString hname, int startNJet, int nJets, double lowy, double highy, bool HTto1075, TString DataSet, TString samples ) {
   playHist2D hf2d=playHist2D();
   playHist1D hf1d=playHist1D();
   project2DHists pf=project2DHists();
   vector<TFile*> invf;
-  TFile *f1=new TFile(inidir_+"rootfiles/hadronicSele"+subdir_+"/"+DataSet+"_PUS0LowHTBinsHadSele275.root");
-  TFile *f2=new TFile(inidir_+"rootfiles/hadronicSele"+subdir_+"/"+DataSet+"_PUS0LowHTBinsHadSele325.root");
-  TFile *f3=new TFile(inidir_+"rootfiles/hadronicSele"+subdir_+"/"+DataSet+"_PUS0HigHTBinsHadSele.root");
-  invf.push_back(f1);
-  invf.push_back(f2);
-  invf.push_back(f3);
+  int isdata=DataSet.Index("Data");
+  if( (int)(isdata) >= 0 ){
+    invf=Datavf();
+  }
+  if( (int)(isdata) < 0 && samples == "SM" ){
+    invf=MCvfSM();
+  } 
+
+  if( (int)(isdata) < 0 && samples == "EWK" ){
+    invf=MCvfEWK();
+  }
+
+  if( (int)(isdata) < 0 && samples == "TT" ){
+    invf=MCvfTT();
+  }
+
+  if( (int)(isdata) < 0 && samples == "QCD" ){
+    invf=MCvfQCD();
+  }
+
   vector<TString> vdirname;
   vdirname.push_back(label+"275_325");
   vdirname.push_back(label+"325_375");
@@ -51,10 +91,8 @@ TH1D* QCDk::getTailBulk( TString label, TString hname, int startNJet, int nJets,
   vector<TString> vhname;
   if( startNJet == 0 ){
     vhname.push_back(hname+"all" );
-      cout<<hname+"all"<<endl;
   } else {
     for( int i=startNJet; i< startNJet+nJets; i++){
-      cout<<Form( "%s%i", hname.Data(), i )<<endl;
       vhname.push_back(Form( "%s%i", hname.Data(), i ) );
     }
   }
@@ -68,33 +106,42 @@ TH1D* QCDk::getTailBulk( TString label, TString hname, int startNJet, int nJets,
   TH1D* formathT=hf1d.formatHist(hTalphaTSlices, 1, "", "" , 275., 974.9999, 1 );
   return formathT;
   }
+
 }
 
-void QCDk::getBulkYield( int startNJet, int nJets, double higAT, bool HTto1075, TString DataSet, TString jetmulti ){
+void QCDk::getBulkYield( int startNJet, int nJets, double higAT, bool HTto1075, TString DataSet, TString jetmulti, TString samples ){
   TString hist="";
-  TString histW="";
   if( HTto1075 ){
     hist="to1075_";
-    histW="to1075";
   } else {
     hist="";
-    histW="";
   }
-  TH1D *bulk1=getTailBulk( jetmulti+"preselection_", "AlphaT_vs_HT_CommJetgeq2_"+hist+"h_", startNJet, nJets, 0., higAT, HTto1075, DataSet );
-  TH1D *weightedht=getTailBulk( jetmulti+"preselection_", "AlphaT_vs_HT_CommJetgeq2_HTWeighted_"+histW+"h_", startNJet, nJets, 0., higAT, HTto1075, DataSet );
+
+  TH1D *bulk1=getTailBulk( jetmulti+"preselection_", "AlphaT_vs_HT_CommJetgeq2_"+hist+"h_", startNJet, nJets, 0., higAT, HTto1075, DataSet, samples );
+  TH1D *weightedht=getTailBulk( jetmulti+"preselection_", "AlphaT_vs_HT_CommJetgeq2_HTWeighted_"+hist+"h_", startNJet, nJets, 0., higAT, HTto1075, DataSet, samples );
+
+  int isdata=DataSet.Index("Data");
+  TString samplesname="";
+  if( (int)(isdata) >= 0 ){
+    samplesname="";
+  } else {
+    samplesname="_"+samples;
+  }
+
+
   FILE * outputfile;
   char buffer[100];
   if( useBTag_ ){
     if( HTto1075 ) {
-      sprintf (buffer, "BulkYield_%s%iTo%ib_AT%.2f_HTto1075_DataSet%s.txt", jetmulti.Data(), startNJet-1, startNJet+nJets-2, higAT, DataSet.Data() );
+      sprintf (buffer, "BulkYield_%s%iTo%ib_AT%.2f_HTto1075_DataSet%s%s.txt", jetmulti.Data(), startNJet-1, startNJet+nJets-2, higAT, DataSet.Data(), samplesname.Data() );
     } else {
-      sprintf (buffer, "BulkYield_%s%iTo%ib_AT%.2f_DataSet%s.txt", jetmulti.Data(), startNJet-1, startNJet+nJets-2, higAT, DataSet.Data() );
+      sprintf (buffer, "BulkYield_%s%iTo%ib_AT%.2f_DataSet%s%s.txt", jetmulti.Data(), startNJet-1, startNJet+nJets-2, higAT, DataSet.Data(), samplesname.Data() );
     }
   } else {
     if( HTto1075 ) {
-      sprintf (buffer, "BulkYield_%iTo%ij_AT%.2f_HTto1075_DataSet%s.txt", startNJet, startNJet+nJets-1, higAT, DataSet.Data() );
+      sprintf (buffer, "BulkYield_%iTo%ij_AT%.2f_HTto1075_DataSet%s%s.txt", startNJet, startNJet+nJets-1, higAT, DataSet.Data(), samplesname.Data() );
     } else {
-      sprintf (buffer, "BulkYield_%iTo%ij_AT%.2f_DataSet%s.txt", startNJet, startNJet+nJets-1, higAT, DataSet.Data() );
+      sprintf (buffer, "BulkYield_%iTo%ij_AT%.2f_DataSet%s%s.txt", startNJet, startNJet+nJets-1, higAT, DataSet.Data(), samplesname.Data() );
     }
   }
   outputfile = fopen (buffer,"w");
@@ -143,17 +190,49 @@ void QCDk::getBulkYield( int startNJet, int nJets, double higAT, bool HTto1075, 
     }
   }
   fclose( outputfile );
+  closefV();
+
 }
 
-TH1D* QCDk::getRATvsHT( TString label, int startNJet, int nJets, double lowy, double highy, double lowybulk, bool HTto1075, TString DataSet ){
-  TH1D *tail=getTailBulk( label, "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, lowy, highy, HTto1075, DataSet );
-  TH1D *bulk=getTailBulk( label, "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, 0, lowybulk, HTto1075, DataSet );
-  TH1D *tailoverbulk=(TH1D*)(tail->Clone("tailoverbulk"));
-  tailoverbulk->Divide(tailoverbulk,bulk);
-  return tailoverbulk;
+TH1D* QCDk::getRATvsHT( TString label, int startNJet, int nJets, double lowy, double highy, double lowybulk, bool HTto1075, TString DataSet, TString samples, TString jetmulti, TString bulksample ){
+
+  TH1D *tail=getTailBulk( jetmulti+label, "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, lowy, highy, HTto1075, DataSet, samples );
+  int isdata=DataSet.Index("Data");
+  int isSM=bulksample.Index("OverSM");
+  if( (int)(isSM) >= 0 && (int)(isdata) < 0 ){
+    TH1D *bulk=getTailBulk( jetmulti+"preselection_", "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, 0, lowybulk, HTto1075, DataSet, "SM" );
+    TH1D *tailoverbulk=(TH1D*)(tail->Clone("tailoverbulk"));
+    tailoverbulk->Divide(tailoverbulk,bulk);
+    return tailoverbulk;
+  } else {
+    TH1D *bulk=getTailBulk( jetmulti+"preselection_", "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, 0, lowybulk, HTto1075, DataSet, samples );
+    TH1D *tailoverbulk=(TH1D*)(tail->Clone("tailoverbulk"));
+    tailoverbulk->Divide(tailoverbulk,bulk);
+    return tailoverbulk;
+  }
 }
 
-void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output, bool HTto1075, TString DataSet, TString jetmulti ){
+void QCDk::getBulkHist( int startNJet, int nJets, bool HTto1075, TString DataSet, TString jetmulti, TString samples ){
+  TH1D *bulk=getTailBulk( jetmulti+"preselection_", "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, 0, 0.5, HTto1075, DataSet, samples );
+  TCanvas *c1=new TCanvas();
+  bulk->Draw();
+  int isdata=DataSet.Index("Data");
+  TString samplesname="";
+  if( (int)(isdata) >= 0 ){
+    samplesname="";
+  } else {
+    samplesname="_"+samples;
+  }
+  c1->SaveAs(Form("Bulk_%spreselection_%iTo%ib_DataSet%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, DataSet.Data(), samplesname.Data(), epspng_.Data() ) );
+  delete c1;
+}
+
+TH1D* QCDk::getYieldHist( TString label, int startNJet, int nJets, double lowy, double highy, bool HTto1075, TString DataSet, TString samples, TString jetmulti ){
+  TH1D *tail=getTailBulk( jetmulti+label, "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, lowy, highy, HTto1075, DataSet, samples );
+  return tail;
+}
+
+vector<double> QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output, bool HTto1075, TString DataSet, TString jetmulti, TString samples, TString bulksample ){
   TCanvas *c1=new TCanvas("c1","c1",600,700);
   TPad *pad1=new TPad("pad1","",0,0,1,1);
   pad1->Draw();
@@ -168,7 +247,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
   double lowy=0.;
   double highy=0.;
   double lowybulk=0.;
-  //  TString output="_LowAT0.5";
+  //  TString output="_LowAT05";
   //  TString output="";
   if( region == "B0" ){
     label="";
@@ -176,7 +255,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.51;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -187,7 +266,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.52;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -198,7 +277,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.55;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -209,7 +288,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=10;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.55;
     }
   } 
@@ -220,7 +299,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.51;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -231,7 +310,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.52;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -242,7 +321,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.53;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -253,7 +332,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.54;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -264,7 +343,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.55;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -275,7 +354,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=10.;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=lowy;
     }
   } 
@@ -286,7 +365,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.51;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -297,7 +376,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.52;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -308,7 +387,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.53;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -319,7 +398,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.54;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -330,7 +409,7 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=0.55;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=0.5;
     }
   } 
@@ -341,12 +420,12 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
     highy=10.;
     if( output == "" ){
       lowybulk=lowy;
-    } else if( output == "_LowAT0.5") {
+    } else if( output == "_LowAT05") {
       lowybulk=lowy;
     }
   } 
 
-  TH1D *ratio=getRATvsHT(jetmulti+label, startNJet, nJets, lowy, highy, lowybulk, HTto1075, DataSet);
+  TH1D *ratio=getRATvsHT(label, startNJet, nJets, lowy, highy, lowybulk, HTto1075, DataSet, samples, jetmulti, bulksample);
   ratio->SetLineColor(1);
   ratio->GetXaxis()->SetTitle("H_{T} (GeV)");
   ratio->GetYaxis()->SetTitle("R_{#alpha_{T}}");
@@ -365,20 +444,30 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
   ratio->Fit(fit,"R");
   ratio->Draw("same");
 
+  int isdata=DataSet.Index("Data");
+  TString samplesname="";
+  if( (int)(isdata) >= 0 ){
+    samplesname="";
+  } else {
+    samplesname="_"+samples;
+  }
 
+  vector<double> rek;
+
+  if( !getFitParak_ ){
   FILE * outputfile;
   char buffer[100];
   if(useBTag_){
     if( HTto1075 ) {
-      sprintf (buffer, "%s_%s%iTo%ib%s_HTto1075_DataSet%s.txt", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data() );
+      sprintf (buffer, "%s_%s%iTo%ib%s_HTto1075_DataSet%s%s%s.txt", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data() );
     } else {
-      sprintf (buffer, "%s_%s%iTo%ib%s_DataSet%s.txt", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data() );
+      sprintf (buffer, "%s_%s%iTo%ib%s_DataSet%s%s%s.txt", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data() );
     }
   } else {
     if( HTto1075 ) {
-      sprintf (buffer, "%s_%iTo%ij%s_HTto1075_DataSet%s.txt", region.Data(), startNJet, startNJet+nJets-1, output.Data(), DataSet.Data() );
+      sprintf (buffer, "%s_%iTo%ij%s_HTto1075_DataSet%s%s%s.txt", region.Data(), startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data() );
     } else {
-      sprintf (buffer, "%s_%iTo%ij%s_DataSet%s.txt", region.Data(), startNJet, startNJet+nJets-1, output.Data(), DataSet.Data() );
+      sprintf (buffer, "%s_%iTo%ij%s_DataSet%s%s%s.txt", region.Data(), startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data() );
     }
   }
   outputfile = fopen (buffer,"w");
@@ -402,46 +491,340 @@ void QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TString output,
   fclose(outputfile);
   ratio->Draw("e1");
 
+  TLegend *len1=new TLegend(0.3, 0.95, 0.92, 0.99);
+  len1->SetColumnSeparation(0.2);
+  len1->SetFillColor(0);
+  len1->SetMargin(0.2);
+  len1->SetLineColor(0);
+  len1->SetBorderSize(0);
+  len1->SetTextAlign(22);
+  len1->AddEntry("", Form("%s,  #alpha_{T} (%.2f,  %.2f)", region.Data(), lowy, highy), "");
+  len1->Draw();
+
+  TLegend *len2=new TLegend(0.1, 0.01, 0.75, 0.05);
+  len2->SetColumnSeparation(0.2);
+  len2->SetFillColor(0);
+  len2->SetMargin(0.2);
+  len2->SetLineColor(0);
+  len2->SetBorderSize(0);
+  len2->SetTextAlign(22);
+  len2->AddEntry("", Form("b-tag (%i, %i), bulk (0, %.2f)", startNJet-1, startNJet+nJets-2, lowybulk), "");
+  len2->Draw();
+
   if( useBTag_){
     if( HTto1075 ) {
-      c1->SaveAs(Form("%s_%s%iTo%ib%s_HTto1075_DataSet%s.eps", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data() ));
-      c1->SaveAs(Form("%s_%s%iTo%ib%s_HTto1075_DataSet%s.png", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data() ));
+      pad1->SaveAs(Form("%s_%s%iTo%ib%s_HTto1075_DataSet%s%s%s.%s", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
     } else {
-      c1->SaveAs(Form("%s_%s%iTo%ib%s_DataSet%s.eps", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data() ));
-      c1->SaveAs(Form("%s_%s%iTo%ib%s_DataSet%s.png", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data() ));
+      pad1->SaveAs(Form("%s_%s%iTo%ib%s_DataSet%s%s%s.%s", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
     }
   } else {
     if( HTto1075 ) {
-      c1->SaveAs(Form("%s_%iTo%ij%s_HTto1075_DataSet%s.eps", region.Data(), startNJet, startNJet+nJets-1, output.Data(), DataSet.Data() ));
-      c1->SaveAs(Form("%s_%iTo%ij%s_HTto1075_DataSet%s.png", region.Data(), startNJet, startNJet+nJets-1, output.Data(), DataSet.Data() ));
+      pad1->SaveAs(Form("%s_%iTo%ij%s_HTto1075_DataSet%s%s%s.%s", region.Data(), startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
     } else {
-      c1->SaveAs(Form("%s_%iTo%ij%s_DataSet%s.eps", region.Data(), startNJet, startNJet+nJets-1, output.Data(), DataSet.Data() ));
-      c1->SaveAs(Form("%s_%iTo%ij%s_DataSet%s.png", region.Data(), startNJet, startNJet+nJets-1, output.Data(), DataSet.Data() ));
+      pad1->SaveAs(Form("%s_%iTo%ij%s_DataSet%s%s%s.%s", region.Data(), startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
     }
   }
-  c1->Update();
+
+  TH1D *yield= getYieldHist( label, startNJet, nJets, lowy, highy, HTto1075, DataSet, samples, jetmulti);
+  yield->Draw();
+  if( useBTag_){
+    if( HTto1075 ) {
+      pad1->SetLogy(0);
+      pad1->SaveAs(Form("Yield_%s_%s%iTo%ib_HTto1075_DataSet%s%s.%s", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, DataSet.Data(), samplesname.Data(), epspng_.Data() ) );
+      pad1->SetLogy(1);
+      pad1->SaveAs(Form("Yield_%s_%s%iTo%ib_HTto1075_DataSet%s%s_log.%s", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, DataSet.Data(), samplesname.Data(), epspng_.Data() ) );
+    } else {
+      pad1->SetLogy(0);
+      pad1->SaveAs(Form("Yield_%s_%s%iTo%ib_DataSet%s%s.%s", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, DataSet.Data(), samplesname.Data(), epspng_.Data() ) );
+      pad1->SetLogy(1);
+      pad1->SaveAs(Form("Yield_%s_%s%iTo%ib_DataSet%s%s_log.%s", region.Data(), jetmulti.Data(), startNJet-1, startNJet+nJets-2, DataSet.Data(), samplesname.Data(), epspng_.Data() ) );
+    }
+  } else {
+    if( HTto1075 ) {
+      pad1->SetLogy(0);
+      pad1->SaveAs(Form("Yield_%s_%iTo%ij_HTto1075_DataSet%s%s.%s", region.Data(), startNJet-1, startNJet+nJets-2, DataSet.Data(), samplesname.Data(), epspng_.Data() ) );
+      pad1->SetLogy(1);
+      pad1->SaveAs(Form("Yield_%s_%iTo%ij_HTto1075_DataSet%s%s_log.%s", region.Data(), startNJet-1, startNJet+nJets-2, DataSet.Data(), samplesname.Data(), epspng_.Data() ) );
+    } else {
+      pad1->SetLogy(0);
+      pad1->SaveAs(Form("Yield_%s_%iTo%ij_DataSet%s%s.%s", region.Data(), startNJet-1, startNJet+nJets-2, DataSet.Data(), samplesname.Data(), epspng_.Data() ) );
+      pad1->SetLogy(1);
+      pad1->SaveAs(Form("Yield_%s_%iTo%ij_DataSet%s%s_log.%s", region.Data(), startNJet-1, startNJet+nJets-2, DataSet.Data(), samplesname.Data(), epspng_.Data() ) );
+    }
+  }
+  delete len1;
+  delete len2;
+
+  } else {
+
+  rek.push_back( fit->GetParameter(1) );
+  rek.push_back( fit->GetParError(1) );
+  }
+
+  delete pad1;
   delete c1;
+  delete fit;
+  closefV();
+
+  return rek;
+
 }
 
-void QCDk::getResults( TString output, int startNJet, int nJets, double higAT, bool HTto1075, TString DataSet, TString jetmulti ){
 
-  fitRATvsHT("B0", startNJet, nJets, "", HTto1075, DataSet, jetmulti );
-  fitRATvsHT("B1", startNJet, nJets, "", HTto1075, DataSet, jetmulti );
-  fitRATvsHT("B2", startNJet, nJets, "", HTto1075, DataSet, jetmulti );
-  fitRATvsHT("Signal", startNJet, nJets, "", HTto1075, DataSet, jetmulti );
-  /*  fitRATvsHT("C1", startNJet, nJets, output, HTto1075, DataSet, jetmulti );
-  fitRATvsHT("C2", startNJet, nJets, output, HTto1075, DataSet, jetmulti );
-  fitRATvsHT("C3", startNJet, nJets, output, HTto1075, DataSet, jetmulti );
-  fitRATvsHT("C4", startNJet, nJets, output, HTto1075, DataSet, jetmulti );
-  fitRATvsHT("C5", startNJet, nJets, output, HTto1075, DataSet, jetmulti );
-  fitRATvsHT("D", startNJet, nJets, "", HTto1075, DataSet );*/
-  fitRATvsHT("C0_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti );
-  fitRATvsHT("C1_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti );
-  fitRATvsHT("C2_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti );
-  fitRATvsHT("C3_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti );
-  fitRATvsHT("C4_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti );
-  fitRATvsHT("D_ReverseMHToverMHT", startNJet, nJets, "", HTto1075, DataSet, jetmulti );
+void QCDk::getParakFit( TString output, int startNJet, int nJets, double higAT, bool HTto1075, TString DataSet, TString jetmulti, TString samples, TString bulksample ){
 
-  getBulkYield(startNJet, nJets, higAT, HTto1075, DataSet, jetmulti);
+  vector<double> B0=  fitRATvsHT("B0", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> B1=  fitRATvsHT("B1", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> B2=  fitRATvsHT("B2", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> Signal=  fitRATvsHT("Signal", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C0=  fitRATvsHT("C0", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C1=  fitRATvsHT("C1", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C2=  fitRATvsHT("C2", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C3=  fitRATvsHT("C3", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C4=  fitRATvsHT("C4", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> D=  fitRATvsHT("D", startNJet, nJets, "", HTto1075, DataSet, jetmulti, samples, bulksample );
+
+  vector<double> C0_ReverseMHToverMHT=  fitRATvsHT("C0_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C1_ReverseMHToverMHT=  fitRATvsHT("C1_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C2_ReverseMHToverMHT=  fitRATvsHT("C2_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C3_ReverseMHToverMHT=  fitRATvsHT("C3_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C4_ReverseMHToverMHT=  fitRATvsHT("C4_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> D_ReverseMHToverMHT=  fitRATvsHT("D_ReverseMHToverMHT", startNJet, nJets, "", HTto1075, DataSet, jetmulti, samples, bulksample );
+
+
+  TH1D *hB=new TH1D("hB", "hB", 4, 0, 4);
+  TH1D *hC=new TH1D("hC", "hC", 6, 0, 6);
+  TH1D *hCR=new TH1D("hCR", "hCR", 6, 0, 6);
+  hB->SetLineColor(1);
+  hB->GetYaxis()->SetTitle("Parameter k");
+  hB->GetYaxis()->SetTitleOffset(1.8);
+  hB->GetYaxis()->SetLabelSize(19);
+  hB->GetYaxis()->SetTitleSize(0.05);
+  hB->GetXaxis()->SetLabelSize(19);
+  hB->GetXaxis()->SetLabelFont(63);
+  hB->GetYaxis()->SetLabelFont(63);
+  hC->SetLineColor(1);
+  hC->GetYaxis()->SetTitle("Parameter k");
+  hC->GetYaxis()->SetTitleOffset(1.8);
+  hC->GetYaxis()->SetLabelSize(19);
+  hC->GetYaxis()->SetTitleSize(0.05);
+  hC->GetXaxis()->SetLabelSize(19);
+  hC->GetXaxis()->SetLabelFont(63);
+  hC->GetYaxis()->SetLabelFont(63);
+  hCR->SetLineColor(1);
+  hCR->GetYaxis()->SetTitle("Parameter k");
+  hCR->GetYaxis()->SetTitleOffset(1.8);
+  hCR->GetYaxis()->SetLabelSize(19);
+  hCR->GetYaxis()->SetTitleSize(0.05);
+  hCR->GetXaxis()->SetLabelSize(19);
+  hCR->GetXaxis()->SetLabelFont(63);
+  hCR->GetYaxis()->SetLabelFont(63);
+
+  hB->GetXaxis()->SetBinLabel(1, "B0");
+  hB->GetXaxis()->SetBinLabel(2, "B0");
+  hB->GetXaxis()->SetBinLabel(3, "B0");
+  hB->GetXaxis()->SetBinLabel(4, "B0");
+  hB->SetBinContent(1, B0[0]);
+  hB->SetBinContent(2, B1[0]);
+  hB->SetBinContent(3, B2[0]);
+  hB->SetBinContent(4, Signal[0]);
+  hB->SetBinError(1, B0[1]);
+  hB->SetBinError(2, B1[1]);
+  hB->SetBinError(3, B2[1]);
+  hB->SetBinError(4, Signal[1]);
+
+  hC->GetXaxis()->SetBinLabel(1, "C0");
+  hC->GetXaxis()->SetBinLabel(2, "C1");
+  hC->GetXaxis()->SetBinLabel(3, "C2");
+  hC->GetXaxis()->SetBinLabel(4, "C3");
+  hC->GetXaxis()->SetBinLabel(5, "C4");
+  hC->GetXaxis()->SetBinLabel(6, "D");
+
+  hC->SetBinContent(1, C0[0]);
+  hC->SetBinContent(2, C1[0]);
+  hC->SetBinContent(3, C2[0]);
+  hC->SetBinContent(4, C3[0]);
+  hC->SetBinContent(5, C4[0]);
+  hC->SetBinContent(6, D[0]);
+  hC->SetBinError(1, C0[1]);
+  hC->SetBinError(2, C1[1]);
+  hC->SetBinError(3, C2[1]);
+  hC->SetBinError(4, C3[1]);
+  hC->SetBinError(5, C4[1]);
+  hC->SetBinError(6, D[1]);
+
+  hCR->GetXaxis()->SetBinLabel(1, "C0");
+  hCR->GetXaxis()->SetBinLabel(2, "C1");
+  hCR->GetXaxis()->SetBinLabel(3, "C2");
+  hCR->GetXaxis()->SetBinLabel(4, "C3");
+  hCR->GetXaxis()->SetBinLabel(5, "C4");
+  hCR->GetXaxis()->SetBinLabel(6, "D");
+
+  hCR->SetBinContent(1, C0_ReverseMHToverMHT[0]);
+  hCR->SetBinContent(2, C1_ReverseMHToverMHT[0]);
+  hCR->SetBinContent(3, C2_ReverseMHToverMHT[0]);
+  hCR->SetBinContent(4, C3_ReverseMHToverMHT[0]);
+  hCR->SetBinContent(5, C4_ReverseMHToverMHT[0]);
+  hCR->SetBinContent(6, D_ReverseMHToverMHT[0]);
+  hCR->SetBinError(1, C0_ReverseMHToverMHT[1]);
+  hCR->SetBinError(2, C1_ReverseMHToverMHT[1]);
+  hCR->SetBinError(3, C2_ReverseMHToverMHT[1]);
+  hCR->SetBinError(4, C3_ReverseMHToverMHT[1]);
+  hCR->SetBinError(5, C4_ReverseMHToverMHT[1]);
+  hCR->SetBinError(6, D_ReverseMHToverMHT[1]);
+
+  TCanvas *c1=new TCanvas("c1","c1",600,700);
+  TPad *pad1=new TPad("pad1","",0,0,1,1);
+  pad1->Draw();
+  pad1->cd();
+  pad1->SetLeftMargin(0.2);
+  pad1->SetTopMargin(0.06);
+  pad1->SetBottomMargin(0.1);
+  pad1->SetRightMargin(0.04);
+  pad1->SetTickx();
+
+
+  int isdata=DataSet.Index("Data");
+  TString samplesname="";
+  if( (int)(isdata) >= 0 ){
+    samplesname="";
+  } else {
+    samplesname="_"+samples;
+  }
+
+  TLegend *len2=new TLegend(0.1, 0.01, 0.75, 0.05);
+  len2->SetColumnSeparation(0.2);
+  len2->SetFillColor(0);
+  len2->SetMargin(0.2);
+  len2->SetLineColor(0);
+  len2->SetBorderSize(0);
+  len2->SetTextAlign(22);
+  len2->AddEntry("", Form("b-tag (%i, %i)", startNJet-1, startNJet+nJets-2), "");
+
+  TLegend *len1=new TLegend(0.3, 0.95, 0.92, 0.99);
+  len1->SetColumnSeparation(0.2);
+  len1->SetFillColor(0);
+  len1->SetMargin(0.2);
+  len1->SetLineColor(0);
+  len1->SetBorderSize(0);
+  len1->SetTextAlign(22);
+
+  TF1* fit = new TF1("fit","pol1",1,3);
+  TF1* fit1 = new TF1("fit1","pol1",1,4);
+  fit1->SetLineColor(4);
+
+  hB->Draw();
+  //  hB->Fit(fit,"R");
+  hB->Fit(fit1,"R");
+  hB->Draw("same");
+  fit1->Draw("same");
+  //  fit->Draw("same");
+  len1->AddEntry("", "Region B", "");
+  len1->Draw();
+  len2->Draw();
+  if( useBTag_){
+    if( HTto1075 ) {
+      pad1->SaveAs(Form("kParaB_%s%iTo%ib%s_HTto1075_DataSet%s%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    } else {
+      pad1->SaveAs(Form("kParaB_%s%iTo%ib%s_DataSet%s%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    }
+  } else {
+    if( HTto1075 ) {
+      pad1->SaveAs(Form("kParaB_%iTo%ij%s_HTto1075_DataSet%s%s%s.%s", startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    } else {
+      pad1->SaveAs(Form("kParaB_%iTo%ij%s_DataSet%s%s%s.%s", startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    }
+  }
+
+
+
+  TF1* fitC = new TF1("fitC","pol1",1,5);
+  TF1* fitC1 = new TF1("fitC1","pol1",1,6);
+  fitC1->SetLineColor(4);
+  hC->Draw();
+  //  hC->Fit(fitC,"R");
+  hC->Fit(fitC1,"R");
+  hC->Draw("same");
+  fitC1->Draw("same");
+  // fitC->Draw("same");
+  len1->Clear();
+  len1->AddEntry("", "Region C", "");
+  len1->Draw();
+  len2->Draw();
+  if( useBTag_){
+    if( HTto1075 ) {
+      pad1->SaveAs(Form("kParaC_%s%iTo%ib%s_HTto1075_DataSet%s%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    } else {
+      pad1->SaveAs(Form("kParaC_%s%iTo%ib%s_DataSet%s%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    }
+  } else {
+    if( HTto1075 ) {
+      pad1->SaveAs(Form("kParaC_%iTo%ij%s_HTto1075_DataSet%s%s%s.%s", startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    } else {
+      pad1->SaveAs(Form("kParaC_%iTo%ij%s_DataSet%s%s%s.%s", startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    }
+  }
+
+
+  fitC1->SetLineColor(4);
+  hCR->Draw();
+  //  hCR->Fit(fitC,"R");
+  hCR->Fit(fitC1,"R");
+  hCR->Draw("same");
+  fitC1->Draw("same");
+  //  fitC->Draw("same");
+  len1->Clear();
+  len1->AddEntry("", "Region C_ReverseMHToverMHT", "");
+  len1->Draw();
+  len2->Draw();
+  if( useBTag_){
+    if( HTto1075 ) {
+      pad1->SaveAs(Form("kParaC_ReverseMHToverMHT_%s%iTo%ib%s_HTto1075_DataSet%s%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    } else {
+      pad1->SaveAs(Form("kParaC_ReverseMHToverMHT_%s%iTo%ib%s_DataSet%s%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    }
+  } else {
+    if( HTto1075 ) {
+      pad1->SaveAs(Form("kParaC_ReverseMHToverMHT_%iTo%ij%s_HTto1075_DataSet%s%s%s.%s", startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    } else {
+      pad1->SaveAs(Form("kParaC_ReverseMHToverMHT_%iTo%ij%s_DataSet%s%s%s.%s", startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+    }
+  }
+
+  delete pad1;
+  delete c1;
+  delete hB;
+  delete hC;
+  delete hCR;
+  delete fit;
+  delete fit1;
+  delete fitC;
+  delete fitC1;
+}
+
+void QCDk::getResults( TString output, int startNJet, int nJets, double higAT, bool HTto1075, TString DataSet, TString jetmulti, TString samples, TString bulksample ){
+
+  vector<double> B0=  fitRATvsHT("B0", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> B1=  fitRATvsHT("B1", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> B2=  fitRATvsHT("B2", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> Signal=  fitRATvsHT("Signal", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C0=  fitRATvsHT("C0", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C1=  fitRATvsHT("C1", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C2=  fitRATvsHT("C2", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C3=  fitRATvsHT("C3", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C4=  fitRATvsHT("C4", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> D=  fitRATvsHT("D", startNJet, nJets, "", HTto1075, DataSet, jetmulti, samples, bulksample );
+
+  vector<double> C0_ReverseMHToverMHT=  fitRATvsHT("C0_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C1_ReverseMHToverMHT=  fitRATvsHT("C1_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C2_ReverseMHToverMHT=  fitRATvsHT("C2_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C3_ReverseMHToverMHT=  fitRATvsHT("C3_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> C4_ReverseMHToverMHT=  fitRATvsHT("C4_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
+  vector<double> D_ReverseMHToverMHT=  fitRATvsHT("D_ReverseMHToverMHT", startNJet, nJets, "", HTto1075, DataSet, jetmulti, samples, bulksample );
+
+
+  getBulkHist( startNJet, nJets, HTto1075, DataSet, jetmulti, samples );
+
+  getBulkYield(startNJet, nJets, higAT, HTto1075, DataSet, jetmulti, samples );
 
 }
