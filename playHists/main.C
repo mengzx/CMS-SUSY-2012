@@ -47,8 +47,13 @@ int main( int argc, char* argv[] )
     jetmulti.push_back("");
     jetmulti.push_back("TwoThreeJet_");
     jetmulti.push_back("MoreThreeJet_");
+    vector<int> folder_n;
+    folder_n.push_back(10);
+    folder_n.push_back(10);
+    folder_n.push_back(3);
     for( unsigned int i=0; i< jetmulti.size(); i++){
       for( int j=start; j<end; j++ ){
+	if( ( nb[j] ) > folder_n[i] ) continue;
 	bg->printout( "HadSele", nb[j], taucompo, jetmulti[i] );
 	bg->printout( "MuonSingleMuTrig", nb[j], taucompo, jetmulti[i] );
       }
@@ -63,8 +68,8 @@ int main( int argc, char* argv[] )
     int end = 4;
     bool HTto1075=false;
     vector<TString> DataSet;
-    //    DataSet.push_back("DataJetHT2012");
-    DataSet.push_back("MC");
+    DataSet.push_back("DataJetHT2012");
+    //    DataSet.push_back("MC");
 
     vector<TString> jetmulti;
     //    jetmulti.push_back("");
@@ -73,15 +78,15 @@ int main( int argc, char* argv[] )
 
     vector<TString> samples;
     samples.push_back("EWK");
-    //    samples.push_back("SM");
-    //    samples.push_back("TT");
-    //    samples.push_back("QCD");
+    samples.push_back("SM");
+    samples.push_back("TT");
+    samples.push_back("QCD");
 
     QCDk *qcdk=new QCDk();
 
     menus *listmenus=new menus();
-    TString bulksample="OverSM";
-    //    TString bulksample="";
+   TString bulksample="OverSM";
+   //    TString bulksample="";
     for( int i=start; i< end; i++ ){
       for( unsigned int ij =0; ij<jetmulti.size(); ij++){
 	for( unsigned int isa = 0; isa < DataSet.size(); isa ++ ){
@@ -167,9 +172,10 @@ int main( int argc, char* argv[] )
 //    folder.push_back("MoreFourJet_");
     folder.push_back("TwoThreeJet_");
     vector<TString> HTBins;
-    HTBins.push_back("all");
-    HTBins.push_back("lowHTBins");
-    HTBins.push_back("highHTBins");
+    //    HTBins.push_back("all");
+    //    HTBins.push_back("lowHTBins");
+    //    HTBins.push_back("highHTBins");
+    HTBins.push_back("73");
     vector<int> folder_n;
     folder_n.push_back(10);
     /*    folder_n.push_back(2);
@@ -183,7 +189,7 @@ int main( int argc, char* argv[] )
     int startNJet[16]={2, 3, 2, 4, 4, 5, 6, 0, 1, 2, 3, 4, 5, 5, 2, 4};
     int nJet[16]     ={1, 1, 2, n-4+2, 1, 1, 1, 0, 1, 1, 1, 1, 1, n-5+2, n-2+2, n-4+2 };
     int start = 7;
-    int end = 8;
+    int end = 16;
 
     menus *listmenus=new menus();
     if( !(listmenus->useBTag_) ){

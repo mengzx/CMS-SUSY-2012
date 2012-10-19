@@ -591,7 +591,6 @@ void QCDk::getParakFit( TString output, int startNJet, int nJets, double higAT, 
   vector<double> C4_ReverseMHToverMHT=  fitRATvsHT("C4_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample );
   vector<double> D_ReverseMHToverMHT=  fitRATvsHT("D_ReverseMHToverMHT", startNJet, nJets, "", HTto1075, DataSet, jetmulti, samples, bulksample );
 
-
   TH1D *hB=new TH1D("hB", "hB", 4, 0, 4);
   TH1D *hC=new TH1D("hC", "hC", 6, 0, 6);
   TH1D *hCR=new TH1D("hCR", "hCR", 6, 0, 6);
@@ -621,9 +620,9 @@ void QCDk::getParakFit( TString output, int startNJet, int nJets, double higAT, 
   hCR->GetYaxis()->SetLabelFont(63);
 
   hB->GetXaxis()->SetBinLabel(1, "B0");
-  hB->GetXaxis()->SetBinLabel(2, "B0");
-  hB->GetXaxis()->SetBinLabel(3, "B0");
-  hB->GetXaxis()->SetBinLabel(4, "B0");
+  hB->GetXaxis()->SetBinLabel(2, "B1");
+  hB->GetXaxis()->SetBinLabel(3, "B2");
+  hB->GetXaxis()->SetBinLabel(4, "Signal");
   hB->SetBinContent(1, B0[0]);
   hB->SetBinContent(2, B1[0]);
   hB->SetBinContent(3, B2[0]);
@@ -673,6 +672,7 @@ void QCDk::getParakFit( TString output, int startNJet, int nJets, double higAT, 
   hCR->SetBinError(5, C4_ReverseMHToverMHT[1]);
   hCR->SetBinError(6, D_ReverseMHToverMHT[1]);
 
+
   TCanvas *c1=new TCanvas("c1","c1",600,700);
   TPad *pad1=new TPad("pad1","",0,0,1,1);
   pad1->Draw();
@@ -708,7 +708,6 @@ void QCDk::getParakFit( TString output, int startNJet, int nJets, double higAT, 
   len1->SetLineColor(0);
   len1->SetBorderSize(0);
   len1->SetTextAlign(22);
-
   TF1* fit = new TF1("fit","pol1",1,3);
   TF1* fit1 = new TF1("fit1","pol1",1,4);
   fit1->SetLineColor(4);
@@ -724,9 +723,10 @@ void QCDk::getParakFit( TString output, int startNJet, int nJets, double higAT, 
   len2->Draw();
   if( useBTag_){
     if( HTto1075 ) {
-      pad1->SaveAs(Form("kParaB_%s%iTo%ib%s_HTto1075_DataSet%s%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+      pad1->SaveAs(Form("kParaB_%s%iTo%ib%s_HTto1075_DataSet%s%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ) );
     } else {
-      pad1->SaveAs(Form("kParaB_%s%iTo%ib%s_DataSet%s%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+      c1->SaveAs(Form("kParaB_%s%iTo%ib%s_DataSet%s%s%s.%s", jetmulti.Data(), startNJet-1, startNJet+nJets-2, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
+      cout<<jetmulti<<startNJet-1<<startNJet+nJets-2<<output<<DataSet<<samplesname<<bulksample<<epspng_<<endl;
     }
   } else {
     if( HTto1075 ) {
@@ -738,9 +738,9 @@ void QCDk::getParakFit( TString output, int startNJet, int nJets, double higAT, 
 
 
 
-  TF1* fitC = new TF1("fitC","pol1",1,5);
-  TF1* fitC1 = new TF1("fitC1","pol1",1,6);
-  fitC1->SetLineColor(4);
+  //  TF1* fitC = new TF1("fitC","pol1",1,5);
+  //  TF1* fitC1 = new TF1("fitC1","pol1",1,6);
+  /*  fitC1->SetLineColor(4);
   hC->Draw();
   //  hC->Fit(fitC,"R");
   hC->Fit(fitC1,"R");
@@ -789,17 +789,17 @@ void QCDk::getParakFit( TString output, int startNJet, int nJets, double higAT, 
     } else {
       pad1->SaveAs(Form("kParaC_ReverseMHToverMHT_%iTo%ij%s_DataSet%s%s%s.%s", startNJet, startNJet+nJets-1, output.Data(), DataSet.Data(), samplesname.Data(), bulksample.Data(), epspng_.Data() ));
     }
-  }
+    }*/
 
   delete pad1;
   delete c1;
   delete hB;
-  delete hC;
-  delete hCR;
+  //  delete hC;
+  //  delete hCR;
   delete fit;
   delete fit1;
-  delete fitC;
-  delete fitC1;
+  //  delete fitC;
+  //  delete fitC1;
 }
 
 void QCDk::getResults( TString output, int startNJet, int nJets, double higAT, bool HTto1075, TString DataSet, TString jetmulti, TString samples, TString bulksample ){

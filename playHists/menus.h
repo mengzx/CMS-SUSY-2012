@@ -36,6 +36,7 @@ class menus{
   bool hasDY_;
   bool useLOXSDY_;
   bool hasTT_;
+  bool useLOXSTT_;
   bool hasSingleT_;
   bool hasZinv_;
   bool useLOXSZinv_;

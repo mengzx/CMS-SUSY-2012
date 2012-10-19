@@ -17,7 +17,7 @@ menus::menus(){
   startNJet_=1;
   nJets_=1;
   notCutAlphaT_=true;
-  drawStack_=true;
+  drawStack_=false;
   epspng_="png";
   doTrigCorr_=true;
   drawOverflow_=true;
@@ -25,17 +25,19 @@ menus::menus(){
   doCumulative_=false;
   mcPUS_="PUS7";
   getFitParak_=true;
- 
+
+  bool useLO=true; 
   hasData_=true;
   hasMCtotal_=true;
   hasWJ_=true;
-  useLOXSWJ_=true;
+  useLOXSWJ_=useLO;
   hasDY_=true;
-  useLOXSDY_=true;
+  useLOXSDY_=useLO;
   hasTT_=true;
+  useLOXSTT_=useLO;
   hasSingleT_=true;
   hasZinv_=true;
-  useLOXSZinv_=true;
+  useLOXSZinv_=useLO;
   hasDiBoson_=true;
   hasTTZ_=true;
 
@@ -69,19 +71,20 @@ menus::menus(){
   hasT2bw_smallScan_05_350_50_=false;
   hasT2bw_smallScan_075_350_50_=false;
 
+  TString period="";
   hasT1tttt_ = false;
   //  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
   inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/SeventeenthLook_25_Sep2012/";
   subdir_="/allBJets_PUReWNoTopLimi_Has2To3Jets";
   folderlabel_="";
   //  HadTaudataset_="SingleMu2012";
-  NotHadTaudataset_="HT2012AB";
+  NotHadTaudataset_="HT2012"+period;
   signalTrig_="";
-  signalDataset_ = "HT2012AB";
+  signalDataset_ = "HT2012"+period;
   HadTaucontrolTrig_="SingleMuTrig";
   NotHadTaucontrolTrig_="HTATTrig";
   NormalcontrolTrig_="SingleMuTrig";
-  controlDataset_ = "SingleMu2012AB";
+  controlDataset_ = "SingleMu2012"+period;
   QCDDataSet_="JetHT2012";
   MCsample_="";
   plotTrueTauHad_=false;
@@ -99,15 +102,16 @@ menus::menus(){
     useCommonJson_=false;
     mcscale_=1.;
     //period AB. Sep 24
-
+    if( period == "AB"){
     mcscale_HT_=  51.26247;
     mcscale_SingleMu_= 50.00191;
     mcscale_DiMu_= 50.00191;
-
+    } else if( period == ""){
     //period ABC. Sep 24
-    /*    mcscale_HT_=  116.59247;
+    mcscale_HT_=  116.59247;
     mcscale_SingleMu_= 113.89191;
-    mcscale_DiMu_= 113.89191;*/
+    mcscale_DiMu_= 113.89191;
+    }
   }
 
   //Aug 24

@@ -9,6 +9,7 @@
 #include "TString.h"
 #include "TCanvas.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -24,6 +25,7 @@ TH2D* BGCompositions::getHist2D_i( TString dir, TString fname, TString dirname, 
   TH2D *h=p2d.getHist2D( f, dirname, hname );
   if( fname == "WJ" || fname == "DY" || fname == "Zinv"){
     h->Scale(1./1.19);
+    //    h->Scale(1.-0.19);
   }
   return h;
 }
@@ -40,6 +42,7 @@ TH2D* BGCompositions::getHist2D_all( TString dir, TString dirname, TString hname
     TFile *fi=(MCvf_pushback( inidir_+dir+subdir_, "", sele, HTBins, true, "WJ" ))[0];
     TH2D *hi=p2d.getHist2D( fi, dirname, hname );
     hi->Scale( -( 1. - 1./1.19 ) );
+    //  hi->Scale( -0.19 );
     h->Add(h,hi);
   }
 
@@ -48,6 +51,7 @@ TH2D* BGCompositions::getHist2D_all( TString dir, TString dirname, TString hname
     TFile *fi=(MCvf_pushback( inidir_+dir+subdir_, "", sele, HTBins, true, "Zinv" ))[0];
     TH2D *hi1=p2d.getHist2D( fi, dirname, hname );
     hi1->Scale( -( 1. - 1./1.19 ) );
+    //    hi1->Scale( -0.19 );
     h->Add(h,hi1);
   }
 
@@ -56,6 +60,7 @@ TH2D* BGCompositions::getHist2D_all( TString dir, TString dirname, TString hname
     TFile *fi=(MCvf_pushback( inidir_+dir+subdir_, "", sele, HTBins, true, "DY" ))[0];
     TH2D *hi2=p2d.getHist2D( fi, dirname, hname );
     hi2->Scale( -( 1. - 1./1.19 ) );
+    //    hi2->Scale( -0.19 );
     h->Add(h,hi2);
   }
 
@@ -83,7 +88,7 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
   vfname.push_back( "DiBoson" );
   vfname.push_back( "TTZ" );
   vector<TString> vfsample;
-  vfsample.push_back( "$Z\\rightarrow\\nu\\nu+jets$" );
+  vfsample.push_back( "$Z\\rightarrow\\nu\\nu$" );
   vfsample.push_back( "W+jets" );
   vfsample.push_back( "$t\\bar{t}$" );
   vfsample.push_back( "Drell-Yan" );
@@ -151,7 +156,7 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
   //Sample composition
   if( !taucompo ){
     char buffer[100];
-    sprintf (buffer, "Composition_%ib_%s_%s.tex", nbjets, sele.Data(), jetmulit.Data() );
+    sprintf (buffer, "Composition_%s_%s%ib.tex", sele.Data(), jetmulit.Data(), nbjets );
     outputfile = fopen (buffer,"w");
     outputfile = fopen (buffer,"w");
 
@@ -160,13 +165,32 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
 
     fprintf(outputfile, "\\begin{table}[htl] \n");
 
-    fprintf(outputfile, "\\caption{Backgroupd predictions.}\n");
+    TString njet="";
+    if( jetmulit=="TwoThreeJet_"){
+      njet = "2 to 3";
+    } else if( jetmulit=="MoreThreeJet_"){
+      njet = "$\\geq$ 4 ";
+    } else {
+      njet = "inclusive";
+    }
+    TString selection="";
+    if( sele == "HadSele" ){
+      selection="Hadronic selection";
+    } else if ( sele == "MuonSingleMuTrig" ){
+      selection="Single Muon selection";
+    }
+
+    if( nbjets < 0 ){
+      fprintf(outputfile, "\\caption{Background Composition. %s, Number b-tags: inclusive, Number of Jets: %s.}\n", selection.Data(), njet.Data() );
+    } else {
+      fprintf(outputfile, "\\caption{Background Composition. %s, Number b-tags: %i, Number of Jets: %s.}\n", selection.Data(), nbjets, njet.Data() );
+    }
     fprintf(outputfile, " \\begin{flushleft}\n");
     fprintf(outputfile, " \\begin{tabular}{ c|ccccccc }\n");
 
     fprintf(outputfile, "\\hline\n");
 
-    fprintf(outputfile, "& Total");
+    fprintf(outputfile, "");
 
     for( unsigned int isample=0; isample<vfsample.size(); isample++){
       fprintf(outputfile, "& %s", (vfsample[isample]).Data());
@@ -174,12 +198,8 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
 
     fprintf( outputfile, "\\\\ \n");
     for( unsigned int iht=0; iht<vdirname.size(); iht++){
-      cout<<"hi"<<endl;
       fprintf( outputfile, "%s", (vdir[iht]).Data());
       TH2D *allh=getHist2D_all( dir, vdirname[iht], hname, sele, vHTBins[iht] );
-      TCanvas *c1=new TCanvas();
-      allh->Draw();
-      c1->SaveAs("test.png");
       TH1D* hTalphaTSlices=pf.projectX( allh, lowy, highy );
       double out=(hTalphaTSlices->GetBinContent(iht+5))*mcscale_HT_;
       for( unsigned int isample=0; isample<vfsample.size(); isample++){
@@ -214,8 +234,11 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
     fprintf(outputfile, "\\begin{document} \n");*/
 
     fprintf(outputfile, "\\begin{table}[htl] \n");
-
-    fprintf(outputfile, "\\caption{Backgroupd predictions.}\n");
+    if( nbjets < 0 ){
+      fprintf(outputfile, "\\caption{Background Event numbers. %s, Number b-tags: inclusive, Number of Jets: %s.}\n", selection.Data(), njet.Data() );
+    } else {
+      fprintf(outputfile, "\\caption{Background Event numbers. %s, Number b-tags: %i, Number of Jets: %s.}\n", selection.Data(), nbjets, njet.Data() );
+    }
     fprintf(outputfile, " \\begin{flushleft}\n");
     fprintf(outputfile, " \\begin{tabular}{ c|cccccccc }\n");
 
@@ -379,6 +402,8 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
 
   fclose( outputfile );
   }
+
+  closefV();
 
 }
 
