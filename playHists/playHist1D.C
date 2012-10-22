@@ -177,6 +177,8 @@ int playHist1D::getOverflowbin( TH1D *h, double xhigh ){
     return (( xhigh - ( h->GetBinLowEdge(1) ) )/( h->GetBinWidth(1) ) + 1 );
 }
 
+// -----------------------------------------------------------------------------
+//
 double playHist1D::getOverflowbinErr( TH1D *h, double xhigh ){
   int overflowbin=getOverflowbin(h, xhigh);
   double err=0;
@@ -201,6 +203,8 @@ TH1D* playHist1D::MaxHist( vector<TH1D*> vinh){
   return h;
 }
 
+// -----------------------------------------------------------------------------
+//
 vector<TH1D*> playHist1D::invSortHists( vector<TH1D*> vinh){
   vector<TH1D*> revh;
   for( unsigned int i=0; i< vinh.size(); i++ ){
@@ -208,8 +212,10 @@ vector<TH1D*> playHist1D::invSortHists( vector<TH1D*> vinh){
   }
   for(unsigned int i=0; i< revh.size()-1; i++){
     for( unsigned int j=i+1; j < revh.size(); j++ ){
-      double maxi=revh[i]->GetMaximum();
-      double maxj=revh[j]->GetMaximum();
+      double maxi=revh[i]->Integral(1,100000);
+      double maxj=revh[j]->Integral(1,100000);
+      //      double maxi=revh[i]->GetMaximum();
+      //      double maxj=revh[j]->GetMaximum();
       if( maxi > maxj ){
 	TH1D *temp=revh[i];
 	revh[i]=revh[j];
@@ -228,8 +234,10 @@ vector<TH1D*> playHist1D::SortHists( vector<TH1D*> vinh){
   }
   for(unsigned int i=0; i< revh.size()-1; i++){
     for( unsigned int j=i+1; j < revh.size(); j++ ){
-      double maxi=revh[i]->GetMaximum();
-      double maxj=revh[j]->GetMaximum();
+      //      double maxi=revh[i]->GetMaximum();
+      //      double maxj=revh[j]->GetMaximum();
+      double maxi=revh[i]->Integral(1,100000);
+      double maxj=revh[j]->Integral(1,100000);
       if( maxi < maxj ){
 	TH1D *temp=revh[i];
 	revh[i]=revh[j];
@@ -250,8 +258,10 @@ vector<unsigned int> playHist1D::invSortHists_index( vector<TH1D*> vinh){
   }
   for(unsigned int i=0; i< revh.size()-1; i++){
     for( unsigned int j=i+1; j < revh.size(); j++ ){
-      double maxi=revh[i]->GetMaximum();
-      double maxj=revh[j]->GetMaximum();
+      double maxi=revh[i]->Integral(1,100000);
+      double maxj=revh[j]->Integral(1,100000);
+      //      double maxi=revh[i]->GetMaximum();
+      //      double maxj=revh[j]->GetMaximum();
       if( maxi > maxj ){
 	unsigned int temp=revhi[i];
 	revhi[i]=revhi[j];
@@ -275,8 +285,10 @@ vector<unsigned int> playHist1D::SortHists_index( vector<TH1D*> vinh){
   }
   for(unsigned int i=0; i< revh.size()-1; i++){
     for( unsigned int j=i+1; j < revh.size(); j++ ){
-      double maxi=revh[i]->GetMaximum();
-      double maxj=revh[j]->GetMaximum();
+      double maxi=revh[i]->Integral(1,100000);
+      double maxj=revh[j]->Integral(1,100000);
+      //      double maxi=revh[i]->GetMaximum();
+      //      double maxj=revh[j]->GetMaximum();
       if( maxi < maxj ){
 	unsigned int temp=revhi[i];
 	revhi[i]=revhi[j];
@@ -291,6 +303,8 @@ vector<unsigned int> playHist1D::SortHists_index( vector<TH1D*> vinh){
   return revhi;
 }
 
+// -----------------------------------------------------------------------------
+//
 int playHist1D::MaxHist_index( vector<TH1D*> vinh){
   double max=-1E30;
   int index=-1;
@@ -304,6 +318,8 @@ int playHist1D::MaxHist_index( vector<TH1D*> vinh){
   return index;
 }
 
+// -----------------------------------------------------------------------------
+//
 TH1D* playHist1D::CumulativeH( TH1D* inh ){
   TH1D *inhc=(TH1D*)(inh->Clone("inhc"));
 
@@ -321,3 +337,76 @@ TH1D* playHist1D::CumulativeH( TH1D* inh ){
 
   return inhc;
 }
+
+// -----------------------------------------------------------------------------
+//
+TH1D* playHist1D::getRatioPlot( TH1D* inh, TH1D* inh_1, double lowestbin ){
+
+  int nxbin=0;
+  vector<int> xbin;
+  xbin.push_back(lowestbin);
+  TH1D *inhc=(TH1D*)(inh->Clone("inhc"));
+  TH1D *inhc_1=(TH1D*)(inh_1->Clone("inhc_1"));
+
+  int ifirst_0=getFirstBinHasContent( inh );
+  int ifirst_1=getFirstBinHasContent( inh_1 );
+  int ifirst=ifirst_0;
+  if( ifirst_1 < ifirst_0 ){
+    int ifirst=ifirst_1;
+  }
+  for( unsigned int i=ifirst; i<= inhc->GetNbinsX(); i++ ){
+    double err=getRatioErr( inhc->GetBinContent(i), inhc->GetBinError(i), inhc_1->GetBinContent(i), inhc_1->GetBinError(i) );
+    if( err > ratioPlotErr_ ){
+      double totalnum=inhc->GetBinContent(i);
+      double totaldom=inhc_1->GetBinContent(i);
+      double totalnumerr2=inhc->GetBinError(i) * inhc->GetBinError(i);
+      double totaldomerr2=inhc_1->GetBinError(i) * inhc_1->GetBinError(i);
+      double errj=err;
+      for( unsigned int j=i+1; j <= inhc->GetNbinsX(); j++ ){
+	totalnum=totalnum + inhc->GetBinContent(j);
+	totaldom=totaldom + inhc_1->GetBinContent(j);
+	totalnumerr2=totalnumerr2 + inhc->GetBinError(j) * inhc->GetBinError(j);
+	totaldomerr2=totaldomerr2 + inhc_1->GetBinError(j) * inhc_1->GetBinError(j);
+	errj=getRatioErr( totalnum, sqrt(totalnumerr2), totaldom, sqrt(totaldomerr2) );
+	if( ( errj > ratioPlotErr_ && j == inhc->GetNbinsX() ) || errj <= ratioPlotErr_ ){
+	  i=j+1;
+	  break;
+	}
+      }
+      nxbin=nxbin+1;
+      double higbin=inhc->GetBinWidth(i-1)+inhc->GetBinLowEdge(i-1);
+      xbin.push_back(higbin);
+
+    } else {
+      nxbin=nxbin+1;
+      double higbin=lowestbin+inhc->GetBinWidth(i);
+      xbin.push_back(higbin);
+    }
+  }
+
+  Int_t NG = xbin.size();
+  double xbina[NG];
+  for( int i=0; i<NG; i++){
+    xbina[i]=xbin[i];
+  }
+  TH1D *h=new TH1D("h", "Data/MC", nxbin, xbina );
+  for( int i=1; i<=nxbin; i++){
+    h->SetBinContent(i, 0);
+  }
+  return h;
+}
+
+double playHist1D::getRatioErr( double numi, double numerri, double domi, double domerri){
+  return sqrt( ( (numerri*numerri)/(numi*numi) + (domerri*domerri)/(numerri*numerri) ) ) * (numi/domi);
+}
+
+int playHist1D::getFirstBinHasContent( TH1D* inh){
+   for( int i=1; i<=inh->GetNbinsX(); i++){
+    if ( inh->GetBinContent(i) > 0. ){
+      return i;
+    }
+  }
+}
+
+
+

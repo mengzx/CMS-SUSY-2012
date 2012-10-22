@@ -28,6 +28,8 @@ class menus{
   bool doCumulative_;
   TString mcPUS_;
   bool getFitParak_;
+  bool useVariantRatioPlot_;
+  double ratioPlotErr_;
 
   bool hasData_;
   bool hasMCtotal_;

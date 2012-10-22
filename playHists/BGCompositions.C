@@ -1,5 +1,6 @@
 #include "BGCompositions.h"
 #include "playHist2D.h"
+#include "playHist1D.h"
 #include "project2DHists.h"
 #include <vector>
 #include <iostream>
@@ -10,7 +11,9 @@
 #include "TCanvas.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "TLegend.h"
+#include "TCanvas.h"
+#include "tdrstyle.h"
 using namespace std;
 
 
@@ -38,6 +41,7 @@ TH2D* BGCompositions::getHist2D_all( TString dir, TString dirname, TString hname
     TH2D *h1=p2d.getHist2D( f[i], dirname, hname );
     h->Add(h,h1);
   }
+
   if( hasWJ_ && useLOXSWJ_ ){
     TFile *fi=(MCvf_pushback( inidir_+dir+subdir_, "", sele, HTBins, true, "WJ" ))[0];
     TH2D *hi=p2d.getHist2D( fi, dirname, hname );
@@ -153,6 +157,57 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
 
   FILE * outputfile;
 
+  tdrstyle tdr=tdrstyle();
+  tdr.setTDRStyle("g");
+  double xbins[13];
+  for( int i=0; i< xbinsv.size(); i++){
+    xbins[i]=xbinsv[i];
+    cout<<xbinsv[i]<<endl;
+  }
+
+  int NX=12;
+  TCanvas *c1=new TCanvas();
+  TLegend *len=new TLegend( 0.12, 0.55, 0.25, 0.85);
+  len->SetColumnSeparation(0.2);
+  len->SetFillColor(0);
+  len->SetMargin(0.2);
+  len->SetLineColor(0);
+  len->SetBorderSize(0);
+  //  len->SetTextSize(0.15);
+  //  len->SetTextFont(13);
+  len->SetTextAlign(22);
+  TH1D *plot1=new TH1D( "plot1", "BG composition", NX, xbins);
+  TH1D *plot2=new TH1D( "plot2", "BG composition", NX, xbins);
+  TH1D *plot3=new TH1D( "plot3", "BG composition", NX, xbins);
+  TH1D *plot4=new TH1D( "plot4", "BG composition", NX, xbins);
+  TH1D *plot5=new TH1D( "plot5", "BG composition", NX, xbins);
+  TH1D *plot6=new TH1D( "plot6", "BG composition", NX, xbins);
+  TH1D *plot7=new TH1D( "plot7", "BG composition", NX, xbins);
+
+  plot1->SetLineColor(6);
+  plot1->SetMarkerColor(6);
+  plot2->SetLineColor(2);
+  plot2->SetMarkerColor(2);
+  plot3->SetLineColor(4);
+  plot3->SetMarkerColor(4);
+  plot4->SetLineColor(kViolet+1);
+  plot4->SetMarkerColor(kViolet+1);
+  plot5->SetLineColor(3);
+  plot5->SetMarkerColor(3);
+  plot6->SetLineColor(7);
+  plot6->SetMarkerColor(7);
+  plot7->SetLineColor(kBlue-7);
+  plot7->SetMarkerColor(kBlue-7);
+
+  len->AddEntry(plot1, "Z#rightarrow#nu#nu+jets");
+  len->AddEntry(plot2, "W+jets");
+  len->AddEntry(plot3, "t#bar{t}");
+  len->AddEntry(plot4, "Drell-Yan");
+  len->AddEntry(plot5, "Single top");
+  len->AddEntry(plot6, "Di-Boson");
+  len->AddEntry(plot7, "t#bar{t}Z");
+
+  vector<TH1D*> vh;
   //Sample composition
   if( !taucompo ){
     char buffer[100];
@@ -206,6 +261,35 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
 	TH2D *ih=getHist2D_i( dir, vfname[isample], vdirname[iht], hname, sele, vHTBins[iht] );
 	TH1D *hTalphaTSlices_i=pf.projectX( ih, lowy, highy );
 	fprintf(outputfile, "& %.2f", (hTalphaTSlices_i->GetBinContent(iht+5))/hTalphaTSlices->GetBinContent(iht+5) );
+	if( vfname[isample] == "Zinv"){
+	  plot1->SetBinContent( iht+5, (hTalphaTSlices_i->GetBinContent(iht+5))/hTalphaTSlices->GetBinContent(iht+5));
+	  plot1->SetBinError( iht+5, 0);
+	  cout<<iht+5<<" "<<(double)((hTalphaTSlices_i->GetBinContent(iht+5))/hTalphaTSlices->GetBinContent(iht+5))<<endl;
+	}
+	if( vfname[isample] == "WJ"){
+	  plot2->SetBinContent( iht+5, (hTalphaTSlices_i->GetBinContent(iht+5))/hTalphaTSlices->GetBinContent(iht+5));
+	  plot2->SetBinError( iht+5, 0);
+	}
+	if( vfname[isample] == "TT"){
+	  plot3->SetBinContent( iht+5, (hTalphaTSlices_i->GetBinContent(iht+5))/hTalphaTSlices->GetBinContent(iht+5));
+	  plot3->SetBinError( iht+5, 0);
+	}
+	if( vfname[isample] == "DY"){
+	  plot4->SetBinContent( iht+5, (hTalphaTSlices_i->GetBinContent(iht+5))/hTalphaTSlices->GetBinContent(iht+5));
+	  plot4->SetBinError( iht+5, 0);
+	}
+	if( vfname[isample] == "SingleT"){
+	  plot5->SetBinContent( iht+5, (hTalphaTSlices_i->GetBinContent(iht+5))/hTalphaTSlices->GetBinContent(iht+5));
+	  plot5->SetBinError( iht+5, 0);
+	}
+	if( vfname[isample] == "DiBoson"){
+	  plot6->SetBinContent( iht+5, (hTalphaTSlices_i->GetBinContent(iht+5))/hTalphaTSlices->GetBinContent(iht+5));
+	  plot6->SetBinError( iht+5, 0);
+	}
+	if( vfname[isample] == "TTZ"){
+	  plot7->SetBinContent( iht+5, (hTalphaTSlices_i->GetBinContent(iht+5))/hTalphaTSlices->GetBinContent(iht+5));
+	  plot7->SetBinError( iht+5, 0);
+	}
       }
       fprintf( outputfile, "\\\\ \n");
     }
@@ -219,6 +303,40 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
     fprintf(outputfile, "\\label{tab:Composition_%ib_%s_%s}\n", nbjets, sele.Data(), jetmulit.Data() );
     fprintf(outputfile, " \\end{table}\n\n");
 
+
+    vh.push_back(plot1);
+    vh.push_back(plot2);
+    vh.push_back(plot3);
+    vh.push_back(plot4);
+    vh.push_back(plot5);
+    vh.push_back(plot6);
+    vh.push_back(plot7);
+
+    playHist1D pf1d=playHist1D();
+    vector<TH1D*> svh=pf1d.SortHists(vh);
+    TH1D* ih0=(TH1D*)(svh[0]->Clone("ih0"));
+    ih0->SetLineColor(0);
+    ih0->SetMarkerColor(0);
+    ih0->Draw("hist");
+    ih0->GetXaxis()->SetLabelFont(63);
+    ih0->GetXaxis()->SetLabelSize(18);
+    ih0->GetYaxis()->SetLabelFont(63);
+    ih0->GetYaxis()->SetLabelSize(18);
+    ih0->GetXaxis()->SetTitleSize(0.06);
+    ih0->GetYaxis()->SetTitleSize(0.06);
+    ih0->SetMinimum(0.009);
+
+    for (unsigned int i=0; i<7;i++){
+      vh[i]->Draw("same hist");
+      vh[i]->SetLineWidth(2);
+    }
+    len->Draw();
+    c1->SetLogy(0);
+    c1->SetGridy();
+    c1->SaveAs(Form("Composition_%s_%s%ib.%s", sele.Data(), jetmulit.Data(), nbjets, epspng_.Data() ) );
+    c1->SetLogy(1);
+    c1->SetGridy();
+    c1->SaveAs(Form("Composition_%s_%s%ib_log.%s", sele.Data(), jetmulit.Data(), nbjets, epspng_.Data() ) );
 
     /*    fprintf(outputfile,"\\end{document}\n\n\n");
 
@@ -278,6 +396,17 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
     fprintf(outputfile,"\\end{document}\n\n\n");
 
     fclose( outputfile );
+
+    delete len;
+    delete plot1;
+    delete plot2;
+    delete plot3;
+    delete plot4;
+    delete plot5;
+    delete plot6;
+    delete plot7;
+    delete c1;
+
 
   } else if( taucompo ){
 

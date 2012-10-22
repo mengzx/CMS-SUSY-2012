@@ -49,7 +49,7 @@ void tdrstyle::setTDRStyle( TString digit ) {
   //  tdrStyle->SetErrorX(0.);
 
 // For the fit/function:
-  tdrStyle->SetOptFit(1111);
+  tdrStyle->SetOptFit(0);
   tdrStyle->SetFitFormat("5.4g");
   tdrStyle->SetFuncColor(2);
   tdrStyle->SetFuncStyle(1);
@@ -74,14 +74,14 @@ void tdrstyle::setTDRStyle( TString digit ) {
   tdrStyle->SetStatX(0.92);
   tdrStyle->SetStatW(0.3);
   tdrStyle->SetStatH(2);
-  // tdrStyle->SetStatStyle(Style_t style = 1001);
-  // tdrStyle->SetStatX(Float_t x = 0);
-  // tdrStyle->SetStatY(Float_t y = 0);
+  //  tdrStyle->SetStatStyle(Style_t style = 1001);
+  //  tdrStyle->SetStatX(Float_t x = 0);
+  //  tdrStyle->SetStatY(Float_t y = 0);
 
 // Margins:
   tdrStyle->SetPadTopMargin(0.05);
   tdrStyle->SetPadBottomMargin(0.13);
-  tdrStyle->SetPadLeftMargin(0.13);
+  //  tdrStyle->SetPadLeftMargin(0.13);
   tdrStyle->SetPadRightMargin(0.05);
 
 // For the Global title:

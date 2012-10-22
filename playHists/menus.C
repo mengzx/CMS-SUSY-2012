@@ -8,7 +8,7 @@
 
 menus::menus(){
 
-  debug_=0;
+  debug_=-1;
   testHTBin_="";
   testMCFile_="";
   testDataFile_="";
@@ -17,7 +17,7 @@ menus::menus(){
   startNJet_=1;
   nJets_=1;
   notCutAlphaT_=true;
-  drawStack_=false;
+  drawStack_=true;
   epspng_="png";
   doTrigCorr_=true;
   drawOverflow_=true;
@@ -25,21 +25,23 @@ menus::menus(){
   doCumulative_=false;
   mcPUS_="PUS7";
   getFitParak_=true;
+  useVariantRatioPlot_=false;
+  ratioPlotErr_=0.25;
 
   bool useLO=true; 
   hasData_=true;
   hasMCtotal_=true;
   hasWJ_=true;
-  useLOXSWJ_=useLO;
   hasDY_=true;
-  useLOXSDY_=useLO;
   hasTT_=true;
-  useLOXSTT_=useLO;
   hasSingleT_=true;
   hasZinv_=true;
-  useLOXSZinv_=useLO;
   hasDiBoson_=true;
   hasTTZ_=true;
+  useLOXSWJ_=useLO;
+  useLOXSDY_=useLO;
+  useLOXSTT_=useLO;
+  useLOXSZinv_=useLO;
 
   hasWJ_XSLO_=false;
   hasZinvFromDY_=false;
@@ -85,7 +87,7 @@ menus::menus(){
   NotHadTaucontrolTrig_="HTATTrig";
   NormalcontrolTrig_="SingleMuTrig";
   controlDataset_ = "SingleMu2012"+period;
-  QCDDataSet_="JetHT2012";
+  QCDDataSet_="JetHT2012"+period;
   MCsample_="";
   plotTrueTauHad_=false;
   MuonNumber_ = "OneMuon_";
@@ -139,5 +141,6 @@ menus::menus(){
 
   digit1_=".1f";
   digit2_=".2f";
+
 }
 

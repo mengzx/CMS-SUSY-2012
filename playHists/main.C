@@ -65,11 +65,11 @@ int main( int argc, char* argv[] )
     int startNJet[5]={1, 0, 2, 3, 2 };
     int nJet[5]     ={1, 0, 1, 1, n-2+2 };
     int start = 0;
-    int end = 4;
+    int end = 5;
     bool HTto1075=false;
     vector<TString> DataSet;
-    DataSet.push_back("DataJetHT2012");
-    //    DataSet.push_back("MC");
+    //   DataSet.push_back("DataJetHT2012");
+    DataSet.push_back("MC");
 
     vector<TString> jetmulti;
     //    jetmulti.push_back("");
@@ -85,28 +85,23 @@ int main( int argc, char* argv[] )
     QCDk *qcdk=new QCDk();
 
     menus *listmenus=new menus();
-   TString bulksample="OverSM";
-   //    TString bulksample="";
+    //    TString bulksample="OverSM";
+    TString bulksample="";
+    bool useHTErrX=true;
     for( int i=start; i< end; i++ ){
       for( unsigned int ij =0; ij<jetmulti.size(); ij++){
 	for( unsigned int isa = 0; isa < DataSet.size(); isa ++ ){
 	  for( unsigned int ism = 0; ism < samples.size(); ism ++ ){
 	    if( !(listmenus->getFitParak_) ){
-	      qcdk->getResults("_LowAT05", startNJet[i], nJet[i], 0.50, HTto1075, DataSet[isa], jetmulti[ij], samples[ism ], bulksample );
+	      qcdk->getResults("_LowAT05", startNJet[i], nJet[i], 0.50, HTto1075, DataSet[isa], jetmulti[ij], samples[ism ], bulksample, useHTErrX );
 	    } else {
-	      qcdk->getParakFit( "_LowAT05", startNJet[i], nJet[i], 0.50, HTto1075, DataSet[isa], jetmulti[ij], samples[ism ], bulksample );
+	      qcdk->getParakFit( "_LowAT05", startNJet[i], nJet[i], 0.50, HTto1075, DataSet[isa], jetmulti[ij], samples[ism ], bulksample, useHTErrX );
 	    }
 	  }
 	}
       }
     }
 
-    /*    HTto1075=true;
-    DataSet="DataJetHT2012";
-    for( int i=start; i< end; i++ ){
-      qcdk->getResults("", startNJet[i], nJet[i], 0.50, HTto1075, DataSet );
-      qcdk->getResults("_LowAT05", startNJet[i], nJet[i], 0.50, HTto1075, DataSet );
-      }*/
     delete qcdk;
     delete listmenus;
   }
@@ -165,25 +160,32 @@ int main( int argc, char* argv[] )
 
     vector<TString> folder;
     folder.push_back("");
+    folder.push_back("MoreThreeJet_");
+    folder.push_back("TwoThreeJet_");
     /*    folder.push_back("TwoJet_");
     folder.push_back("ThreeJet_");
     folder.push_back("FourJet_");*/
-    folder.push_back("MoreThreeJet_");
 //    folder.push_back("MoreFourJet_");
-    folder.push_back("TwoThreeJet_");
     vector<TString> HTBins;
-    //    HTBins.push_back("all");
-    //    HTBins.push_back("lowHTBins");
-    //    HTBins.push_back("highHTBins");
-    HTBins.push_back("73");
+    /*    HTBins.push_back("all");
+    HTBins.push_back("lowHTBins");
+    HTBins.push_back("highHTBins");*/
+    HTBins.push_back("275");
+    HTBins.push_back("325");
+    HTBins.push_back("375");
+    HTBins.push_back("475");
+    HTBins.push_back("575");
+    HTBins.push_back("675");
+    HTBins.push_back("775");
+    HTBins.push_back("875");
     vector<int> folder_n;
     folder_n.push_back(10);
+    folder_n.push_back(10);
+    folder_n.push_back(3);
     /*    folder_n.push_back(2);
     folder_n.push_back(3);
     folder_n.push_back(4);*/
-    folder_n.push_back(10);
     //    folder_n.push_back(10);
-    folder_n.push_back(3);
 
     int n=15;
     int startNJet[16]={2, 3, 2, 4, 4, 5, 6, 0, 1, 2, 3, 4, 5, 5, 2, 4};
@@ -204,7 +206,7 @@ int main( int argc, char* argv[] )
 	    cout<<  startNJet[i] - 1 << " *****  " << folder_n[il] <<endl;
 	    if( ( startNJet[i] - 1 ) > folder_n[il] ) continue;
 	    basicPlots *bp=new basicPlots();
-	    bp->getResults(HTBins[ibin], "OneMu", startNJet[i], nJet[i], "OneMuon_", folder[il] );
+	    bp->getResults(HTBins[ibin], "OneMuon", startNJet[i], nJet[i], "OneMuon_", folder[il] );
 	    delete bp;
 	  }
 	}
@@ -218,7 +220,7 @@ int main( int argc, char* argv[] )
 	    cout<<  startNJet[i] - 1 << " *****  " << folder_n[il] <<endl;
 	    if( ( startNJet[i] - 1 ) > folder_n[il] ) continue;
 	    basicPlots *bp=new basicPlots();
-	    bp->getResults(HTBins[ibin], "OneMu", startNJet[i], nJet[i], "DiMuon_", folder[il] );
+	    bp->getResults(HTBins[ibin], "DiMuon", startNJet[i], nJet[i], "DiMuon_", folder[il] );
 	    delete bp;
 	  }
 	}

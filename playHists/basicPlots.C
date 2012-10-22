@@ -862,6 +862,9 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     }
   } else {
    if( !drawStack_ ){
+    if( vh.size() > 0 && vhnames[0] == "Data"){
+      len->AddEntry(vh[0], "Data");
+    }    
     TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
     svh0clone->Scale(1.5);
     svh0clone->SetLineColor(0);
@@ -881,171 +884,205 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  svh[i]->SetLineColor(2);
 	  svh[i]->SetFillColor(2);
 	  svh[i]->SetMarkerColor(2);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "WJ_XSLO" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(2);
 	  svh[i]->SetFillColor(2);
 	  svh[i]->SetMarkerColor(2);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "DY" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kViolet+1);
 	  svh[i]->SetFillColor(kViolet+1);
 	  svh[i]->SetMarkerColor(kViolet+1);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "TT" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(4);
 	  svh[i]->SetFillColor(4);
 	  svh[i]->SetMarkerColor(4);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "TTZ" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kBlue-7);
 	  svh[i]->SetFillColor(kBlue-7);
 	  svh[i]->SetMarkerColor(kBlue-7);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "SingleT" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(3);
 	  svh[i]->SetFillColor(3);
 	  svh[i]->SetMarkerColor(3);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "Zinv" ){
 	  svh[i]->Draw("same HIST 9" );
 	  svh[i]->SetLineColor(6);
 	  svh[i]->SetFillColor(6);
 	  svh[i]->SetMarkerColor(6);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "DiBoson" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(7);
 	  svh[i]->SetFillColor(7);
 	  svh[i]->SetMarkerColor(7);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "ZinvFromDY" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kYellow-3);
 	  svh[i]->SetFillColor(kYellow-3);
 	  svh[i]->SetMarkerColor(kYellow-3);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
        	} else if( vhnames[ svh_index[i] ] == "Zinv_HT50To100" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kCyan-10);
 	  svh[i]->SetFillColor(kCyan-10);
 	  svh[i]->SetMarkerColor(kCyan-10);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "Zinv_FastSim_HT100To200" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kCyan+1);
 	  svh[i]->SetFillColor(kCyan+1);
 	  svh[i]->SetMarkerColor(kCyan+1);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "Zinv_FastSim_HT200To400" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kCyan+2);
 	  svh[i]->SetFillColor(kCyan+2);
 	  svh[i]->SetMarkerColor(kCyan+2);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "Zinv_HT400Toinf" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kCyan+3);
 	  svh[i]->SetFillColor(kCyan+3);
 	  svh[i]->SetMarkerColor(kCyan+3);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
        	} else if( vhnames[ svh_index[i] ] == "WJ_inclusive" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kRed-10);
 	  svh[i]->SetFillColor(kRed-10);
 	  svh[i]->SetMarkerColor(kRed-10);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "WJ_FastSim_HT250To300" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kMagenta-10);
 	  svh[i]->SetFillColor(kMagenta-10);
 	  svh[i]->SetMarkerColor(kMagenta-10);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "WJ_FastSim_HT300To400" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kMagenta-9);
 	  svh[i]->SetFillColor(kMagenta-9);
 	  svh[i]->SetMarkerColor(kMagenta-9);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "WJ_HT250To300" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kRed-8);
 	  svh[i]->SetFillColor(kRed-8);
 	  svh[i]->SetMarkerColor(kRed-8);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "WJ_HT300To400" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kRed-5);
 	  svh[i]->SetFillColor(kRed-5);
 	  svh[i]->SetMarkerColor(kRed-5);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "WJ_HT400Toinf" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kRed-1);
 	  svh[i]->SetFillColor(kRed-1);
 	  svh[i]->SetMarkerColor(kRed-1);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "TTZ525" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kBlue-4);
 	  svh[i]->SetFillColor(kBlue-4);
 	  svh[i]->SetMarkerColor(kBlue-4);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "TTZ532" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kYellow-7);
 	  svh[i]->SetFillColor(kYellow-7);
 	  svh[i]->SetMarkerColor(kYellow-7);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_200_0" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(2);
 	  //	  svh[i]->SetFillColor(2);
 	  svh[i]->SetMarkerColor(2);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_50" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(3);
 	  //	  svh[i]->SetFillColor(3);
 	  svh[i]->SetMarkerColor(3);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_100" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(4);
 	  //	  svh[i]->SetFillColor(4);
 	  svh[i]->SetMarkerColor(4);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_50" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(6);
 	  //	  svh[i]->SetFillColor(6);
 	  svh[i]->SetMarkerColor(6);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_100" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(7);
 	  //	  svh[i]->SetFillColor(7);
 	  svh[i]->SetMarkerColor(7);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_200" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kPink-7);
 	  //	  svh[i]->SetFillColor(kPink-7);
 	  svh[i]->SetMarkerColor(kPink-7);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_120_0" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kOrange);
 	  //	  svh[i]->SetFillColor(kOrange);
 	  svh[i]->SetMarkerColor(kOrange);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_150_30" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kGreen+4);
 	  //	  svh[i]->SetFillColor(kGreen+4);
 	  svh[i]->SetMarkerColor(kGreen+4);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_200_0" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kMagenta-8);
 	  //	  svh[i]->SetFillColor(kMagenta-8);
 	  svh[i]->SetMarkerColor(kMagenta-8);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_350_50" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kViolet+1);
 	  //	  svh[i]->SetFillColor(kViolet+1);
 	  svh[i]->SetMarkerColor(kViolet+1);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_350_50" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kRed-8);
 	  //	  svh[i]->SetFillColor(kRed-8);
 	  svh[i]->SetMarkerColor(kRed-8);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_025_500_100" ){
 	  svh[i]->Draw("same HIST 9");
 	  svh[i]->SetLineColor(kGray+2);
 	  //	  svh[i]->SetFillColor(kGray+2);
 	  svh[i]->SetMarkerColor(kGray+2);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "T1tttt" ){
 	  svh[i]->Draw("same HIST 9");
           svh[i]->SetLineColor(7);
 	  svh[i]->SetFillColor(7);
 	  svh[i]->SetMarkerColor(7);
+	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	}
       } else if( vhnames[ svh_index[i] ] == "MCtotal" ){
 	svh[i]->SetLineColor(5);
@@ -1053,6 +1090,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	svh[i]->SetFillColor(5);
 	svh[i]->SetMarkerColor(5);
 	svh[i]->Draw("same HIST");
+	len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
       }
     }
 
@@ -1085,10 +1123,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     }
 
 
-    if( vh.size() > 0 && vhnames[0] == "Data"){
-      len->AddEntry(vh[0], "Data");
-    }    
-    if( hasMCtotal_ && hasData_ ){
+    /*    if( hasMCtotal_ && hasData_ ){
       for( unsigned int i=2; i<svh.size(); i++ ){
 	len->AddEntry(vh[i], vlenname[i]);
       }
@@ -1099,9 +1134,12 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     }
     if( vh.size() > 1 && hasMCtotal_){
       len->AddEntry(vh[1], "Total MC");
-    }
+      }*/
 
   } else  if( drawStack_ ){
+    if( vh.size() > 0 && vhnames[0] == "Data"){
+      len->AddEntry(vh[0], "Data");
+    }    
     TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
     svh0clone->Scale(1.5);
     svh0clone->SetLineColor(0);
@@ -1125,96 +1163,115 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  invsvh[i]->SetLineColor(2);
 	  invsvh[i]->SetFillColor(2);
 	  invsvh[i]->SetMarkerColor(2);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "WJ_XSLO" ){
 	  invsvh[i]->SetLineColor(2);
 	  invsvh[i]->SetFillColor(2);
 	  invsvh[i]->SetMarkerColor(2);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "DY" ){
 	  invsvh[i]->SetLineColor(kViolet+1);
 	  invsvh[i]->SetFillColor(kViolet+1);
 	  invsvh[i]->SetMarkerColor(kViolet+1);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "TT" ){
 	  invsvh[i]->SetLineColor(4);
 	  invsvh[i]->SetFillColor(4);
 	  invsvh[i]->SetMarkerColor(4);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "TTZ" ){
 	  invsvh[i]->SetLineColor(kBlue-7);
 	  invsvh[i]->SetFillColor(kBlue-7);
 	  invsvh[i]->SetMarkerColor(kBlue-7);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "SingleT" ){
 	  invsvh[i]->SetLineColor(3);
 	  invsvh[i]->SetFillColor(3);
 	  invsvh[i]->SetMarkerColor(3);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
        	} else if( vhnames[ invsvh_index[i] ] == "Zinv" ){
 	  invsvh[i]->SetLineColor(6);
 	  invsvh[i]->SetFillColor(6);
 	  invsvh[i]->SetMarkerColor(6);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
        	} else if( vhnames[ invsvh_index[i] ] == "DiBoson" ){
 	  invsvh[i]->SetLineColor(7);
 	  invsvh[i]->SetFillColor(7);
 	  invsvh[i]->SetMarkerColor(7);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "ZinvFromDY" ){
 	  invsvh[i]->SetLineColor(kYellow-3);
 	  invsvh[i]->SetFillColor(kYellow-3);
 	  invsvh[i]->SetMarkerColor(kYellow-3);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
        	} else if( vhnames[ invsvh_index[i] ] == "Zinv_HT50To100" ){
 	  invsvh[i]->SetLineColor(kCyan-10);
 	  invsvh[i]->SetFillColor(kCyan-10);
 	  invsvh[i]->SetMarkerColor(kCyan-10);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "Zinv_FastSim_HT100To200" ){
 	  invsvh[i]->SetLineColor(kCyan+1);
 	  invsvh[i]->SetFillColor(kCyan+1);
 	  invsvh[i]->SetMarkerColor(kCyan+1);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "Zinv_FastSim_HT200To400" ){
 	  invsvh[i]->SetLineColor(kCyan+2);
 	  invsvh[i]->SetFillColor(kCyan+2);
 	  invsvh[i]->SetMarkerColor(kCyan+2);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "Zinv_HT400Toinf" ){
 	  invsvh[i]->SetLineColor(kCyan+3);
 	  invsvh[i]->SetFillColor(kCyan+3);
 	  invsvh[i]->SetMarkerColor(kCyan+3);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
        	} else if( vhnames[ invsvh_index[i] ] == "WJ_inclusive" ){
 	  invsvh[i]->SetLineColor(kRed-10);
 	  invsvh[i]->SetFillColor(kRed-10);
 	  invsvh[i]->SetMarkerColor(kRed-10);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "WJ_FastSim_HT250To300" ){
 	  invsvh[i]->SetLineColor(kMagenta-10);
 	  invsvh[i]->SetFillColor(kMagenta-10);
 	  invsvh[i]->SetMarkerColor(kMagenta-10);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "WJ_FastSim_HT300To400" ){
 	  invsvh[i]->SetLineColor(kMagenta-9);
 	  invsvh[i]->SetFillColor(kMagenta-9);
 	  invsvh[i]->SetMarkerColor(kMagenta-9);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "WJ_HT250To300" ){
 	  invsvh[i]->SetLineColor(kRed-8);
 	  invsvh[i]->SetFillColor(kRed-8);
 	  invsvh[i]->SetMarkerColor(kRed-8);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "WJ_HT300To400" ){
 	  invsvh[i]->SetLineColor(kRed-5);
 	  invsvh[i]->SetFillColor(kRed-5);
 	  invsvh[i]->SetMarkerColor(kRed-5);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	} else if( vhnames[ invsvh_index[i] ] == "WJ_HT400Toinf" ){
 	  invsvh[i]->SetLineColor(kRed-1);
 	  invsvh[i]->SetFillColor(kRed-1);
 	  invsvh[i]->SetMarkerColor(kRed-1);
+	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
 	  hs->Add(invsvh[i]);
 	}
       }
@@ -1251,20 +1308,18 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       }
     }
 
-    if( vh.size() > 0 && vhnames[0] == "Data"){
+    /*    if( vh.size() > 0 && vhnames[0] == "Data"){
       len->AddEntry(vh[0], "Data");
     }
-    if( hasMCtotal_ && hasData_ ){
-      for( unsigned int i=2; i<vh.size(); i++ ){
-	len->AddEntry(vh[i], vlenname[i]);
-      }
-    } else{
-      for( unsigned int i=0; i<vh.size(); i++ ){
-	len->AddEntry(vh[i], vlenname[i]);
+    */
+    for( unsigned int i=2; i<vh.size(); i++ ){
+      if( vhnames[ svh_index[i] ] != "Data" && vhnames[ svh_index[i] ] != "MCTotal"){
+	len->AddEntry(svh[i], vlenname[ svh_index[i] ]);
       }
     }
-  }
-  }
+
+   }//if( drawStack_ )
+  }//else comulative
 
   //  TLegend *len1=new TLegend( 0.56, 0.70, 0.93, 0.90 );
   //  len1->AddEntry("", "CMS Preliminary 2012 8 TeV","");
@@ -1296,6 +1351,13 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   pad2->SetGridy();
   pad2->Draw();
   pad2->cd();
+
+  if( useVariantRatioPlot_ ){
+    /*
+    TH1D *ratio=pf1d.getRatioPlot( (vh[0], vh[1], xAxisRange1 );
+    */
+    cout<<"later"<<endl;
+  } else {
   if( vh.size() > 1 && vhnames[0] == "Data"){
     TH1D* datah=(TH1D*)(vh[0]->Clone("datah"));
     TH1D* mch=(TH1D*)(vh[1]->Clone("mch"));
@@ -1377,8 +1439,10 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     len2->SetBorderSize(0);
     len2->AddEntry("", Form("p0 = %.3f #pm %.4f", fit->GetParameter(0), fit->GetParError(0) ), "" );
     len2->Draw();
+  }
     //    delete len2;
   }
+  
     TString stack="";
     if ( doCumulative_ ){
       stack="Cumu_";
@@ -1482,14 +1546,15 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
   len->SetTextAlign(22);
   int whichpart=1;
   bool MuAddOrNot=true;
-  int rebin=50;
+  int rebin=1;
   double lowATcut=0.55;
   double higATcut=10.;
   int dim=1;
   if( selection == "HadSele"){
     lowATcut=0.55;
     higATcut=10.;
-    /*    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Invaraint mass of B-jets (GeV)", "", 0, 800, "Bmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=50;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Invaraint mass of B-jets (GeV)", "", 0, 800, "Bmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 1200, "MET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=20;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 1200, "jetPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
@@ -1497,69 +1562,94 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet #eta (GeV)", "", -5.,5., "jetEta", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second #eta (GeV)", "", -5.,5., "jetEta2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=50;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 1200, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );*/
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500., "HT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 1200, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+      drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500., "HT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=10;
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 1.5, "MHToverMET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 1.5, "MHToverMET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=1;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common b-jets", "", 0, 12, "nbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of total b-jets", "", 0, 12, "ntotalbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of baby b-jets", "", 0, 12, "nbaby30to50bjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of total jets", "", 0, 20, "njet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common jets", "", 0, 20, "ncommjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of baby jets", "", 0, 20, "nbaby30to50jet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=5;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.55, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=1;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 975., "AlphaT_vs_HT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of total b-jets", "", 0, 12, "ntotalbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of baby b-jets", "", 0, 12, "nbaby30to50bjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of total jets", "", 0, 20, "njet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of baby jets", "", 0, 20, "nbaby30to50jet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
   }
 
   whichpart=2;
   MuAddOrNot=false;
-  if( selection != "HadSele"){
+  if( selection == "OneMuon"){
     lowATcut=0.;
     higATcut=10.;
     rebin=20;
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 1200, "jetPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second p_{T} (GeV)", "", 0., 1200, "jetPt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    /*   drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet #eta (GeV)", "", -5.,5., "jetEta", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second #eta (GeV)", "", -5.,5., "jetEta2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 1200, "jetPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second jet p_{T} (GeV)", "", 0., 1200, "jetPt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet #eta (GeV)", "", -5.,5., "jetEta", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second jet #eta (GeV)", "", -5.,5., "jetEta2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=1;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading Iso_{#mu}", "", 0, 0.15, "muonIso", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=10;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading #mu p_{T} (GeV)", "", 0., 600, "muPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=10;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#mu,E_{T}^{miss}) (GeV)", "", 20., 700, "PFMTT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=50;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 1200, "MET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=5;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{Z} (GeV)", "", 0., 200, "Zmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=50;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 1200, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=5;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 2, "MHToverMET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+
+    rebin=1;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common b-jets", "", 0, 12, "nbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common jets", "", 0, 20, "ncommjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=5;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );
+    rebin=1;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 975., "AlphaT_vs_HT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+  }
+
+  if( selection == "DiMuon"){
+    lowATcut=0.;
+    higATcut=10.;
+    rebin=20;
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 1200, "jetPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second jet p_{T} (GeV)", "", 0., 1200, "jetPt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet #eta (GeV)", "", -5.,5., "jetEta", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second jet #eta (GeV)", "", -5.,5., "jetEta2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=1;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading Iso_{#mu}", "", 0, 0.15, "muonIso", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=10;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading #mu p_{T} (GeV)", "", 0., 600, "muPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second #mu p_{T} (GeV)", "", 0., 300, "muPt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading electron p_{T} (GeV)", "", 0., 600, "elePt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second electron p_{T} (GeV)", "", 0., 300., "elePt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=10;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#mu,E_{T}^{miss}) (GeV)", "", 20., 700, "PFMTT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(leading electron,E_{T}^{miss}) (GeV)", "", 0., 800, "PFMTele", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(leading #mu,E_{T}^{miss}) (GeV)", "", 0., 800, "PFMTmu", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#Sigma p_{T}^{ele},E_{T}^{miss}) (GeV)", "", 0., 800, "PFMTvele", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{T}(#Sigma p_{T}^{#mu},E_{T}^{miss}) (GeV)", "", 0., 800, "PFMTvmu", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=50;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 1200, "MET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=5;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{Z} (GeV)", "", 0., 200, "Zmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );*/
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "M_{Z} (GeV)", "", 0., 200, "Zmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=50;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500, "HT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    /*    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 1200, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 1200, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=5;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 2, "MHToverMET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );*/
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 2, "MHToverMET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
 
     rebin=1;
-    /*    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common b-jets", "", 0, 12, "nbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of total b-jets", "", 0, 12, "ntotalbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of baby b-jets", "", 0, 12, "nbaby30to50bjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of total jets", "", 0, 20, "njet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common b-jets", "", 0, 12, "nbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common jets", "", 0, 20, "ncommjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of baby jets", "", 0, 20, "nbaby30to50jet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=5;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );*/
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.2, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=1;
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 975., "AlphaT_vs_HT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 975., "AlphaT_vs_HT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
 
  
   /*    rebin=1;
