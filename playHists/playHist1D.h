@@ -40,9 +40,10 @@ class playHist1D : public menus {
   vector<unsigned int> invSortHists_index( vector<TH1D*> vinh);
   int MaxHist_index( vector<TH1D*> vinh);
   TH1D* CumulativeH( TH1D* inh );
-  TH1D* getRatioPlot( TH1D* inh, TH1D* inh_1, double lowestbin );
+  vector<TH1D*> getRatioPlot( TH1D* inh, TH1D* inh_1, double lowestbin, double highbin );
   double getRatioErr( double numi, double numerri, double domi, double domerri);
   int getFirstBinHasContent( TH1D* inhc);
+  int getLastBinHasContent( TH1D* inhc, int lastbin);
 
  private:
   int linewidth;

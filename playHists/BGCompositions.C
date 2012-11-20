@@ -81,7 +81,7 @@ void BGCompositions::printout( TString sele, int nbjets, bool taucompo, TString 
     label="";
   } else if( sele == "MuonSingleMuTrig" ){
     dir="rootfiles/oneMuonSele/muonpT45GeV";
-    label="OneMuon_";
+    label="DiMuon_";
   }
   vector<TString> vfname;
   vfname.push_back( "Zinv" );

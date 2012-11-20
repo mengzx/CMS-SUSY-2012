@@ -170,8 +170,9 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
   if( normalEstimation_ == true ){
     vector<TH2D*> reh2d;
     TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
+    cout<<" dirName1mu="<<dirName1mu[0]<<" hName1mu="<<hName1mu[0]<<" nominaltrigeff="<<nominaltrigeff[0]<<endl;
     TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
-    
+    cout<<"hi"<<endl;
     if( notCutAlphaT_ ){
       TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
       AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );

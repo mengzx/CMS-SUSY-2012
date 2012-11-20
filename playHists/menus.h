@@ -27,9 +27,12 @@ class menus{
   bool useBTag_;
   bool doCumulative_;
   TString mcPUS_;
-  bool getFitParak_;
+  int getFitParak_;
   bool useVariantRatioPlot_;
   double ratioPlotErr_;
+  bool QCDkUsePosionErr_;
+  bool doPhoton_;
+  bool includeSignal_;
 
   bool hasData_;
   bool hasMCtotal_;
@@ -60,6 +63,11 @@ class menus{
   bool hasTTZ525_;
   bool hasTTZ532_;
 
+  bool hasGJ_;
+  bool useLOXSGJ_;
+
+  bool hasTT_Massive_;
+  bool useLOXSTT_Massive_;
   bool hasT2tt_smallScan_200_0_;
   bool hasT2tt_smallScan_350_50_;
   bool hasT2tt_smallScan_350_100_;
@@ -75,6 +83,8 @@ class menus{
   bool hasT2bw_smallScan_025_500_100_;
 
   bool hasT1tttt_;
+  bool hasT2cc160_;
+  bool hasT2cc300_;
 
   TString inidir_;
   TString subdir_;
@@ -91,6 +101,8 @@ class menus{
   bool plotTrueTauHad_;
   TString MuonNumber_;
   TString QCDDataSet_;
+  TString photonControlTrig_;
+  TString photonControlDataSet_;
 
   double datascale_;
   bool useCommonJson_;
@@ -98,6 +110,7 @@ class menus{
   double mcscale_HT_;
   double mcscale_SingleMu_;
   double mcscale_DiMu_;
+  double mcscale_Photon_;
 
   TString digit1_;
   TString digit2_;

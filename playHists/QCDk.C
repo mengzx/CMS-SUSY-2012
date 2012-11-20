@@ -119,8 +119,8 @@ TH1D* QCDk::getTailBulk( TString label, TString hname, int startNJet, int nJets,
   TH1D* formathT=hf1d.formatHist(hTalphaTSlices, 1, "", "" , 275., 1174.9999, 1 );
   return formathT;
   } else {
-  TH1D* formathT=hf1d.formatHist(hTalphaTSlices, 1, "", "" , 275., 974.9999, 1 );
-  return formathT;
+    TH1D* formathT=hf1d.formatHist(hTalphaTSlices, 1, "", "" , 275., 974.9999, 1 );
+    return formathT;
   }
 
 }
@@ -465,14 +465,19 @@ vector<double> QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TStri
     }
   } 
 
-  double higfit=975.;
-  if( HTto1075 ){ 
-    higfit=1175.;
-  }
+  TH1D *ratio_0=getRATvsHT(label, startNJet, nJets, lowy, highy, lowybulk, HTto1075, DataSet, samples, jetmulti, bulksample);
+  /*  TH1D *tail=getTailBulk( jetmulti+label, "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, lowy, highy, HTto1075, DataSet, samples );
+  int isdata=DataSet.Index("Data");
+  int isSM=bulksample.Index("OverSM");
+  TH1D *bulk=0;
+  if( (int)(isSM) >= 0 && (int)(isdata) < 0 ){
+    bulk=getTailBulk( jetmulti+"preselection_", "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, 0, lowybulk, HTto1075, DataSet, "SM" );
+  } else {
+    bulk=getTailBulk( jetmulti+"preselection_", "AlphaT_vs_HT_CommJetgeq2_h_", startNJet, nJets, 0, lowybulk, HTto1075, DataSet, samples );
+    }*/
 
-  TF1* fit = new TF1("fit","expo",275.,higfit);
 
-  TH1D *ratio=getRATvsHT(label, startNJet, nJets, lowy, highy, lowybulk, HTto1075, DataSet, samples, jetmulti, bulksample);
+
   vector<double> meanHTRMS=MeanHTRMS();
   vector<double> meanHT=getMeanHT( startNJet, nJets, lowybulk, HTto1075, DataSet, jetmulti, samples );
   //  count<<meanHT[0]<<endl;
@@ -482,8 +487,31 @@ vector<double> QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TStri
   Double_t *ex = new Double_t[NG];
   Double_t *ey = new Double_t[NG];
 
+ int nxbins=14;
+ double xbins[15]={ 75.0, 125.0, 175.0, 225.0, 275.0, 325.0, 375.0, 475.0, 575.0, 675.0, 775.0, 875.0, 975.0, 1075.0, 1175.0 };
+ TH1D *ratio=new TH1D("ratio", "ratio", nxbins, xbins);
+ double higfit=975.;
+ int usebins=12;
+  if( HTto1075 ){ 
+    higfit=1175.;
+    usebins=14;
+  }
 
+  int last=NG+5;
+  if( useHTErrX ){
+    playHist1D hf1d=playHist1D();
+    last=hf1d.getLastBinHasContent( ratio_0, NG+5);
+    higfit=meanHT[last-5]+meanHTRMS[last-5];
+    cout<<"last="<<last<< " higfit=" << higfit<< " last="<<last<<endl;
+  }
+
+  TF1* fit = new TF1("fit","expo",275.,higfit);
   if( !useHTErrX ){
+    for( unsigned int i=1; i<= usebins; i++ ){
+      if( ratio_0->GetBinContent(i) == 0. ) continue;
+      ratio->SetBinContent(i, ratio_0->GetBinContent(i) );
+      ratio->SetBinError(i, ratio_0->GetBinError(i) );
+    }
     ratio->GetXaxis()->SetTitle("H_{T} (GeV)");
     ratio->GetYaxis()->SetTitle("R_{#alpha_{T}}");
     ratio->GetYaxis()->SetTitleOffset(1.8);
@@ -497,12 +525,33 @@ vector<double> QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TStri
     ratio->SetMinimum(0);
     ratio->Fit(fit,"R");
     ratio->Draw("same");
+    for( int i=0; i< NG; i++ ){
+      cout<<" ratiocontent"<<ratio->GetBinContent(i+5)<<" e ratio"<<ratio->GetBinError(i+5)<<" ratio="<<ratio->GetBinContent(i+5)<<" RatioX="<<ratio->GetBinLowEdge(i+5)<<endl;
+    }
   } else {
     for( int i=0; i< NG; i++ ){
       x[i]=meanHT[i];
       ex[i]=meanHTRMS[i];
-      y[i]=ratio->GetBinContent(i+1);
-      ey[i]=ratio->GetBinError(i+1);
+      y[i]=ratio_0->GetBinContent(i+5);
+      ey[i]=ratio_0->GetBinError(i+5);
+      if( y[i] == 0. && ( i + 5 < last ) ){
+	int nearbindis=100;
+	int nearbin=-1;
+	for( int j=0; j<NG; j++ ){
+	  if( j != i ){
+	    if( ratio_0->GetBinContent(j+5) > 0. ){
+	      if(fabs( j-i ) < nearbindis ){
+		nearbindis=fabs( j-i );
+		nearbin=j;
+	      }
+	    }
+	  }
+	}
+	if( nearbin >= 0. ){
+	  ey[i]=1.15*y[nearbin];
+	}
+      }
+      cout<<" y[i]="<<y[i]<<" ey[i]="<<ey[i]<<" ratio="<<ratio_0->GetBinContent(i+5)<<" RatioX="<<ratio_0->GetBinLowEdge(i+5)<<endl;
     }
     gratio=new TGraphErrors(NG, x, y, ex, ey);
     gratio->SetLineColor(1);
@@ -537,7 +586,7 @@ vector<double> QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TStri
 
   vector<double> rek;
 
-  if( !getFitParak_ ){
+  if( getFitParak_ > 0 ){
     FILE * outputfile;
     char buffer[100];
     if(useBTag_){
@@ -589,7 +638,7 @@ vector<double> QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TStri
     len1->AddEntry("", Form("%s,  #alpha_{T} (%.2f,  %.2f)", region.Data(), lowy, highy), "");
     len1->Draw();
 
-    TLegend *len2=new TLegend(0.1, 0.01, 0.75, 0.05);
+    TLegend *len2=new TLegend(0.1, 0.01, 0.7, 0.05);
     len2->SetColumnSeparation(0.2);
     len2->SetFillColor(0);
     len2->SetMargin(0.2);
@@ -645,9 +694,9 @@ vector<double> QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TStri
 
     delete len1;
     delete len2;
+  } 
 
-  } else {
-
+  if ( getFitParak_ > 1) {
     rek.push_back( fit->GetParameter(1) );
     rek.push_back( fit->GetParError(1) );
   }

@@ -19,7 +19,7 @@ using namespace std;
 
 playHist1D::playHist1D():
   linewidth(2),
-  markersize(2)
+  markersize(1)
 {}
 
 // -----------------------------------------------------------------------------
@@ -141,7 +141,7 @@ TH1D* playHist1D::addHistForDiffFoldersFilesHists1D(vector<TFile*> vf, vector<TS
 //
 TH1D* playHist1D::formatHist( TH1D* inh, double inscale, TString titlex, TString titley, double xlow, double xhigh, int rebin ){
   tdrstyle tdr=tdrstyle();
-  tdr.setTDRStyle("g");
+  tdr.setTDRStyle(".0f");
 
   TH1D* h=(TH1D*)(inh->Clone("h"));
   if(rebin > 1){
@@ -340,47 +340,100 @@ TH1D* playHist1D::CumulativeH( TH1D* inh ){
 
 // -----------------------------------------------------------------------------
 //
-TH1D* playHist1D::getRatioPlot( TH1D* inh, TH1D* inh_1, double lowestbin ){
+vector<TH1D*> playHist1D::getRatioPlot( TH1D* inh, TH1D* inh_1, double lowestbin, double highbin ){
 
-  int nxbin=0;
-  vector<int> xbin;
-  xbin.push_back(lowestbin);
   TH1D *inhc=(TH1D*)(inh->Clone("inhc"));
   TH1D *inhc_1=(TH1D*)(inh_1->Clone("inhc_1"));
 
-  int ifirst_0=getFirstBinHasContent( inh );
-  int ifirst_1=getFirstBinHasContent( inh_1 );
-  int ifirst=ifirst_0;
-  if( ifirst_1 < ifirst_0 ){
-    int ifirst=ifirst_1;
+  int ifirst=inh->FindBin(lowestbin);
+  int ilast=inh->FindBin(highbin);
+
+  int ifirst_d=getFirstBinHasContent(inh);
+
+  int nxbin=0;
+  vector<double> xbin;
+  xbin.push_back( inh->GetBinLowEdge( ifirst ) );
+  cout<<" inh->GetBinLowEdge( ifirst_d ) ="<<inh->GetBinLowEdge( ifirst_d )<<endl;
+  vector<double> bincont;
+  vector<double> binerr;
+  vector<double> mcbinerr;
+  vector<double> mcdatabinerr;
+  for( unsigned int i=ifirst; i<ifirst_d; i++ ){
+    nxbin=nxbin+1;
+    double higbin=inhc->GetBinLowEdge(i)+inhc->GetBinWidth(i);
+    xbin.push_back(higbin);
+    mcdatabinerr.push_back(0.);
+    bincont.push_back( 0. );
+    binerr.push_back( 0. );
+    mcbinerr.push_back( 0. );
+    cout<<"1. nxbin="<<nxbin<<" higbin="<<higbin<<endl;
   }
-  for( unsigned int i=ifirst; i<= inhc->GetNbinsX(); i++ ){
+  for( unsigned int i=ifirst_d; i<= ilast; i++ ){
     double err=getRatioErr( inhc->GetBinContent(i), inhc->GetBinError(i), inhc_1->GetBinContent(i), inhc_1->GetBinError(i) );
+    cout<<"err="<<err<<" ifirst_d="<<ifirst_d<<" inhc->GetBinContent(ifirst_d)="<<inhc->GetBinContent(ifirst_d)<<" ifirst="<<ifirst<< "inhc->GetBinContent(ifirst)="<<inhc->GetBinContent(ifirst)<<endl;
     if( err > ratioPlotErr_ ){
       double totalnum=inhc->GetBinContent(i);
       double totaldom=inhc_1->GetBinContent(i);
       double totalnumerr2=inhc->GetBinError(i) * inhc->GetBinError(i);
       double totaldomerr2=inhc_1->GetBinError(i) * inhc_1->GetBinError(i);
       double errj=err;
-      for( unsigned int j=i+1; j <= inhc->GetNbinsX(); j++ ){
+      for( unsigned int j=i+1; j <= ilast; j++ ){
 	totalnum=totalnum + inhc->GetBinContent(j);
 	totaldom=totaldom + inhc_1->GetBinContent(j);
 	totalnumerr2=totalnumerr2 + inhc->GetBinError(j) * inhc->GetBinError(j);
 	totaldomerr2=totaldomerr2 + inhc_1->GetBinError(j) * inhc_1->GetBinError(j);
 	errj=getRatioErr( totalnum, sqrt(totalnumerr2), totaldom, sqrt(totaldomerr2) );
-	if( ( errj > ratioPlotErr_ && j == inhc->GetNbinsX() ) || errj <= ratioPlotErr_ ){
+	if( ( errj > ratioPlotErr_ && j == ilast ) || errj <= ratioPlotErr_ ){
 	  i=j+1;
 	  break;
 	}
+	cout<<"j="<<j<<endl;
       }
       nxbin=nxbin+1;
       double higbin=inhc->GetBinWidth(i-1)+inhc->GetBinLowEdge(i-1);
+      cout<<"2. nxbin="<<nxbin<<" higbin="<<higbin<<" i="<<i<<" inhc->GetBinWidth(i-1)="<<inhc->GetBinWidth(i-1)<<" inhc->GetBinLowEdge(i-1)="<<inhc->GetBinLowEdge(i-1)<<endl;
       xbin.push_back(higbin);
-
+      mcdatabinerr.push_back(errj);
+      if( totaldom != 0. && totalnum!=0 ){
+	bincont.push_back(totalnum/totaldom);
+	binerr.push_back(sqrt(totalnumerr2)/totalnum);
+	mcbinerr.push_back(sqrt(totaldomerr2)/totaldom);
+      } else if ( totaldom == 0. && totalnum != 0 ){
+	bincont.push_back(0.);
+	binerr.push_back(sqrt(totalnumerr2)/totalnum);
+	mcbinerr.push_back(1.15);
+      } else if ( totaldom != 0. && totalnum == 0. ){
+	bincont.push_back(totalnum/totaldom);
+	binerr.push_back(1.15);
+	mcbinerr.push_back(sqrt(totaldomerr2)/totaldom );
+      } else if ( totaldom ==0 && totalnum == 0. ){
+	bincont.push_back(0.);
+	binerr.push_back(1.15);
+	mcbinerr.push_back( 1.15 );
+      }
     } else {
       nxbin=nxbin+1;
-      double higbin=lowestbin+inhc->GetBinWidth(i);
+      double higbin=inhc->GetBinLowEdge(i)+inhc->GetBinWidth(i);
       xbin.push_back(higbin);
+      mcdatabinerr.push_back(err);
+      if( inhc_1->GetBinContent(i) != 0. && inhc->GetBinContent(i) != 0 ){
+	bincont.push_back(inhc->GetBinContent(i)/inhc_1->GetBinContent(i) );
+	binerr.push_back(inhc->GetBinError(i)/inhc->GetBinContent(i));
+	mcbinerr.push_back(inhc_1->GetBinError(i)/inhc_1->GetBinContent(i) );
+      } else if ( inhc_1->GetBinContent(i) ==0  && inhc->GetBinContent(i) != 0 ){
+	bincont.push_back( 0. );
+	binerr.push_back(inhc->GetBinError(i)/inhc->GetBinContent(i));
+	mcbinerr.push_back( 1.15 );
+      } else if ( inhc_1->GetBinContent(i) !=0  && inhc->GetBinContent(i) == 0 ){
+	bincont.push_back( inhc->GetBinContent(i)/inhc_1->GetBinContent(i) );
+	binerr.push_back( 1.15 );
+	mcbinerr.push_back( inhc_1->GetBinError(i)/inhc_1->GetBinContent(i) );
+      } else if ( inhc_1->GetBinContent(i) ==0  && inhc->GetBinContent(i) != 0 ){
+	bincont.push_back( 0. );
+	binerr.push_back( 1.15 );
+	mcbinerr.push_back( 1.15 );
+      }
+      cout<<"3. nxbin="<<nxbin<<" higbin="<<higbin<<" i="<<i<<" inhc->GetBinWidth(i)="<<inhc->GetBinWidth(i)<<" inhc->GetBinLowEdge(i)="<<inhc->GetBinLowEdge(i)<<endl;
     }
   }
 
@@ -390,22 +443,69 @@ TH1D* playHist1D::getRatioPlot( TH1D* inh, TH1D* inh_1, double lowestbin ){
     xbina[i]=xbin[i];
   }
   TH1D *h=new TH1D("h", "Data/MC", nxbin, xbina );
+  TH1D *h1=new TH1D("h1", "h1", nxbin, xbina );
+  TH1D *h2=new TH1D("h2", "h2", nxbin, xbina );
   for( int i=1; i<=nxbin; i++){
-    h->SetBinContent(i, 0);
+    h->SetBinContent(i, bincont[i-1]);
+    h->SetBinError(i, binerr[i-1]);
+    h1->SetBinContent(i, 1.);
+    h1->SetBinError(i, mcbinerr[i-1]);
+    h2->SetBinContent(i, bincont[i-1]);
+    h2->SetBinError(i, mcdatabinerr[i-1]);
+    cout<<"4. nxbin="<<nxbin<<" bincon[i-1]"<<bincont[i-1]<< "bincont[i]" <<bincont[i]<<endl;
   }
-  return h;
+  h->GetXaxis()->SetRangeUser(lowestbin, highbin);
+  h1->GetXaxis()->SetRangeUser(lowestbin, highbin);
+  h2->GetXaxis()->SetRangeUser(lowestbin, highbin);
+  vector<TH1D*> reh;
+  reh.push_back(h);
+  reh.push_back(h1);
+  reh.push_back(h2);
+  return reh;
 }
 
-double playHist1D::getRatioErr( double numi, double numerri, double domi, double domerri){
-  return sqrt( ( (numerri*numerri)/(numi*numi) + (domerri*domerri)/(numerri*numerri) ) ) * (numi/domi);
+double playHist1D::getRatioErr( double datacon, double dataerr, double mccon, double mcerr){
+  double poisson_eh[11] = { 1.15, 1.36, 2.00, 2.14, 2.30, 2.49, 2.68, 2.86, 3.03, 3.19, 3.16 };
+  double err=0.;
+  int index_l10=(int)( datacon );
+  if( datacon > 10. && mccon > 0. ){
+    err=sqrt( pow( dataerr/datacon, 2) + pow( mcerr/mccon, 2 ) );
+  }  else if( datacon > 10. && mccon ==0. ){
+    err=sqrt(pow( dataerr/datacon, 2 ) + pow( 1.15, 2 ) );
+  } else if( datacon <= 10. && datacon > 0. && mccon > 0. ){
+    err=sqrt( pow( ( poisson_eh[ index_l10 ]/datacon ), 2 ) + pow( mcerr/mccon, 2 ) );
+  } else if( ( datacon <= 10. && datacon > 0. ) && mccon == 0. ){
+    err=sqrt( pow( ( poisson_eh[ index_l10 ]/datacon ), 2 ) + pow( 1.15 , 2 ) );
+  } else if( datacon == 0. && mccon > 0. ){
+    err=sqrt( pow( 1.15, 2 ) + pow( mcerr/mccon, 2 ) );
+  } else if( datacon == 0. && mccon == 0. ){
+    err=sqrt(pow( 1.15, 2 ) + pow( 1.15, 2 ) );
+  }
+  return err;
 }
 
 int playHist1D::getFirstBinHasContent( TH1D* inh){
    for( int i=1; i<=inh->GetNbinsX(); i++){
     if ( inh->GetBinContent(i) > 0. ){
+      cout<<"i="<<i<<endl;
       return i;
     }
   }
+}
+
+
+
+int playHist1D::getLastBinHasContent( TH1D* inh, int lastbin){
+  int last=inh->GetNbinsX();
+  if( lastbin > 0 ){
+    last=lastbin;
+  }
+   for( int i=last; i>=1; i--){
+    if ( inh->GetBinContent(i) > 0. ){
+      return i;
+    }
+  }
+   return last;
 }
 
 

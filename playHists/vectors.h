@@ -56,6 +56,7 @@ class vectors{
   vector<double> DiMuTrigEff_pushback(TString sTreeThr);
   vector<double> SingleMuTrigEff_pushback(TString sTreeThr);
   vector<double> HTATTrigEff_pushback(TString sTreeThr);
+  vector<double> PhotonTrigEff_pushback(TString sTreeThr);
   vector<double> nominaltrigeff_pushback(TString sTreeThr);
   TString getDir( int whichpart, bool MuAddOrNot);
   vector<TFile*> getMCvf( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, bool MuAddOrNot );

@@ -14,6 +14,17 @@
 #include "TStyle.h"
 #include "getTranslationFactor.h"
 
+//double scale_s=0.232;
+//TString sample_s="T2cc160";
+
+double scale_s=0.007984;
+TString sample_s="T2cc300";
+
+//double scale_s=1.;
+//TString sample_s="SM";
+//double scale_s=1.;
+//TString sample_s="T2cc300_abs";
+
 using namespace std;
 
 printTables::printTables(){}
@@ -80,8 +91,8 @@ vector<vector<TString> > printTables::readHist_WithErr( TH2D* factor, TString di
 	if( (int)(xbinlow*10.) >= 2750){
 	  double value=factorh->GetBinContent(ix, iy);
 	  double error=factorh->GetBinError(ix, iy);
-	  TString svalue=Form(digit, value);
-	  TString serror=Form(digit, error);
+	  TString svalue=Form(digit, value*scale_s);
+	  TString serror=Form(digit, error*scale_s);
 	  factor.push_back(svalue+" $\\pm$ "+serror);
 	}
       }
@@ -594,7 +605,6 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
   vector<vector<TString> > controlData_WithErr=readHist_WithErr( controlData_h, digit );
   vector<vector<TString> > predBG_WithErr=readHist_WithErr( predBG_h_trigcorr, digit );
 
-
   TH2D *Zinvh=ZinvPredBG();
   vector<vector<TString> > predBG_Zinv_WithErr=readHist_WithErr( Zinvh, digit );
 
@@ -603,6 +613,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
   vector<vector<TString> > predBG_total_withZinvpred_WithErr=readHist_WithErr( predBG_totalh_withZinvpred, digit );
 
   vector<vector<TString> > yieldData_WithErr=readHist_WithErr( yieldData_h, digit );
+
 
   int column_n=4;
 
@@ -617,7 +628,7 @@ int printTables::Tables_ForNormal( TString closureTests, int iJetStart, int iJet
     outputfile = fopen (buffer,"w");
   } else {
     char buffer[100];
-    sprintf (buffer, "table_%s%dTo%db.tex", MuonNumber.Data(), startNJet-1, startNJet+nJets-2);
+    sprintf (buffer, "table_%s%dTo%db_%s.tex", MuonNumber.Data(), startNJet-1, startNJet+nJets-2, sample_s.Data());
     outputfile = fopen (buffer,"w");
   }
   fprintf(outputfile, "\\documentclass[a4paper,12pt]{article} \n");

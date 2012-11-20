@@ -24,12 +24,15 @@ menus::menus(){
   useBTag_=true;
   doCumulative_=false;
   mcPUS_="PUS7";
-  getFitParak_=true;
+  getFitParak_=2;
   useVariantRatioPlot_=false;
-  ratioPlotErr_=0.25;
+  ratioPlotErr_=0.1;
+  QCDkUsePosionErr_=true;
+  doPhoton_=false;
+  includeSignal_=true;
 
   bool useLO=true; 
-  hasData_=true;
+  hasData_=false;
   hasMCtotal_=true;
   hasWJ_=true;
   hasDY_=true;
@@ -43,6 +46,11 @@ menus::menus(){
   useLOXSTT_=useLO;
   useLOXSZinv_=useLO;
 
+  hasGJ_=false;
+  useLOXSGJ_=useLO;
+
+  hasTT_Massive_=false;
+  useLOXSTT_Massive_=useLO;
   hasWJ_XSLO_=false;
   hasZinvFromDY_=false;
   hasWJveryHighHT_=false;
@@ -73,12 +81,17 @@ menus::menus(){
   hasT2bw_smallScan_05_350_50_=false;
   hasT2bw_smallScan_075_350_50_=false;
 
-  TString period="";
   hasT1tttt_ = false;
+  hasT2cc160_=false;
+  hasT2cc300_=true;
+
+  TString period="";
   //  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
   inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/SeventeenthLook_25_Sep2012/";
-  subdir_="/allBJets_PUReWNoTopLimi_Has2To3Jets";
-  folderlabel_="";
+  subdir_="/allBJets_PUReWNoTopLimi_Has2To3Jets_BScaleCorr";
+  //  subdir_="/allBJets_PUReWNoTopLimi_Has2To3Jets";
+  // subdir_="/allBJets_QCDk";
+  folderlabel_="TwoThreeJet_";
   //  HadTaudataset_="SingleMu2012";
   NotHadTaudataset_="HT2012"+period;
   signalTrig_="";
@@ -88,6 +101,8 @@ menus::menus(){
   NormalcontrolTrig_="SingleMuTrig";
   controlDataset_ = "SingleMu2012"+period;
   QCDDataSet_="JetHT2012"+period;
+  photonControlTrig_="Photon";
+  photonControlDataSet_="Photon2012"+period;
   MCsample_="";
   plotTrueTauHad_=false;
   MuonNumber_ = "OneMuon_";
@@ -108,11 +123,13 @@ menus::menus(){
     mcscale_HT_=  51.26247;
     mcscale_SingleMu_= 50.00191;
     mcscale_DiMu_= 50.00191;
+    mcscale_Photon_=50.00191;
     } else if( period == ""){
     //period ABC. Sep 24
     mcscale_HT_=  116.59247;
     mcscale_SingleMu_= 113.89191;
     mcscale_DiMu_= 113.89191;
+    mcscale_Photon_=115.70;
     }
   }
 
