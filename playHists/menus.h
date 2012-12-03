@@ -31,8 +31,7 @@ class menus{
   bool useVariantRatioPlot_;
   double ratioPlotErr_;
   bool QCDkUsePosionErr_;
-  bool doPhoton_;
-  bool includeSignal_;
+  bool plotRatio_;
 
   bool hasData_;
   bool hasMCtotal_;
@@ -85,6 +84,9 @@ class menus{
   bool hasT1tttt_;
   bool hasT2cc160_;
   bool hasT2cc300_;
+  bool hasT2cc220_145_;
+  bool hasT2cc220_170_;
+  bool hasT2cc220_195_;
 
   TString inidir_;
   TString subdir_;

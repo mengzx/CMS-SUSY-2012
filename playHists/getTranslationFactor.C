@@ -46,7 +46,7 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     vf_had=MCvf_pushback(dirhad, MCsample_, "HadSele"+signalTrig_, HTBins, false, "");
   }
 
-  vector<TFile*> vf_1mu;
+  /*  vector<TFile*> vf_1mu;
   if( normalEstimation_ == true ){
     if( isData == true ){
       vf_1mu=Datavf_pushback(dir1mu, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
@@ -61,7 +61,7 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
 	vf_1mu=Datavf_pushback(dir1mu, NotHadTaudataset_, "Muon"+NotHadTaucontrolTrig_, HTBins);
       } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NotHadTaucontrolTrig_, HTBins, false, "" );
     }
-  }
+    }*/
   double scalein_numer=1.;
   double scalein_domin=1.;
   TString digit1in="";
@@ -85,10 +85,10 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
   }
 
   vector<TString> dirNamehad=dirName_pushback(folderlabel_ + "", HTBins);
-  vector<TString> dirName1mu=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
+  //  vector<TString> dirName1mu=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
 
   vector<TString> hNamehad;
-  vector<TString> hName1mu=vhname_pusback_domin(MuAddOrNot, fullesti, startNJet, nJets);
+  //  vector<TString> hName1mu=vhname_pusback_domin(MuAddOrNot, fullesti, startNJet, nJets);
 
   if( isData == true ){
     hNamehad=vhname_pusback_data(MuAddOrNot, fullesti, startNJet, nJets);
@@ -100,19 +100,19 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     vector<TH2D*> reh2d;
 
     TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D( vf_had, dirNamehad, hNamehad, nominaltrigeff );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D( vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
+    //    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D( vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
 
-    if( notCutAlphaT_ ){
-      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
-    }
+    //    if( notCutAlphaT_ ){
+    //      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
+    //      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
+    //    }
     
-    TH2D* factor_h=(TH2D*)( AlphaT_vs_HT_numer->Clone( "factor_h" ) );
-    factor_h->Divide( AlphaT_vs_HT_numer, AlphaT_vs_HT_domin );
+    //    TH2D* factor_h=(TH2D*)( AlphaT_vs_HT_numer->Clone( "factor_h" ) );
+    //    factor_h->Divide( AlphaT_vs_HT_numer, AlphaT_vs_HT_domin );
 
     reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
+    //    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
+    //    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     return reh2d;
   }
 
@@ -130,19 +130,19 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     }
 
     TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersAndFiles_SubtrackHists2D(vf_had, dirNamehad, vhname_first, vhname_second, nominaltrigeff );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
+    //    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
 
-    if( notCutAlphaT_ ){
-      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
-    }
+    //    if( notCutAlphaT_ ){
+    //      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
+    //      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
+    //    }
     
-    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
-    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
+    //    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
+    //    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
     reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
+    //    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
+    //    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     
     return reh2d;
   }
@@ -151,39 +151,39 @@ vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool ful
     vector<TH2D*> reh2d;
 
     TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
+    //    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
 
-    if( notCutAlphaT_ ){
-      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
-    }
+    //    if( notCutAlphaT_ ){
+    //      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
+    //      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
+    //    }
     
-    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
-    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
+    //    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
+    //    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
     reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
+    //    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
+    //    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     return reh2d;
   }
 
   if( normalEstimation_ == true ){
     vector<TH2D*> reh2d;
     TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
-    cout<<" dirName1mu="<<dirName1mu[0]<<" hName1mu="<<hName1mu[0]<<" nominaltrigeff="<<nominaltrigeff[0]<<endl;
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
+    //    cout<<" dirName1mu="<<dirName1mu[0]<<" hName1mu="<<hName1mu[0]<<" nominaltrigeff="<<nominaltrigeff[0]<<endl;
+    //    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
     cout<<"hi"<<endl;
-    if( notCutAlphaT_ ){
-      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
-    }
+    //    if( notCutAlphaT_ ){
+    //      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
+    //      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
+    //    }
 
-    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
-    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
+    //    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
+    //    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
 
     reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
+    //    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
+    //    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
     return reh2d;
   }
 

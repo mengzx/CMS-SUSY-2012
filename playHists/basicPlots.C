@@ -23,6 +23,11 @@
 #include "menus.h"
 #include "TMath.h"
 #include "math.h"
+#include <algorithm>
+#include <iostream>
+#include <tr1/tuple>
+
+
 
 using namespace std;
 
@@ -58,718 +63,227 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
   //  getTranslationFactor tf=getTranslationFactor();
   playHist1D pf1d=playHist1D();
 
-  TString dir;
-
-  TString dir_truetauhad;
-  if( whichpart == 1 ){
-    dir = inidir_ + "rootfiles/hadronicSele" + subdir_;
-  } else if ( whichpart != 1 && MuAddOrNot == true && normalEstimation_ == false){
-    dir = inidir_ + "rootfiles/oneMuonSele/muonpT50GeV" + subdir_;
-    if( plotTrueTauHad_ ){
-      dir_truetauhad = inidir_ + "rootfiles/hadronicSele" + subdir_;
-    }
-  } else if ( whichpart !=1 && MuAddOrNot == false && normalEstimation_ == false){
-    dir = inidir_ + "rootfiles/oneMuonSele/muonpT10GeV" + subdir_;
-  } else if ( whichpart !=1 && normalEstimation_ == true){
-    dir = inidir_ + "rootfiles/oneMuonSele/muonpT45GeV" + subdir_;
-  }
-    
-  vector<TFile*> Datavf;
-  vector<TFile*> MCvf;
-  vector<TString> vdirname;
+  std::tr1::tuple< TString, TString, vector<TFile*>, vector<TFile*> > tupleres=getStuff( whichpart, MuAddOrNot, HTBins, separateSample, singleMCsample );
+  vector<TFile*> Datavf=tr1::get<2>(tupleres);
+  vector<TFile*> MCvf=std::tr1::get<3>(tupleres);
+  TString hnamepart=std::tr1::get<1>(tupleres);
   vector<TString> vhname;
-  vector<TFile*> MCvf_truetauhad;
-  vector<TString> vdirname_truetauhad;
-  vector<TString> vhname_truetauhad;
-  vector<double> nominaltrigeff=nominaltrigeff_pushback(HTBins);
-  vector<double> HTATtrigeff=HTATTrigEff_pushback(HTBins);
-  vector<double> SingleMutrigeff=SingleMuTrigEff_pushback(HTBins);
-  vector<double> DiMutrigeff=DiMuTrigEff_pushback(HTBins);
-  vector<double> Photontrigeff=PhotonTrigEff_pushback(HTBins);
-
-
-  if( whichpart == 1 ){
-    if( dataMC == 1 ){
-      Datavf=Datavf_pushback(dir, signalDataset_, "HadSele"+signalTrig_, HTBins );
-    } else if ( dataMC == 2 ){
-      MCvf=MCvf_pushback(dir, MCsample_, "HadSele"+signalTrig_, HTBins, separateSample, singleMCsample );
-    } else if ( dataMC == 0){
-      Datavf=Datavf_pushback(dir, signalDataset_, "HadSele"+signalTrig_, HTBins);
-      MCvf=MCvf_pushback(dir, MCsample_, "HadSele"+signalTrig_, HTBins, separateSample, singleMCsample );
-    }
-    vdirname=dirName_pushback(FolderLabel+"", HTBins);
-    if( startNJet == 0 ){
-      vhname.push_back(whichplot+"_CommJetgeq2_h_all");
-    } else {
-      for( int i=startNJet; i< startNJet+nJets; i++ ){
-	vhname.push_back( Form(whichplot+"_CommJetgeq2_h_%d", i ) );
-      }
-    }
-  } else if ( whichpart == 2 && MuAddOrNot == true && normalEstimation_ == false ){
-    if( dataMC == 1 ){
-      Datavf=Datavf_pushback(dir, HadTaudataset_, "MuonAdded"+HadTaucontrolTrig_, HTBins );
-    } else if( dataMC == 2 ){
-      MCvf=MCvf_pushback(dir, MCsample_, "MuonAdded"+HadTaucontrolTrig_, HTBins, separateSample, singleMCsample );
-    } else if( dataMC == 0 ){
-      Datavf=Datavf_pushback(dir, HadTaudataset_, "MuonAdded"+HadTaucontrolTrig_, HTBins);
-      MCvf=MCvf_pushback(dir, MCsample_, "MuonAdded"+HadTaucontrolTrig_, HTBins, separateSample, singleMCsample );
-    }
-    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
-    if( startNJet == 0 ){
-      vhname.push_back(whichplot+"_JetMugeq2_h_all");
-    } else {
-      for( int i=startNJet; i< startNJet+nJets; i++ ){
-	vhname.push_back( Form( whichplot+"_JetMugeq2_h_%d", i ) );
-      }
-    }
-    if( plotTrueTauHad_ ){
-      if( startNJet == 0 ){
-	vhname_truetauhad.push_back(whichplot+"_CommJetgeq2_hasTrueTauHad_h_all");
-      } else {
-	for( int i=startNJet; i< startNJet+nJets; i++ ){
-	  vhname_truetauhad.push_back( Form( whichplot+"_CommJetgeq2_hasTrueTauHad_h_%d", i ) );
-	}
-      }
-      MCvf_truetauhad=MCvf_pushback(dir_truetauhad, MCsample_, "HadSele"+signalTrig_, HTBins, false, "");
-      vdirname_truetauhad=dirName_pushback(folderlabel_+"", HTBins);
-    }
-  } else if ( whichpart == 2 && MuAddOrNot == false && normalEstimation_ == false ){
-    if( dataMC == 1){
-      Datavf=Datavf_pushback(dir, NotHadTaudataset_, "Muon"+NotHadTaucontrolTrig_, HTBins);
-    } else if( dataMC == 2 ){
-      MCvf=MCvf_pushback(dir, MCsample_, "Muon"+NotHadTaucontrolTrig_, HTBins, separateSample, singleMCsample );
-    } else if( dataMC == 0 ){
-      Datavf=Datavf_pushback(dir, NotHadTaudataset_, "Muon"+NotHadTaucontrolTrig_, HTBins);
-      MCvf=MCvf_pushback(dir, MCsample_, "Muon"+NotHadTaucontrolTrig_, HTBins, separateSample, singleMCsample );
-    }
-    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
-    if( startNJet == 0 ){
-      vhname.push_back(whichplot+"_CommJetgeq2_h_all");
-    } else {
-      for( int i=startNJet; i< startNJet+nJets; i++ ){
-	vhname.push_back( Form( whichplot+"_CommJetgeq2_h_%d", i ) );
-      }
-    }
-  } else if ( whichpart == 2 && normalEstimation_ == true ) {
-    if( dataMC == 1){
-      Datavf=Datavf_pushback(dir, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
-    } else if( dataMC == 2 ){
-      MCvf=MCvf_pushback(dir, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, separateSample, singleMCsample );
-    } else if(dataMC == 0 ){
-      Datavf=Datavf_pushback(dir, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
-      MCvf=MCvf_pushback(dir, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, separateSample, singleMCsample );
-    }
-    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
-    if( startNJet == 0 ){
-      vhname.push_back(whichplot+"_CommJetgeq2_h_all");
-    } else {
-      for( int i=startNJet; i< startNJet+nJets; i++ ){
-	vhname.push_back( Form( whichplot+"_CommJetgeq2_h_%d", i ) );
-      }
-    }
-  } else if ( whichpart == 3 && normalEstimation_ == true ) {
-    if( dataMC == 1){
-      Datavf=Datavf_pushback(dir, photonControlDataSet_, photonControlTrig_, HTBins);
-    } else if( dataMC == 2 ){
-      MCvf=MCvf_pushback(dir, MCsample_, photonControlTrig_, HTBins, separateSample, singleMCsample );
-    } else if(dataMC == 0 ){
-      Datavf=Datavf_pushback(dir, photonControlDataSet_, photonControlTrig_, HTBins);
-      MCvf=MCvf_pushback(dir, MCsample_, photonControlTrig_, HTBins, separateSample, singleMCsample );
-    }
-    vdirname=dirName_pushback(FolderLabel + MuonNumber, HTBins);
-    if( startNJet == 0 ){
-      vhname.push_back(whichplot+"_CommJetgeq2_h_all");
-    } else {
-      for( int i=startNJet; i< startNJet+nJets; i++ ){
-	vhname.push_back( Form( whichplot+"_CommJetgeq2_h_%d", i ) );
-      }
+  if( startNJet == 0 ){
+    vhname.push_back(whichplot + hnamepart + "all");
+  } else {
+    for( int i=startNJet; i< startNJet+nJets; i++ ){
+      vhname.push_back( Form( whichplot + hnamepart + "%d", i ) );
     }
   }
+  vector<TString> vdirname=getVdirname( whichpart, HTBins, MuonNumber, FolderLabel, MuAddOrNot );
+  tr1::tuple< double, vector<double> > tupleTrigEff=getScales( whichpart, HTBins, MuonNumber );
+  double mcscale=tr1::get<0>( tupleTrigEff );
+  vector<double> trigeff=tr1::get<1>( tupleTrigEff );
+  vector<double> nominaltrigeff=nominaltrigeff_pushback(HTBins);
+
 
   TH1D* MCh=0;
   TH1D* Datah=0;
   TH1D* MCh_truetau=0;
   vector<TH1D*> vh;
-
   if( OneDTwoD == 1 ){
     if( dataMC == 1 ){
       Datah=Hist1D( Datavf, vdirname, vhname, datascale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
       vh.push_back( Datah );
     } else if( dataMC == 2 ){
-      double mcscale=mcscale_;
-      vector<double> trigeff=nominaltrigeff;
-      if( whichpart == 1 ){
-	if( doTrigCorr_ ){
-	  trigeff=HTATtrigeff;
-	}
-	if( !useCommonJson_ ){
-	  mcscale=mcscale_HT_;
-	}
-	MCh=Hist1D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, trigeff );
-	vh.push_back( MCh );
-      } else if( whichpart == 2 ){
-	if( doTrigCorr_ ){
-	  if(  MuonNumber == "OneMuon_" ){
-	    trigeff=SingleMutrigeff;
-	  } else if( MuonNumber == "DiMuon_" ){
-	    trigeff=DiMutrigeff;
-	  }
-	}
-
-	if( !useCommonJson_){
-	  if(  MuonNumber == "OneMuon_" ){
-	    mcscale=mcscale_SingleMu_;
-	  } else if( MuonNumber == "DiMuon_" ){
-	    mcscale=mcscale_DiMu_;
-	  }
-	}
-	MCh=Hist1D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, trigeff );
-	vh.push_back( MCh ); 
-      } else if( whichpart == 3 ){
-	if( doTrigCorr_ ){
-	  trigeff=Photontrigeff;
-	}
-	if( !useCommonJson_ ){
-	  mcscale=mcscale_Photon_;
-	}
-	MCh=Hist1D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, trigeff );
-	vh.push_back( MCh ); 
-      }
-      if( plotTrueTauHad_ ){
-	MCh_truetau=Hist1D(  MCvf_truetauhad, vdirname_truetauhad, vhname_truetauhad, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
-	vh.push_back( MCh_truetau );
-      }
+      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, trigeff );
+      vh.push_back( MCh );
     } else if( dataMC == 0){
-      double mcscale=mcscale_;
-      vector<double> trigeff=nominaltrigeff;
-      if( whichpart == 1 ){
-	if( doTrigCorr_ ){
-	  trigeff=HTATtrigeff;
-	}
-	if( !useCommonJson_ ){
-	  mcscale=mcscale_HT_;
-	}
-	MCh=Hist1D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, trigeff );
-	vh.push_back( MCh );
-      } else if( whichpart == 2 ){
-	if( doTrigCorr_ ){
-	  if(  MuonNumber == "OneMuon_" ){
-	    trigeff=SingleMutrigeff;
-	  } else if( MuonNumber == "DiMuon_" ){
-	    trigeff=DiMutrigeff;
-	  }
-	}
-
-	if( !useCommonJson_){
-	  if(  MuonNumber == "OneMuon_" ){
-	    mcscale=mcscale_SingleMu_;
-	  } else if( MuonNumber == "DiMuon_" ){
-	    mcscale=mcscale_DiMu_;
-	  }
-	}
-	MCh=Hist1D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, trigeff );
-	vh.push_back( MCh ); 
-      } else if( whichpart == 3 ){
-	if( doTrigCorr_ ){
-	  trigeff=Photontrigeff;
-	}
-	if( !useCommonJson_ ){
-	  mcscale=mcscale_Photon_;
-	}
-	MCh=Hist1D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, trigeff );
-	vh.push_back( MCh ); 
-      }
-
+      MCh=Hist1D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, trigeff );
+      vh.push_back( MCh );
       Datah=Hist1D( Datavf, vdirname, vhname, datascale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
       vh.push_back( Datah );
-      if( plotTrueTauHad_ ){
-	MCh_truetau=Hist1D(  MCvf_truetauhad, vdirname_truetauhad, vhname_truetauhad, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, nominaltrigeff );
-	vh.push_back( MCh_truetau );
-      }
     }
   } else if( OneDTwoD == 2 ) {
     if( dataMC == 1 ){
       Datah=Hist2D( Datavf, vdirname, vhname, datascale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
       vh.push_back( Datah );
     } else if( dataMC == 2 ){
-      double mcscale=mcscale_;
-      vector<double> trigeff=nominaltrigeff;
-      if( whichpart == 1 ){
-	if( doTrigCorr_ ){
-	  trigeff=HTATtrigeff;
-	}
-	if( !useCommonJson_ ){
-	  mcscale=mcscale_HT_;
-	}
-	MCh=Hist2D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, trigeff );
-	vh.push_back( MCh );
-      } else if( whichpart == 2 ){
-	if( doTrigCorr_ ){
-	  if(  MuonNumber == "OneMuon_" ){
-	    trigeff=SingleMutrigeff;
-	  } else if( MuonNumber == "DiMuon_" ){
-	    trigeff=DiMutrigeff;
-	  }
-	}
-
-	if( !useCommonJson_){
-	  if(  MuonNumber == "OneMuon_" ){
-	    mcscale=mcscale_SingleMu_;
-	  } else if( MuonNumber == "DiMuon_" ){
-	    mcscale=mcscale_DiMu_;
-	  }
-	}
-	MCh=Hist2D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, trigeff );
-	vh.push_back( MCh ); 
-      } else if( whichpart == 3 ){
-	if( doTrigCorr_ ){
-	  trigeff=Photontrigeff;
-	}
-	if( !useCommonJson_ ){
-	  mcscale=mcscale_Photon_;
-	}
-	MCh=Hist2D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, trigeff );
-      TCanvas *c=new TCanvas();
-      MCh->Draw();
-      c->SaveAs("test.png");
-	vh.push_back( MCh ); 
-      }
-      if( plotTrueTauHad_ ){
-	MCh_truetau=Hist2D(  MCvf_truetauhad, vdirname_truetauhad, vhname_truetauhad, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
-	vh.push_back( MCh_truetau );
-      }
+      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, trigeff );
+      vh.push_back( MCh );
     } else if( dataMC == 0){
-      double mcscale=mcscale_;
-      vector<double> trigeff=nominaltrigeff;
-      if( whichpart == 1 ){
-	if( doTrigCorr_ ){
-	  trigeff=HTATtrigeff;
-	}
-	if( !useCommonJson_ ){
-	  mcscale=mcscale_HT_;
-	}
-	MCh=Hist2D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, trigeff );
-	vh.push_back( MCh );
-      } else if( whichpart == 2 ){
-	if( doTrigCorr_ ){
-	  if(  MuonNumber == "OneMuon_" ){
-	    trigeff=SingleMutrigeff;
-	  } else if( MuonNumber == "DiMuon_" ){
-	    trigeff=DiMutrigeff;
-	  }
-	}
-
-	if( !useCommonJson_){
-	  if(  MuonNumber == "OneMuon_" ){
-	    mcscale=mcscale_SingleMu_;
-	  } else if( MuonNumber == "DiMuon_" ){
-	    mcscale=mcscale_DiMu_;
-	  }
-	}
-	MCh=Hist2D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, trigeff );
-	vh.push_back( MCh ); 
-      } else if( whichpart == 3 ){
-	if( doTrigCorr_ ){
-	  trigeff=Photontrigeff;
-	}
-	if( !useCommonJson_ ){
-	  mcscale=mcscale_Photon_;
-	}
-	MCh=Hist2D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, trigeff );
-	vh.push_back( MCh ); 
-      }
+      MCh=Hist2D(  MCvf, vdirname, vhname, mcscale, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, trigeff );
+      vh.push_back( MCh );
       Datah=Hist2D( Datavf, vdirname, vhname, datascale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
       vh.push_back( Datah );
-      if( plotTrueTauHad_ ){
-	MCh_truetau=Hist2D(  MCvf_truetauhad, vdirname_truetauhad, vhname_truetauhad, mcscale_, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, lowy, highy, nominaltrigeff );
-	vh.push_back( MCh_truetau );
-      }
     }
   }
   return vh;
 }
 
-
-
 void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int rebin, TString xAxisName, TString yAxisName, double xAxisRange1, double xAxisRange2, TString whichplot, TLegend * len, double lowy, double highy, int OneDTwoD, int startNJet, int nJets, TString MuonNumber, TString FolderLabel ){
   TCanvas *c1=new TCanvas("c1","c1", 1000, 900 );
 
-  //  getTranslationFactor tf=getTranslationFactor();
   playHist1D pf1d=playHist1D();
 
-  vector<TString> vlenname;
-  vector<TString> vhnames;
   vector<TH1D*> vh;
+  vector<TString> vhnames;
+  vector<TString> vlenname;
+  vector<unsigned int> vcolor;
+  vector<bool> vh_special;
 
   if( hasData_ ){
+    vlenname.push_back("Data");    vhnames.push_back("Data");    vcolor.push_back(1);    vh_special.push_back(0);
     TH1D *Datah= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 1, whichplot, false, "", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(Datah);
-    vlenname.push_back("Data");
-    vhnames.push_back("Data");
   }
 
   if( hasMCtotal_ ){
+    vlenname.push_back("Total MC");  vhnames.push_back("MCtotal");  vcolor.push_back(5);  vh_special.push_back(0);
     TH1D *MCh_total= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, false, "", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    if( !doPhoton_){
-      if( hasZinvFromDY_ && whichpart == 1){
-	TH1D *MCh_ZinvFromDY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "ZinvFromDY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-	TH1D* MCh_ZinvFromDYcopy=(TH1D*)(MCh_ZinvFromDY->Clone("MCh_ZinvFromDYcopy"));
-	MCh_ZinvFromDYcopy->Scale(-1);
-	MCh_total->Add(MCh_total,MCh_ZinvFromDYcopy);
-	MCh_ZinvFromDY->Scale(3.);
-	MCh_total->Add(MCh_total,MCh_ZinvFromDY);
-      } else if ( hasZinvFromDY_ && whichpart != 1){
-	TH1D *MCh_ZinvFromDY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "ZinvFromDY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-	TH1D* MCh_ZinvFromDYcopy=(TH1D*)(MCh_ZinvFromDY->Clone("MCh_ZinvFromDYcopy"));
-	MCh_ZinvFromDYcopy->Scale(-1);
-	MCh_total->Add(MCh_total,MCh_ZinvFromDYcopy);
-      }
-
-      if( hasZinv_ && useLOXSZinv_ ){
-	TH1D *MCh_Zinv1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-	MCh_Zinv1->Scale(-(1-0.894));
-	MCh_total->Add(MCh_total,MCh_Zinv1);
-      }
+    if( hasZinv_ && useLOXSZinv_ ){
+      TH1D *MCh_Zinv1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+      MCh_Zinv1->Scale(-(1-0.894));
+      MCh_total->Add(MCh_total,MCh_Zinv1);
+    }
       
-      if( hasDY_ && useLOXSDY_ ){
-	TH1D *MCh_DY1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-	MCh_DY1->Scale(-(1-0.894));
-	MCh_total->Add(MCh_total,MCh_DY1);
-      }
+    if( hasDY_ && useLOXSDY_ ){
+      TH1D *MCh_DY1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+      MCh_DY1->Scale(-(1-0.894));
+      MCh_total->Add(MCh_total,MCh_DY1);
+    }
 
-      if( hasWJ_ && useLOXSWJ_ ){
-	TH1D *MCh_WJ1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-	MCh_WJ1->Scale(-(1-0.894));
-	MCh_total->Add(MCh_total,MCh_WJ1);
-      }
+    if( hasWJ_ && useLOXSWJ_ ){
+      TH1D *MCh_WJ1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+      MCh_WJ1->Scale(-(1-0.894));
+      MCh_total->Add(MCh_total,MCh_WJ1);
+    }
 
-      if( hasTT_ && useLOXSTT_ ){
-	TH1D *MCh_TT1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-	MCh_TT1->Scale((0.11));
-	MCh_total->Add(MCh_total,MCh_TT1);
-      }
+    if( hasTT_ && useLOXSTT_ ){
+      TH1D *MCh_TT1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+      MCh_TT1->Scale((0.11));
+      MCh_total->Add(MCh_total,MCh_TT1);
+    }
 
-      if( hasTT_Massive_ && useLOXSTT_Massive_ ){
-	TH1D *MCh_TTM1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TT_Massive", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-	MCh_TTM1->Scale((0.11));
-	MCh_total->Add(MCh_total,MCh_TTM1);
-      }
-    } else if( doPhoton_ ){
-      if( hasGJ_ && useLOXSGJ_ ){
-	TH1D *MCh_GJ1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "GJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-	MCh_GJ1->Scale(-(1-0.894));
-	MCh_total->Add(MCh_total,MCh_GJ1);
-      }
+    if( hasTT_Massive_ && useLOXSTT_Massive_ ){
+      TH1D *MCh_TTM1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TT_Massive", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+      MCh_TTM1->Scale((0.11));
+      MCh_total->Add(MCh_total,MCh_TTM1);
+    }
+    if( hasGJ_ && useLOXSGJ_ ){
+      TH1D *MCh_GJ1= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "GJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+      MCh_GJ1->Scale(-(1-0.894));
+      MCh_total->Add(MCh_total,MCh_GJ1);
     }
 
     vh.push_back(MCh_total);
-    vlenname.push_back("Total MC");
-    vhnames.push_back("MCtotal");
   }
 
-  if( hasGJ_ && doPhoton_ ){
+  if( hasGJ_ ){
+    vlenname.push_back("#gamma+jets");    vhnames.push_back("GJ");    vcolor.push_back(kGreen-2);    vh_special.push_back(0);
     TH1D *MCh_GJ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "GJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     if(useLOXSGJ_){
       MCh_GJ->Scale(0.894);
     }
     vh.push_back(MCh_GJ);
-    vlenname.push_back("#gamma+jets");
-    vhnames.push_back("GJ");
   }
 
-  if( hasWJ_ && !doPhoton_ ){
-    TH1D *MCh_WJ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    if(useLOXSWJ_){
-      MCh_WJ->Scale(0.894);
-    }
-    vh.push_back(MCh_WJ);
-    vlenname.push_back("W+jets");
-    vhnames.push_back("WJ");
-  }
-
-  if( hasWJ_XSLO_ && !doPhoton_ ){
-    TH1D *MCh_WJ_XSLO= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ_XSLO", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_WJ_XSLO);
-    vlenname.push_back("W+jets (LO-XS)");
-    vhnames.push_back("WJ_XSLO");
-  }
-
-  if( hasDY_ && !doPhoton_ ){
-    TH1D *MCh_DY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    if(useLOXSDY_){
-      MCh_DY->Scale(0.894);
-    }
-    vh.push_back(MCh_DY);
-    vlenname.push_back("Drell-Yan");
-    vhnames.push_back("DY");
-  }
-  if( hasZinvFromDY_ && whichpart == 1 && !doPhoton_ ){
-    TH1D *MCh_ZinvFromDY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "ZinvFromDY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    MCh_ZinvFromDY->Scale(3.);
-    vh.push_back(MCh_ZinvFromDY);
-    vlenname.push_back("Z#rightarrow#nu#nu+jets");
-    vhnames.push_back("ZinvFromDY");
-  }
-  if( hasTT_ && !doPhoton_ ){
-    TH1D *MCh_TT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    if( useLOXSTT_){
-      MCh_TT->Scale(1.11);
-    }
-    vh.push_back(MCh_TT);
-    vlenname.push_back("t#bar{t}");
-    vhnames.push_back("TT");
-  }
-  if( hasTT_Massive_ && !doPhoton_ ){
-    TH1D *MCh_TTM= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TT_Massive", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    if( useLOXSTT_Massive_){
-      MCh_TTM->Scale(1.11);
-    }
-    vh.push_back(MCh_TTM);
-    vlenname.push_back("t#bar{t}");
-    vhnames.push_back("TT_Massive");
-  }
-  if( hasTTZ_ && !doPhoton_ ){
-    TH1D *MCh_TTZ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_TTZ);
-    vlenname.push_back("t#bar{t}Z+jets");
-    vhnames.push_back("TTZ");
-  }
-  if( hasSingleT_ && !doPhoton_ ){
-    TH1D *MCh_SingleT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "SingleT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_SingleT);
-    vlenname.push_back("Single top");
-    vhnames.push_back("SingleT");
-  }
-  if( hasZinv_ && !doPhoton_ ){
+  if( hasZinv_ ){
+    vlenname.push_back("Z#rightarrow#nu#nu+jets");    vhnames.push_back("Zinv");    vcolor.push_back(kMagenta-4);    vh_special.push_back(0);
     TH1D *MCh_Zinv= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     if(useLOXSZinv_){
       MCh_Zinv->Scale(0.894);
     }
     vh.push_back(MCh_Zinv);
-    vlenname.push_back("Z#rightarrow#nu#nu+jets");
-    vhnames.push_back("Zinv");
   }
 
-  if( hasZinv_HT50To100_ && !doPhoton_ ){
-    TH1D *MCh_Zinv_HT50To100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_HT50To100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_Zinv_HT50To100);
-    vlenname.push_back("Z#rightarrow#nu#nu+jets (50<HT<100)");
-    vhnames.push_back("Zinv_HT50To100");
+  if( hasWJ_ ){
+    vlenname.push_back("W+jets");    vhnames.push_back("WJ");    vcolor.push_back(kRed-4);    vh_special.push_back(0);
+    TH1D *MCh_WJ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    if(useLOXSWJ_){
+      MCh_WJ->Scale(0.894);
+    }
+    vh.push_back(MCh_WJ);
   }
 
-  if( hasZinv_FastSim_HT100To200_ && !doPhoton_ ){
-    TH1D *MCh_Zinv_FastSim_HT100To200= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_FastSim_HT100To200", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_Zinv_FastSim_HT100To200);
-    vlenname.push_back("Z#rightarrow#nu#nu+jets (100<HT<200, Fast)");
-    vhnames.push_back("Zinv_FastSim_HT100To200");
+  if( hasTT_ ){
+    vlenname.push_back("t#bar{t}");    vhnames.push_back("TT");    vcolor.push_back(kBlue-4);    vh_special.push_back(0);
+    TH1D *MCh_TT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    if( useLOXSTT_){
+      MCh_TT->Scale(1.11);
+    }
+    vh.push_back(MCh_TT);
   }
 
-  if( hasZinv_FastSim_HT200To400_ && !doPhoton_ ){
-    TH1D *MCh_Zinv_FastSim_HT200To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_FastSim_HT200To400", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_Zinv_FastSim_HT200To400);
-    vlenname.push_back("Z#rightarrow#nu#nu+jets (200<HT<400, Fast)");
-    vhnames.push_back("Zinv_FastSim_HT200To400");
+  if( hasTTZ_ ){
+    vlenname.push_back("t#bar{t}Z+jets");    vhnames.push_back("TTZ");    vcolor.push_back(kBlue-9);    vh_special.push_back(0);
+    TH1D *MCh_TTZ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    vh.push_back(MCh_TTZ);
+  }
+  if( hasSingleT_ ){
+    vlenname.push_back("Single top");    vhnames.push_back("SingleT");    vcolor.push_back(kGreen-9);    vh_special.push_back(0);
+    TH1D *MCh_SingleT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "SingleT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    vh.push_back(MCh_SingleT);
+  }
+  if( hasDY_ ){
+    vlenname.push_back("Drell-Yan");    vhnames.push_back("DY");    vcolor.push_back(kViolet-5);    vh_special.push_back(0);
+    TH1D *MCh_DY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    if(useLOXSDY_){
+      MCh_DY->Scale(0.894);
+    }
+    vh.push_back(MCh_DY);
   }
 
-  if( hasZinv_HT400Toinf_ && !doPhoton_ ){
-    TH1D *MCh_Zinv_HT400Toinf= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv_HT400Toinf", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_Zinv_HT400Toinf);
-    vlenname.push_back("Z#rightarrow#nu#nu+jets (HT>400)");
-    vhnames.push_back("Zinv_HT400Toinf");
-  }
-
-
-  if( hasWJ_inclusive_ && !doPhoton_ ){
-    TH1D *MCh_WJ_inclusive= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_inclusive", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_WJ_inclusive);
-    vlenname.push_back("W+jets (HT<250)");
-    vhnames.push_back("WJ_inclusive");
-  }
-
-  if( hasWJ_FastSim_HT250To300_ && !doPhoton_ ){
-    TH1D *MCh_WJ_FastSim_HT250To300= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_FastSim_HT250To300", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_WJ_FastSim_HT250To300);
-    vlenname.push_back("W+jets (250<HT<300, Fast)");
-    vhnames.push_back("WJ_FastSim_HT250To300");
-  }
-
-  if( hasWJ_FastSim_HT300To400_ && !doPhoton_ ){
-    TH1D *MCh_WJ_FastSim_HT300To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_FastSim_HT300To400", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_WJ_FastSim_HT300To400);
-    vlenname.push_back("W+jets (300<HT<400, Fast)");
-    vhnames.push_back("WJ_FastSim_HT300To400");
-  }
-
-  if( hasWJ_HT250To300_ && !doPhoton_ ){
-    TH1D *MCh_WJ_HT250To300= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_HT250To300", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_WJ_HT250To300);
-    vlenname.push_back("W+jets (250<HT<300)");
-    vhnames.push_back("WJ_HT250To300");
-  }
-
-  if( hasWJ_HT300To400_ && !doPhoton_ ){
-    TH1D *MCh_WJ_HT300To400= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_HT300To400", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_WJ_HT300To400);
-    vlenname.push_back("W+jets (300<HT<400)");
-    vhnames.push_back("WJ_HT300To400");
-  }
-
-  if( hasWJ_HT400Toinf_ && !doPhoton_ ){
-    TH1D *MCh_WJ_HT400Toinf= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJpartonHT_HT400Toinf", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_WJ_HT400Toinf);
-    vlenname.push_back("W+jets (HT>400)");
-    vhnames.push_back("WJ_HT400Toinf");
-  }
-
-
-  if( hasTTZ525_ && !doPhoton_ ){
-    TH1D *MCh_TTZ525= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ525", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_TTZ525);
-    vlenname.push_back("TTZ+jets (525)");
-    vhnames.push_back("TTZ525");
-  }
-
-
-  if( hasTTZ532_ && !doPhoton_ ){
-    TH1D *MCh_TTZ532= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ532", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_TTZ532);
-    vlenname.push_back("TTZ+jets (532)");
-    vhnames.push_back("TTZ532");
-  }
-
-
-  if( hasDiBoson_ && !doPhoton_ ){
+  if( hasDiBoson_ ){
+    vlenname.push_back("Di-Boson");    vhnames.push_back("DiBoson");    vcolor.push_back(kCyan-9);    vh_special.push_back(0);
     TH1D *MCh_DiBoson= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DiBoson", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_DiBoson);
-    vlenname.push_back("Di-Boson");
-    vhnames.push_back("DiBoson");
   }
 
-  if( hasT2tt_smallScan_200_0_ && !doPhoton_ ){
-    TH1D *MCh_T2tt_smallScan_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2tt_smallScan_200_0);
-    vlenname.push_back("T2tt(200,0)");
-    vhnames.push_back("T2tt_smallScan_200_0");
-  }
-
-  if( hasT2tt_smallScan_350_50_ && !doPhoton_ ){
-    TH1D *MCh_T2tt_smallScan_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2tt_smallScan_350_50);
-    vlenname.push_back("T2tt(350,50)");
-    vhnames.push_back("T2tt_smallScan_350_50");
-  }
-
-  if( hasT2tt_smallScan_350_100_ && !doPhoton_ ){
-    TH1D *MCh_T2tt_smallScan_350_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_350_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2tt_smallScan_350_100);
-    vlenname.push_back("T2tt(350,100)");
-    vhnames.push_back("T2tt_smallScan_350_100");
-  }
-
-  if( hasT2tt_smallScan_500_50_ && !doPhoton_ ){
-    TH1D *MCh_T2tt_smallScan_500_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2tt_smallScan_500_50);
-    vlenname.push_back("T2tt(500,50)");
-    vhnames.push_back("T2tt_smallScan_500_50");
-  }
-
-  if( hasT2tt_smallScan_500_100_ && !doPhoton_ ){
-    TH1D *MCh_T2tt_smallScan_500_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2tt_smallScan_500_100);
-    vlenname.push_back("T2tt(500,100)");
-    vhnames.push_back("T2tt_smallScan_500_100");
-  }
-
-  if( hasT2tt_smallScan_500_200_ && !doPhoton_ ){
-    TH1D *MCh_T2tt_smallScan_500_200= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2tt_smallScan_500_200", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2tt_smallScan_500_200);
-    vlenname.push_back("T2tt(500,200)");
-    vhnames.push_back("T2tt_smallScan_500_200");
-  }
-
-
-  if( hasT2bw_smallScan_075_120_0_ && !doPhoton_ ){
-    TH1D *MCh_T2bw_smallScan_075_120_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_120_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2bw_smallScan_075_120_0);
-    vlenname.push_back("T2bw(x=0.75,120,0)");
-    vhnames.push_back("T2bw_smallScan_075_120_0");
-  }
-
-  if( hasT2bw_smallScan_075_150_30_ && !doPhoton_ ){
-    TH1D *MCh_T2bw_smallScan_075_150_30= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_150_30", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2bw_smallScan_075_150_30);
-    vlenname.push_back("T2bw(x=0.75,150,30)");
-    vhnames.push_back("T2bw_smallScan_075_150_30");
-  }
-
-  if( hasT2bw_smallScan_05_200_0_ && !doPhoton_ ){
-    TH1D *MCh_T2bw_smallScan_05_200_0= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_05_200_0", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2bw_smallScan_05_200_0);
-    vlenname.push_back("T2bw(x=0.5,200,0)");
-    vhnames.push_back("T2bw_smallScan_05_200_0");
-  }
-
-  if( hasT2bw_smallScan_05_350_50_ && !doPhoton_ ){
-    TH1D *MCh_T2bw_smallScan_05_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_05_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2bw_smallScan_05_350_50);
-    vlenname.push_back("T2bw(x=0.5,350,50)");
-    vhnames.push_back("T2bw_smallScan_05_350_50");
-  }
-
-  if( hasT2bw_smallScan_075_350_50_ && !doPhoton_ ){
-    TH1D *MCh_T2bw_smallScan_075_350_50= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_075_350_50", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel))[0];
-    vh.push_back(MCh_T2bw_smallScan_075_350_50);
-    vlenname.push_back("T2bw(x=0.75,350,50)");
-    vhnames.push_back("T2bw_smallScan_075_350_50");
-  }
-
-  if( hasT2bw_smallScan_025_500_100_ && !doPhoton_ ){
-    TH1D *MCh_T2bw_smallScan_025_500_100= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2bw_smallScan_025_500_100", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T2bw_smallScan_025_500_100);
-    vlenname.push_back("T2bw(x=0.25,500,100)");
-    vhnames.push_back("T2bw_smallScan_025_500_100");
-  }
-
-  if( hasT1tttt_ && !doPhoton_ ){
-    TH1D *MCh_T1tttt= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T1tttt", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    vh.push_back(MCh_T1tttt);
-    vlenname.push_back("T1tttt");
-    vhnames.push_back("T1tttt");
-  }
-
-  if( hasT2cc160_ && !doPhoton_ ){
+  if( hasT2cc160_ ){
+    vlenname.push_back("T2cc (160,110)");    vhnames.push_back("T2cc160");    vcolor.push_back(kRed);    vh_special.push_back(1);
     TH1D *MCh_T1tttt= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2cc160", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    MCh_T1tttt->Scale(0.232);
+    //    MCh_T1tttt->Scale(0.232);
+    MCh_T1tttt->Scale(0.058);
     vh.push_back(MCh_T1tttt);
-    vlenname.push_back("T2cc (160,110)");
-    vhnames.push_back("T2cc160");
   }
 
-  if( hasT2cc300_ && !doPhoton_ ){
+  if( hasT2cc300_ ){
+    vlenname.push_back("T2cc (300,250)");    vhnames.push_back("T2cc300");    vcolor.push_back(kGreen-2);    vh_special.push_back(1);
     TH1D *MCh_T1tttt= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2cc300", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
-    MCh_T1tttt->Scale(0.007984);
+    //    MCh_T1tttt->Scale(0.007984);
+    //    MCh_T1tttt->Scale(0.03992);
+    MCh_T1tttt->Scale(0.0019962);
     vh.push_back(MCh_T1tttt);
-    vlenname.push_back("T2cc (300,250)");
-    vhnames.push_back("T2cc300");
   }
 
-  /*  //  MCh_TT->Scale(1.429822);
-  TH1D *MCh_total_aftercorr=(TH1D*)(MCh_TT->Clone("MCh_total_aftercorr"));
-  MCh_total_aftercorr->Add(MCh_total_aftercorr, MCh_Zinv);
-  MCh_total_aftercorr->Add(MCh_total_aftercorr, MCh_DY);
-  MCh_total_aftercorr->Add(MCh_total_aftercorr, MCh_WJ);
-  MCh_total_aftercorr->Add(MCh_total_aftercorr, MCh_SingleT);
-  MCh_total_aftercorr->Add(MCh_total_aftercorr, MCh_DiBoson);
-  */
+  if( hasT2cc220_145_ ){
+    vlenname.push_back("T2cc (220,145)");    vhnames.push_back("T2cc220_145");    vcolor.push_back(kBlue);    vh_special.push_back(1);
+    TH1D *MCh_T1tttt= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2cc220_145", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    MCh_T1tttt->Scale(0.0112);
+    vh.push_back(MCh_T1tttt);
+  }
 
+  if( hasT2cc220_170_ ){
+    vlenname.push_back("T2cc (220,170)");    vhnames.push_back("T2cc220_170");    vcolor.push_back(kOrange-3);    vh_special.push_back(1);
+    TH1D *MCh_T1tttt= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2cc220_170", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    MCh_T1tttt->Scale(0.0112);
+    vh.push_back(MCh_T1tttt);
+  }
+
+  if( hasT2cc220_195_ ){
+    vlenname.push_back("T2cc (220,195)");    vhnames.push_back("T2cc220_195");    vcolor.push_back(kMagenta);    vh_special.push_back(1);
+    TH1D *MCh_T1tttt= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "T2cc220_195", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
+    MCh_T1tttt->Scale(0.0114);
+    vh.push_back(MCh_T1tttt);
+  }
 
   vector<TH1D*> svh=pf1d.SortHists(vh);
   vector<unsigned int> svh_index=pf1d.SortHists_index(vh);
   vector<TH1D*> invsvh=pf1d.invSortHists(vh);
   vector<unsigned int> invsvh_index=pf1d.invSortHists_index(vh);
   c1->cd();
-  //  TPad *pad1=new TPad("pad1","pad1",0,0.3,1,1);
-  TPad *pad1=new TPad("pad1","pad1",0,0,1,1);
+  TPad *pad1;
+  if( plotRatio_ ){
+    pad1=new TPad("pad1","pad1",0,0.3,1,1);
+  } else {
+    pad1=new TPad("pad1","pad1",0,0,1,1);
+  }
   pad1->Draw();
   pad1->cd();
   pad1->SetTopMargin(0.1);
@@ -789,608 +303,168 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     ih0->SetMinimum(0.5);
 
     for( unsigned int i=0; i<svh.size(); i++ ){
-      if( vhnames[ svh_index[i] ] == "T2tt_smallScan_200_0" ){
-	TH1D *ih1=pf1d.CumulativeH( svh[i] );
-	ih1->Draw("same");
-	ih1->SetLineColor(2);
-	ih1->SetMarkerColor(2);
-	len->AddEntry(ih1,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_50" ){
-	TH1D *ih2=pf1d.CumulativeH( svh[i] );
-	ih2->Draw("same HIST 9");
-	ih2->SetLineColor(3);
-	ih2->SetMarkerColor(3);
-	len->AddEntry(ih2,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_100" ){
-	TH1D *ih3=pf1d.CumulativeH( svh[i] );
-	ih3->Draw("same HIST 9");
-	ih3->SetLineColor(4);
-	ih3->SetMarkerColor(4);
-	len->AddEntry(ih3,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_50" ){
-	TH1D *ih4=pf1d.CumulativeH( svh[i] );
-	ih4->Draw("same HIST 9");
-	ih4->SetLineColor(6);
-	ih4->SetMarkerColor(6);
-	len->AddEntry(ih4,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_100" ){
-	TH1D *ih5=pf1d.CumulativeH( svh[i] );
-	ih5->Draw("same HIST 9");
-	ih5->SetLineColor(7);
-	ih5->SetMarkerColor(7);
-	len->AddEntry(ih5,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_200" ){
-	TH1D *ih6=pf1d.CumulativeH( svh[i] );
-	ih6->Draw("same HIST 9");
-	ih6->SetLineColor(kPink-7);
-	ih6->SetMarkerColor(kPink-7);
-	len->AddEntry(ih6,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_120_0" ){
-	TH1D *ih7=pf1d.CumulativeH( svh[i] );
-	ih7->Draw("same HIST 9");
-	ih7->SetLineColor(kOrange);
-	ih7->SetMarkerColor(kOrange);
-	len->AddEntry(ih7,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_150_30" ){
-	TH1D *ih8=pf1d.CumulativeH( svh[i] );
-	ih8->Draw("same HIST 9");
-	ih8->SetLineColor(kGreen+4);
-	ih8->SetMarkerColor(kGreen+4);
-	len->AddEntry(ih8,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_200_0" ){
-	TH1D *ih9=pf1d.CumulativeH( svh[i] );
-	ih9->Draw("same HIST 9");
-	ih9->SetLineColor(kMagenta-8);
-	ih9->SetMarkerColor(kMagenta-8);
-	len->AddEntry(ih9,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_350_50" ){
-	TH1D *ih10=pf1d.CumulativeH( svh[i] );
-	ih10->Draw("same HIST 9");
-	ih10->SetLineColor(kViolet+1);
-	ih10->SetMarkerColor(kViolet+1);
-	len->AddEntry(ih10,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_350_50" ){
-	TH1D *ih11=pf1d.CumulativeH( svh[i] );
-	ih11->Draw("same HIST 9");
-	ih11->SetLineColor(kRed-8);
-	ih11->SetMarkerColor(kRed-8);
-	len->AddEntry(ih11,vlenname[ svh_index[i] ]);
-      } else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_025_500_100" ){
-	TH1D *ih12=pf1d.CumulativeH( svh[i] );
-	ih12->Draw("same HIST 9");
-	ih12->SetLineColor(kGray+2);
-	ih12->SetMarkerColor(kGray+2);
-	len->AddEntry(ih12,vlenname[ svh_index[i] ]);
-      }
+      TH1D *ih1=pf1d.CumulativeH( svh[i] );
+      ih1->Draw("same");
+      ih1->SetLineColor( vcolor[svh_index[i] ] );
+      ih1->SetMarkerColor( vcolor[svh_index[i] ] );
+      len->AddEntry(ih1,vlenname[ svh_index[i] ]);
     }
   } else {
-   if( !drawStack_ ){
-    if( vh.size() > 0 && vhnames[0] == "Data"){
-      len->AddEntry(vh[0], "Data");
-    }    
-    TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
-    svh0clone->Scale(1.5);
-    svh0clone->SetLineColor(0);
-    svh0clone->SetMarkerColor(0);
-    svh0clone->Draw();
-    svh0clone->GetXaxis()->SetLabelFont(63);
-    svh0clone->GetXaxis()->SetLabelSize(18);
-    svh0clone->GetYaxis()->SetLabelFont(63);
-    svh0clone->GetYaxis()->SetLabelSize(18);
-    svh0clone->GetXaxis()->SetTitleSize(0.06);
-    svh0clone->GetYaxis()->SetTitleSize(0.06);
-    svh0clone->SetMinimum(0.5);
-    gStyle->SetPaintTextFormat(".0f");
-    TString DrawOpt="same 9 text45";
-    for( unsigned int i=0; i<svh.size(); i++ ){
-      if( vhnames[ svh_index[i] ] != "Data" && vhnames[ svh_index[i] ] != "MCtotal"){
-	if( vhnames[ svh_index[i] ] == "WJ" ){
+
+    if( !drawStack_ ){
+      if( vh.size() > 0 && vhnames[0] == "Data"){
+	len->AddEntry(vh[0], "Data");
+      }    
+      TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
+      svh0clone->Scale(1.1);
+      svh0clone->SetLineColor(0);
+      svh0clone->SetMarkerColor(0);
+      svh0clone->Draw();
+      svh0clone->GetXaxis()->SetLabelFont(63);
+      svh0clone->GetXaxis()->SetLabelSize(18);
+      svh0clone->GetYaxis()->SetLabelFont(63);
+      svh0clone->GetYaxis()->SetLabelSize(18);
+      svh0clone->GetXaxis()->SetTitleSize(0.06);
+      svh0clone->GetYaxis()->SetTitleSize(0.06);
+      svh0clone->SetMinimum(0.5);
+      gStyle->SetPaintTextFormat(".0f");
+//    TString DrawOpt="same 9 text45";
+      TString DrawOpt="same 9 hist";
+      for( unsigned int i=0; i<svh.size(); i++ ){
+	svh[i]->SetLineWidth(4);
+	if( vhnames[ svh_index[i] ] != "Data" && vhnames[ svh_index[i] ] != "MCtotal"){
 	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(2);
-	  svh[i]->SetFillColor(2);
-	  svh[i]->SetMarkerColor(2);
+	  svh[i]->SetLineColor( vcolor[svh_index[i] ] );
+	  svh[i]->SetFillColor( vcolor[svh_index[i] ] );
+	  svh[i]->SetMarkerColor( vcolor[svh_index[i] ] );
 	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "WJ_XSLO" ){
+	} else if( vhnames[ svh_index[i] ] == "MCtotal" ){
+	  svh[i]->SetLineColor(5);
+	  svh[i]->SetLineWidth(3);
+	  svh[i]->SetFillColor(5);
+	  svh[i]->SetMarkerColor(5);
 	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(2);
-	  svh[i]->SetFillColor(2);
-	  svh[i]->SetMarkerColor(2);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "GJ" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kGreen+2);
-	  svh[i]->SetFillColor(kGreen+2);
-	  svh[i]->SetMarkerColor(kGreen+2);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "DY" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kViolet+1);
-	  svh[i]->SetFillColor(kViolet+1);
-	  svh[i]->SetMarkerColor(kViolet+1);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "TT" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(4);
-	  svh[i]->SetFillColor(4);
-	  svh[i]->SetMarkerColor(4);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "TT_Massive" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(4);
-	  svh[i]->SetFillColor(4);
-	  svh[i]->SetMarkerColor(4);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "TTZ" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kBlue-7);
-	  svh[i]->SetFillColor(kBlue-7);
-	  svh[i]->SetMarkerColor(kBlue-7);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "SingleT" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(3);
-	  svh[i]->SetFillColor(3);
-	  svh[i]->SetMarkerColor(3);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "Zinv" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(6);
-	  svh[i]->SetFillColor(6);
-	  svh[i]->SetMarkerColor(6);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "DiBoson" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(7);
-	  svh[i]->SetFillColor(7);
-	  svh[i]->SetMarkerColor(7);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "ZinvFromDY" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kYellow-3);
-	  svh[i]->SetFillColor(kYellow-3);
-	  svh[i]->SetMarkerColor(kYellow-3);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-       	} else if( vhnames[ svh_index[i] ] == "Zinv_HT50To100" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kCyan-10);
-	  svh[i]->SetFillColor(kCyan-10);
-	  svh[i]->SetMarkerColor(kCyan-10);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "Zinv_FastSim_HT100To200" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kCyan+1);
-	  svh[i]->SetFillColor(kCyan+1);
-	  svh[i]->SetMarkerColor(kCyan+1);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "Zinv_FastSim_HT200To400" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kCyan+2);
-	  svh[i]->SetFillColor(kCyan+2);
-	  svh[i]->SetMarkerColor(kCyan+2);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "Zinv_HT400Toinf" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kCyan+3);
-	  svh[i]->SetFillColor(kCyan+3);
-	  svh[i]->SetMarkerColor(kCyan+3);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-       	} else if( vhnames[ svh_index[i] ] == "WJ_inclusive" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kRed-10);
-	  svh[i]->SetFillColor(kRed-10);
-	  svh[i]->SetMarkerColor(kRed-10);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "WJ_FastSim_HT250To300" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kMagenta-10);
-	  svh[i]->SetFillColor(kMagenta-10);
-	  svh[i]->SetMarkerColor(kMagenta-10);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "WJ_FastSim_HT300To400" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kMagenta-9);
-	  svh[i]->SetFillColor(kMagenta-9);
-	  svh[i]->SetMarkerColor(kMagenta-9);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "WJ_HT250To300" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kRed-8);
-	  svh[i]->SetFillColor(kRed-8);
-	  svh[i]->SetMarkerColor(kRed-8);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "WJ_HT300To400" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kRed-5);
-	  svh[i]->SetFillColor(kRed-5);
-	  svh[i]->SetMarkerColor(kRed-5);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "WJ_HT400Toinf" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kRed-1);
-	  svh[i]->SetFillColor(kRed-1);
-	  svh[i]->SetMarkerColor(kRed-1);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "TTZ525" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kBlue-4);
-	  svh[i]->SetFillColor(kBlue-4);
-	  svh[i]->SetMarkerColor(kBlue-4);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "TTZ532" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kYellow-7);
-	  svh[i]->SetFillColor(kYellow-7);
-	  svh[i]->SetMarkerColor(kYellow-7);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_200_0" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(2);
-	  //	  svh[i]->SetFillColor(2);
-	  svh[i]->SetMarkerColor(2);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_50" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(3);
-	  //	  svh[i]->SetFillColor(3);
-	  svh[i]->SetMarkerColor(3);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_350_100" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(4);
-	  //	  svh[i]->SetFillColor(4);
-	  svh[i]->SetMarkerColor(4);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_50" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(6);
-	  //	  svh[i]->SetFillColor(6);
-	  svh[i]->SetMarkerColor(6);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_100" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(7);
-	  //	  svh[i]->SetFillColor(7);
-	  svh[i]->SetMarkerColor(7);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2tt_smallScan_500_200" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kPink-7);
-	  //	  svh[i]->SetFillColor(kPink-7);
-	  svh[i]->SetMarkerColor(kPink-7);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_120_0" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kOrange);
-	  //	  svh[i]->SetFillColor(kOrange);
-	  svh[i]->SetMarkerColor(kOrange);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_150_30" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kGreen+4);
-	  //	  svh[i]->SetFillColor(kGreen+4);
-	  svh[i]->SetMarkerColor(kGreen+4);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_200_0" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kMagenta-8);
-	  //	  svh[i]->SetFillColor(kMagenta-8);
-	  svh[i]->SetMarkerColor(kMagenta-8);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_05_350_50" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kViolet+1);
-	  //	  svh[i]->SetFillColor(kViolet+1);
-	  svh[i]->SetMarkerColor(kViolet+1);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_075_350_50" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kRed-8);
-	  //	  svh[i]->SetFillColor(kRed-8);
-	  svh[i]->SetMarkerColor(kRed-8);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2bw_smallScan_025_500_100" ){
-	  svh[i]->Draw(DrawOpt);
-	  svh[i]->SetLineColor(kGray+2);
-	  //	  svh[i]->SetFillColor(kGray+2);
-	  svh[i]->SetMarkerColor(kGray+2);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T1tttt" ){
-	  svh[i]->Draw(DrawOpt);
-          svh[i]->SetLineColor(7);
-	  svh[i]->SetFillColor(7);
-	  svh[i]->SetMarkerColor(7);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2cc160" ){
-	  svh[i]->Draw(DrawOpt);
-          svh[i]->SetLineColor(kRed);
-	  svh[i]->SetFillColor(kRed);
-	  svh[i]->SetMarkerColor(kRed);
-	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
-	} else if( vhnames[ svh_index[i] ] == "T2cc300" ){
-	  svh[i]->Draw(DrawOpt);
-          svh[i]->SetLineColor(kGreen);
-	  svh[i]->SetFillColor(kGreen);
-	  svh[i]->SetMarkerColor(kGreen);
 	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	}
-      } else if( vhnames[ svh_index[i] ] == "MCtotal" ){
-	svh[i]->SetLineColor(5);
-	svh[i]->SetLineWidth(3);
-	svh[i]->SetFillColor(5);
-	svh[i]->SetMarkerColor(5);
-	svh[i]->Draw(DrawOpt);
-	len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
       }
-    }
 
-    if( vh.size() > 1 && hasMCtotal_){
-      double lowmche=vh[1]->GetBinLowEdge(1);
-      double highmche=vh[1]->GetBinLowEdge(vh[1]->GetNbinsX())+vh[1]->GetBinWidth(1);
-      TH1D *mche=new TH1D("mche","mche",vh[1]->GetNbinsX(), lowmche, highmche);
-      for( int ib=1; ib<=mche->GetNbinsX(); ib++ ){
-	mche->SetBinContent(ib, vh[1]->GetBinContent(ib) );
-	mche->SetBinError(ib, vh[1]->GetBinError(ib) );
-      }
-      mche->SetFillColor(5);
-      mche->SetFillStyle(3001);
-      mche->SetLineColor(5);
-      mche->SetLineWidth(2);
-      mche->SetMarkerSize(0);
-      mche->Draw("e2same");
-      //      delete mche;
-    }
+      //Draw total MC error and data
 
-    for( unsigned int i=0; i<svh.size(); i++ ){
-      if( vhnames[ svh_index[i] ] == "Data" ){
-	svh[i]->Draw("same P 9");
-	svh[i]->SetLineColor(1);
-	svh[i]->SetLineWidth(2);
-	svh[i]->SetMarkerSize(1);
-	svh[i]->SetMarkerStyle(20);
-	svh[i]->SetMarkerColor(1);
+      for( unsigned int i=0; i<svh.size(); i++ ){
+	if( vhnames[ svh_index[i] ] != "MCtotal" ){
+	  TH1D *mche=(TH1D*)(vh[i]->Clone("mche"));
+	  for( int ib=1; ib<=mche->GetNbinsX(); ib++ ){
+	    mche->SetBinContent(ib, vh[1]->GetBinContent(ib) );
+	    mche->SetBinError(ib, vh[1]->GetBinError(ib) );
+	  }
+	  mche->SetFillColor(5);
+	  mche->SetLineColor(5);
+	  mche->SetFillStyle(3001);
+	  mche->SetLineWidth(2);
+	  mche->SetMarkerSize(0);
+	  mche->Draw("e2same");
+	}
       }
-    }
 
-
-    /*    if( hasMCtotal_ && hasData_ ){
-      for( unsigned int i=2; i<svh.size(); i++ ){
-	len->AddEntry(vh[i], vlenname[i]);
+      for( unsigned int i=0; i<svh.size(); i++ ){
+	if( vhnames[ svh_index[i] ] == "Data" ){
+	  svh[i]->Draw("same P 9");
+	  svh[i]->SetLineColor(1);
+	  svh[i]->SetLineWidth(2);
+	  svh[i]->SetMarkerSize(1);
+	  svh[i]->SetMarkerStyle(20);
+	  svh[i]->SetMarkerColor(1);
+	}
       }
-    } else{
-      for( unsigned int i=0; i<vh.size(); i++ ){
-	len->AddEntry(vh[i], vlenname[i]);
-      }
-    }
-    if( vh.size() > 1 && hasMCtotal_){
-      len->AddEntry(vh[1], "Total MC");
-      }*/
 
   } else  if( drawStack_ ){
-    if( vh.size() > 0 && vhnames[0] == "Data"){
-      len->AddEntry(vh[0], "Data");
-    }    
-    TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
-    svh0clone->Scale(1.5);
-    svh0clone->SetLineColor(0);
-    svh0clone->SetMarkerColor(0);
-    svh0clone->Draw();
-    svh0clone->GetXaxis()->SetLabelFont(63);
-    svh0clone->GetXaxis()->SetLabelSize(18);
-    svh0clone->GetYaxis()->SetLabelFont(63);
-    svh0clone->GetYaxis()->SetLabelSize(18);
-    svh0clone->GetXaxis()->SetTitleSize(0.06);
-    svh0clone->GetYaxis()->SetTitleSize(0.06);
-    svh0clone->SetMinimum(0.5);
+      if( vh.size() > 0 && vhnames[0] == "Data"){
+	len->AddEntry(vh[0], "Data");
+      }    
+      TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
+      svh0clone->Scale(1.5);
+      svh0clone->SetLineColor(0);
+      svh0clone->SetMarkerColor(0);
+      svh0clone->Draw();
+      svh0clone->GetXaxis()->SetLabelFont(63);
+      svh0clone->GetXaxis()->SetLabelSize(18);
+      svh0clone->GetYaxis()->SetLabelFont(63);
+      svh0clone->GetYaxis()->SetLabelSize(18);
+      svh0clone->GetXaxis()->SetTitleSize(0.06);
+      svh0clone->GetYaxis()->SetTitleSize(0.06);
+      svh0clone->SetMinimum(0.5);
 
-    THStack *hs=new THStack("hs","");
-    for( unsigned int i=0; i<invsvh.size(); i++ ){
-      if( vhnames[ invsvh_index[i] ] != "Data" && vhnames[ invsvh_index[i] ] != "MCtotal"){
-	if( debug_ >= 2 ){
-	cout<<"sample: "<< vhnames[ invsvh_index[i] ]<<" number: "<<invsvh[i]->Integral(1,10000)<<endl;
-	}
-	if( vhnames[ invsvh_index[i] ] == "WJ" ){
-	  invsvh[i]->SetLineColor(2);
-	  invsvh[i]->SetFillColor(2);
-	  invsvh[i]->SetMarkerColor(2);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "WJ_XSLO" ){
-	  invsvh[i]->SetLineColor(2);
-	  invsvh[i]->SetFillColor(2);
-	  invsvh[i]->SetMarkerColor(2);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "GJ" ){
-	  invsvh[i]->SetLineColor(kGreen+2);
-	  invsvh[i]->SetFillColor(kGreen+2);
-	  invsvh[i]->SetMarkerColor(kGreen+2);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "DY" ){
-	  invsvh[i]->SetLineColor(kViolet+1);
-	  invsvh[i]->SetFillColor(kViolet+1);
-	  invsvh[i]->SetMarkerColor(kViolet+1);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "TT" ){
-	  invsvh[i]->SetLineColor(4);
-	  invsvh[i]->SetFillColor(4);
-	  invsvh[i]->SetMarkerColor(4);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "TT_Massive" ){
-	  invsvh[i]->SetLineColor(4);
-	  invsvh[i]->SetFillColor(4);
-	  invsvh[i]->SetMarkerColor(4);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "TTZ" ){
-	  invsvh[i]->SetLineColor(kBlue-7);
-	  invsvh[i]->SetFillColor(kBlue-7);
-	  invsvh[i]->SetMarkerColor(kBlue-7);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "SingleT" ){
-	  invsvh[i]->SetLineColor(3);
-	  invsvh[i]->SetFillColor(3);
-	  invsvh[i]->SetMarkerColor(3);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-       	} else if( vhnames[ invsvh_index[i] ] == "Zinv" ){
-	  invsvh[i]->SetLineColor(6);
-	  invsvh[i]->SetFillColor(6);
-	  invsvh[i]->SetMarkerColor(6);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-       	} else if( vhnames[ invsvh_index[i] ] == "DiBoson" ){
-	  invsvh[i]->SetLineColor(7);
-	  invsvh[i]->SetFillColor(7);
-	  invsvh[i]->SetMarkerColor(7);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "ZinvFromDY" ){
-	  invsvh[i]->SetLineColor(kYellow-3);
-	  invsvh[i]->SetFillColor(kYellow-3);
-	  invsvh[i]->SetMarkerColor(kYellow-3);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-       	} else if( vhnames[ invsvh_index[i] ] == "Zinv_HT50To100" ){
-	  invsvh[i]->SetLineColor(kCyan-10);
-	  invsvh[i]->SetFillColor(kCyan-10);
-	  invsvh[i]->SetMarkerColor(kCyan-10);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "Zinv_FastSim_HT100To200" ){
-	  invsvh[i]->SetLineColor(kCyan+1);
-	  invsvh[i]->SetFillColor(kCyan+1);
-	  invsvh[i]->SetMarkerColor(kCyan+1);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "Zinv_FastSim_HT200To400" ){
-	  invsvh[i]->SetLineColor(kCyan+2);
-	  invsvh[i]->SetFillColor(kCyan+2);
-	  invsvh[i]->SetMarkerColor(kCyan+2);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "Zinv_HT400Toinf" ){
-	  invsvh[i]->SetLineColor(kCyan+3);
-	  invsvh[i]->SetFillColor(kCyan+3);
-	  invsvh[i]->SetMarkerColor(kCyan+3);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-       	} else if( vhnames[ invsvh_index[i] ] == "WJ_inclusive" ){
-	  invsvh[i]->SetLineColor(kRed-10);
-	  invsvh[i]->SetFillColor(kRed-10);
-	  invsvh[i]->SetMarkerColor(kRed-10);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "WJ_FastSim_HT250To300" ){
-	  invsvh[i]->SetLineColor(kMagenta-10);
-	  invsvh[i]->SetFillColor(kMagenta-10);
-	  invsvh[i]->SetMarkerColor(kMagenta-10);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "WJ_FastSim_HT300To400" ){
-	  invsvh[i]->SetLineColor(kMagenta-9);
-	  invsvh[i]->SetFillColor(kMagenta-9);
-	  invsvh[i]->SetMarkerColor(kMagenta-9);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "WJ_HT250To300" ){
-	  invsvh[i]->SetLineColor(kRed-8);
-	  invsvh[i]->SetFillColor(kRed-8);
-	  invsvh[i]->SetMarkerColor(kRed-8);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "WJ_HT300To400" ){
-	  invsvh[i]->SetLineColor(kRed-5);
-	  invsvh[i]->SetFillColor(kRed-5);
-	  invsvh[i]->SetMarkerColor(kRed-5);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
-	} else if( vhnames[ invsvh_index[i] ] == "WJ_HT400Toinf" ){
-	  invsvh[i]->SetLineColor(kRed-1);
-	  invsvh[i]->SetFillColor(kRed-1);
-	  invsvh[i]->SetMarkerColor(kRed-1);
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
-	  hs->Add(invsvh[i]);
+      THStack *hs=new THStack("hs","");
+      for( unsigned int i=0; i<invsvh.size(); i++ ){
+	if( vhnames[ invsvh_index[i] ] != "Data" && vhnames[ invsvh_index[i] ] != "MCtotal" ){
+	  if( debug_ >= 2 ){
+	    cout<<"sample: "<< vhnames[ invsvh_index[i] ]<<" number: "<<invsvh[i]->Integral(1,10000)<<endl;
+	  }
+	  if( !( vh_special[ invsvh_index[i] ] ) ){
+	    invsvh[i]->SetLineColor( vcolor[ invsvh_index[i] ] );
+	    invsvh[i]->SetFillColor( vcolor[ invsvh_index[i] ] );
+	    invsvh[i]->SetLineStyle(2);
+	    invsvh[i]->SetFillStyle(3001);
+	    invsvh[i]->SetMarkerColor( vcolor[ invsvh_index[i] ] ); 
+	    hs->Add(invsvh[i]);
+	  }
 	}
       }
-    }
 
-    if( ( vh.size() > 1 && hasData_ ) || ( vh.size() > 0 && !hasData_ ) ){
-      hs->Draw("HIST 9 same");
-    }
-    
+      if( hs ){
+	hs->Draw("HIST 9 same");
+      }
     
       for( unsigned int i=0; i<vh.size(); i++ ){
-	if( vhnames[ i ] == "T2cc160" ){
-	  vh[i]->SetLineColor(5);
-	  vh[i]->SetLineWidth(4);
-	  vh[i]->SetMarkerColor(5);
-	  vh[i]->Draw("HIST 9 same");
-	  /*	  vh[i]->SetLineColor(kGreen-2);
-	  vh[i]->SetFillColor(kGreen-2);
-	  vh[i]->SetMarkerColor(kGreen-2);
-	  hs->Add(vh[i]);*/
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
+	if( vhnames[ invsvh_index[i] ] != "Data" && vhnames[ invsvh_index[i] ] != "MCtotal" && vh_special[ invsvh_index[i] ] ){
+	  invsvh[i]->SetLineColor( vcolor[ invsvh_index[i] ] );
+	  invsvh[i]->SetMarkerColor( vcolor[ invsvh_index[i] ] );
+	  invsvh[i]->SetLineWidth(6);
+	  invsvh[i]->Draw("HIST 9 same");
 	}
       }
 
+      //Draw error on total MC and data
       for( unsigned int i=0; i<vh.size(); i++ ){
-	if( vhnames[ i ] == "T2cc300" ){
-	  vh[i]->SetLineColor(5);
-	  vh[i]->SetLineWidth(4);
-	  vh[i]->SetMarkerColor(5);
-	  vh[i]->Draw("HIST 9 same");
-	  /*	  vh[i]->SetLineColor(kGreen-2);
-	  vh[i]->SetFillColor(kGreen-2);
-	  vh[i]->SetMarkerColor(kGreen-2);
-	  hs->Add(vh[i]);*/
-	  //	  len->AddEntry(invsvh[i],vlenname[ invsvh_index[i] ]);
+	if( vhnames[i]=="MCtotal"){
+	  TH1D *mche=(TH1D*)(vh[i]->Clone("mche"));
+	  for( int ib=1; ib<=mche->GetNbinsX(); ib++ ){
+	    mche->SetBinContent(ib, vh[i]->GetBinContent(ib) );
+	    mche->SetBinError(ib, vh[i]->GetBinError(ib) );
+	  }
+	  mche->SetFillColor(5);
+	  mche->SetFillStyle(3001);
+	  mche->SetLineColor(5);
+	  mche->SetLineWidth(2);
+	  mche->SetMarkerSize(0);
+	  mche->Draw("e2same");
 	}
       }
-    for( unsigned int i=0; i<vh.size(); i++ ){
-    if( vhnames[i]=="MCtotal"){
-      //      double lowmche=vh[1]->GetBinLowEdge(1);
-      //      double highmche=vh[1]->GetBinLowEdge(vh[1]->GetNbinsX())+vh[1]->GetBinWidth(1);
-      //      TH1D *mche=new TH1D("mche","mche",vh[1]->GetNbinsX(), lowmche, highmche);
-      TH1D *mche=(TH1D*)(vh[i]->Clone("mche"));
-      for( int ib=1; ib<=mche->GetNbinsX(); ib++ ){
-	mche->SetBinContent(ib, vh[i]->GetBinContent(ib) );
-	mche->SetBinError(ib, vh[i]->GetBinError(ib) );
-      }
-      mche->SetFillColor(kOrange-3);
-      mche->SetFillStyle(3001);
-      mche->SetLineColor(kOrange-3);
-      mche->SetLineWidth(2);
-      mche->SetMarkerSize(0);
-      mche->Draw("e2same");
-    }
-    }
 
-    for( unsigned int i=0; i<invsvh.size(); i++ ){
-      if( vhnames[ invsvh_index[i] ] == "Data" ){
-	invsvh[i]->Draw("same P 9");
-	invsvh[i]->SetLineColor(1);
-	invsvh[i]->SetLineWidth(2);
-	invsvh[i]->SetMarkerSize(1);
-	invsvh[i]->SetMarkerStyle(20);
-	invsvh[i]->SetMarkerColor(1);
+      for( unsigned int i=0; i<invsvh.size(); i++ ){
+	if( vhnames[ invsvh_index[i] ] == "Data" ){
+	  invsvh[i]->Draw("same P 9");
+	  invsvh[i]->SetLineColor(1);
+	  invsvh[i]->SetLineWidth(2);
+	  invsvh[i]->SetMarkerSize(1);
+	  invsvh[i]->SetMarkerStyle(20);
+	  invsvh[i]->SetMarkerColor(1);
+	}
+      }
+      //Legend 
+    for( unsigned int i=0; i<vh.size(); i++ ){
+      if( vhnames[ svh_index[i] ] != "Data" && vhnames[ svh_index[i] ] != "MCtotal" ){
+	if( !( vh_special[ svh_index[i] ] ) ){
+	  len->AddEntry(svh[i], vlenname[ svh_index[i] ]);
+	}
       }
     }
 
-    /*    if( vh.size() > 0 && vhnames[0] == "Data"){
-      len->AddEntry(vh[0], "Data");
-    }
-    */
     for( unsigned int i=0; i<vh.size(); i++ ){
-      if( vhnames[i] == "T2cc160" || vhnames[i] == "T2cc300"){
-	len->AddEntry(vh[i], vlenname[i]);
-      }
-    }
-    for( unsigned int i=0; i<vh.size(); i++ ){
-      if( vhnames[ svh_index[i] ] != "Data" && vhnames[ svh_index[i] ] != "MCtotal" && vhnames[ svh_index[i] ] != "T2cc160" && vhnames[ svh_index[i] ] != "T2cc300"){
-	len->AddEntry(svh[i], vlenname[ svh_index[i] ]);
+      if( vhnames[ svh_index[i] ] != "Data" && vhnames[ svh_index[i] ] != "MCtotal" ){
+	if( vh_special[ svh_index[i] ] ){
+	  len->AddEntry(svh[i], vlenname[ svh_index[i] ]);
+	}
       }
     }
 
@@ -1423,110 +497,31 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   len1->Draw();
   len->Draw();
 
-  //Ration plots
-  c1->cd();
-  /*  //  TPad *pad2=new TPad("pad2","pad2",0,0.03,1,0.3);
-  TPad *pad2=new TPad("pad2","pad2",0,0,0,0);
-  pad2->SetGridy();
-  pad2->Draw();
-  pad2->cd();
+  //Ratio plots
+  if( plotRatio_ ){
+    c1->cd();
+    TPad *pad2=new TPad("pad2","pad2",0,0.03,1,0.3);
+    pad2->SetGridy();
+    pad2->Draw();
+    pad2->cd();
 
-  if( useVariantRatioPlot_ && vh.size() > 1 ){
-    int ifirst_d=pf1d.getFirstBinHasContent(vh[0]);
-    double firstbin=vh[0]->GetBinLowEdge( ifirst_d );
-    double x1=xAxisRange1;
-    if( firstbin > xAxisRange1 ){
-      x1=firstbin;
-    }
-    vector<TH1D*> vratio=pf1d.getRatioPlot( vh[0], vh[1], xAxisRange1, xAxisRange2 );
-    TH1D *ratio_o=vratio[0]; 
-    TH1D *mc=vratio[1];
-    TH1D *ratio=vratio[2];
-    mc->SetFillColor(kGray+1);
-    mc->SetFillStyle(3008);
-    mc->SetLineColor(0);
-    mc->SetMarkerSize(0);
-
-    TH1D *mch11=(TH1D*)(ratio_o->Clone("mch11"));
-    for( int ib=1; ib<=mch11->GetNbinsX(); ib++ ){
-      mch11->SetBinContent(ib, 1.);
-      mch11->SetBinError(ib, 0.);
-    }
-    mch11->SetLineWidth(1);
-    mch11->SetLineColor(1);
-    mch11->SetMarkerSize(0);
-    
-    TF1* fit = new TF1("fit","pol0",x1, xAxisRange2);
-    ratio->GetXaxis()->SetRangeUser(xAxisRange1, xAxisRange2);
-    ratio->Draw();
-    ratio->SetLineColor(kWhite);
-    ratio->SetMarkerColor(kWhite);
-    ratio->Fit(fit,"Rsame");
-    ratio->GetXaxis()->SetLabelFont(63);
-    ratio->GetXaxis()->SetLabelSize(18);
-    ratio->GetXaxis()->SetTitleOffset(10);
-    ratio->GetYaxis()->SetNdivisions(2,0,0,kFALSE);
-    ratio->GetYaxis()->SetLabelFont(63);
-    ratio->GetYaxis()->SetLabelSize(18);
-    ratio->GetYaxis()->SetTitle("Data/MC");
-    ratio->GetYaxis()->SetTitleSize(0.15);
-    ratio->GetYaxis()->SetTitleOffset(0.3);
-    ratio->SetMarkerSize(0.5);
-    ratio->GetYaxis()->SetRangeUser(0.,2.);
-    mc->GetXaxis()->SetRangeUser(xAxisRange1, xAxisRange2);
-    mch11->GetXaxis()->SetRangeUser(xAxisRange1, xAxisRange2);
-    mc->Draw("e2same");
-    mch11->Draw("same L hist");
-    ratio_o->Draw("same");
-    TLegend *len2=new TLegend(0.6,0.8,0.95,0.9);
-    len2->SetFillColor(0);
-    len2->SetMargin(0.3);
-    len2->SetLineColor(0);
-    len2->SetBorderSize(0);
-    len2->AddEntry("", Form("p0 = %.3f #pm %.4f", fit->GetParameter(0), fit->GetParError(0) ), "" );
-    len2->Draw();
-  } else {
-    if( vh.size() > 1){
+    if( useVariantRatioPlot_ && vh.size() > 1 ){
       int ifirst_d=pf1d.getFirstBinHasContent(vh[0]);
       double firstbin=vh[0]->GetBinLowEdge( ifirst_d );
       double x1=xAxisRange1;
       if( firstbin > xAxisRange1 ){
 	x1=firstbin;
       }
-      TH1D* datah=(TH1D*)(vh[0]->Clone("datah"));
-      TH1D* mch=(TH1D*)(vh[1]->Clone("mch"));
-      datah->Divide(datah, mch);
-      datah->GetXaxis()->SetLabelFont(63);
-      datah->GetXaxis()->SetLabelSize(18);
-      datah->GetXaxis()->SetTitleOffset(10);
+      vector<TH1D*> vratio=pf1d.getRatioPlot( vh[0], vh[1], xAxisRange1, xAxisRange2 );
+      TH1D *ratio_o=vratio[0]; 
+      TH1D *mc=vratio[1];
+      TH1D *ratio=vratio[2];
+      mc->SetFillColor(kGray+1);
+      mc->SetFillStyle(3008);
+      mc->SetLineColor(0);
+      mc->SetMarkerSize(0);
 
-      datah->GetYaxis()->SetNdivisions(2,0,0,kFALSE);
-      datah->GetYaxis()->SetLabelFont(63);
-      datah->GetYaxis()->SetLabelSize(18);
-      //      datah->GetYaxis()->SetTitle("Data/MC");
-      datah->GetYaxis()->SetTitle("t#bar{t}/t#bar{t}_MasiveBin");
-      datah->GetYaxis()->SetTitleSize(0.15);
-      datah->GetYaxis()->SetTitleOffset(0.3);
-      datah->SetMarkerSize(0.5);
-      datah->GetYaxis()->SetRangeUser(0.,2.);
-
-      double lowmch=datah->GetBinLowEdge(1);
-      double highmch=datah->GetBinLowEdge(datah->GetNbinsX())+datah->GetBinWidth(1);
-
-    //    TH1D *mch1=new TH1D("mch1","mch1",datah->GetNbinsX(), lowmch, highmch);
-      TH1D *mch1=(TH1D*)(datah->Clone("mch1"));
-      for( int ib=1; ib<=mch1->GetNbinsX(); ib++ ){
-	mch1->SetBinContent(ib, 1.);
-	if(vh[1]->GetBinContent(ib) > 1E-2){
-	  mch1->SetBinError(ib, vh[1]->GetBinError(ib)/vh[1]->GetBinContent(ib) );
-	}
-      }
-      mch1->SetFillColor(kGray+1);
-      mch1->SetFillStyle(3008);
-      mch1->SetLineColor(0);
-      mch1->SetMarkerSize(0);
-
-      TH1D *mch11=(TH1D*)(datah->Clone("mch11"));
+      TH1D *mch11=(TH1D*)(ratio_o->Clone("mch11"));
       for( int ib=1; ib<=mch11->GetNbinsX(); ib++ ){
 	mch11->SetBinContent(ib, 1.);
 	mch11->SetBinError(ib, 0.);
@@ -1534,44 +529,29 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       mch11->SetLineWidth(1);
       mch11->SetLineColor(1);
       mch11->SetMarkerSize(0);
-      
-    //    TH1D *datah1=new TH1D("datah1","datah1",datah->GetNbinsX(), lowmch, highmch);
-      TH1D *datah1=(TH1D*)(datah->Clone("datah1"));
-      for( int ib=1; ib<=datah1->GetNbinsX(); ib++ ){
-	datah1->SetBinContent(ib, datah->GetBinContent(ib));
-	double err=pf1d.getRatioErr( vh[0]->GetBinContent(ib), vh[0]->GetBinError(ib), vh[1]->GetBinContent(ib), vh[1]->GetBinError(ib) );
-      }
-
-      TH1D *datah2=(TH1D*)(datah->Clone("datah2"));
-      for( int ib=1; ib<=datah2->GetNbinsX(); ib++ ){
-	datah2->SetBinContent(ib, datah->GetBinContent(ib));
-	if( vh[0]->GetBinContent(ib) > 0 ){
-	  datah2->SetBinError(ib, vh[0]->GetBinError(ib)/vh[0]->GetBinContent(ib));
-	}
-      }
-
-
+    
       TF1* fit = new TF1("fit","pol0",x1, xAxisRange2);
-      datah1->Draw();
-      datah1->SetLineColor(kWhite);
-      datah1->SetMarkerColor(kWhite);
-      datah1->Fit(fit,"Rsame");
-      datah1->GetXaxis()->SetRangeUser(xAxisRange1, xAxisRange2);
-      datah1->GetXaxis()->SetLabelFont(63);
-      datah1->GetXaxis()->SetLabelSize(18);
-      datah1->GetXaxis()->SetTitleOffset(10);
-      datah1->GetYaxis()->SetNdivisions(2,0,0,kFALSE);
-      datah1->GetYaxis()->SetLabelFont(63);
-      datah1->GetYaxis()->SetLabelSize(18);
-      datah1->GetYaxis()->SetTitle("Data/MC");
-      datah1->GetYaxis()->SetTitleSize(0.15);
-      datah1->GetYaxis()->SetTitleOffset(0.3);
-      datah1->SetMarkerSize(0.5);
-      datah1->GetYaxis()->SetRangeUser(0.,2.);
-      mch1->Draw("e2same");
+      ratio->GetXaxis()->SetRangeUser(xAxisRange1, xAxisRange2);
+      ratio->Draw();
+      ratio->SetLineColor(kWhite);
+      ratio->SetMarkerColor(kWhite);
+      ratio->Fit(fit,"Rsame");
+      ratio->GetXaxis()->SetLabelFont(63);
+      ratio->GetXaxis()->SetLabelSize(18);
+      ratio->GetXaxis()->SetTitleOffset(10);
+      ratio->GetYaxis()->SetNdivisions(2,0,0,kFALSE);
+      ratio->GetYaxis()->SetLabelFont(63);
+      ratio->GetYaxis()->SetLabelSize(18);
+      ratio->GetYaxis()->SetTitle("Data/MC");
+      ratio->GetYaxis()->SetTitleSize(0.15);
+      ratio->GetYaxis()->SetTitleOffset(0.3);
+      ratio->SetMarkerSize(0.5);
+      ratio->GetYaxis()->SetRangeUser(0.,2.);
+      mc->GetXaxis()->SetRangeUser(xAxisRange1, xAxisRange2);
+      mch11->GetXaxis()->SetRangeUser(xAxisRange1, xAxisRange2);
+      mc->Draw("e2same");
       mch11->Draw("same L hist");
-      datah2->Draw("same");
-
+      ratio_o->Draw("same");
       TLegend *len2=new TLegend(0.6,0.8,0.95,0.9);
       len2->SetFillColor(0);
       len2->SetMargin(0.3);
@@ -1579,9 +559,99 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       len2->SetBorderSize(0);
       len2->AddEntry("", Form("p0 = %.3f #pm %.4f", fit->GetParameter(0), fit->GetParError(0) ), "" );
       len2->Draw();
-    }
+    } else {
+      if( vh.size() > 1){
+	int ifirst_d=pf1d.getFirstBinHasContent(vh[0]);
+	double firstbin=vh[0]->GetBinLowEdge( ifirst_d );
+	double x1=xAxisRange1;
+	if( firstbin > xAxisRange1 ){
+	  x1=firstbin;
+      }
+	TH1D* datah=(TH1D*)(vh[0]->Clone("datah"));
+	TH1D* mch=(TH1D*)(vh[1]->Clone("mch"));
+	datah->Divide(datah, mch);
+	datah->GetXaxis()->SetLabelFont(63);
+	datah->GetXaxis()->SetLabelSize(18);
+	datah->GetXaxis()->SetTitleOffset(10);
+
+	datah->GetYaxis()->SetNdivisions(2,0,0,kFALSE);
+	datah->GetYaxis()->SetLabelFont(63);
+	datah->GetYaxis()->SetLabelSize(18);
+	datah->GetYaxis()->SetTitle("Data/MC");
+//      datah->GetYaxis()->SetTitle("t#bar{t}/t#bar{t}_MasiveBin");
+	datah->GetYaxis()->SetTitleSize(0.15);
+	datah->GetYaxis()->SetTitleOffset(0.3);
+	datah->SetMarkerSize(0.5);
+	datah->GetYaxis()->SetRangeUser(0.,2.);
+	
+	TH1D *mch1=(TH1D*)(datah->Clone("mch1"));
+	for( int ib=1; ib<=mch1->GetNbinsX(); ib++ ){
+	  mch1->SetBinContent(ib, 1.);
+	  if(vh[1]->GetBinContent(ib) > 1E-2){
+	    mch1->SetBinError(ib, vh[1]->GetBinError(ib)/vh[1]->GetBinContent(ib) );
+	  }
+	}
+	mch1->SetFillColor(kGray+1);
+	mch1->SetFillStyle(3008);
+	mch1->SetLineColor(0);
+	mch1->SetMarkerSize(0);
+
+	TH1D *mch11=(TH1D*)(datah->Clone("mch11"));
+	for( int ib=1; ib<=mch11->GetNbinsX(); ib++ ){
+	  mch11->SetBinContent(ib, 1.);
+	  mch11->SetBinError(ib, 0.);
+	}
+	mch11->SetLineWidth(1);
+	mch11->SetLineColor(1);
+	mch11->SetMarkerSize(0);
+	
+	TH1D *datah1=(TH1D*)(datah->Clone("datah1"));
+	for( int ib=1; ib<=datah1->GetNbinsX(); ib++ ){
+	  datah1->SetBinContent(ib, datah->GetBinContent(ib));
+	  double err=pf1d.getRatioErr( vh[0]->GetBinContent(ib), vh[0]->GetBinError(ib), vh[1]->GetBinContent(ib), vh[1]->GetBinError(ib) );
+	}
+
+	TH1D *datah2=(TH1D*)(datah->Clone("datah2"));
+	for( int ib=1; ib<=datah2->GetNbinsX(); ib++ ){
+	  datah2->SetBinContent(ib, datah->GetBinContent(ib));
+	  if( vh[0]->GetBinContent(ib) > 0 ){
+	    datah2->SetBinError(ib, vh[0]->GetBinError(ib)/vh[0]->GetBinContent(ib));
+	  }
+	}
+
+
+	TF1* fit = new TF1("fit","pol0",x1, xAxisRange2);
+	datah1->Draw();
+	datah1->SetLineColor(kWhite);
+        datah1->SetMarkerColor(kWhite);
+        datah1->Fit(fit,"Rsame");
+        datah1->GetXaxis()->SetRangeUser(xAxisRange1, xAxisRange2);
+        datah1->GetXaxis()->SetLabelFont(63);
+        datah1->GetXaxis()->SetLabelSize(18);
+        datah1->GetXaxis()->SetTitleOffset(10);
+        datah1->GetYaxis()->SetNdivisions(2,0,0,kFALSE);
+        datah1->GetYaxis()->SetLabelFont(63);
+        datah1->GetYaxis()->SetLabelSize(18);
+        datah1->GetYaxis()->SetTitle("Data/MC");
+        datah1->GetYaxis()->SetTitleSize(0.15);
+        datah1->GetYaxis()->SetTitleOffset(0.3);
+        datah1->SetMarkerSize(0.5);
+        datah1->GetYaxis()->SetRangeUser(0.,2.);
+        mch1->Draw("e2same");
+        mch11->Draw("same L hist");
+        datah2->Draw("same");
+
+        TLegend *len2=new TLegend(0.6,0.8,0.95,0.9);
+        len2->SetFillColor(0);
+        len2->SetMargin(0.3);
+        len2->SetLineColor(0);
+        len2->SetBorderSize(0);
+        len2->AddEntry("", Form("p0 = %.3f #pm %.4f", fit->GetParameter(0), fit->GetParError(0) ), "" );
+        len2->Draw();
+      }
     //    delete len2;
-    }*/
+    }
+  }
   
     TString stack="";
     if ( doCumulative_ ){
@@ -1676,6 +746,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   delete c1;
   vlenname.clear();
   vhnames.clear();
+  vh_special.clear();
   vh.clear();
   svh.clear();
   delete len1;
@@ -1882,7 +953,7 @@ void basicPlots::getRatioOnRatioResults( TString HTBins, int startNJet, int nJet
   rebin=5;
   getRatioOnRatio( HTBins, startNJet, nJets, MuonNumber, FolderLabel, "#alpha_{T}", "AlphaT", rebin, 0.55, 2.0 );
   rebin=1;
-  getRatioOnRatio( HTBins, startNJet, nJets, MuonNumber, FolderLabel, "HT (GeV)", "AlphaT_vs_HT", rebin, 75., 975. );
+  getRatioOnRatio( HTBins, startNJet, nJets, MuonNumber, FolderLabel, "HT (GeV)", "AlphaT_vs_HT", rebin, 270., 975. );
 
 }
 
@@ -1908,26 +979,34 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
     lowATcut=0.55;
     higATcut=10.;
     rebin=50;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Invaraint mass of B-jets (GeV)", "", 0, 800, "Bmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 1200, "MET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+   //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Invaraint mass of B-jets (GeV)", "", 0, 800, "Bmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Invaraint mass of B-jets (GeV)", "", 0, 300, "Bmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 1200, "MET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 700, "MET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=20;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 1200, "jetPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second leading jet p_{T} (GeV)", "", 0., 1200, "jetPt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet #eta", "", -5.,5., "jetEta", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second leading jet #eta", "", -5.,5., "jetEta2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 1200, "jetPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 400, "jetPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second leading jet p_{T} (GeV)", "", 0., 1200, "jetPt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second leading jet p_{T} (GeV)", "", 0., 400, "jetPt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet #eta", "", -3.5,3.5, "jetEta", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second leading jet #eta", "", -3.5,3.5, "jetEta2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=50;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 1200, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500., "HT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 1200, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500., "HT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1200., "HT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=20;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 1.5, "MHToverMET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=1;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common b-jets", "", 0, 12, "nbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common jets", "", 0, 20, "ncommjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common b-jets", "", 0, 12, "nbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common b-jets", "", 0, 6, "nbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common jets", "", 0, 20, "ncommjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common jets", "", 0, 10, "ncommjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=5;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.55, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=1;
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 75., 975., "AlphaT_vs_HT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 275., 975., "AlphaT_vs_HT", len, lowATcut, higATcut, 2, startNJet, nJets, MuonNumber, FolderLabel );
 
     //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of total b-jets", "", 0, 12, "ntotalbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of baby b-jets", "", 0, 12, "nbaby30to50bjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );

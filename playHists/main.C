@@ -125,6 +125,25 @@ int main( int argc, char* argv[] )
 
   if( word == "printTables" ){
     printTables *table=new printTables();
+    table->results(1, false, 2, 0, 0, "", "TwoThreeJet_");
+    table->results(1, false, 2, 1, 1, "", "TwoThreeJet_");
+    table->results(1, false, 2, 2, 1, "", "TwoThreeJet_");
+    table->results(1, false, 2, 3, 1, "", "TwoThreeJet_");
+    table->results(1, false, 2, 2, 15, "", "TwoThreeJet_");
+
+    table->results(1, false, 2, 0, 0, "", "");
+    table->results(1, false, 2, 1, 1, "", "");
+    table->results(1, false, 2, 2, 1, "", "");
+    table->results(1, false, 2, 3, 1, "", "");
+    table->results(1, false, 2, 2, 15, "", "");
+
+    table->results(1, false, 2, 0, 0, "", "MoreThreeJet_");
+    table->results(1, false, 2, 1, 1, "", "MoreThreeJet_");
+    table->results(1, false, 2, 2, 1, "", "MoreThreeJet_");
+    table->results(1, false, 2, 3, 1, "", "MoreThreeJet_");
+    table->results(1, false, 2, 2, 15, "", "MoreThreeJet_");
+
+
     /*    table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 0, 0);
     table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 1, 1);
     table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 2, 1);
@@ -132,13 +151,13 @@ int main( int argc, char* argv[] )
     table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 4, 1);
     table->Tables_ForNormal( "", 0, 0, 0, 0, "OneMuon_", 5, 1);*/
 
-    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 0, 0);
+    /*    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 0, 0);
     table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 1, 1);
     table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 2, 1);
     table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 2, 15);
     table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 3, 1);
     table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 4, 1); 
-    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 5, 1);
+    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 5, 1);*/
    /*    table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 0, 0);
     table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 1, 1);
     table->Tables_ForNormal( "", 0, 0, 0, 0, "DiMuon_", 2, 1);
@@ -167,7 +186,7 @@ int main( int argc, char* argv[] )
     fa->getResults( "iTojJet", 1, 1, 2, 15, "OneMuon_", 0, 1 );
   }
 
-  if( word == "basicPlots" || word == "basicPlots_OneMuon" || word == "basicPlots_DiMuon" || word == "basicPlots_Had" || word == "basicPlots_Muon" || word == "basicPlots_ROROneMuon" || word == "basicPlots_RORDiMuon" || word == "basicPlots_ROR" || word == "basicPlots_Photon" ){
+  if( (int)( word.find("basicPlots") ) >= 0  ){
 
     vector<TString> folder;
     folder.push_back("");

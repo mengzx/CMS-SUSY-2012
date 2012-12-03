@@ -19,11 +19,11 @@ getPUWeight::getPUWeight(){
 TH1D* getPUWeight::addHists( int whichpart, TString HTBins, TString MuonNumber, TString FolderLabel, bool isdata, TString dataset, TString sele ){
   vector<TString> vdirname=getVdirname( whichpart, HTBins, MuonNumber, FolderLabel, false );
   vector<TFile*> invf;
+  tr1::tuple< TString, TString, vector<TFile*>, vector<TFile*> > res=getStuff( whichpart, false, HTBins, false, "" );
   if( isdata ){
-    TString dir=getDir( whichpart, false );
-    invf=Datavf_pushback( dir, dataset, sele, HTBins );
+    invf=tr1::get<2>(res);
   } else {
-    invf=getMCvf( whichpart, HTBins, false, "", false );
+    invf=tr1::get<3>(res);
   }
   playHist1D hf1d=playHist1D();
   vector<double> trigeff=nominaltrigeff_pushback(HTBins);

@@ -7,8 +7,11 @@
 #include "menus.h"
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <iostream>
+#include <tr1/tuple>
 
-using namespace std;
+//using namespace std;
 
 class vectors{
  public:
@@ -37,8 +40,8 @@ class vectors{
 
   void closefV();
 
-  vector<double> xbinsv;
-  vector<double> ybinsv;
+  std::vector<double> xbinsv;
+  std::vector<double> ybinsv;
   int nxbins;
   int nybins;
 
@@ -47,24 +50,25 @@ class vectors{
   TH2D* HT_ATTrigEff();
   TH2D* SingleMuTrigEff();
 
-  vector<TFile*> MCvf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr, bool separateSample, TString separateSampleName );
-  vector<TFile*> Datavf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr);
-  vector<TString> dirName_pushback(TString label, TString sTreeThr);
-  vector<TString> vhname_pusback_numer( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
-  vector<TString> vhname_pusback_data( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
-  vector<TString> vhname_pusback_domin( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
-  vector<double> DiMuTrigEff_pushback(TString sTreeThr);
-  vector<double> SingleMuTrigEff_pushback(TString sTreeThr);
-  vector<double> HTATTrigEff_pushback(TString sTreeThr);
-  vector<double> PhotonTrigEff_pushback(TString sTreeThr);
-  vector<double> nominaltrigeff_pushback(TString sTreeThr);
-  TString getDir( int whichpart, bool MuAddOrNot);
-  vector<TFile*> getMCvf( int whichpart, TString HTBins, bool separateSample, TString singleMCsample, bool MuAddOrNot );
-  vector<TString> getVdirname( int whichpart, TString HTBins, TString MuonNumber, TString FolderLabel, bool MuAddOrNot );
-
-  vector<TFile*> vf;
-  vector<TFile*> vfdata;
-  vector<TFile*> vf_save;
-  vector<TFile*> vfdata_save;
+  std::vector<TString> MCvf_samples();
+  std::vector<TFile*> MCvf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr, bool separateSample, TString separateSampleName );
+  std::vector<TFile*> Datavf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr);
+  std::vector<TString> dirName_pushback(TString label, TString sTreeThr);
+  std::vector<TString> vhname_pusback_numer( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
+  std::vector<TString> vhname_pusback_data( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
+  std::vector<TString> vhname_pusback_domin( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
+  std::tr1::tuple< double,  std::vector<double> > getScales( int whichpart, TString HTBins, TString MuonNumber );
+  std::tr1::tuple< TString, TString, std::vector<TFile*>, std::vector<TFile*> > getStuff(  int whichpart, bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample );
+  std::vector<TString> getVdirname( int whichpart, TString HTBins, TString MuonNumber, TString FolderLabel, bool MuAddOrNot );
+  std::vector<double> DiMuTrigEff_pushback(TString sTreeThr);
+  std::vector<double> SingleMuTrigEff_pushback(TString sTreeThr);
+  std::vector<double> HTATTrigEff_pushback(TString sTreeThr);
+  std::vector<double> PhotonTrigEff_pushback(TString sTreeThr);
+  std::vector<double> nominaltrigeff_pushback(TString sTreeThr);
+  TH1D* fillFitHist( TString sTreeThr, int startNjet, int nJets, TString MuonNumber, TString FolderLable  );
+  std::vector<TFile*> vf;
+  std::vector<TFile*> vfdata;
+  std::vector<TFile*> vf_save;
+  std::vector<TFile*> vfdata_save;
 }; //end vectors
 #endif
