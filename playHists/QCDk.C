@@ -525,9 +525,9 @@ vector<double> QCDk::fitRATvsHT( TString region, int startNJet, int nJets, TStri
     ratio->SetMinimum(0);
     ratio->Fit(fit,"R");
     ratio->Draw("same");
-    for( int i=0; i< NG; i++ ){
-      cout<<" ratiocontent"<<ratio->GetBinContent(i+5)<<" e ratio"<<ratio->GetBinError(i+5)<<" ratio="<<ratio->GetBinContent(i+5)<<" RatioX="<<ratio->GetBinLowEdge(i+5)<<endl;
-    }
+    //    for( int i=0; i< NG; i++ ){
+    //      cout<<" ratiocontent"<<ratio->GetBinContent(i+5)<<" e ratio"<<ratio->GetBinError(i+5)<<" ratio="<<ratio->GetBinContent(i+5)<<" RatioX="<<ratio->GetBinLowEdge(i+5)<<endl;
+    //    }
   } else {
     for( int i=0; i< NG; i++ ){
       x[i]=meanHT[i];
@@ -952,7 +952,7 @@ void QCDk::getParakFit( TString output, int startNJet, int nJets, double higAT, 
 
 void QCDk::getResults( TString output, int startNJet, int nJets, double higAT, bool HTto1075, TString DataSet, TString jetmulti, TString samples, TString bulksample, bool useHTErrX ){
 
-  vector<double> B0=  fitRATvsHT("B0", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample, useHTErrX );
+  /*  vector<double> B0=  fitRATvsHT("B0", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample, useHTErrX );
   vector<double> B1=  fitRATvsHT("B1", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample, useHTErrX);
   vector<double> B2=  fitRATvsHT("B2", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample, useHTErrX );
   vector<double> Signal=  fitRATvsHT("Signal", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample, useHTErrX );
@@ -968,13 +968,13 @@ void QCDk::getResults( TString output, int startNJet, int nJets, double higAT, b
   vector<double> C2_ReverseMHToverMHT=  fitRATvsHT("C2_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample, useHTErrX );
   vector<double> C3_ReverseMHToverMHT=  fitRATvsHT("C3_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample, useHTErrX );
   vector<double> C4_ReverseMHToverMHT=  fitRATvsHT("C4_ReverseMHToverMHT", startNJet, nJets, output, HTto1075, DataSet, jetmulti, samples, bulksample, useHTErrX );
-  vector<double> D_ReverseMHToverMHT=  fitRATvsHT("D_ReverseMHToverMHT", startNJet, nJets, "", HTto1075, DataSet, jetmulti, samples, bulksample, useHTErrX );
+  vector<double> D_ReverseMHToverMHT=  fitRATvsHT("D_ReverseMHToverMHT", startNJet, nJets, "", HTto1075, DataSet, jetmulti, samples, bulksample, useHTErrX );*/
 
+    getBulkYield(startNJet, nJets, higAT, HTto1075, DataSet, jetmulti, samples );
 
   if( debug_ >= 0 ){
     getBulkHist( startNJet, nJets, HTto1075, DataSet, jetmulti, samples );
     
-    getBulkYield(startNJet, nJets, higAT, HTto1075, DataSet, jetmulti, samples );
   }
 
 }

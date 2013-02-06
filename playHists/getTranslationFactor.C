@@ -13,7 +13,7 @@
 
 #include "tdrstyle.h"
 #include "playHist2D.h"
-
+#include "printTables.h"
 using namespace std;
 
 
@@ -22,685 +22,344 @@ getTranslationFactor::getTranslationFactor()
 
 // -----------------------------------------------------------------------------
 //
-vector<TH2D*> getTranslationFactor::TranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, TString MuonNumber, int startNJet, int nJets ){
-  playHist2D factor=playHist2D();
-  vector<double> nominaltrigeff=nominaltrigeff_pushback(HTBins);
+vector<TH2D*> getTranslationFactor::PreTranslationFactor( int whichpart, bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample, int startNJet, int nJets, TString MuonNumber, TString FolderLabel, bool notCutAlphaT, bool ATclosure ){
 
-  TString dirhad = inidir_ + "rootfiles/hadronicSele" + subdir_;
-
-  TString dir1mu="";
-  if( normalEstimation_ == true){
-    dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT45GeV" + subdir_;
-  } else{
-    if( MuAddOrNot == true ){
-      dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT50GeV" + subdir_;
-    } else{
-      dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT10GeV" + subdir_;
-    }
-  }
-
-  vector<TFile*> vf_had;
-  if( isData == true ){
-    vf_had=Datavf_pushback(dirhad, signalDataset_, "HadSele"+signalTrig_, HTBins);
+  std::tr1::tuple< TString, TString, vector<TFile*>, vector<TFile*> > tupleres=getStuff( whichpart, MuAddOrNot, HTBins, separateSample, singleMCsample );
+  vector<TFile*> Datavf=tr1::get<2>(tupleres);
+  vector<TFile*> MCvf=std::tr1::get<3>(tupleres);
+  TString hnamepart=std::tr1::get<1>(tupleres);
+  vector<TString> vhname;
+  if( startNJet == 0 ){
+    vhname.push_back("AlphaT_vs_HT" + hnamepart + "all");
   } else {
-    vf_had=MCvf_pushback(dirhad, MCsample_, "HadSele"+signalTrig_, HTBins, false, "");
-  }
-
-  /*  vector<TFile*> vf_1mu;
-  if( normalEstimation_ == true ){
-    if( isData == true ){
-      vf_1mu=Datavf_pushback(dir1mu, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
-    } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
-  } else {
-    if( MuAddOrNot == true){
-      if( isData == true ){
-	vf_1mu=Datavf_pushback(dir1mu, HadTaudataset_, "MuonAdded"+HadTaucontrolTrig_, HTBins);
-      } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "MuonAdded"+HadTaucontrolTrig_, HTBins, false, "");
-    } else{
-      if( isData == true ){
-	vf_1mu=Datavf_pushback(dir1mu, NotHadTaudataset_, "Muon"+NotHadTaucontrolTrig_, HTBins);
-      } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NotHadTaucontrolTrig_, HTBins, false, "" );
+    for( int i=startNJet; i< startNJet+nJets; i++ ){
+      vhname.push_back( Form( "AlphaT_vs_HT" + hnamepart + "%d", i ) );
     }
-    }*/
-  double scalein_numer=1.;
-  double scalein_domin=1.;
-  TString digit1in="";
-  if( isData == true ){
-    scalein_numer=datascale_;
-    scalein_domin=datascale_;
-    digit1in="g";
-  } else {
-    if( useCommonJson_ ){
-      scalein_numer = mcscale_;
-      scalein_domin = mcscale_;
-    } else {
-      scalein_numer = mcscale_HT_;
-      if( MuonNumber == "OneMuon_" ){
-	scalein_domin = mcscale_SingleMu_;
-      } else if ( MuonNumber == "DiMuon_"){
-	scalein_domin = mcscale_DiMu_;
-      }
-    }
-    digit1in=digit1_;
   }
 
-  vector<TString> dirNamehad=dirName_pushback(folderlabel_ + "", HTBins);
-  //  vector<TString> dirName1mu=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
+  std::tr1::tuple< double,  std::vector<double> > scales=getScales( whichpart, HTBins, MuonNumber );
+  vector<double> trigeff=tr1::get<1> (scales);
+  double scalein = tr1::get<0> (scales);
+  vector<double> datatrigeff=nominaltrigeff_pushback(HTBins);
+  vector<TString> dirName=getVdirname( HTBins, MuonNumber, FolderLabel );
 
-  vector<TString> hNamehad;
-  //  vector<TString> hName1mu=vhname_pusback_domin(MuAddOrNot, fullesti, startNJet, nJets);
-
-  if( isData == true ){
-    hNamehad=vhname_pusback_data(MuAddOrNot, fullesti, startNJet, nJets);
-  } else{
-    hNamehad=vhname_pusback_numer(MuAddOrNot, fullesti, startNJet, nJets);
-  }
-
-  if( MuAddOrNot == true  && normalEstimation_ == false ){
-    vector<TH2D*> reh2d;
-
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D( vf_had, dirNamehad, hNamehad, nominaltrigeff );
-    //    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D( vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
-
-    //    if( notCutAlphaT_ ){
-    //      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-    //      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
-    //    }
-    
-    //    TH2D* factor_h=(TH2D*)( AlphaT_vs_HT_numer->Clone( "factor_h" ) );
-    //    factor_h->Divide( AlphaT_vs_HT_numer, AlphaT_vs_HT_domin );
-
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    //    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    //    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
-    return reh2d;
-  }
-
-  if( MuAddOrNot == false && fullesti == true  && normalEstimation_ == false ){
-    vector<TH2D*> reh2d;
-
-    vector<TString> vhname_first;
-    vector<TString> vhname_second;
-    for( int i=0; i<hNamehad.size(); i++){
-      if(i<(hNamehad.size())/2){
-	vhname_first.push_back(hNamehad[i]);
-      } else {
-	vhname_second.push_back(hNamehad[i]);
-      }
-    }
-
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersAndFiles_SubtrackHists2D(vf_had, dirNamehad, vhname_first, vhname_second, nominaltrigeff );
-    //    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
-
-    //    if( notCutAlphaT_ ){
-    //      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-    //      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
-    //    }
-    
-    //    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
-    //    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
-
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    //    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    //    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
-    
-    return reh2d;
-  }
-
-  if( MuAddOrNot == false && fullesti == false && normalEstimation_ == false ){
-    vector<TH2D*> reh2d;
-
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
-    //    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
-
-    //    if( notCutAlphaT_ ){
-    //      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-    //      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
-    //    }
-    
-    //    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
-    //    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
-
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    //    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    //    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
-    return reh2d;
-  }
-
-  if( normalEstimation_ == true ){
-    vector<TH2D*> reh2d;
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
-    //    cout<<" dirName1mu="<<dirName1mu[0]<<" hName1mu="<<hName1mu[0]<<" nominaltrigeff="<<nominaltrigeff[0]<<endl;
-    //    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
-    cout<<"hi"<<endl;
-    //    if( notCutAlphaT_ ){
-    //      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-    //      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
-    //    }
-
-    //    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
-    //    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
-
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    //    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    //    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
-    return reh2d;
-  }
-
-}
-
-
-
-
-// -----------------------------------------------------------------------------
-//
-vector<TH2D*> getTranslationFactor::TranslationFactor_iTojJet( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber ){
-  vector<double> nominaltrigeff=nominaltrigeff_pushback(HTBins);
   playHist2D factor=playHist2D();
 
-  //  TString dirhad = inidir_ + "rootfiles/hadronicSele" + subdir_;
-  TString dirhad = inidir_ + "rootfiles/oneMuonSele/muonpT45GeV" + subdir_;
+  vector<TH2D*> reh2d;
+  TH2D* datah=0;
+  TH2D* mch=0;
+  if (Datavf.size() > 0) { datah=factor.addHistForDiffFoldersFilesHists2D(Datavf, dirName, vhname, datatrigeff ); }
+  if (MCvf.size() > 0) { mch=factor.addHistForDiffFoldersFilesHists2D(MCvf, dirName, vhname, trigeff ); mch->Scale(scalein); }
 
-  TString dir1mu="";
-  if( normalEstimation_ == true){
-    dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT45GeV" + subdir_;
-  }
-
-  vector<TFile*> vf_had;
-  if( isData == true ){
-    vf_had=Datavf_pushback(dirhad, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
-  } else {
-    vf_had=MCvf_pushback(dirhad, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
-  }
-
-  vector<TFile*> vf_1mu;
-  if( isData == true ){
-    vf_1mu=Datavf_pushback(dir1mu, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
-  } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
-
-  double scalein_numer=1.;
-  double scalein_domin=1.;
-  TString digit1in="";
-  if( isData == true ){
-    scalein_numer=datascale_;
-    scalein_domin=datascale_;
-    digit1in="g";
-  } else {
-    if( useCommonJson_ ){
-      scalein_numer = mcscale_;
-      scalein_domin = mcscale_;
-    } else {
-      if( MuonNumber == "OneMuon_" ){
-        scalein_numer = mcscale_SingleMu_;
-	scalein_domin = mcscale_SingleMu_;
-      } else if ( MuonNumber == "DiMuon_"){
-	scalein_domin = mcscale_DiMu_;
-	scalein_numer = mcscale_DiMu_;
-      }
+  if( ATclosure ){
+    if( datah != 0 ){
+      TH2D* vh_iclone=(TH2D*)(datah->Clone("vh_iclone") );
+      datah=factor.ReFillHist_high( vh_iclone, 0.55 );
     }
-    digit1in=digit1_;
-  }
-
-
-  vector<TString> dirNamehad=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
-  vector<TString> dirName1mu=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
-
-  vector<TString> hNamehad;
-  vector<TString> hName1mu;
-    //MuaddOrNot and fullesti is arbitarilly selected, because itoj jet estimation need normalestimation == true
-  if( normalEstimation_ == true ){
-    if( isData == true ){
-      hNamehad=vhname_pusback_data(false, true, jJetStart, jJet_n);
-    } else{
-      hNamehad=vhname_pusback_numer(false, true, jJetStart, jJet_n);
-    }
-    hName1mu=vhname_pusback_domin(false, true, iJetStart, iJet_n);
-  }
-    //MuaddOrNot and fullesti is arbitarilly selected, because itoj jet estimation need normalestimation == true
-  if( normalEstimation_ == true ){
-    vector<TH2D*> reh2d;
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
     
-    if( notCutAlphaT_ ){
-      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
+    if( mch != 0 ){
+      TH2D* vh_iclone=(TH2D*)(mch->Clone("vh_iclone") );
+      mch=factor.ReFillHist_high( vh_iclone, 0.55 );
     }
-
-    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
-    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
-
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
-    return reh2d;
-  }
-
-}
-
-
-
-
-// -----------------------------------------------------------------------------
-//
-vector<TH2D*> getTranslationFactor::TranslationFactor_1To2Mu( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, int startNJet, int nJets ){
-  vector<double> nominaltrigeff=nominaltrigeff_pushback(HTBins);
-  playHist2D factor=playHist2D();
-
-  TString dir1mu="";
-  dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT45GeV" + subdir_;
-
-  vector<TFile*> vf_had;
-  if( normalEstimation_ == true ){
-    if( isData == true ){
-      vf_had=Datavf_pushback(dir1mu, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
-    } else {
-      vf_had=MCvf_pushback(dir1mu, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
-    }
-  }
-
-  vector<TFile*> vf_1mu;
-  if( isData == true ){
-    vf_1mu=Datavf_pushback(dir1mu, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
-  } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
-
-  double scalein_numer=1.;
-  double scalein_domin=1.;
-  TString digit1in="";
-  if( isData == true ){
-    scalein_numer=datascale_;
-    scalein_domin=datascale_;
-    digit1in="g";
-  } else {
-    if( useCommonJson_ ){
-      scalein_numer = mcscale_;
-      scalein_domin = mcscale_;
-    } else {
-      scalein_numer = mcscale_DiMu_;
-      scalein_domin = mcscale_SingleMu_;
-    }
-    digit1in=digit1_;
-  }
-
-
-  vector<TString> dirNamehad=dirName_pushback(folderlabel_ + "DiMuon_", HTBins);
-  vector<TString> dirName1mu=dirName_pushback(folderlabel_ + "OneMuon_", HTBins);
-
-  vector<TString> hNamehad;
-  //MuaddOrNot and fullesti is arbitarilly selected, because 1to2 muon estimation need normalestimation == true
-  vector<TString> hName1mu;
-  if( normalEstimation_ == true ){
-    hName1mu=vhname_pusback_domin(false, true, startNJet, nJets);
-    if( isData == true ){
-      hNamehad=vhname_pusback_data(false, true, startNJet, nJets);
-    } else{
-      hNamehad=vhname_pusback_numer(false, true, startNJet, nJets);
-    }
-  }
-  //Above MuaddOrNot and fullesti is arbitarilly selected, because 1to2 muon estimation need normalestimation == true
-
-  if( normalEstimation_ == true ){
-    vector<TH2D*> reh2d;
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
     
-    if( notCutAlphaT_ ){
-      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-      AlphaT_vs_HT_domin=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_domin_clone );
-      TH2D* AlphaT_vs_HT_numer_clone=(TH2D*)(AlphaT_vs_HT_numer->Clone("AlphaT_vs_HT_numer_clone"));
-      AlphaT_vs_HT_numer=factor.ReFillHist_AlphaTVSHT( AlphaT_vs_HT_numer_clone );
+  } else if( notCutAlphaT_ && notCutAlphaT ){
+    if( datah != 0){
+      TH2D* vh_iclone=(TH2D*)(datah->Clone("vh_iclone") );
+      datah=factor.ReFillHist_AlphaTVSHT( vh_iclone );
     }
+    if( mch != 0){
+      TH2D* vh_iclone=(TH2D*)(mch->Clone("vh_iclone") );
+      mch=factor.ReFillHist_AlphaTVSHT( vh_iclone );
+    }
+  }
+  reh2d.push_back(datah);
+  reh2d.push_back(mch);
 
-    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
-    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
+  return reh2d;
+}
 
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
+
+
+
+// -----------------------------------------------------------------------------
+//
+vector<TH2D*> getTranslationFactor::TranslationFactor( int whichpart_i, int whichpart_j, bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample, int startNJet_i, int nJets_i, int startNJet_j, int nJets_j, TString MuonNumber_i, TString MuonNumber_j, TString FolderLabel_i, TString FolderLabel_j, bool notCutAlphaT_i, bool notCutAlphaT_j, bool ATclosure ){
+  if( MuonNumber_i == "" ) whichpart_i=1;
+  if( MuonNumber_j == "" ) whichpart_j=1;
+
+  vector<TH2D*> vh_i=PreTranslationFactor( whichpart_i, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet_i, nJets_i, MuonNumber_i, FolderLabel_i, notCutAlphaT_i, ATclosure );
+  vector<TH2D*> vh_j=PreTranslationFactor( whichpart_j, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet_j, nJets_j, MuonNumber_j, FolderLabel_j, notCutAlphaT_j, ATclosure );
+
+  playHist2D factor=playHist2D();
+  vector<TH2D*> reh2d;
+  for( unsigned int i=0; i< vh_j.size(); i++ ){
+    if( vh_j[i] != 0 && vh_i[i] != 0 ){
+      TH2D* numerh=(TH2D*)(vh_j[i]->Clone("numerh") );
+      numerh->Divide( numerh, vh_i[i] );
+      reh2d.push_back( numerh );
+    }
+  }
+
     return reh2d;
-  }
 }
 
+void getTranslationFactor::Tables_iTojBJet( bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample, int startNJet_i, int nJets_i, int startNJet_j, int nJets_j, TString MuonNumber, TString FolderLabel ){
+  int whichpart=1;
+  if( MuonNumber== "OneMuon_" || MuonNumber== "DiMuon_" ) whichpart=2;
+  if( MuonNumber== "Photon_"  ) whichpart=3;
+  vector<TH2D*> vh_factor=TranslationFactor( whichpart, whichpart, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet_i, nJets_i, startNJet_j, nJets_j, MuonNumber, MuonNumber, FolderLabel, FolderLabel, true, true, false );
+  vector<TH2D*> vh_num=PreTranslationFactor( whichpart, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet_j, nJets_j, MuonNumber, FolderLabel, true, false );
+  vector<TH2D*> vh_dom=PreTranslationFactor( whichpart, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet_i, nJets_i, MuonNumber, FolderLabel, true, false );
+  printTables pt=printTables();
+  TString digi="%.1f";
+  vector<vector<TString> > MC_num=pt.readHist_WithErr( vh_num[1], digi );
+  vector<vector<TString> > MC_dom=pt.readHist_WithErr( vh_dom[1], digi );
+  vector<vector<TString> > data_num=pt.readHist_WithErr( vh_num[0], digi );
+  vector<vector<TString> > data_dom=pt.readHist_WithErr( vh_dom[0], digi );
+  vector<vector<TString> > factor=pt.readHist_WithErr( vh_factor[1], digi );
+  TH2D *preh=(TH2D*)(vh_factor[1]->Clone("preh"));
+  preh->Multiply( preh, vh_dom[0]);
+  vector<vector<TString> > predic=pt.readHist_WithErr( preh, digi );
+  FILE *outputfile;
+  char buffer[100];
+  sprintf (buffer, "table_%s%siTojBJet_%d_%dTo%d_%db.tex", MuonNumber.Data(), FolderLabel.Data(), startNJet_i-1, startNJet_i + nJets_i - 2, startNJet_j - 1, startNJet_j + nJets_j - 2 );
+  outputfile = fopen (buffer,"w");
+  fprintf(outputfile, "\\documentclass[a4paper,12pt]{article} \n");
+  fprintf(outputfile, "\\usepackage[margin=0.001in]{geometry} \n");
+  fprintf(outputfile, "\\begin{document} \n");
 
-// -----------------------------------------------------------------------------
-//
-vector<TH2D*> getTranslationFactor::TranslationFactor_AT( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, int startNJet, int nJets, TString MuonNumber, TString closuretestformat ){
-  vector<double> nominaltrigeff=nominaltrigeff_pushback(HTBins);
-  playHist2D factor=playHist2D();
+  fprintf(outputfile, "\\begin{table}[htl] \n");
 
-  TString dir1mu="";
-  dir1mu = inidir_ + "rootfiles/oneMuonSele/muonpT45GeV" + subdir_;
+  fprintf(outputfile, "\\caption{Backgroupd predictions.}\n");
+  fprintf(outputfile, " \\begin{flushleft}\n");
+  fprintf(outputfile, " \\begin{tabular}{ c|cccccccc }\n");
 
-  vector<TFile*> vf_had;
-  if( normalEstimation_ == true ){
-    if( isData == true ){
-      vf_had=Datavf_pushback(dir1mu, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
-    } else {
-      vf_had=MCvf_pushback(dir1mu, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
-    }
-  }
+  fprintf(outputfile, "\\hline\n");
 
-  vector<TFile*> vf_1mu;
-  if( isData == true ){
-    vf_1mu=Datavf_pushback(dir1mu, controlDataset_, "Muon"+NormalcontrolTrig_, HTBins);
-  } else vf_1mu=MCvf_pushback(dir1mu, MCsample_, "Muon"+NormalcontrolTrig_, HTBins, false, "");
-
-  double scalein_numer=1.;
-  double scalein_domin=1.;
-  TString digit1in="";
-  if( isData == true ){
-    scalein_numer=datascale_;
-    scalein_domin=datascale_;
-    digit1in="g";
+  TString range_i=Form("%d--%d",startNJet_i - 1, startNJet_i + nJets_j - 2);
+  TString range_j=Form("%d--%d ", startNJet_j - 1, startNJet_j + nJets_j - 2);
+  if( nJets_i >= 10 )   {      range_i=Form("%d--\\infty ", startNJet_i - 1 ); }
+  if( startNJet_i == 0 ){      range_i=Form("\\geq 0");                        }
+  if( nJets_i == 1  )   {      range_i = Form("%d", startNJet_i - 1 );         }
+  if( nJets_j >= 10 )   {      range_j=Form("%d--\\infty", startNJet_j - 1 );               }
+  if( startNJet_j == 0 ){      range_j=Form("\\geq 0");                                     }
+  if( nJets_j == 1  )   {      range_j = Form("%d", startNJet_j - 1 );         }
+  TString controlname="";
+  if( MuonNumber == "OneMuon_") controlname="\\mu+jets";
+  if( MuonNumber == "DiMuon_" ) controlname="\\mu\\mu+jets";
+  if( MuonNumber == "Photon_" ) controlname="\\gamma+jets";
+  if( !notCutAlphaT_ ){
+    fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{$\\alpha_T>0.55d$, closure test $%s\\rightarrow%s$ b-jets, $%s$.}\\\\ \n ", range_i.Data(), range_j.Data(), controlname.Data()  );
   } else {
-    if( useCommonJson_ ){
-      scalein_numer = mcscale_;
-      scalein_domin = mcscale_;
-    } else {
-      scalein_numer = mcscale_DiMu_;
-      scalein_domin = mcscale_SingleMu_;
-    }
-    digit1in=digit1_;
+    fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut, closure test $%s\\rightarrow%s$ b-jets, $%s$.}\\\\ \n ", range_i.Data(), range_j.Data(), controlname.Data() );
   }
 
+  fprintf(outputfile, " HT (GeV) & 275--325 & 325--375 & 375--475 & 475--575 & 575--675 & 675--775 & 775--875 & 875--$\\infty$ \\\\ \n ");
+  fprintf(outputfile, "\\hline\n");
+  int column_n=8;
+  int iAT=0;
+  pt.printout_first_WithErr( outputfile, MC_num, iAT, 2, column_n, Form("$%s$-b MC", range_j.Data() ) );
+  pt.printout_first_WithErr( outputfile, MC_dom, iAT, 2, column_n, Form("$%s$-b MC", range_i.Data() ) );
+  pt.printout_first_WithErr( outputfile, factor, iAT, 2, column_n, "TF" );
+  pt.printout_first_WithErr( outputfile, data_dom, iAT, 2, column_n, "Control data" );
+  pt.printout_first_WithErr( outputfile, predic, iAT, 2, column_n, "Prediction" );
+  pt.printout_first_WithErr( outputfile, data_num, iAT, 2, column_n, "Yield" );
 
-  vector<TString> dirNamehad=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
-  vector<TString> dirName1mu=dirName_pushback(folderlabel_ + MuonNumber, HTBins);
+  fprintf(outputfile, "\\hline\n");
+  fprintf(outputfile, " \\end{tabular}\n");
+  fprintf(outputfile, " \\end{flushleft}\n");
+  fprintf(outputfile, "\\label{tab:table-%s%siTojBJet-%d_%dTo%d_%db}\n", MuonNumber.Data(), FolderLabel.Data(), startNJet_i - 1, startNJet_i + nJets_i - 2, startNJet_j - 1, startNJet_j + nJets_j - 2);
+  fprintf(outputfile, " \\end{table}\n\n\n\n");
+  fprintf(outputfile,"\\end{document}\n\n\n");
 
-  vector<TString> hNamehad;
-  //MuaddOrNot and fullesti is arbitarilly selected, because 1to2 muon estimation need normalestimation == true
-  vector<TString> hName1mu;
-  if( normalEstimation_ == true ){
-    hName1mu=vhname_pusback_domin(false, true, startNJet, nJets);
-    if( isData == true ){
-      hNamehad=vhname_pusback_data(false, true, startNJet, nJets);
-    } else{
-      hNamehad=vhname_pusback_numer(false, true, startNJet, nJets);
-    }
-  }
-  //Above MuaddOrNot and fullesti is arbitarilly selected, because 1to2 muon estimation need normalestimation == true
+  fclose( outputfile );
 
-  if( normalEstimation_ == true ){
-    vector<TH2D*> reh2d;
-    TH2D* AlphaT_vs_HT_numer=factor.addHistForDiffFoldersFilesHists2D(vf_had, dirNamehad, hNamehad, nominaltrigeff );
-    TH2D* AlphaT_vs_HT_domin=factor.addHistForDiffFoldersFilesHists2D(vf_1mu, dirName1mu, hName1mu, nominaltrigeff );
-    
-      TH2D* AlphaT_vs_HT_domin_clone=(TH2D*)(AlphaT_vs_HT_domin->Clone("AlphaT_vs_HT_domin_clone"));
-      AlphaT_vs_HT_domin=factor.ReFillHist_low( AlphaT_vs_HT_domin_clone, 0.55 );
-      TH2D* AlphaT_vs_HT_numer_clone=(TH2D*)(AlphaT_vs_HT_numer->Clone("AlphaT_vs_HT_numer_clone"));
-      AlphaT_vs_HT_numer=factor.ReFillHist_high( AlphaT_vs_HT_numer_clone, 0.55);
-
-    TH2D* factor_h=(TH2D*)(AlphaT_vs_HT_numer->Clone("factor_h"));
-    factor_h->Divide(AlphaT_vs_HT_numer, AlphaT_vs_HT_domin);
-
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_numer, scalein_numer, digit1in ) );
-    reh2d.push_back( factor.formatHist( AlphaT_vs_HT_domin, scalein_domin, digit1in ) );
-    reh2d.push_back( factor.formatHist( factor_h, 1., digit2_ ) );
-    return reh2d;
-  }
 }
 
+void getTranslationFactor::Tables_iTojJet( bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample, int startNJet, int nJets, TString MuonNumber, TString FolderLabel_i, TString FolderLabel_j ){
+  int whichpart=1;
+  if( MuonNumber == "OneMuon_" || MuonNumber == "DiMuon_" ) whichpart = 2;
+  if( MuonNumber == "Photon_"  ) whichpart = 3;
 
-// -----------------------------------------------------------------------------
-//
-TH2D* getTranslationFactor::getFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int startNJet, int nJets ){
-  if( closureTests == "1To2Mu" ){
-    vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor_1To2Mu( MuAddOrNot, fullesti, HTBins, isData, startNJet, nJets );
-    return factorHist_hasTauHadToMuAdded[2];
-  } else if ( closureTests == "iTojJet"){
-    vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor_iTojJet( MuAddOrNot, fullesti, HTBins, isData, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber );
-    return factorHist_hasTauHadToMuAdded[2];
-  }else {
-    vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor( MuAddOrNot, fullesti, HTBins, isData, MuonNumber, startNJet, nJets );
-    return factorHist_hasTauHadToMuAdded[2];
+  vector<TH2D*> vh_factor=TranslationFactor( whichpart, whichpart, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet, nJets, startNJet, nJets, MuonNumber, MuonNumber, FolderLabel_i, FolderLabel_j, true, true, false );
+  vector<TH2D*> vh_num=PreTranslationFactor( whichpart, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet, nJets, MuonNumber, FolderLabel_j, true, false );
+  vector<TH2D*> vh_dom=PreTranslationFactor( whichpart, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet, nJets, MuonNumber, FolderLabel_i, true, false );
+  printTables pt=printTables();
+  TString digi="%.1f";
+  vector<vector<TString> > MC_num=pt.readHist_WithErr( vh_num[1], digi );
+  vector<vector<TString> > MC_dom=pt.readHist_WithErr( vh_dom[1], digi );
+  vector<vector<TString> > data_num=pt.readHist_WithErr( vh_num[0], digi );
+  vector<vector<TString> > data_dom=pt.readHist_WithErr( vh_dom[0], digi );
+  vector<vector<TString> > factor=pt.readHist_WithErr( vh_factor[1], digi );
+  TH2D *preh=(TH2D*)(vh_factor[1]->Clone("preh"));
+  preh->Multiply( preh, vh_dom[0]);
+  vector<vector<TString> > predic=pt.readHist_WithErr( preh, digi );
+
+  FILE *outputfile;
+  char buffer[100];
+  sprintf (buffer, "table_%siTojJet_%sTo%s%dTo%db.tex", MuonNumber.Data(), FolderLabel_i.Data(), FolderLabel_j.Data(), startNJet-1, startNJet + nJets -2 );
+  outputfile = fopen (buffer,"w");
+  fprintf(outputfile, "\\documentclass[a4paper,12pt]{article} \n");
+  fprintf(outputfile, "\\usepackage[margin=0.001in]{geometry} \n");
+  fprintf(outputfile, "\\begin{document} \n");
+
+  fprintf(outputfile, "\\begin{table}[htl] \n");
+
+  fprintf(outputfile, "\\caption{Backgroupd predictions.}\n");
+  fprintf(outputfile, " \\begin{flushleft}\n");
+  fprintf(outputfile, " \\begin{tabular}{ c|cccccccc }\n");
+
+  fprintf(outputfile, "\\hline\n");
+
+  TString range_i="";
+  TString range_j="";
+  if( FolderLabel_i == "TwoThreeJet_") range_i = Form( "$2\\leqN_{jet}\\leq3$ \\rightarrow$" );
+  if( FolderLabel_i == "MoreThreeJet_") range_i = Form( "$N_{jet}\\geq4$ \\rightarrow$" );
+  if( FolderLabel_j == "TwoThreeJet_") range_j = Form( "$2\\leqN_{jet}\\leq3$ \\rightarrow$" );
+  if( FolderLabel_j == "MoreThreeJet_") range_j = Form( "$N_{jet}\\geq4$ \\rightarrow$" );
+  TString bn=Form("$%d--%d$ ", startNJet - 1, startNJet + nJets - 2 );
+  if( nJets >= 10 )   {      bn = Form("$%d--\\infty$ ", startNJet - 1 ); }
+  if( startNJet == 0 ){      bn = Form("$\\geq 0");                      }
+  if( nJets == 1  )   {      bn = Form("$%d$ ", startNJet - 1 );}
+
+  if( !notCutAlphaT_ ){
+    fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{$\\alpha_T>0.55d$, closure test %s%s, %s b-jets.}\\\\ \n ", range_i.Data(), range_j.Data(), bn.Data() );
+  } else {
+    fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut, closure test %s%s, %s b-jets.}\\\\ \n ", range_i.Data(), range_j.Data(), bn.Data() );
   }
+
+  fprintf(outputfile, " HT (GeV) & 275--325 & 325--375 & 375--475 & 475--575 & 575--675 & 675--775 & 775--875 & 875--$\\infty$ \\\\ \n ");
+  fprintf(outputfile, "\\hline\n");
+  int column_n=8;
+  int iAT=0;
+  TString controlname="Hadronic";
+  if( MuonNumber == "OneMuon_") controlname="\\mu+jets";
+  if( MuonNumber == "DiMuon_" ) controlname="\\mu\\mu+jets";
+  if( MuonNumber == "Photon_" ) controlname="\\gamma+jets";
+  pt.printout_first_WithErr( outputfile, MC_num, iAT, 2, column_n, Form("$%s$ MC", range_j.Data() ) );
+  pt.printout_first_WithErr( outputfile, MC_dom, iAT, 2, column_n, Form("$%s$ MC", range_i.Data() ) );
+  pt.printout_first_WithErr( outputfile, factor, iAT, 2, column_n, "TF" );
+  pt.printout_first_WithErr( outputfile, predic, iAT, 2, column_n, "Prediction" );
+  pt.printout_first_WithErr( outputfile, data_dom, iAT, 2, column_n, Form("$%s$ data", range_i.Data() ) );
+  pt.printout_first_WithErr( outputfile, data_num, iAT, 2, column_n, Form("$%s$ data", range_j.Data() ) );
+
+  fprintf(outputfile, "\\hline\n");
+  fprintf(outputfile, " \\end{tabular}\n");
+  fprintf(outputfile, " \\end{flushleft}\n");
+  fprintf(outputfile, "\\label{tab:table-%siTojJet-%sTo%s%dTo%db}\n", MuonNumber.Data(), FolderLabel_i.Data(), FolderLabel_j.Data(), startNJet - 1, startNJet + nJets - 2);
+  fprintf(outputfile, " \\end{table}\n\n\n\n");
+  fprintf(outputfile,"\\end{document}\n\n\n");
+
+  fclose( outputfile );
+
 }
 
-// -----------------------------------------------------------------------------
-//
-TH2D* getTranslationFactor::getNumerMC( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int startNJet, int nJets ){
-  if( closureTests == "1To2Mu" ){
-    vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor_1To2Mu( MuAddOrNot, fullesti, HTBins, false, startNJet, nJets );
-    return factorHist_hasTauHadToMuAdded[0];
-  } else if ( closureTests == "iTojJet"){
-    vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor_iTojJet( MuAddOrNot, fullesti, HTBins, false, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber );
-    return factorHist_hasTauHadToMuAdded[0];
+void getTranslationFactor::Tables_iTojSele( bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample, int startNJet, int nJets, TString MuonNumber_i, TString MuonNumber_j, TString FolderLabel ){
+  int whichpart_i=1;
+  int whichpart_j=1;
+  bool notCutAlphaT_i=true;
+  bool notCutAlphaT_j=false;
+  if( MuonNumber_i == "OneMuon_" || MuonNumber_i == "DiMuon_" ) whichpart_i = 2;
+  if( MuonNumber_i == "Photon_"  ) whichpart_i = 3;
+  if( MuonNumber_j == "OneMuon_" || MuonNumber_j == "DiMuon_" ) whichpart_j = 2;
+  if( MuonNumber_j == "Photon_"  ) whichpart_j = 3;
+  if( MuonNumber_i == "" ) notCutAlphaT_i=false;
+  if( MuonNumber_j == "" ) notCutAlphaT_j=false;
+
+  vector<TH2D*> vh_factor=TranslationFactor( whichpart_i, whichpart_j, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet, nJets, startNJet, nJets, MuonNumber_i, MuonNumber_j, FolderLabel, FolderLabel, notCutAlphaT_i, notCutAlphaT_j, false );
+  vector<TH2D*> vh_num=PreTranslationFactor( whichpart_j, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet, nJets, MuonNumber_j, FolderLabel, notCutAlphaT_j, false );
+  vector<TH2D*> vh_dom=PreTranslationFactor( whichpart_i, MuAddOrNot, HTBins, separateSample, singleMCsample, startNJet, nJets, MuonNumber_i, FolderLabel, notCutAlphaT_i, false );
+  printTables pt=printTables();
+  TString digi="%.1f";
+  vector<vector<TString> > MC_num=pt.readHist_WithErr( vh_num[1], digi );
+  vector<vector<TString> > MC_dom=pt.readHist_WithErr( vh_dom[1], digi );
+  vector<vector<TString> > data_num=pt.readHist_WithErr( vh_num[0], digi );
+  vector<vector<TString> > data_dom=pt.readHist_WithErr( vh_dom[0], digi );
+  vector<vector<TString> > factor=pt.readHist_WithErr( vh_factor[1], digi );
+  TH2D *preh=(TH2D*)(vh_factor[1]->Clone("preh"));
+  preh->Multiply( preh, vh_dom[0]);
+  vector<vector<TString> > predic=pt.readHist_WithErr( preh, digi );
+
+  FILE *outputfile;
+  char buffer[100];
+  sprintf (buffer, "table_%siTojSele_%sTo%s%dTo%db.tex", FolderLabel.Data(), MuonNumber_i.Data(), MuonNumber_j.Data(), startNJet-1, startNJet + nJets -2 );
+  outputfile = fopen (buffer,"w");
+  fprintf(outputfile, "\\documentclass[a4paper,12pt]{article} \n");
+  fprintf(outputfile, "\\usepackage[margin=0.001in]{geometry} \n");
+  fprintf(outputfile, "\\begin{document} \n");
+
+  fprintf(outputfile, "\\begin{table}[htl] \n");
+
+  fprintf(outputfile, "\\caption{Backgroupd predictions.}\n");
+  fprintf(outputfile, " \\begin{flushleft}\n");
+  fprintf(outputfile, " \\begin{tabular}{ c|cccccccc }\n");
+
+  fprintf(outputfile, "\\hline\n");
+
+  TString controlname_i="Hadronic";
+  TString controlname_j="Hadronic";
+  if( MuonNumber_i == "OneMuon_") controlname_i="\\mu+jets";
+  if( MuonNumber_i == "DiMuon_" ) controlname_i="\\mu\\mu+jets";
+  if( MuonNumber_i == "Photon_" ) controlname_i="\\gamma+jets";
+  if( MuonNumber_j == "OneMuon_") controlname_j="\\mu+jets";
+  if( MuonNumber_j == "DiMuon_" ) controlname_j="\\mu\\mu+jets";
+  if( MuonNumber_j == "Photon_" ) controlname_j="\\gamma+jets";
+  TString range_i = Form( "$%s \\rightarrow$", controlname_i.Data() );
+  TString range_j = Form( "$%s$ ", controlname_j.Data() );
+  TString bn=Form("$%d--%d$ ", startNJet - 1, startNJet + nJets - 2 );
+  if( nJets >= 10 )   {      bn = Form("$%d--\\infty$ ", startNJet - 1 ); }
+  if( startNJet == 0 ){      bn = Form("$\\geq 0");                      }
+  if( nJets == 1  )   {      bn = Form("$%d$ ", startNJet - 1 );}
+
+  if( !notCutAlphaT_ ){
+    fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{$\\alpha_T>0.55d$, closure test %s%s, %s b-jets.}\\\\ \n ", range_i.Data(), range_j.Data(), bn.Data() );
   } else {
-    vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor( MuAddOrNot, fullesti, HTBins, false, MuonNumber, startNJet, nJets );
-    return factorHist_hasTauHadToMuAdded[0];
+    fprintf(outputfile, "$ \\alpha_T $ range   &  \\multicolumn{4}{c}{no $\\alpha_T$ cut, closure test %s%s, %s b-jets.}\\\\ \n ", range_i.Data(), range_j.Data(), bn.Data() );
   }
+
+  fprintf(outputfile, " HT (GeV) & 275--325 & 325--375 & 375--475 & 475--575 & 575--675 & 675--775 & 775--875 & 875--$\\infty$ \\\\ \n ");
+  fprintf(outputfile, "\\hline\n");
+  int column_n=8;
+  int iAT=0;
+  pt.printout_first_WithErr( outputfile, MC_num, iAT, 2, column_n, Form("$%s$ MC", controlname_j.Data() ) );
+  pt.printout_first_WithErr( outputfile, MC_dom, iAT, 2, column_n, Form("$%s$ MC", controlname_i.Data() ) );
+  pt.printout_first_WithErr( outputfile, factor, iAT, 2, column_n, "TF" );
+  pt.printout_first_WithErr( outputfile, data_dom, iAT, 2, column_n, Form("$%s$ data", controlname_i.Data() ) );
+  pt.printout_first_WithErr( outputfile, predic, iAT, 2, column_n, "Prediction" );
+  pt.printout_first_WithErr( outputfile, data_num, iAT, 2, column_n, Form("$%s$ data", controlname_j.Data() ) );
+
+  fprintf(outputfile, "\\hline\n");
+  fprintf(outputfile, " \\end{tabular}\n");
+  fprintf(outputfile, " \\end{flushleft}\n");
+  fprintf(outputfile, "\\label{tab:table-%siTojSele-%sTo%s%dTo%db}\n", FolderLabel.Data(), MuonNumber_i.Data(), MuonNumber_j.Data(), startNJet - 1, startNJet + nJets - 2);
+  fprintf(outputfile, " \\end{table}\n\n\n\n");
+  fprintf(outputfile,"\\end{document}\n\n\n");
+
+  fclose( outputfile );
+
 }
 
-// -----------------------------------------------------------------------------
-//
-TH2D* getTranslationFactor::getDominMC( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJets ){
-  if( closureTests == "1To2Mu" ){
-    vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor_1To2Mu( MuAddOrNot, fullesti, HTBins, false, StartNJet, NJets );
-    return factorHist_hasTauHadToMuAdded[1];
-  } else if ( closureTests == "iTojJet"){
-    vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor_iTojJet( MuAddOrNot, fullesti, HTBins, false, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber );
-    return factorHist_hasTauHadToMuAdded[1];
-  } else {
-    vector<TH2D*> factorHist_hasTauHadToMuAdded=TranslationFactor( MuAddOrNot, fullesti, HTBins, false, MuonNumber, StartNJet, NJets );
-    return factorHist_hasTauHadToMuAdded[1];
+void getTranslationFactor::getResults( TString closuretests ){
+  bool MuAddOrNot=false;
+  TString HTBins="all";
+  bool separateSample=false;
+  TString singleMCsample="";
+
+  if( closuretests == "iTojBJet" || closuretests == "All" ){
+    Tables_iTojBJet( MuAddOrNot, HTBins, separateSample, singleMCsample, 1, 1, 2, 1, "OneMuon_", "TwoThreeJet_" );
   }
+
+  if( closuretests == "iTojJet" || closuretests == "All" ){
+    Tables_iTojJet( MuAddOrNot, HTBins, separateSample, singleMCsample, 1,1,"OneMuon_", "TwoThreeJet_", "MoreThreeJet_" );
+  }
+
+  if( closuretests == "iTojSele" || closuretests == "All" ){
+    //    Tables_iTojSele( MuAddOrNot, HTBins, separateSample, singleMCsample, 1, 1, "OneMuon_", "DiMuon_", "" );
+    Tables_iTojSele( MuAddOrNot, HTBins, separateSample, singleMCsample, 2, 1, "OneMuon_", "", "TwoThreeJet_" );
+  }
+
+  if( closuretests == "AT" || closuretests == "All" ){
+    cout<<"adding"<<endl;
+  }
+
 }
-
-// -----------------------------------------------------------------------------
-//
-TH2D* getTranslationFactor::getControlData( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJets  ){
-  if( closureTests == "1To2Mu" ){
-    vector<TH2D*> Data1mu=TranslationFactor_1To2Mu( MuAddOrNot, fullesti, HTBins, true, StartNJet, NJets );
-    return Data1mu[1];
-  } else if ( closureTests == "iTojJet"){
-    vector<TH2D*> Data1mu=TranslationFactor_iTojJet( MuAddOrNot, fullesti, HTBins, true, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber );
-    return Data1mu[1];
-  } else {
-    vector<TH2D*> Data1mu=TranslationFactor( MuAddOrNot, fullesti, HTBins, true, MuonNumber, StartNJet, NJets );
-    return Data1mu[1];
-  }
-}
-
-TH2D* getTranslationFactor::getYieldData( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJets ){
-  if( closureTests == "1To2Mu" ){
-    vector<TH2D*> Data1mu=TranslationFactor_1To2Mu( MuAddOrNot, fullesti, HTBins, true, StartNJet, NJets );
-    return Data1mu[0];
-  } else if ( closureTests == "iTojJet"){
-    vector<TH2D*> Data1mu=TranslationFactor_iTojJet( MuAddOrNot, fullesti, HTBins, true, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber );
-    return Data1mu[0];
-  } else{
-    vector<TH2D*> Data1mu=TranslationFactor( MuAddOrNot, fullesti, HTBins, true, MuonNumber, StartNJet, NJets );
-    return Data1mu[0];
-  }
-}
-
-
-TH2D* getTranslationFactor::getPredBG( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJets ){
-  TH2D* factorh=getFactor( MuAddOrNot, fullesti, HTBins, false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-  TH2D* Data1mu=getControlData( MuAddOrNot, fullesti, HTBins, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-  TH2D* pred=(TH2D*)(Data1mu->Clone("pred"));
-  pred->Multiply(pred, factorh);
-  return pred;
-}
-
-
-// -----------------------------------------------------------------------------
-//
-void getTranslationFactor::baseCheck( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotname, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJets ){
-  playHist2D factor=playHist2D();
-  TCanvas *c1=new TCanvas();
-  vector<TLine*> lines=factor.Lines();
-
-  vector<TH2D*> factorHist;
-  if( closureTests == "1To2Mu"){
-    factorHist=TranslationFactor_1To2Mu( MuAddOrNot, fullesti, HTBins, isData, StartNJet, NJets );
-  } else if ( closureTests == "iTojJet" ){
-    factorHist=TranslationFactor_iTojJet( MuAddOrNot, fullesti, HTBins, isData, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber );
-  } else {
-    factorHist=TranslationFactor( MuAddOrNot, fullesti, HTBins, isData, MuonNumber, StartNJet, NJets );
-  }
-  factorHist[0]->Draw("colz");
-  factorHist[0]->Draw("text30same");
-
-  for( unsigned int il=0; il<lines.size(); il++){
-    (lines[il])->Draw("same");
-  }
-  if( closureTests == "1To2Mu"){
-    c1->SaveAs("numer"+plotname+"_"+closureTests+".eps");
-  } else if( closureTests == "iTojJet" ){
-    c1->SaveAs( Form( "numer"+plotname+"_"+closureTests+"_%s%d_%dTo%d_%d.eps", MuonNumber.Data(), iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2 ) );
-  } else {
-    c1->SaveAs("numer"+MuonNumber+plotname+"_"+closureTests+".eps");
-  }
-  c1->Update();
-  c1->Clear();
-
-  factorHist[1]->Draw("colz");
-  factorHist[1]->Draw("text30same");
-
-  for( unsigned int il=0; il<lines.size(); il++){
-    (lines[il])->Draw("same");
-  }
-
-  if( closureTests == "1To2Mu"){
-    c1->SaveAs("domin"+plotname+"_"+closureTests+".eps");
-  } else if( closureTests == "iTojJet" ){
-    c1->SaveAs( Form( "domin"+plotname+"_"+closureTests+"_%s%d_%dTo%d_%d.eps", MuonNumber.Data(), iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2 ) );
-  } else {
-    c1->SaveAs("domin"+MuonNumber+plotname+"_"+closureTests+".eps");
-  }
-  c1->Update();
-  c1->Clear();
-
-
-  for( unsigned int il=0; il<lines.size(); il++){
-    (lines[il])->Draw("same");
-  }
-  factorHist[2]->Draw("colz");
-  factorHist[2]->Draw("text30same");
-
-  if( closureTests == "1To2Mu"){
-    c1->SaveAs("factor"+plotname+"_"+closureTests+".eps");
-  } else if( closureTests == "iTojJet" ){
-    c1->SaveAs( Form( "factor"+plotname+"_"+closureTests+"_%d_%dTo%d_%d.eps", iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2 ) );
-  } else {
-    c1->SaveAs("factor"+plotname+"_"+closureTests+".eps");
-  }
-  c1->Update();
-  c1->Clear();
-}
-
-void getTranslationFactor::getResults( TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJets ){
-  playHist2D factor=playHist2D();
-
-  if(normalEstimation_ == true ){
-    baseCheck( false, true, "all", "", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-    baseCheck( false, true, "all", "_Data", true, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-  } else {
-    baseCheck( true, false, "all", "tauHadEsti_AddMuToAT", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-    baseCheck( true, false, "all", "tauHadEsti_AddMuToAT", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-    baseCheck( false, false, "all", "LepEsti_NotAddMuToAT", false, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-    baseCheck( false, false, "all", "LepEsti_NotAddMuToAT_Data", true, closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-  }
-
-  TH2D* pred_AddMu;
-  TH2D* pred_NotTauHad;
-  TH2D* pred_Lep;
-  if(normalEstimation_ == true ){
-    pred_AddMu=getPredBG( true, false, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-  } else{
-    pred_AddMu=getPredBG( true, false, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-    pred_NotTauHad=getPredBG( false, true, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-    pred_Lep=getPredBG( false, false, "all", closureTests, iJetStart, iJet_n, jJetStart, jJet_n, MuonNumber, StartNJet, NJets );
-  }
-
-
-  TH2D* pred_AddMu_c1;
-  TH2D* pred_NotTauHad_c1;
-  TH2D* pred_Lep_c1;
-  if(normalEstimation_ == true ){
-    pred_AddMu_c1=factor.formatHist(pred_AddMu, 1., digit1_);
-  } else {
-    pred_AddMu_c1=factor.formatHist(pred_AddMu, 1., digit1_);
-    pred_Lep_c1=factor.formatHist(pred_Lep, 1., digit1_);
-    pred_NotTauHad_c1=factor.formatHist(pred_NotTauHad, 1., digit1_);
-  }
-
-  vector<TLine*> lines=factor.Lines();
-
-  TCanvas *c1=new TCanvas();
-  pred_AddMu_c1->Draw("colz");
-  pred_AddMu_c1->Draw("sametext45");
-  for( unsigned int il=0; il<lines.size(); il++){
-    (lines[il])->Draw("same");
-  }
-  if( normalEstimation_ == true ){
-    if( closureTests == "1To2Mu"){
-      c1->SaveAs("pred_"+closureTests+".eps");
-    } else if( closureTests == "iTojJet" ){
-      c1->SaveAs( Form( "pred_"+closureTests+"_%s%d_%dTo%d_%d.eps", MuonNumber.Data(), iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2 ) );
-    } else {
-      c1->SaveAs("pred_"+closureTests+MuonNumber+".eps");
-    }
-  } else {
-    if( closureTests == "1To2Mu"){
-      c1->SaveAs("pred_TauHad_"+closureTests+".eps");
-    } else if( closureTests == "iTojJet" ){
-      c1->SaveAs( Form( "pred_TauHad_"+closureTests+"_%s%d_%dTo%d_%d.eps", MuonNumber.Data(), iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2 ) );
-    } else {
-      c1->SaveAs("pred_TauHad_"+closureTests+MuonNumber+".eps");
-    }
-  }
-  c1->Update();
-  c1->Clear();
-
-  if(normalEstimation_ == false ){
-
-    pred_Lep_c1->Draw("colz");
-    pred_Lep_c1->Draw("sametext45");
-    for( unsigned int il=0; il<lines.size(); il++){
-      (lines[il])->Draw("same");
-    }
-    if( closureTests == "1To2Mu"){
-      c1->SaveAs("pred_Lep_"+closureTests+".eps");
-    } else if( closureTests == "iTojJet" ){
-      c1->SaveAs(Form( "pred_Lep_"+closureTests+"_%s%d_%dTo%d_%d.eps", MuonNumber.Data(), iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2 ) );
-    } else {
-      c1->SaveAs("pred_Lep_"+closureTests+MuonNumber+".eps");
-    }
-    c1->Update();
-    c1->Clear();
-    pred_NotTauHad_c1->Draw("colz");
-    pred_NotTauHad_c1->Draw("sametext45");
-    for( unsigned int il=0; il<lines.size(); il++){
-      (lines[il])->Draw("same");
-    }
-    if( closureTests == "1To2Mu"){
-      c1->SaveAs("pred_NotTauHad_"+closureTests+".eps");
-    } else if( closureTests == "iTojJet" ){
-      c1->SaveAs(Form( "pred_NotTauHad_"+closureTests+"_%s%d_%dTo%d_%d.eps", MuonNumber.Data(), iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2 ) );
-    } else {
-      c1->SaveAs("pred_NotTauHad_"+closureTests+MuonNumber+".eps");
-    }
-    c1->Update();
-    c1->Clear();
-
-    TH2D* totalpre=(TH2D*)(pred_AddMu_c1->Clone("totalpre"));
-    totalpre->Add(totalpre, pred_NotTauHad_c1);
-    totalpre->Draw("colz");
-    totalpre->Draw("sametext45");
-    for( unsigned int il=0; il<lines.size(); il++){
-      (lines[il])->Draw("same");
-    }
-    if( closureTests == "1To2Mu"){
-      c1->SaveAs("pred_total_"+closureTests+".eps");
-    } else if( closureTests == "iTojJet" ){
-      c1->SaveAs(Form( "pred_total_"+closureTests+"_%s%d_%dTo%d_%d.eps", MuonNumber.Data(), iJetStart-1, iJetStart+iJet_n-2, jJetStart-1, jJetStart+jJet_n-2 ) );
-    } else {
-      c1->SaveAs("pred_total_"+closureTests+MuonNumber+".eps");
-    }
-    c1->Update();
-    c1->Clear();
-  }
-}
-

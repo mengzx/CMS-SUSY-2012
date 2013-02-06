@@ -65,10 +65,10 @@ int main( int argc, char* argv[] )
     int startNJet[5]={1, 0, 2, 2, 3};
     int nJet[5]     ={1, 0, n-2+2, 1, 1 };
     int start = 2;
-    int end = 3;
+    int end = 5;
     bool HTto1075=false;
     vector<TString> DataSet;
-    DataSet.push_back("DataJetHT2012");
+    //    DataSet.push_back("DataJetHT2012");
     DataSet.push_back("MC");
 
     vector<TString> jetmulti;
@@ -77,16 +77,16 @@ int main( int argc, char* argv[] )
     jetmulti.push_back("MoreThreeJet_");
 
     vector<TString> samples;
-    samples.push_back("EWK");
+    //    samples.push_back("EWK");
     samples.push_back("SM");
-    samples.push_back("TT");
-    samples.push_back("QCD");
+    //    samples.push_back("TT");
+    //    samples.push_back("QCD");
 
     QCDk *qcdk=new QCDk();
 
     menus *listmenus=new menus();
-    TString bulksample="OverSM";
-    //    TString bulksample="";
+    //    TString bulksample="OverSM";
+    TString bulksample="";
     bool useHTErrX=false;
     for( int i=start; i< end; i++ ){
       for( unsigned int ij =0; ij<jetmulti.size(); ij++){
@@ -96,7 +96,7 @@ int main( int argc, char* argv[] )
 	    if( (int)(isdata) >= 0 && ism >= 1 ) continue;
 	    if( (int)(isdata) >= 0 && bulksample != "" ) continue;
 	    if( (listmenus->getFitParak_) == 1){
-	      qcdk->getResults("_LowAT05", startNJet[i], nJet[i], 0.50, HTto1075, DataSet[isa], jetmulti[ij], samples[ism ], bulksample, useHTErrX );
+	      qcdk->getResults("_LowAT05", startNJet[i], nJet[i], 10., HTto1075, DataSet[isa], jetmulti[ij], samples[ism ], bulksample, useHTErrX );
 	    } 
 	    if( (listmenus->getFitParak_) > 1 ){
 	      qcdk->getParakFit( "_LowAT05", startNJet[i], nJet[i], 0.50, HTto1075, DataSet[isa], jetmulti[ij], samples[ism ], bulksample, useHTErrX );
@@ -179,12 +179,14 @@ int main( int argc, char* argv[] )
   //  table->CompareYouAndMe();
   }
 
-  if( word == "getTranslationFactor" ){
+ if( word == "getTranslationFactor" ){
     getTranslationFactor *fa=new getTranslationFactor();
-    fa->getResults( "", 0, 0, 0, 0, "OneMuon_", 0, 1 );
-    fa->getResults( "1To2Mu", 0, 0, 0, 0, "OneMuon_", 0, 1);
-    fa->getResults( "iTojJet", 1, 1, 2, 15, "OneMuon_", 0, 1 );
-  }
+    //    fa->getResults( "", 0, 0, 0, 0, "OneMuon_", 0, 1 );
+    //    fa->getResults( "1To2Mu", 0, 0, 0, 0, "OneMuon_", 0, 1);
+    //    fa->getResults( "iTojJet", 1, 1, 2, 15, "OneMuon_", 0, 1 );
+    //    fa->getResults( "iTojBJet" );
+    fa->getResults( "iTojSele" );
+ }
 
   if( (int)( word.find("basicPlots") ) >= 0  ){
 
@@ -210,7 +212,7 @@ int main( int argc, char* argv[] )
     HTBins.push_back("all");
     //    HTBins.push_back("lowHTBins");
     HTBins.push_back("highHTBins");
-    //    HTBins.push_back("200");
+  //    HTBins.push_back("200");
     HTBins.push_back("275");
     HTBins.push_back("325");
    /*   HTBins.push_back("375");

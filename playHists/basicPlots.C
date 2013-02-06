@@ -75,7 +75,7 @@ vector<TH1D*> basicPlots::getHists( bool MuAddOrNot, TString HTBins, int whichpa
       vhname.push_back( Form( whichplot + hnamepart + "%d", i ) );
     }
   }
-  vector<TString> vdirname=getVdirname( whichpart, HTBins, MuonNumber, FolderLabel, MuAddOrNot );
+  vector<TString> vdirname=getVdirname( HTBins, MuonNumber, FolderLabel );
   tr1::tuple< double, vector<double> > tupleTrigEff=getScales( whichpart, HTBins, MuonNumber );
   double mcscale=tr1::get<0>( tupleTrigEff );
   vector<double> trigeff=tr1::get<1>( tupleTrigEff );
@@ -184,7 +184,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   }
 
   if( hasZinv_ ){
-    vlenname.push_back("Z#rightarrow#nu#nu+jets");    vhnames.push_back("Zinv");    vcolor.push_back(kMagenta-4);    vh_special.push_back(0);
+    vlenname.push_back("Z#rightarrow#nu#nu+jets");    vhnames.push_back("Zinv");    vcolor.push_back(kMagenta);    vh_special.push_back(0);
     TH1D *MCh_Zinv= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "Zinv", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     if(useLOXSZinv_){
       MCh_Zinv->Scale(0.894);
@@ -193,7 +193,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   }
 
   if( hasWJ_ ){
-    vlenname.push_back("W+jets");    vhnames.push_back("WJ");    vcolor.push_back(kRed-4);    vh_special.push_back(0);
+    vlenname.push_back("W+jets");    vhnames.push_back("WJ");    vcolor.push_back(kRed);    vh_special.push_back(0);
     TH1D *MCh_WJ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "WJ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     if(useLOXSWJ_){
       MCh_WJ->Scale(0.894);
@@ -202,7 +202,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   }
 
   if( hasTT_ ){
-    vlenname.push_back("t#bar{t}");    vhnames.push_back("TT");    vcolor.push_back(kBlue-4);    vh_special.push_back(0);
+    vlenname.push_back("t#bar{t}");    vhnames.push_back("TT");    vcolor.push_back(kBlue);    vh_special.push_back(0);
     TH1D *MCh_TT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     if( useLOXSTT_){
       MCh_TT->Scale(1.11);
@@ -211,17 +211,17 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   }
 
   if( hasTTZ_ ){
-    vlenname.push_back("t#bar{t}Z+jets");    vhnames.push_back("TTZ");    vcolor.push_back(kBlue-9);    vh_special.push_back(0);
+    vlenname.push_back("t#bar{t}Z+jets");    vhnames.push_back("TTZ");    vcolor.push_back(kBlue-7);    vh_special.push_back(0);
     TH1D *MCh_TTZ= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "TTZ", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_TTZ);
   }
   if( hasSingleT_ ){
-    vlenname.push_back("Single top");    vhnames.push_back("SingleT");    vcolor.push_back(kGreen-9);    vh_special.push_back(0);
+    vlenname.push_back("Single top");    vhnames.push_back("SingleT");    vcolor.push_back(kGreen);    vh_special.push_back(0);
     TH1D *MCh_SingleT= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "SingleT", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_SingleT);
   }
   if( hasDY_ ){
-    vlenname.push_back("Drell-Yan");    vhnames.push_back("DY");    vcolor.push_back(kViolet-5);    vh_special.push_back(0);
+    vlenname.push_back("Drell-Yan");    vhnames.push_back("DY");    vcolor.push_back(kViolet-3);    vh_special.push_back(0);
     TH1D *MCh_DY= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DY", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     if(useLOXSDY_){
       MCh_DY->Scale(0.894);
@@ -230,7 +230,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
   }
 
   if( hasDiBoson_ ){
-    vlenname.push_back("Di-Boson");    vhnames.push_back("DiBoson");    vcolor.push_back(kCyan-9);    vh_special.push_back(0);
+    vlenname.push_back("Di-Boson");    vhnames.push_back("DiBoson");    vcolor.push_back(kCyan);    vh_special.push_back(0);
     TH1D *MCh_DiBoson= (getHists( MuAddOrNot, HTBins, whichpart, rebin, xAxisName, yAxisName, xAxisRange1, xAxisRange2, 2, whichplot, true, "DiBoson", lowy, highy, OneDTwoD, startNJet, nJets, MuonNumber, FolderLabel ))[0];
     vh.push_back(MCh_DiBoson);
   }
@@ -290,7 +290,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 
   if( doCumulative_ ){
     TH1D* svh0clone=(TH1D*)(svh[0]->Clone("svh0clone"));
-    TH1D *ih0=pf1d.CumulativeH( svh0clone );
+    TH1D *ih0=pf1d.CumulativeH( svh0clone, totalEV_ );
     ih0->SetLineColor(0);
     ih0->SetMarkerColor(0);
     ih0->Draw();
@@ -303,7 +303,7 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
     ih0->SetMinimum(0.5);
 
     for( unsigned int i=0; i<svh.size(); i++ ){
-      TH1D *ih1=pf1d.CumulativeH( svh[i] );
+      TH1D *ih1=pf1d.CumulativeH( svh[i], totalEV_ );
       ih1->Draw("same");
       ih1->SetLineColor( vcolor[svh_index[i] ] );
       ih1->SetMarkerColor( vcolor[svh_index[i] ] );
@@ -335,13 +335,13 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	if( vhnames[ svh_index[i] ] != "Data" && vhnames[ svh_index[i] ] != "MCtotal"){
 	  svh[i]->Draw(DrawOpt);
 	  svh[i]->SetLineColor( vcolor[svh_index[i] ] );
-	  svh[i]->SetFillColor( vcolor[svh_index[i] ] );
+	  //	  svh[i]->SetFillColor( vcolor[svh_index[i] ] );
 	  svh[i]->SetMarkerColor( vcolor[svh_index[i] ] );
 	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
 	} else if( vhnames[ svh_index[i] ] == "MCtotal" ){
 	  svh[i]->SetLineColor(5);
 	  svh[i]->SetLineWidth(3);
-	  svh[i]->SetFillColor(5);
+	  //	  svh[i]->SetFillColor(5);
 	  svh[i]->SetMarkerColor(5);
 	  svh[i]->Draw(DrawOpt);
 	  len->AddEntry(svh[i],vlenname[ svh_index[i] ]);
@@ -351,11 +351,11 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
       //Draw total MC error and data
 
       for( unsigned int i=0; i<svh.size(); i++ ){
-	if( vhnames[ svh_index[i] ] != "MCtotal" ){
+	if( vhnames[ svh_index[i] ] == "MCtotal" ){
 	  TH1D *mche=(TH1D*)(vh[i]->Clone("mche"));
 	  for( int ib=1; ib<=mche->GetNbinsX(); ib++ ){
-	    mche->SetBinContent(ib, vh[1]->GetBinContent(ib) );
-	    mche->SetBinError(ib, vh[1]->GetBinError(ib) );
+	    mche->SetBinContent(ib, svh[i]->GetBinContent(ib) );
+	    mche->SetBinError(ib, vh[i]->GetBinError(ib) );
 	  }
 	  mche->SetFillColor(5);
 	  mche->SetLineColor(5);
@@ -403,8 +403,8 @@ void basicPlots::drawHists( bool MuAddOrNot, TString HTBins, int whichpart, int 
 	  if( !( vh_special[ invsvh_index[i] ] ) ){
 	    invsvh[i]->SetLineColor( vcolor[ invsvh_index[i] ] );
 	    invsvh[i]->SetFillColor( vcolor[ invsvh_index[i] ] );
-	    invsvh[i]->SetLineStyle(2);
-	    invsvh[i]->SetFillStyle(3001);
+	    //	    invsvh[i]->SetLineStyle(2);
+	    //	    invsvh[i]->SetFillStyle(3001);
 	    invsvh[i]->SetMarkerColor( vcolor[ invsvh_index[i] ] ); 
 	    hs->Add(invsvh[i]);
 	  }
@@ -979,29 +979,22 @@ void basicPlots::getResults( TString HTBins, TString selection, int startNJet, i
     lowATcut=0.55;
     higATcut=10.;
     rebin=50;
-   //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Invaraint mass of B-jets (GeV)", "", 0, 800, "Bmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Invaraint mass of B-jets (GeV)", "", 0, 300, "Bmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 1200, "MET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 700, "MET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Invaraint mass of B-jets (GeV)", "", 0, 800, "Bmass", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MET (GeV)", "", 0, 1200, "MET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=20;
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 1200, "jetPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 400, "jetPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second leading jet p_{T} (GeV)", "", 0., 1200, "jetPt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second leading jet p_{T} (GeV)", "", 0., 400, "jetPt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet p_{T} (GeV)", "", 0., 1200, "jetPt", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second leading jet p_{T} (GeV)", "", 0., 1200, "jetPt2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Leading jet #eta", "", -3.5,3.5, "jetEta", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Second leading jet #eta", "", -3.5,3.5, "jetEta2", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=50;
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 1200, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 800, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500., "HT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1200., "HT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT (GeV)", "", 0, 1200, "MHT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "HT (GeV)", "", 0., 1500., "HT", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=20;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "MHT/MET", "", 0, 1.5, "MHToverMET", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=1;
     //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common b-jets", "", 0, 12, "nbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common b-jets", "", 0, 6, "nbjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    //    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common jets", "", 0, 20, "ncommjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
-    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common jets", "", 0, 10, "ncommjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
+    drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of common jets", "", 0, 12, "ncommjet", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "Number of Vertex", "", 0, 50 , "nVertex", len, lowATcut, higATcut, dim, startNJet, nJets, MuonNumber, FolderLabel );
     rebin=5;
     drawHists( MuAddOrNot, HTBins, whichpart, rebin, "#alpha_{T}", "", 0.55, 2.0, "AlphaT", len, 0, 0, 1, startNJet, nJets, MuonNumber, FolderLabel );

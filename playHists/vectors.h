@@ -54,12 +54,9 @@ class vectors{
   std::vector<TFile*> MCvf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr, bool separateSample, TString separateSampleName );
   std::vector<TFile*> Datavf_pushback( TString dir, TString dataset, TString sele, TString sTreeThr);
   std::vector<TString> dirName_pushback(TString label, TString sTreeThr);
-  std::vector<TString> vhname_pusback_numer( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
-  std::vector<TString> vhname_pusback_data( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
-  std::vector<TString> vhname_pusback_domin( bool MuAddOrNot, bool fullesti, int startnjet, int njets);
   std::tr1::tuple< double,  std::vector<double> > getScales( int whichpart, TString HTBins, TString MuonNumber );
   std::tr1::tuple< TString, TString, std::vector<TFile*>, std::vector<TFile*> > getStuff(  int whichpart, bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample );
-  std::vector<TString> getVdirname( int whichpart, TString HTBins, TString MuonNumber, TString FolderLabel, bool MuAddOrNot );
+  std::vector<TString> getVdirname( TString HTBins, TString MuonNumber, TString FolderLabel );
   std::vector<double> DiMuTrigEff_pushback(TString sTreeThr);
   std::vector<double> SingleMuTrigEff_pushback(TString sTreeThr);
   std::vector<double> HTATTrigEff_pushback(TString sTreeThr);

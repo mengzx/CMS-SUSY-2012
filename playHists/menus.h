@@ -17,8 +17,6 @@ class menus{
   TString testMCFile_;
   TString testDataFile_;
   bool notCutAlphaT_;
-  int startNJet_;
-  int nJets_;
   bool normalEstimation_;
   bool drawStack_;
   TString  epspng_;
@@ -32,6 +30,7 @@ class menus{
   double ratioPlotErr_;
   bool QCDkUsePosionErr_;
   bool plotRatio_;
+  int totalEV_;
 
   bool hasData_;
   bool hasMCtotal_;
@@ -90,7 +89,6 @@ class menus{
 
   TString inidir_;
   TString subdir_;
-  TString folderlabel_;
   TString HadTaudataset_;
   TString NotHadTaudataset_;
   TString signalDataset_;

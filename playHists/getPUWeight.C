@@ -17,7 +17,7 @@ getPUWeight::getPUWeight(){
 
 
 TH1D* getPUWeight::addHists( int whichpart, TString HTBins, TString MuonNumber, TString FolderLabel, bool isdata, TString dataset, TString sele ){
-  vector<TString> vdirname=getVdirname( whichpart, HTBins, MuonNumber, FolderLabel, false );
+  vector<TString> vdirname=getVdirname( HTBins, MuonNumber, FolderLabel );
   vector<TFile*> invf;
   tr1::tuple< TString, TString, vector<TFile*>, vector<TFile*> > res=getStuff( whichpart, false, HTBins, false, "" );
   if( isdata ){

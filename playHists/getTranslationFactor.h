@@ -19,18 +19,14 @@ class getTranslationFactor : public menus, public vectors{
   getTranslationFactor();
   ~getTranslationFactor(){;}
 
-  vector<TH2D*> TranslationFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, TString MuonNumber, int StartNJet, int NJet );
-  vector<TH2D*> TranslationFactor_iTojJet( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber );
-  vector<TH2D*> TranslationFactor_1To2Mu( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, int StartNJet, int nJets );
-  vector<TH2D*> TranslationFactor_AT( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, int startNJet, int nJets, TString MuonNumber, TString closuretestformat );
-  TH2D* getFactor( bool MuAddOrNot, bool fullesti, TString HTBins, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJet );
-  TH2D* getNumerMC( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJet );
-  TH2D* getDominMC( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJet );
-  TH2D* getControlData( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJet );
-  TH2D* getYieldData( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJet );
-  TH2D* getPredBG( bool MuAddOrNot, bool fullesti, TString HTBins, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJet );
-  void baseCheck( bool MuAddOrNot, bool fullesti, TString HTBins, TString plotname, bool isData, TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJet );
-  void getResults( TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJet );
+  vector<TH2D*> PreTranslationFactor( int whichpart, bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample, int StartNJet, int NJet, TString MuonNumber, TString FolderLabel, bool notCutAlphaT, bool ATclosure  );
+  vector<TH2D*> TranslationFactor( int whichpart_i, int whichpart_j, bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample, int startNJet_i, int nJets_i, int startNJet_j, int nJets_j, TString MuonNumber_i, TString MuonNumber_j, TString FolderLabel_i, TString FolderLabel_j, bool notCutAlphaT_i, bool notCutAlphaT_j, bool ATclosure );
+  void Tables_iTojBJet( bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample, int startNJet_i, int nJets_i, int startNJet_j, int nJets_j, TString MuonNumber, TString FolderLabel );
+  void Tables_iTojJet( bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample, int startNJet, int nJets, TString MuonNumber_i, TString FolderLabel_i, TString FolderLabel_j );
+  void Tables_iTojSele( bool MuAddOrNot, TString HTBins, bool separateSample, TString singleMCsample, int startNJet, int nJets, TString MuonNumber_i, TString MuonNumber_j, TString FolderLabel );
+
+  //  void getResults( TString closureTests, int iJetStart, int iJet_n, int jJetStart, int jJet_n, TString MuonNumber, int StartNJet, int NJet );
+  void getResults( TString closuretests );
   // private:
 
 }; //class getTranslationFactor

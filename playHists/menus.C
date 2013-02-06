@@ -14,21 +14,19 @@ menus::menus(){
   testDataFile_="";
   normalEstimation_=true;
 //0-0, 1-1, 2-14, 2-1, 3-1, 4-12
-  startNJet_=1;
-  nJets_=1;
   notCutAlphaT_=true;
   drawStack_=false;
   epspng_="png";
-  doTrigCorr_=true;
+  doTrigCorr_=false;
   drawOverflow_=true;
-  useBTag_=true;
   doCumulative_=false;
   mcPUS_="PUS7";
-  getFitParak_=2;
   useVariantRatioPlot_=false;
   ratioPlotErr_=0.1;
-  QCDkUsePosionErr_=true;
   plotRatio_=false;
+  getFitParak_=1;
+  QCDkUsePosionErr_=true;
+  useBTag_=true;
 
   bool useLO=true; 
   hasData_=false;
@@ -58,19 +56,19 @@ menus::menus(){
     hasTTZ_=false;
   }
 
-  hasT2cc160_=true;
-  hasT2cc300_=true;
-  hasT2cc220_145_=true;
-  hasT2cc220_170_=true;
-  hasT2cc220_195_=true;
-
+  hasT2cc160_=false;
+  hasT2cc300_=false;
+  hasT2cc220_145_=false;
+  hasT2cc220_170_=false;
+  hasT2cc220_195_=false;
+  totalEV_=1000;
   TString period="";
   //  inidir_="/Users/phxzm/Work_CMS/SUSY/ForICHEP2012/myppt/TenthLookAt8TeVData_AimToICHEP_ForAproval27062012_25062012/";
-  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/SeventeenthLook_25_Sep2012/";
-  subdir_="/allBJets_PUReWNoTopLimi_Has2To3Jets_BScaleCorr";
-  //  subdir_="/allBJets_PUReWNoTopLimi_Has2To3Jets";
-  // subdir_="/allBJets_QCDk";
-  folderlabel_="TwoJet_";
+  //  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/SeventeenthLook_25_Sep2012/";
+  //  subdir_="/allBJets_PUReWNoTopLimi_Has2To3Jets_BScaleCorr";
+  inidir_="/Users/phxzm/Work_CMS/SUSY/myppt/EightTeV2012/EighteenthLook_17_Dec2012/";
+  subdir_="/allBJets_HT225To275_ATg055";
+  //  subdir_="/allBJets_QCDk";
   //  HadTaudataset_="SingleMu2012";
   NotHadTaudataset_="HT2012"+period;
   signalTrig_="";
@@ -98,19 +96,27 @@ menus::menus(){
     mcscale_=1.;
   }
 
-  if( period == "AB"){
+  if( period == "ABC"){
     //period AB. Sep 24
-    mcscale_HT_=  51.26247;
+    mcscale_HT_=  116.59247;
+    mcscale_SingleMu_= 113.89191;
+    mcscale_DiMu_= 113.89191;
+    mcscale_Photon_=115.70;
+    /*    mcscale_HT_=  51.26247;
     mcscale_SingleMu_= 50.00191;
     mcscale_DiMu_= 50.00191;
-    mcscale_Photon_=50.00191;
+    mcscale_Photon_=50.00191;*/
   } else if( period == ""){
     //period ABC. Sep 24
     mcscale_HT_=  116.59247;
     mcscale_SingleMu_= 113.89191;
     mcscale_DiMu_= 113.89191;
     mcscale_Photon_=115.70;
-    }
+    /*    mcscale_HT_=  187.3;
+    mcscale_SingleMu_= 187.1;
+    mcscale_DiMu_= 187.1;
+    mcscale_Photon_=187.3;*/
+  }
 
   digit1_=".1f";
   digit2_=".2f";
